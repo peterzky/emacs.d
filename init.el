@@ -1,4 +1,4 @@
-(load-theme 'wombat)
+(setq auto-save-default nil)
 
 (menu-bar-mode -1)
 
@@ -46,6 +46,8 @@
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
+(load-theme 'wombat)
 
 (require 'evil)
 (evil-mode 1)
@@ -127,12 +129,13 @@
   "9" 'select-window-9
   "0" 'select-window-0
   )
+
  
 (require 'js2-mode)
 (require 'tern)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 (eval-after-load 'tern
    '(progn
       (require 'tern-auto-complete)
