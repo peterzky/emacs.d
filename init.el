@@ -27,6 +27,7 @@
 		     smex
 		     org-bullets
 		     deft
+		     youdao-dictionary
 		     ))
 
 ; Add Melpa as the default Emacs Package repository
@@ -68,7 +69,6 @@
   "fs" 'save-buffer
   "ff" 'find-file
   "qq" 'save-buffers-kill-emacs
-  "o" 'other-window
   "1" 'delete-other-windows
   "ws" 'split-window-below
   "wv" 'split-window-right
@@ -129,6 +129,11 @@
   "9" 'select-window-9
   "0" 'select-window-0
   )
+
+(require 'youdao-dictionary)
+(evil-leader/set-key
+  "oo" 'youdao-dictionary-search-at-point+
+  "op" 'youdao-dictionary-play-voice-at-point)
 
  
 (require 'js2-mode)
