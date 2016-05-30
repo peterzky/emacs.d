@@ -16,6 +16,7 @@
 		     tern
 		     tern-auto-complete
 		     org
+		     evil-nerd-commenter
 		     org-plus-contrib
                      evil-leader
 		     auto-complete
@@ -51,6 +52,9 @@
 (load-theme 'wombat)
 
 (require 'evil)
+(require 'evil-nerd-commenter)
+(require 'evil-leader)
+
 (evil-mode 1)
 
 (defun peter/switch-buffer ()
@@ -59,7 +63,6 @@
       (switch-to-buffer (car (evil-alternate-buffer)))
     (switch-to-buffer (other-buffer (current-buffer) t))))
 
-(require 'evil-leader)
 (setq evil-leader/in-all-states t)
 (global-evil-leader-mode 1)
 (evil-leader/set-leader "<SPC>")
@@ -69,11 +72,11 @@
   "fs" 'save-buffer
   "ff" 'find-file
   "qq" 'save-buffers-kill-emacs
-  "1" 'delete-other-windows
   "ws" 'split-window-below
   "wv" 'split-window-right
   "wd" 'delete-window
   "zz" 'delete-frame
+  "cl" 'evilnc-comment-or-uncomment-lines
   "TAB" 'peter/switch-buffer)
 
 (require 'auto-complete)
