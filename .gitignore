@@ -3,3 +3,6 @@ auto-save-list/
 *.~
 ido.last
 *.dat
+/.gitignore~
+/ido.last~
+/init.el~
