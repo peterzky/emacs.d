@@ -57,6 +57,10 @@
 
 (evil-mode 1)
 
+;; insert state in emacs keybinding
+(setq evil-insert-state-map (make-sparse-keymap))
+(define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
+
 (defun peter/switch-buffer ()
   (interactive)
   (if (evil-alternate-buffer)
