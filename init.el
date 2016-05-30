@@ -84,7 +84,9 @@
   "zz" 'delete-frame
   "cl" 'evilnc-comment-or-uncomment-lines
   "'" 'shell-pop
+  "ESC" 'delete-other-windows
   "TAB" 'peter/switch-buffer)
+
 
 (require 'auto-complete)
 (ac-config-default)
