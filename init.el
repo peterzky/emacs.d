@@ -73,7 +73,7 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "bb" 'switch-to-buffer
-  "bd" 'kill-buffer
+  "bd" 'kill-this-buffer
   "fs" 'save-buffer
   "ff" 'find-file
   "qq" 'save-buffers-kill-emacs
