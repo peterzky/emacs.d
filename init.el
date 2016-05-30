@@ -79,6 +79,7 @@
   "ws" 'split-window-below
   "wv" 'split-window-right
   "wd" 'delete-window
+  "ae" 'deft
   "zz" 'delete-frame
   "cl" 'evilnc-comment-or-uncomment-lines
   "TAB" 'peter/switch-buffer)
@@ -114,9 +115,6 @@
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-src-fontify-natively t)
 
-;(require 'deft)
-;(setq deft-extensions '("txt" "tex" "org"))
-;(setq deft-directory "~/btsync/notes")
 
 (require 'smex)
 (global-set-key (kbd "s-x") 'smex)
@@ -165,6 +163,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.3))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.2))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.1)))))
+ '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.0)))))
