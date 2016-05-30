@@ -18,6 +18,8 @@
 		     evil-magit
 		     projectile
 		     ido-vertical-mode
+		     org-bullets
+		     deft
 		     ))
 
 ; Add Melpa as the default Emacs Package repository
@@ -44,6 +46,7 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "bb" 'switch-to-buffer
+  "bd" 'kill-buffer
   "fs" 'save-buffer
   "ff" 'find-file
   "qq" 'save-buffers-kill-emacs)
@@ -62,8 +65,23 @@
   "gs" 'magit-status)
 
 (require 'projectile)
+(projectile-global-mode)
+(evil-leader/set-key
+  "pp" 'projectile-switch-project
+  "pf" 'projectile-find-file)
 
 (require 'ido-vertical-mode)
 (ido-mode 1)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+
+
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-src-fontify-natively t)
+
+(require 'deft)
+(setq deft-extensions '("txt" "tex" "org"))
+(setq deft-directory "~/btsync/notes")
+(setq deft-recursive t)
+(setq deft-use-filename-as-title t)

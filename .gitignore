@@ -6,3 +6,4 @@ ido.last
 /.gitignore~
 /ido.last~
 /init.el~
+/projectile-bookmarks.eld
