@@ -23,6 +23,7 @@
 		     ranger
 		     magit
 		     evil-magit
+		     shell-pop
 		     projectile
 		     ido-vertical-mode
 		     smex
@@ -82,6 +83,7 @@
   "ae" 'deft
   "zz" 'delete-frame
   "cl" 'evilnc-comment-or-uncomment-lines
+  "'" 'shell-pop
   "TAB" 'peter/switch-buffer)
 
 (require 'auto-complete)
@@ -134,6 +136,14 @@
   "9" 'select-window-9
   "0" 'select-window-0
   )
+
+ 
+(setq deft-extensions '("org"))
+(setq shell-pop-shell-type
+      (quote ("ansi-term" "*ansi-term*"
+	      (lambda nil (ansi-term shell-pop-term-shell)))))
+(setq shell-pop-term-shell "/bin/zsh")
+
 
 (require 'youdao-dictionary)
 (evil-leader/set-key
