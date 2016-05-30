@@ -18,6 +18,7 @@
 		     evil-magit
 		     projectile
 		     ido-vertical-mode
+		     smex
 		     org-bullets
 		     deft
 		     ))
@@ -49,7 +50,9 @@
   "bd" 'kill-buffer
   "fs" 'save-buffer
   "ff" 'find-file
-  "qq" 'save-buffers-kill-emacs)
+  "qq" 'save-buffers-kill-emacs
+  "o" 'other-window
+  "1" 'delete-other-windows)
 
 (require 'auto-complete)
 (ac-config-default)
@@ -80,8 +83,10 @@
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (setq org-src-fontify-natively t)
 
-(require 'deft)
-(setq deft-extensions '("txt" "tex" "org"))
-(setq deft-directory "~/btsync/notes")
-(setq deft-recursive t)
-(setq deft-use-filename-as-title t)
+;(require 'deft)
+;(setq deft-extensions '("txt" "tex" "org"))
+;(setq deft-directory "~/btsync/notes")
+
+(require 'smex)
+(global-set-key (kbd "s-x") 'smex)
+(global-set-key (kbd "s-X") 'smex-major-mode-commands)
