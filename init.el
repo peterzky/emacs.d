@@ -12,6 +12,9 @@
 ; List the packages you want
 (setq package-list '(evil
 		     window-numbering
+		     js2-mode
+		     tern
+		     tern-auto-complete
 		     org
 		     org-plus-contrib
                      evil-leader
@@ -45,7 +48,7 @@
     (package-install package)))
 
 (require 'evil)
-(evil-mode t)
+(evil-mode 1)
 
 (defun peter/switch-buffer ()
   (interactive)
@@ -54,7 +57,8 @@
     (switch-to-buffer (other-buffer (current-buffer) t))))
 
 (require 'evil-leader)
-(global-evil-leader-mode)
+(setq evil-leader/in-all-states t)
+(global-evil-leader-mode 1)
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "bb" 'switch-to-buffer
@@ -67,6 +71,7 @@
   "ws" 'split-window-below
   "wv" 'split-window-right
   "wd" 'delete-window
+  "zz" 'delete-frame
   "TAB" 'peter/switch-buffer)
 
 (require 'auto-complete)
@@ -123,7 +128,16 @@
   "0" 'select-window-0
   )
  
-      
+(require 'js2-mode)
+(require 'tern)
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(eval-after-load 'tern
+   '(progn
+      (require 'tern-auto-complete)
+      (tern-ac-setup)))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
