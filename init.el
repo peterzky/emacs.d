@@ -23,6 +23,7 @@
 		     ranger
 		     magit
 		     evil-magit
+		     paradox
 		     shell-pop
 		     projectile
 		     ido-vertical-mode
@@ -30,6 +31,7 @@
 		     org-bullets
 		     deft
 		     youdao-dictionary
+		     smartparens
 		     ))
 
 ; Add Melpa as the default Emacs Package repository
@@ -63,10 +65,22 @@
 (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
 
 (defun peter/switch-buffer ()
+  "switch to last buffer"
   (interactive)
   (if (evil-alternate-buffer)
       (switch-to-buffer (car (evil-alternate-buffer)))
     (switch-to-buffer (other-buffer (current-buffer) t))))
+
+(defun peter/edit-config-file ()
+  "edit config file"
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+
+(defadvice ido-find-file (after find-file-sudo activate)
+  "Find file as root if necessary"
+  (unless (and buffer-file-name
+	       (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 (setq evil-leader/in-all-states t)
 (global-evil-leader-mode 1)
@@ -81,6 +95,7 @@
   "wv" 'split-window-right
   "wd" 'delete-window
   "ae" 'deft
+  "fed" 'peter/edit-config-file
   "zz" 'delete-frame
   "cl" 'evilnc-comment-or-uncomment-lines
   "'" 'shell-pop
@@ -90,6 +105,12 @@
 
 (require 'auto-complete)
 (ac-config-default)
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+
+;; (require 'yasnippet)
+;; (yas-reload-all)
+;; (add-hook 'prog-mode-hook #'yas-minor-mode)
 
 (require 'ranger)
 (evil-leader/set-key
@@ -151,6 +172,10 @@
 (evil-leader/set-key
   "oo" 'youdao-dictionary-search-at-point+
   "op" 'youdao-dictionary-play-voice-at-point)
+
+(require 'smartparens)
+(add-hook 'emacs-lisp-mode #'smartparens-mode)
+(add-hook 'js2-mode #'smartparens-mode)
 
  
 (require 'js2-mode)
