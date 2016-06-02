@@ -53,7 +53,7 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(load-theme 'ample NO-CONFIRM)
+(load-theme 'ample t)
 
 (require 'evil)
 (require 'evil-nerd-commenter)
