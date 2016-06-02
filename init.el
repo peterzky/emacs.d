@@ -82,6 +82,12 @@
 	       (file-writable-p buffer-file-name))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
+(defun peter/delete-buffer-file ()
+  "delete current file"
+  (interactive)
+  (dired-delete-file (buffer-file-name))
+  (kill-this-buffer))
+
 (setq evil-leader/in-all-states t)
 (global-evil-leader-mode 1)
 (evil-leader/set-leader "<SPC>")
@@ -90,6 +96,7 @@
   "bd" 'kill-this-buffer
   "fs" 'save-buffer
   "ff" 'find-file
+  ;; "fd" 'peter/delete-buffer-file
   "qq" 'save-buffers-kill-emacs
   "ws" 'split-window-below
   "wv" 'split-window-right
