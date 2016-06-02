@@ -17,6 +17,7 @@
 		     tern-auto-complete
 		     org
 		     evil-nerd-commenter
+		     ample-theme
 		     org-plus-contrib
                      evil-leader
 		     auto-complete
@@ -52,7 +53,7 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(load-theme 'wombat)
+(load-theme 'ample)
 
 (require 'evil)
 (require 'evil-nerd-commenter)
@@ -201,7 +202,29 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#504545" "#ad8572" "#a9df90" "#aaca86" "#91a0b3" "#ab85a3" "#ddbc91" "#bdbdb3"])
+ '(ansi-term-color-vector
+   [unspecified "#424242" "#EF9A9A" "#C5E1A5" "#FFEE58" "#64B5F6" "#E1BEE7" "#80DEEA" "#E0E0E0"])
+ '(beacon-color "#ec4780")
+ '(custom-safe-themes
+   (quote
+    ("4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "5a0eee1070a4fc64268f008a4c7abfda32d912118e080e18c3c865ef864d1bea" "70f5a47eb08fe7a4ccb88e2550d377ce085fedce81cf30c56e3077f95a2909f2" default)))
+ '(evil-emacs-state-cursor (quote ("#E57373" bar)) t)
+ '(evil-insert-state-cursor (quote ("#E57373" hbar)) t)
+ '(evil-normal-state-cursor (quote ("#FFEE58" box)) t)
+ '(evil-visual-state-cursor (quote ("#C5E1A5" box)) t)
+ '(highlight-symbol-colors
+   (quote
+    ("#FFEE58" "#C5E1A5" "#80DEEA" "#64B5F6" "#E1BEE7" "#FFCC80")))
+ '(highlight-symbol-foreground-color "#E0E0E0")
+ '(highlight-tail-colors (quote (("#ec4780" . 0) ("#424242" . 100))))
+ '(paradox-github-token t)
+ '(pos-tip-background-color "#3a3a3a")
+ '(pos-tip-foreground-color "#9E9E9E")
+ '(tabbar-background-color "#353535"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
