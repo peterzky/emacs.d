@@ -6,7 +6,6 @@
 
 (scroll-bar-mode -1)
 
-
 (require 'package)
 
 ; List the packages you want
@@ -181,9 +180,9 @@
   "oo" 'youdao-dictionary-search-at-point+
   "op" 'youdao-dictionary-play-voice-at-point)
 
-(require 'smartparens)
-(add-hook 'emacs-lisp-mode #'smartparens-mode)
-(add-hook 'js2-mode #'smartparens-mode)
+(require 'smartparens-config)
+(add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+(add-hook 'js2-mode-hook #'smartparens-mode)
 
  
 (require 'js2-mode)
@@ -213,7 +212,7 @@
    (quote
     ("4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "5a0eee1070a4fc64268f008a4c7abfda32d912118e080e18c3c865ef864d1bea" "70f5a47eb08fe7a4ccb88e2550d377ce085fedce81cf30c56e3077f95a2909f2" default)))
  '(evil-emacs-state-cursor (quote ("#E57373" bar)) t)
- '(evil-insert-state-cursor (quote ("#E57373" hbar)) t)
+ '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
  '(evil-normal-state-cursor (quote ("#FFEE58" box)) t)
  '(evil-visual-state-cursor (quote ("#C5E1A5" box)) t)
  '(highlight-symbol-colors
