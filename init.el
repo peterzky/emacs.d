@@ -32,6 +32,7 @@
 		     deft
 		     youdao-dictionary
 		     smartparens
+		     yasnippet
 		     ))
 
 ; Add Melpa as the default Emacs Package repository
@@ -194,6 +195,9 @@
    '(progn
       (require 'tern-auto-complete)
       (tern-ac-setup)))
+
+(require 'yasnippet)
+(yas-global-mode 1)
 
 
 (custom-set-variables
