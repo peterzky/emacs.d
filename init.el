@@ -116,9 +116,9 @@
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 
-;; (require 'yasnippet)
-;; (yas-reload-all)
-;; (add-hook 'prog-mode-hook #'yas-minor-mode)
+(require 'yasnippet)
+(yas-reload-all)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
 
 (require 'ranger)
 (evil-leader/set-key
@@ -195,9 +195,6 @@
    '(progn
       (require 'tern-auto-complete)
       (tern-ac-setup)))
-
-(require 'yasnippet)
-(yas-global-mode 1)
 
 
 (custom-set-variables
