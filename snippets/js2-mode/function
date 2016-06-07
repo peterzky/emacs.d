@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: use-stirct
-# key: use
+# name: require
+# key: re
 # --
-'use strict';
+const $1 = require('$2')$0;

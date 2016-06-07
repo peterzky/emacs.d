@@ -13,17 +13,19 @@
 		     window-numbering
 		     js2-mode
 		     tern
-		     tern-auto-complete
+		     company-tern
+		     ;; tern-auto-complete
 		     org
 		     evil-nerd-commenter
 		     ample-theme
 		     org-plus-contrib
                      evil-leader
-		     auto-complete
+		     ;; auto-complete
 		     ranger
 		     magit
 		     evil-magit
 		     paradox
+		     company
 		     shell-pop
 		     projectile
 		     ido-vertical-mode
@@ -111,14 +113,24 @@
   "TAB" 'peter/switch-buffer)
 
 
-(require 'auto-complete)
-(ac-config-default)
-(define-key ac-complete-mode-map "\C-n" 'ac-next)
-(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+(define-key company-mode-map "\C-n" 'company-select-next)
+(define-key company-mode-map "\C-p" 'company-select-previous)
+(add-to-list 'company-backends 'company-tern)
 
-;; (require 'yasnippet)
+;; (require 'auto-complete)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+;; (define-key ac-complete-mode-map "\C-n" 'ac-next)
+;; (define-key ac-complete-mode-map "\C-p" 'ac-previous)
+;; (eval-after-load "auto-complete"
+;;   '(add-to-list 'ac-sources 'ac-source-yasnippet))
+
+(require 'yasnippet)
 ;; (yas-reload-all)
 ;; (add-hook 'prog-mode-hook #'yas-minor-mode)
+(yas-global-mode 1)
 
 (require 'ranger)
 (evil-leader/set-key
@@ -191,13 +203,11 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-(eval-after-load 'tern
-   '(progn
-      (require 'tern-auto-complete)
-      (tern-ac-setup)))
+;; (eval-after-load 'tern
+;;    '(progn
+;;       (require 'tern-auto-complete)
+;;       (tern-ac-setup)))
 
-(require 'yasnippet)
-(yas-global-mode 1)
 
 
 (custom-set-variables
