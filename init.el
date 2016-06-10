@@ -112,6 +112,8 @@
   "ESC" 'delete-other-windows
   "TAB" 'peter/switch-buffer)
 
+(global-set-key (kbd "<f1>") 'shell-pop)
+
 
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
