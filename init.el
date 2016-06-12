@@ -23,6 +23,7 @@
 		     evil-surround
 		     ample-theme
 		     org-plus-contrib
+		     avy
                      evil-leader
 		     ranger
 		     magit
@@ -38,6 +39,7 @@
 		     youdao-dictionary
 		     smartparens
 		     yasnippet
+		     swiper
 		     ))
 
 ; Add Melpa as the default Emacs Package repository
@@ -115,6 +117,8 @@
   "zz" 'delete-frame
   "cl" 'evilnc-comment-or-uncomment-lines
   "'" 'shell-pop
+  "s" 'swiper
+  "SPC" 'avy-goto-char
   "ESC" 'delete-other-windows
   "TAB" 'peter/switch-buffer)
 
@@ -134,6 +138,7 @@
 ;; (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 ;; (eval-after-load "auto-complete"
 ;;   '(add-to-list 'ac-sources 'ac-source-yasnippet))
+
 
 (require 'yasnippet)
 ;; (yas-reload-all)
@@ -167,7 +172,7 @@
 ;; org mode settings
 
 ;; setup org capture keybinding
-(setq org-default-notes-file (concat org-directory "/notes.org"))
+;; (setq org-default-notes-file (concat org-directory "~/org/notes.org"))
 (define-key global-map "\C-cc" 'org-capture)
 
 ;; org mode todo timestamp
