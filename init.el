@@ -165,6 +165,12 @@
 
 
 ;; org mode settings
+
+;; setup org capture keybinding
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(define-key global-map "\C-cc" 'org-capture)
+
+;; org mode todo timestamp
 (setq org-log-done 'time)
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
