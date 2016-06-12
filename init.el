@@ -171,8 +171,9 @@
 
 ;; org mode settings
 
+;; open links and files withe RET in normal state
+(evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
 ;; setup org capture keybinding
-;; (setq org-default-notes-file (concat org-directory "~/org/notes.org"))
 (define-key global-map "\C-cc" 'org-capture)
 
 ;; org mode todo timestamp
