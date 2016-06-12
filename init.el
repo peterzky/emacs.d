@@ -16,6 +16,7 @@
 		     window-numbering
 		     js2-mode
 		     tern
+		     gist
 		     company-tern
 		     org
 		     evil-nerd-commenter
@@ -103,6 +104,7 @@
   "bd" 'kill-this-buffer
   "fs" 'save-buffer
   "ff" 'find-file
+  "gg" 'gist-list
   ;; "fd" 'peter/delete-buffer-file
   "qq" 'save-buffers-kill-emacs
   "ws" 'split-window-below
