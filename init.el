@@ -19,6 +19,8 @@
 		     gist
 		     company-tern
 		     org
+		     org-bullets
+		     org-pomodoro
 		     evil-nerd-commenter
 		     evil-surround
 		     ample-theme
@@ -34,7 +36,6 @@
 		     projectile
 		     ido-vertical-mode
 		     smex
-		     org-bullets
 		     deft
 		     youdao-dictionary
 		     smartparens
@@ -86,6 +87,12 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
+(defun peter/open-note-file ()
+  "open notes.org"
+  (interactive)
+  (find-file "~/org/notes.org"))
+
+
 (defadvice ido-find-file (after find-file-sudo activate)
   "Find file as root if necessary"
   (unless (and buffer-file-name
@@ -107,6 +114,7 @@
   "fs" 'save-buffer
   "ff" 'find-file
   "gg" 'gist-list
+  "nn" 'peter/open-note-file
   ;; "fd" 'peter/delete-buffer-file
   "qq" 'save-buffers-kill-emacs
   "ws" 'split-window-below
@@ -267,6 +275,7 @@
      (gnus . org-gnus-no-new-news)
      (file . find-file)
      (wl . wl-other-frame))))
+ '(org-startup-folded nil)
  '(paradox-github-token t)
  '(pos-tip-background-color "#3a3a3a")
  '(pos-tip-foreground-color "#9E9E9E")
@@ -280,4 +289,5 @@
  '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
+ '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
  '(sp-pair-overlay-face ((t nil))))
