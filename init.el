@@ -6,6 +6,9 @@
 
 (scroll-bar-mode -1)
 
+(add-to-list 'default-frame-alist
+	     '(font . "Bitstream Vera Sans Mono-11"))
+
 (require 'package)
 
 ; List the packages you want
@@ -13,6 +16,7 @@
 		     window-numbering
 		     js2-mode
 		     tern
+		     gist
 		     company-tern
 		     org
 		     evil-nerd-commenter
@@ -100,6 +104,7 @@
   "bd" 'kill-this-buffer
   "fs" 'save-buffer
   "ff" 'find-file
+  "gg" 'gist-list
   ;; "fd" 'peter/delete-buffer-file
   "qq" 'save-buffers-kill-emacs
   "ws" 'split-window-below
