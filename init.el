@@ -14,13 +14,12 @@
 		     js2-mode
 		     tern
 		     company-tern
-		     ;; tern-auto-complete
 		     org
 		     evil-nerd-commenter
+		     evil-surround
 		     ample-theme
 		     org-plus-contrib
                      evil-leader
-		     ;; auto-complete
 		     ranger
 		     magit
 		     evil-magit
@@ -60,8 +59,10 @@
 (require 'evil)
 (require 'evil-nerd-commenter)
 (require 'evil-leader)
+(require 'evil-surround)
 
 (evil-mode 1)
+(global-evil-surround-mode 1)
 
 ;; insert state in emacs keybinding
 (setq evil-insert-state-map (make-sparse-keymap))
@@ -199,12 +200,15 @@
 (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
 (add-hook 'js2-mode-hook #'smartparens-mode)
 
+
  
 (require 'js2-mode)
 (require 'tern)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+(evil-leader/set-key
+  "td" 'tern-find-definition)
 ;; (eval-after-load 'tern
 ;;    '(progn
 ;;       (require 'tern-auto-complete)
