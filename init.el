@@ -258,6 +258,7 @@
     ("#FFEE58" "#C5E1A5" "#80DEEA" "#64B5F6" "#E1BEE7" "#FFCC80")))
  '(highlight-symbol-foreground-color "#E0E0E0")
  '(highlight-tail-colors (quote (("#ec4780" . 0) ("#424242" . 100))))
+ '(org-default-notes-file "~/org/notes.org")
  '(paradox-github-token t)
  '(pos-tip-background-color "#3a3a3a")
  '(pos-tip-foreground-color "#9E9E9E")
