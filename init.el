@@ -90,7 +90,7 @@
 (defun peter/open-note-file ()
   "open notes.org"
   (interactive)
-  (find-file "~/org/notes.org"))
+  (find-file "~/btsync/notes.org"))
 
 
 (defadvice ido-find-file (after find-file-sudo activate)
@@ -267,7 +267,7 @@
     ("#FFEE58" "#C5E1A5" "#80DEEA" "#64B5F6" "#E1BEE7" "#FFCC80")))
  '(highlight-symbol-foreground-color "#E0E0E0")
  '(highlight-tail-colors (quote (("#ec4780" . 0) ("#424242" . 100))))
- '(org-default-notes-file "~/org/notes.org")
+ '(org-default-notes-file "~/btsync/notes.org")
  '(org-link-frame-setup
    (quote
     ((vm . vm-visit-folder-other-frame)
