@@ -139,19 +139,33 @@
 ;; (define-key company-mode-map "\C-p" 'company-select-previous)
 (add-to-list 'company-backends 'company-tern)
 
-;; (require 'auto-complete)
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-;; (define-key ac-complete-mode-map "\C-n" 'ac-next)
-;; (define-key ac-complete-mode-map "\C-p" 'ac-previous)
-;; (eval-after-load "auto-complete"
-;;   '(add-to-list 'ac-sources 'ac-source-yasnippet))
-
-
 (require 'yasnippet)
-;; (yas-reload-all)
-;; (add-hook 'prog-mode-hook #'yas-minor-mode)
 (yas-global-mode 1)
+
+;; fix yasnippet and company mode confilct
+(defun check-expansion ()
+    (save-excursion
+      (if (looking-at "\\_>") t
+        (backward-char 1)
+        (if (looking-at "\\.") t
+          (backward-char 1)
+          (if (looking-at "->") t nil)))))
+
+(defun do-yas-expand ()
+    (let ((yas/fallback-behavior 'return-nil))
+      (yas/expand)))
+
+(defun tab-indent-or-complete ()
+    (interactive)
+    (if (minibufferp)
+        (minibuffer-complete)
+      (if (or (not yas/minor-mode)
+              (null (do-yas-expand)))
+          (if (check-expansion)
+              (company-complete-common)
+            (indent-for-tab-command)))))
+
+(global-set-key [tab] 'tab-indent-or-complete)
 
 (require 'ranger)
 (evil-leader/set-key
@@ -216,6 +230,7 @@
       (quote ("ansi-term" "*ansi-term*"
 	      (lambda nil (ansi-term shell-pop-term-shell)))))
 (setq shell-pop-term-shell "/bin/zsh")
+(setq shell-pop-full-span t)
 
 
 (require 'youdao-dictionary)
