@@ -13,6 +13,7 @@
 
 ; List the packages you want
 (setq package-list '(evil
+
 		     window-numbering
 		     js2-mode
 		     tern
@@ -115,11 +116,10 @@
   "ff" 'find-file
   "gg" 'gist-list
   "nn" 'peter/open-note-file
-  ;; "fd" 'peter/delete-buffer-file
   "qq" 'save-buffers-kill-emacs
   "ws" 'split-window-below
   "wv" 'split-window-right
-  "wd" 'delete-window
+  "ww" 'delete-window
   "ae" 'deft
   "fed" 'peter/edit-config-file
   "zz" 'delete-frame
@@ -227,6 +227,10 @@
 (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
 (add-hook 'js2-mode-hook #'smartparens-mode)
 
+(evil-leader/set-key-for-mode 'emacs-lisp-mode
+  "df" 'find-function-at-point
+  "dv" 'find-variable-at-point)
+
 
  
 (require 'js2-mode)
@@ -234,12 +238,10 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-(evil-leader/set-key
-  "td" 'tern-find-definition)
-;; (eval-after-load 'tern
-;;    '(progn
-;;       (require 'tern-auto-complete)
-;;       (tern-ac-setup)))
+(evil-leader/set-key-for-mode 'js2-mode
+  "dd" 'tern-find-definition
+  "dr" 'tern-rename-variable
+  "dc" 'tern-get-docs)
 
 
 
