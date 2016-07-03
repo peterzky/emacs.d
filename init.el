@@ -26,7 +26,7 @@
 		     ample-theme
 		     org-plus-contrib
 		     avy
-                     evil-leader
+		     evil-leader
 		     ranger
 		     magit
 		     evil-magit
@@ -45,27 +45,27 @@
 
 ; Add Melpa as the default Emacs Package repository
 ; only contains a very limited number of packages
-;; (add-to-list 'package-archives
-;;              '("melpa" . "http://melpa.org/packages/") t) 
 (add-to-list 'package-archives
-          '("popkit" . "https://elpa.popkit.org/packages/"))
+              '("melpa" . "http://melpa.org/packages/") t) 
+;(add-to-list 'package-archives
+          ;'("popkit" . "https://elpa.popkit.org/packages/"))
 
-;; (add-to-list 'package-archives 
-;;              '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives 
+             '("org" . "http://orgmode.org/elpa/") t)
 ; Activate all the packages (in particular autoloads)
 (package-initialize)
 
 ; Update your local package index
-;; (unless package-archive-contents
-;;   (package-refresh-contents))
+(unless package-archive-contents
+   (package-refresh-contents))
 
 ; Install all missing packages
-(defun peter/install-package ()
-  "install packages"
-(interactive)
+
+
+
 (dolist (package package-list)
   (unless (package-installed-p package)
-    (package-install package))))
+    (package-install package)))
 
 (load-theme 'ample t)
 
