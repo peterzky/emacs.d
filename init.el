@@ -13,7 +13,6 @@
 
 ; List the packages you want
 (setq package-list '(evil
-
 		     window-numbering
 		     js2-mode
 		     tern
@@ -54,8 +53,8 @@
 (package-initialize)
 
 ; Update your local package index
-(unless package-archive-contents
-  (package-refresh-contents))
+;; (unless package-archive-contents
+;;   (package-refresh-contents))
 
 ; Install all missing packages
 (dolist (package package-list)
@@ -279,6 +278,7 @@
  '(evil-insert-state-cursor (quote ("#E57373" bar)) t)
  '(evil-normal-state-cursor (quote ("#FFEE58" box)) t)
  '(evil-visual-state-cursor (quote ("#C5E1A5" box)) t)
+ '(help-window-select t)
  '(highlight-symbol-colors
    (quote
     ("#FFEE58" "#C5E1A5" "#80DEEA" "#64B5F6" "#E1BEE7" "#FFCC80")))
