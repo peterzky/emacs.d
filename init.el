@@ -18,6 +18,8 @@
 
 (tool-bar-mode -1)
 
+(setq help-window-select t)
+
 (scroll-bar-mode -1)
 
 (add-to-list 'default-frame-alist
