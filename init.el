@@ -45,10 +45,13 @@
 
 ; Add Melpa as the default Emacs Package repository
 ; only contains a very limited number of packages
+;; (add-to-list 'package-archives
+;;              '("melpa" . "http://melpa.org/packages/") t) 
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t) 
-(add-to-list 'package-archives 
-             '("org" . "http://orgmode.org/elpa/") t)
+          '("popkit" . "https://elpa.popkit.org/packages/"))
+
+;; (add-to-list 'package-archives 
+;;              '("org" . "http://orgmode.org/elpa/"))
 ; Activate all the packages (in particular autoloads)
 (package-initialize)
 
@@ -57,9 +60,12 @@
 ;;   (package-refresh-contents))
 
 ; Install all missing packages
+(defun peter/install-package ()
+  "install packages"
+(interactive)
 (dolist (package package-list)
   (unless (package-installed-p package)
-    (package-install package)))
+    (package-install package))))
 
 (load-theme 'ample t)
 
