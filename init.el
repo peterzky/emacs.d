@@ -17,9 +17,7 @@
 (menu-bar-mode -1)
 
 (tool-bar-mode -1)
-
-(setq help-window-select t)
-
+(setq help-window-select t) 
 (scroll-bar-mode -1)
 
 (add-to-list 'default-frame-alist
@@ -205,3 +203,6 @@
 		(lambda nil (ansi-term shell-pop-term-shell)))))
   (setq shell-pop-term-shell "/bin/zsh")
   (setq shell-pop-full-span t))
+
+(use-package paradox
+  :ensure t)
