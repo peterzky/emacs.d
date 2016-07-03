@@ -17,7 +17,10 @@
 (menu-bar-mode -1)
 
 (tool-bar-mode -1)
+
+;; help window auto-focus
 (setq help-window-select t) 
+
 (scroll-bar-mode -1)
 
 (add-to-list 'default-frame-alist
@@ -205,4 +208,12 @@
   (setq shell-pop-full-span t))
 
 (use-package paradox
-  :ensure t)
+  :ensure t
+  :config
+  (setq paradox-github-token t))
+
+(use-package youdao-dictionary
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "oo" 'youdao-dictionary-search-at-point+))
