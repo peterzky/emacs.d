@@ -191,6 +191,17 @@
 
 (use-package smex
   :ensure t
-  :bind ("s-x" . smex)
-  )
+  :bind ("s-x" . smex))
 
+
+(use-package swiper
+  :ensure t)
+
+(use-package shell-pop
+  :ensure t
+  :config
+  (setq shell-pop-shell-type
+	(quote ("ansi-term" "*ansi-term*"
+		(lambda nil (ansi-term shell-pop-term-shell)))))
+  (setq shell-pop-term-shell "/bin/zsh")
+  (setq shell-pop-full-span t))
