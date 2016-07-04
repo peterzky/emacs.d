@@ -236,19 +236,46 @@
   :mode "\\.js\\'"
   :interpreter "node"
   :config
-  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  (add-hook 'js2-mode-hook (lambda () (tern-mode t))))
+
+(use-package org
+  :ensure t
+  :bind ("\C-cc". org-capture)
+  :config
+  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+  (setq org-log-done 'time)
+  (setq org-src-fontify-natively t)
   )
 
+(use-package org-bullets
+  :ensure t
+  )
+
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(use-package org-plus-contrib
+  :ensure t
+  :config
+  )
+
+;;jsx mode  
+(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(inhibit-startup-screen t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-code ((t (:inherit shadow :foreground "dark orange"))))
+ '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
+ '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
  '(sp-pair-overlay-face ((t nil))))
