@@ -108,6 +108,8 @@
     "TAB" 'peter/switch-buffer)
   )
 
+(use-package company-tern
+  :ensure t)
 
 (use-package company
   :ensure t
@@ -190,6 +192,14 @@
     "0" 'select-window-0)
   )
 
+(use-package smartparens
+  :ensure t
+  :config
+  (require 'smartparens-config)
+  (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+  (add-hook 'js2-mode-hook #'smartparens-mode)
+  )
+
 (use-package smex
   :ensure t
   :bind ("s-x" . smex))
@@ -217,3 +227,28 @@
   :config
   (evil-leader/set-key
     "oo" 'youdao-dictionary-search-at-point+))
+
+(use-package tern
+  :ensure t)
+
+(use-package js2-mode
+  :ensure t
+  :mode "\\.js\\'"
+  :interpreter "node"
+  :config
+  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  )
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(sp-pair-overlay-face ((t nil))))
