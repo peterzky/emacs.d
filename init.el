@@ -106,7 +106,7 @@
     "cl" 'evilnc-comment-or-uncomment-lines
     "'" 'shell-pop
     "s" 'swiper
-    "SPC" 'avy-goto-char
+    "SPC" 'avy-goto-char-2
     "ESC" 'delete-other-windows
     "TAB" 'peter/switch-buffer)
   )
