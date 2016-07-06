@@ -294,13 +294,32 @@
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
+(use-package chinese-pyim-greatdict
+  :ensure t
+  :config
+  )
+
+(use-package chinese-pyim
+  :ensure t
+  :config
+  (chinese-pyim-greatdict-enable)
+  (setq pyim-use-tooltip 'popup)
+  )
+
+(setq default-input-method "chinese-pyim")
+(global-set-key (kbd "C-\\") 'toggle-input-method)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(inhibit-startup-screen t)
- '(shell-pop-shell-type (quote ("eshell-pop" "*eshell-pop*" (lambda nil (eshell shell-pop-term-shell))))))
+ '(shell-pop-shell-type
+   (quote
+    ("eshell-pop" "*eshell-pop*"
+     (lambda nil
+       (eshell shell-pop-term-shell))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

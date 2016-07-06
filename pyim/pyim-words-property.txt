@@ -1,0 +1,3 @@
+;; -*- coding: utf-8 -*-
+你好 :count 4
+东西 :count 3

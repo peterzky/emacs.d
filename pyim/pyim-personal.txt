@@ -1,0 +1,47 @@
+;; -*- coding: utf-8 -*-
+ni-hao 你好
+n-h 你好
+wo 我
+w 我
+shi 是
+s 是 谁
+shui 谁
+shei 谁
+ni 呢 你
+n 呢 你
+zhe 者
+z 者
+zu-zhi 组织
+z-z 组织
+zhe-ge 这个
+z-g 这个
+dong-xi 东西
+d-x 东西
+zen-me 怎么
+z-m 怎么
+yong 用
+y 用
+hao 好
+h 好
+wo-shi 我是
+w-s 我是
+shi-shui 是谁
+s-s 是谁
+da-jia 大家
+d-j 大家
+zhe-shi-yi-ge 这是一个
+z-s-y-g 这是一个
+fang-bian 方便
+f-b 方便
+de 的
+d 的
+wei-le 为了
+w-l 为了
+gan-shen-me 干什么
+g-s-m 干什么
+ne 呢
+na 呢
+zhe-shi-ge 这是个
+z-s-g 这是个
+shen-me 什么
+s-m 什么
