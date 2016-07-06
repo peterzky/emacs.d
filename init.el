@@ -304,6 +304,7 @@
   :config
   (chinese-pyim-greatdict-enable)
   (setq pyim-use-tooltip 'popup)
+  (setq pyim-enable-words-predict nil)
   )
 
 (setq default-input-method "chinese-pyim")
