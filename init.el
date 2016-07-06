@@ -12,7 +12,11 @@
    (package-refresh-contents)
      (package-install 'use-package))
 
-(setq auto-save-default nil)
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 
 (menu-bar-mode -1)
 
@@ -174,6 +178,7 @@
   :config
   (projectile-global-mode)
   (add-to-list 'projectile-globally-ignored-directories "node_modules") 
+  (add-to-list 'projectile-globally-ignored-files ".tern-port")
   (evil-leader/set-key
     "pp" 'projectile-switch-project
     "pf" 'projectile-find-file)
