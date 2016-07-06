@@ -10,3 +10,5 @@ ido.last
 /smex-items
 /#init.el#
 /tramp
+eshell/history
+eshell/lastdir

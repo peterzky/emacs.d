@@ -223,8 +223,10 @@
   (setq shell-pop-shell-type
 	(quote ("ansi-term" "*ansi-term*"
 		(lambda nil (ansi-term shell-pop-term-shell)))))
-  (setq shell-pop-term-shell "/bin/zsh")
+  (setq shell-pop-term-shell "eshell")
   (setq shell-pop-full-span t))
+
+(defalias 'open 'find-file-other-window)
 
 (use-package paradox
   :ensure t

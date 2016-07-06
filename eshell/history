@@ -1,0 +1,28 @@
+ls
+clear
+ls
+cd dotfile/
+ls
+cat README.md 
+clear
+clear
+ls
+rm config.old 
+ls
+rm config\~
+ls
+ls
+git init
+git remote add origin git@github.com:peterzky/i3config.git
+git commot -m 'initial commit'
+git commit -m 'initial commit'
+git add .
+git commit -m 'initial commit'
+git push -u origin master
+git push -u origin master
+ls
+touch README.org
+ls
+clear
+find-file-other-window config
+find-file-other-window conky.conf 
