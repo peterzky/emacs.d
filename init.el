@@ -173,6 +173,7 @@
   :ensure t
   :config
   (projectile-global-mode)
+  (add-to-list 'projectile-globally-ignored-directories "node_modules") 
   (evil-leader/set-key
     "pp" 'projectile-switch-project
     "pf" 'projectile-find-file)
@@ -268,6 +269,16 @@
   (setq deft-extensions '("org"))
   (setq deft-directory "~/btsync/notes")
   )
+
+(use-package emmet-mode
+  :ensure t
+  :bind ("C-tab" . emmet-expand) 
+  :config
+  )
+
+(add-hook 'html-mode 'emmet-mode)
+(add-hook 'js2-jsx-mode 'emmet-mode)
+(add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert nil)))
 
 ;;jsx mode  
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
