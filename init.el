@@ -272,9 +272,10 @@
 
 (use-package emmet-mode
   :ensure t
-  :bind ("C-tab" . emmet-expand) 
   :config
   )
+
+(global-set-key [C-tab] 'emmet-expand-yas)
 
 (add-hook 'html-mode 'emmet-mode)
 (add-hook 'js2-jsx-mode 'emmet-mode)
