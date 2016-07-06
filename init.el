@@ -106,7 +106,7 @@
     "cl" 'evilnc-comment-or-uncomment-lines
     "'" 'shell-pop
     "s" 'swiper
-    "SPC" 'avy-goto-char
+    "SPC" 'avy-goto-char-2
     "ESC" 'delete-other-windows
     "TAB" 'peter/switch-buffer)
   )
@@ -248,6 +248,7 @@
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
+  (setq org-startup-folded nil)
   )
 
 (use-package org-bullets
@@ -259,6 +260,13 @@
 (use-package org-plus-contrib
   :ensure t
   :config
+  )
+
+(use-package deft
+  :ensure t
+  :config
+  (setq deft-extensions '("org"))
+  (setq deft-directory "~/btsync/notes")
   )
 
 ;;jsx mode  
