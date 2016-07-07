@@ -19,6 +19,19 @@
   :config
   (ido-ubiquitous-mode 1)) 
 
+(use-package helm-swoop
+    :ensure t
+    :config
+    (evil-leader/set-key
+      "s" 'helm-swoop))
+
+(use-package helm-ag
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "ag" 'helm-ag
+    "ap" 'helm-ag-project-root))
+
 (use-package window-numbering
   :ensure t
   :config
