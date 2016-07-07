@@ -1,4 +1,10 @@
+(eval-when-compile
+  (require 'use-package)
+  (require 'diminish)             
+  (require 'bind-key))
+
 (setq load-prefer-newer t)
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives

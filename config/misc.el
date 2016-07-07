@@ -65,8 +65,8 @@
 
 (use-package smex
   :ensure t
-  :init
-  (bind-key "s-x" 'smex))
+  :config
+  (global-set-key (kbd "s-x") 'smex))
 
 
 (use-package swiper
@@ -91,9 +91,8 @@
 
 (use-package shell-pop
   :ensure t
-  :init
-  (bind-key "<f1>" 'shell-pop)
   :config
+  (global-set-key (kbd "<f1>") 'shell-pop)
   (setq shell-pop-full-span t))
 
 (defalias 'open 'find-file-other-window)

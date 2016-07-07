@@ -22,3 +22,9 @@
   (unless (and buffer-file-name
 	       (file-writable-p buffer-file-name))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+
+(defun peter/compile-init ()
+  "Byte-compile all your dotfiles."
+  (interactive)
+  (byte-recompile-directory "~/.emacs.d/config" 0))
