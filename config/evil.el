@@ -29,6 +29,7 @@
     "fs" 'save-buffer
     "ff" 'find-file
     "gg" 'gist-list
+    "ag" 'ag
     "nn" 'peter/open-note-file
     "qq" 'save-buffers-kill-emacs
     "ws" 'split-window-below

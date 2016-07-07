@@ -58,8 +58,7 @@
   :config
   (require 'smartparens-config)
   (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
-  (add-hook 'js2-mode-hook #'smartparens-mode)
-  (set-face-attribute '(sp-pair-overlay-face ((t nil)))))
+  (add-hook 'js2-mode-hook #'smartparens-mode))
 
 (use-package smex
   :ensure t

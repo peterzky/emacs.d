@@ -1,4 +1,3 @@
-
 (use-package youdao-dictionary
   :ensure t
   :config
@@ -20,6 +19,4 @@
 
 (use-package chinese-fonts-setup
   :ensure t
-  :config
-  (setq '(cfs--current-profile "profile1" t)
-	'(cfs--profiles-steps (quote (("profile1" . 3))) t))) 
+  :config) 
