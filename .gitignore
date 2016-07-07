@@ -13,3 +13,6 @@ ido.last
 /eshell/history
 /eshell/lastdir
 /pyim
+/%backup%~
+/recentf
+url

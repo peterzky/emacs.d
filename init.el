@@ -103,7 +103,7 @@
     "qq" 'save-buffers-kill-emacs
     "ws" 'split-window-below
     "wv" 'split-window-right
-    "ww" 'delete-window
+    "wd" 'delete-window
     "ae" 'deft
     "fed" 'peter/edit-config-file
     "zz" 'delete-frame
@@ -313,6 +313,19 @@
 (use-package chinese-fonts-setup
   :ensure t
   )
+
+(use-package wanderlust
+  :ensure t
+  :config
+  )
+
+(autoload 'wl "wl" "Wanderlust" t)
+(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
+(autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
+
+(if (eq system-type 'gnu/linux)
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "google-chrome-stable"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
