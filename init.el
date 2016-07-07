@@ -35,7 +35,9 @@
 (add-to-list 'default-frame-alist
 	     '(font . "Bitstream Vera Sans Mono-11"))
 
-(setq custom-file "~/.emacs.d/config/custom")
+(setq custom-file "~/.emacs.d/config/custom.el")
+
+(load custom-file)
 
 (load "~/.emacs.d/config/function")
 

@@ -84,12 +84,7 @@
   :ensure t
   :bind ("<f1>" . shell-pop)
   :config
-  (setq shell-pop-full-span t)
-  (setq 'shell-pop-shell-type
-	(quote
-	 ("eshell-pop" "*eshell-pop*"
-	  (lambda nil
-	    (eshell shell-pop-term-shell))))))
+  (setq shell-pop-full-span t))
 
 (defalias 'open 'find-file-other-window)
 
