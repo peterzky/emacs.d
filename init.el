@@ -60,6 +60,8 @@
 
 (load "~/.emacs.d/config/misc")
 
+(load "~/.emacs.d/config/interface")
+
 (load "~/.emacs.d/config/javascript")
 
 (load "~/.emacs.d/config/chinese")

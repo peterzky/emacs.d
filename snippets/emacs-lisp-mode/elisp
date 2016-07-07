@@ -1,8 +1,6 @@
 # -*- mode: snippet -*-
-# name: use package
-# key: use
+# name: evil-leader/set-key
+# key: els
 # --
-(use-package $1
-  :ensure t
-  :config
-  $0)
+(evil-leader/set-key
+"$1" '$0)
