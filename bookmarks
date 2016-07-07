@@ -1,0 +1,20 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("miscellaneous config"
+ (filename . "~/.emacs.d/config/misc.el")
+ (front-context-string . "\n(use-package au")
+ (rear-context-string)
+ (position . 1))
+("evil config"
+ (filename . "~/.emacs.d/config/evil.el")
+ (front-context-string . "\n(use-package ev")
+ (rear-context-string)
+ (position . 1))
+("i3 config file"
+ (filename . "~/.config/i3/config")
+ (front-context-string . "# This file has ")
+ (rear-context-string)
+ (position . 1))
+)
