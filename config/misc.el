@@ -43,6 +43,7 @@
 (use-package swiper
   :ensure t
   :config
+  (ivy-mode 1)
   (evil-leader/set-key
     "s" 'swiper))
 
