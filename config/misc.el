@@ -40,12 +40,11 @@
   (add-hook 'js2-mode-hook #'smartparens-mode))
 
 
-(use-package swiper
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "s" 'swiper))
-
+(use-package helm-swoop
+    :ensure t
+    :config
+    (evil-leader/set-key
+      "s" 'helm-swoop))
 
 
 (use-package deft
@@ -57,12 +56,12 @@
   (setq deft-directory "~/btsync/notes"))
 
 
-(use-package ag
+(use-package helm-ag
   :ensure t
   :config
   (evil-leader/set-key
-    "ag" 'ag
-    "ap" 'ag-project)
+    "ag" 'helm-ag
+    "ap" 'helm-ag-project-root)
   (add-hook 'ag-search-finished-hook 'select-window-2))
 
 

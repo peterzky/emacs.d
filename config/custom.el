@@ -6,6 +6,8 @@
  '(bmkp-last-as-first-bookmark-file "/home/peterzky/.emacs.d/bookmarks")
  '(cfs--current-profile "profile1" t)
  '(cfs--profiles-steps (quote (("profile1" . 3))) t)
+ '(helm-display-header-line nil)
+ '(helm-display-source-at-screen-top nil)
  '(inhibit-startup-screen t)
  '(shell-pop-shell-type
    (quote
@@ -22,5 +24,4 @@
  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
  '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
- '(sp-pair-overlay-face ((t nil)))
- )
+ '(sp-pair-overlay-face ((t nil))))
