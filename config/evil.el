@@ -28,19 +28,13 @@
     "bd" 'kill-this-buffer
     "fs" 'save-buffer
     "ff" 'find-file
-    "gg" 'gist-list
-    "ag" 'ag
     "nn" 'peter/open-note-file
     "qq" 'save-buffers-kill-emacs
     "ws" 'split-window-below
     "wv" 'split-window-right
     "wd" 'delete-window
-    "ae" 'deft
     "fed" 'peter/edit-config-file
     "zz" 'delete-frame
     "cl" 'evilnc-comment-or-uncomment-lines
-    "'" 'shell-pop
-    "s" 'swiper
-    "SPC" 'avy-goto-char-2
     "ESC" 'delete-other-windows
     "TAB" 'peter/switch-buffer))

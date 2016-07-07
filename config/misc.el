@@ -1,6 +1,9 @@
 
 (use-package avy
-  :ensure t)
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "SPC" 'avy-goto-char-2))
 
 (use-package ido-vertical-mode
   :ensure t
@@ -62,11 +65,15 @@
 
 (use-package smex
   :ensure t
-  :bind ("s-x" . smex))
+  :init
+  (bind-key "s-x" 'smex))
 
 
 (use-package swiper
-  :ensure t)
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "s" 'swiper))
 
 
 (use-package paradox
@@ -77,12 +84,15 @@
 (use-package deft
   :ensure t
   :config
+  (evil-leader/set-key
+    "ae" 'deft)
   (setq deft-extensions '("org"))
   (setq deft-directory "~/btsync/notes"))
 
 (use-package shell-pop
   :ensure t
-  :bind ("<f1>" . shell-pop)
+  :init
+  (bind-key "<f1>" 'shell-pop)
   :config
   (setq shell-pop-full-span t))
 
@@ -92,3 +102,10 @@
   "Clear the eshell buffer."
   (let ((inhibit-read-only t))
     (erase-buffer)))
+
+
+(use-package ag
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "ag" 'ag))

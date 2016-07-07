@@ -1,3 +1,4 @@
+(setq load-prefer-newer t)
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives
@@ -6,6 +7,12 @@
       ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
 (package-initialize)
+
+(use-package auto-compile
+  :ensure t
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -35,6 +42,11 @@
 (add-to-list 'default-frame-alist
 	     '(font . "Bitstream Vera Sans Mono-11"))
 
+(use-package ample-theme
+  :ensure t
+  :config
+  (load-theme 'ample t))
+
 (setq custom-file "~/.emacs.d/config/custom.el")
 
 (load custom-file)
@@ -53,7 +65,4 @@
 
 (load "~/.emacs.d/config/completion")
 
-(use-package ample-theme
-  :ensure t
-  :config
-  (load-theme 'ample t))
+

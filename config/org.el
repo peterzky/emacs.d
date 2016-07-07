@@ -1,7 +1,6 @@
 
 (use-package org
   :ensure t
-  :bind ("\C-cc". org-capture)
   :config
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
   (setq org-log-done 'time)

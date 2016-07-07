@@ -16,3 +16,4 @@ ido.last
 /%backup%~
 /recentf
 url
+*.elc
