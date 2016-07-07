@@ -57,16 +57,3 @@
   :ensure t
   :config
   (load-theme 'ample t))
-
-(use-package wanderlust
-  :ensure t
-  :config
-  )
-
-(autoload 'wl "wl" "Wanderlust" t)
-(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
-(autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
-
-
-(custom-set-variables
- '(inhibit-startup-screen t))
