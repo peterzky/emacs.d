@@ -1,8 +1,3 @@
-(eval-when-compile
-  (require 'use-package)
-  (require 'diminish)             
-  (require 'bind-key))
-
 (setq load-prefer-newer t)
 
 (require 'package)
@@ -14,16 +9,16 @@
 
 (package-initialize)
 
-(use-package auto-compile
-  :ensure t
-  :config
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
    (package-refresh-contents)
      (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package)
+  (require 'diminish)             
+  (require 'bind-key))
 
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
