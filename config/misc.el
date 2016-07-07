@@ -61,7 +61,8 @@
   :ensure t
   :config
   (evil-leader/set-key
-    "ag" 'ag)
+    "ag" 'ag
+    "ap" 'ag-project)
   (add-hook 'ag-search-finished-hook 'select-window-2))
 
 

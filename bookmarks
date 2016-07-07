@@ -2,19 +2,36 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("miscellaneous config"
- (filename . "~/.emacs.d/config/misc.el")
- (front-context-string . "\n(use-package au")
- (rear-context-string)
- (position . 1))
-("evil config"
- (filename . "~/.emacs.d/config/evil.el")
- (front-context-string . "\n(use-package ev")
- (rear-context-string)
- (position . 1))
-("i3 config file"
- (filename . "~/.config/i3/config")
- (front-context-string . "# This file has ")
- (rear-context-string)
- (position . 1))
+(#1=(#("interface emacs" 0 15
+      (bmkp-full-record #1#))
+    (filename . "~/.emacs.d/config/interface.el")
+    (buffer-name . "interface.el")
+    (front-context-string . "\n(use-package av")
+    (rear-context-string)
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(22398 40862 368258 203000))
+    (created . #2#)
+    (position . 1))
+#1=(#("miscellaneous config" 0 20
+      (bmkp-full-record #1#))
+    (time 22398 40855 904564 446000)
+    (visits . 0)
+    (filename . "~/.emacs.d/config/misc.el")
+    (front-context-string . "\n(use-package au")
+    (rear-context-string)
+    (position . 1))
+#1=(#("evil config" 0 11
+      (bmkp-full-record #1#))
+    (filename . "~/.emacs.d/config/evil.el")
+    (front-context-string . "\n(use-package ev")
+    (rear-context-string)
+    (position . 1))
+#1=(#("i3 config file" 0 14
+      (bmkp-full-record #1#))
+    (filename . "~/.config/i3/config")
+    (front-context-string . "# This file has ")
+    (rear-context-string)
+    (position . 1))
 )
