@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: evil-set-initial-state
+# key: esi
+# --
+(evil-set-initial-state '$1 '$0)
