@@ -8,8 +8,8 @@
 (define-key mu4e-headers-mode-map "h" #'backward-char)
 (define-key mu4e-headers-mode-map "l" #'forward-char)
 
-(define-key mu4e-view-mode-map "j" #'mu4e-view-headers-next)
-(define-key mu4e-view-mode-map "k" #'mu4e-view-headers-prev)
+(define-key mu4e-view-mode-map "j" #'scroll-up-line)
+(define-key mu4e-view-mode-map "k" #'scroll-down-line)
 ;; default
 ;; (setq mu4e-maildir "~/Maildir")
 
