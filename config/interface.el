@@ -38,7 +38,7 @@
   (window-numbering-mode)
   (global-set-key (kbd "<f3>") 'next-buffer)
   (global-set-key (kbd "<f2>") 'previous-buffer)
-  (global-set-key (kbd "M-s") 'ibuffer)
+  (global-set-key (kbd "M-<tab>") 'ibuffer)
   (evil-leader/set-key
     "1" 'select-window-1
     "2" 'select-window-2
@@ -52,8 +52,8 @@
     "0" 'select-window-0)
   )
 
-(define-key ibuffer-mode-map "j" #'next-line)
-(define-key ibuffer-mode-map "k" #'previous-line)
+(define-key ibuffer-mode-map "j" #'ibuffer-forward-line)
+(define-key ibuffer-mode-map "k" #'ibuffer-backward-line)
 
 (use-package shell-pop
   :ensure t
