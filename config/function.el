@@ -27,6 +27,7 @@
 (defun peter/compile-init ()
   "Byte-compile all your dotfiles."
   (interactive)
+  (byte-compile-file "~/.emacs.d/init.el")
   (byte-recompile-directory "~/.emacs.d/config" 0))
 
 (defun peter/split-vertically ()

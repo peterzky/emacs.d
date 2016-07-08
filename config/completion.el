@@ -10,7 +10,10 @@
 (use-package yasnippet
   :ensure t
   :config
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  (evil-leader/set-key
+    "yn" 'yas-new-snippet
+    "yl" 'yas-lookup-snippet))
 
 (defun check-expansion ()
     (save-excursion

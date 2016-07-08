@@ -60,3 +60,12 @@
 
 (use-package w3m
     :ensure t)
+
+(use-package elfeed
+    :ensure t
+    :config
+    (evil-leader/set-key
+      "ee" 'elfeed
+      "eu" 'elfeed-update)
+    (evil-set-initial-state 'elfeed-search-mode 'emacs)
+    (evil-set-initial-state 'elfeed-show-mode 'emacs))

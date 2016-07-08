@@ -66,7 +66,7 @@
   :ensure t
   :config
   (setq paradox-github-token t)
-  ;; (evil-set-initial-state 'paradox-menu-mode 'emacs)
+  (evil-set-initial-state 'paradox-menu-mode 'emacs)
   (evil-leader/set-key
     "pr" 'paradox-list-packages))
 
