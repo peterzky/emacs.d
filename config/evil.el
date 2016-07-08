@@ -30,8 +30,8 @@
     "ff" 'find-file
     "nn" 'peter/open-note-file
     "qq" 'save-buffers-kill-emacs
-    "ws" 'split-window-below
-    "wv" 'split-window-right
+    "ws" 'peter/split-horizontally
+    "wv" 'peter/split-vertically
     "wd" 'delete-window
     "fed" 'peter/edit-config-file
     "zz" 'delete-frame

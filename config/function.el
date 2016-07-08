@@ -28,3 +28,15 @@
   "Byte-compile all your dotfiles."
   (interactive)
   (byte-recompile-directory "~/.emacs.d/config" 0))
+
+(defun peter/split-vertically ()
+  "Split window vertically and focus"
+  (interactive)
+  (split-window-vertically)
+  (other-window 1))
+
+(defun peter/split-horizontally ()
+  "Split window horizontally and focus"
+  (interactive)
+  (split-window-horizontally)
+  (other-window 1))
