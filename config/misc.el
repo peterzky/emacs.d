@@ -58,5 +58,5 @@
     "cn" 'evil-mc-make-and-goto-next-match
     "cp" 'evil-mc-skip-and-goto-next-match))
 
-
-
+(use-package w3m
+    :ensure t)

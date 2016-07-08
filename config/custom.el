@@ -9,6 +9,7 @@
  '(helm-display-header-line nil)
  '(helm-display-source-at-screen-top nil)
  '(inhibit-startup-screen t)
+ '(mm-text-html-renderer (quote w3m))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"
