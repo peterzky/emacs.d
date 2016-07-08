@@ -65,7 +65,10 @@
 (use-package paradox
   :ensure t
   :config
-  (setq paradox-github-token t))
+  (setq paradox-github-token t)
+  (evil-leader/set-key
+    "pr" 'paradox-list-packages))
+
 
 (use-package smex
   :ensure t
