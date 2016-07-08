@@ -64,5 +64,7 @@
     (define-key elfeed-search-mode-map "k" #'previous-line)
     (define-key elfeed-search-mode-map "h" #'backward-char)
     (define-key elfeed-search-mode-map "l" #'forward-char)
+    (define-key elfeed-show-mode-map "k" #'scroll-down-line)
+    (define-key elfeed-show-mode-map "j" #'scroll-up-line)
     )
 
