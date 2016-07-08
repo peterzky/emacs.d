@@ -37,7 +37,7 @@
    user-full-name  "Peter Zheng"
    mu4e-compose-signature
     (concat
-      "Peter Zheng"
+      "Peter Zheng "
       "peter.zky@icloud.com"))
 
 ;; sending mail -- replace USERNAME with your gmail username
