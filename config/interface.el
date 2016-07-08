@@ -36,6 +36,9 @@
   :ensure t
   :config
   (window-numbering-mode)
+  (global-set-key (kbd "<f3>") 'next-buffer)
+  (global-set-key (kbd "<f2>") 'previous-buffer)
+  (global-set-key (kbd "<f4>") 'ibuffer)
   (evil-leader/set-key
     "1" 'select-window-1
     "2" 'select-window-2
@@ -79,6 +82,8 @@
 (use-package bookmark+
   :ensure t
   :config
+  (evil-set-initial-state 'bookmark-bmenu-mode 'emacs)
   (evil-leader/set-key
       "ll" 'bookmark-bmenu-list
       "lm" 'bookmark-set))
+

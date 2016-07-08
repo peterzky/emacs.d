@@ -48,16 +48,6 @@
   (setq deft-extensions '("org"))
   (setq deft-directory "~/btsync/notes"))
 
-(use-package evil-mc
-  :ensure t
-  :config
-  (global-evil-mc-mode 1)
-  (evil-leader/set-key
-    "cc" 'evil-mc-make-all-cursors
-    "cd" 'evil-mc-undo-all-cursors
-    "cn" 'evil-mc-make-and-goto-next-match
-    "cp" 'evil-mc-skip-and-goto-next-match))
-
 (use-package w3m
     :ensure t)
 
@@ -68,4 +58,6 @@
       "ee" 'elfeed
       "eu" 'elfeed-update)
     (evil-set-initial-state 'elfeed-search-mode 'emacs)
-    (evil-set-initial-state 'elfeed-show-mode 'emacs))
+    (evil-set-initial-state 'elfeed-show-mode 'emacs)
+    (setq-default elfeed-search-filter "@1-week-ago +unread "))
+
