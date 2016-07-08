@@ -1,3 +1,5 @@
 #+TITLE:Emacs config
 
 ** TODO mode line customization
+
+** TODO evil translation
