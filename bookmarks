@@ -22,12 +22,6 @@
     (front-context-string . "\n(use-package au")
     (rear-context-string)
     (position . 1))
-#1=(#("evil config" 0 11
-      (bmkp-full-record #1#))
-    (filename . "~/.emacs.d/config/evil.el")
-    (front-context-string . "\n(use-package ev")
-    (rear-context-string)
-    (position . 1))
 #1=(#("i3 config file" 0 14
       (bmkp-full-record #1#))
     (filename . "~/.config/i3/config")

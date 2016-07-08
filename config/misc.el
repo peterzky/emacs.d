@@ -59,5 +59,10 @@
       "eu" 'elfeed-update)
     (evil-set-initial-state 'elfeed-search-mode 'emacs)
     (evil-set-initial-state 'elfeed-show-mode 'emacs)
-    (setq-default elfeed-search-filter "@1-week-ago +unread "))
+    (setq-default elfeed-search-filter "@1-week-ago +unread ")
+    (define-key elfeed-search-mode-map "j" #'next-line)
+    (define-key elfeed-search-mode-map "k" #'previous-line)
+    (define-key elfeed-search-mode-map "h" #'backward-char)
+    (define-key elfeed-search-mode-map "l" #'forward-char)
+    )
 

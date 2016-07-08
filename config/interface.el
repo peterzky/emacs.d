@@ -38,7 +38,7 @@
   (window-numbering-mode)
   (global-set-key (kbd "<f3>") 'next-buffer)
   (global-set-key (kbd "<f2>") 'previous-buffer)
-  (global-set-key (kbd "<f4>") 'ibuffer)
+  (global-set-key (kbd "M-s") 'ibuffer)
   (evil-leader/set-key
     "1" 'select-window-1
     "2" 'select-window-2
@@ -51,6 +51,9 @@
     "9" 'select-window-9
     "0" 'select-window-0)
   )
+
+(define-key ibuffer-mode-map "j" #'next-line)
+(define-key ibuffer-mode-map "k" #'previous-line)
 
 (use-package shell-pop
   :ensure t
@@ -83,6 +86,8 @@
   :ensure t
   :config
   (evil-set-initial-state 'bookmark-bmenu-mode 'emacs)
+  (define-key bookmark-bmenu-mode-map "j" #'next-line)
+  (define-key bookmark-bmenu-mode-map "k" #'previous-line)
   (evil-leader/set-key
       "ll" 'bookmark-bmenu-list
       "lm" 'bookmark-set))

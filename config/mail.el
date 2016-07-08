@@ -3,6 +3,10 @@
 (evil-leader/set-key
   "m" 'mu4e)
 
+(define-key mu4e-headers-mode-map "j" #'next-line)
+(define-key mu4e-headers-mode-map "k" #'previous-line)
+(define-key mu4e-headers-mode-map "h" #'backward-char)
+(define-key mu4e-headers-mode-map "l" #'forward-char)
 ;; default
 ;; (setq mu4e-maildir "~/Maildir")
 
