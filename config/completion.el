@@ -6,8 +6,8 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (add-to-list 'company-backends 'company-tern)
-  (define-key company-mode-map "S-n" #'company-select-next-or-abort)
-  (define-key company-mode-map "S-p" #'company-select-previous-or-abort))
+  (define-key company-active-map (kbd "s-n") #'company-select-next-or-abort)
+  (define-key company-active-map (kbd "s-p") #'company-select-previous-or-abort))
 
 (use-package yasnippet
   :ensure t
