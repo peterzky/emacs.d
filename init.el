@@ -30,6 +30,8 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome-stable"))
 
+(fset 'yes-or-no-p 'y-or-n-p)
+
 (menu-bar-mode -1)
 
 

@@ -5,7 +5,9 @@
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
-  (add-to-list 'company-backends 'company-tern))
+  (add-to-list 'company-backends 'company-tern)
+  (define-key company-mode-map "S-n" #'company-select-next-or-abort)
+  (define-key company-mode-map "S-p" #'company-select-previous-or-abort))
 
 (use-package yasnippet
   :ensure t
