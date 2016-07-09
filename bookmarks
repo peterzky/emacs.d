@@ -4,16 +4,17 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (#1=(#("interface emacs" 0 15
       (bmkp-full-record #1#))
+    (end-position . 1451)
     (filename . "~/.emacs.d/config/interface.el")
     (buffer-name . "interface.el")
     (front-context-string . "\n(use-package av")
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 0)
-    (time . #2=(22398 40862 368258 203000))
-    (created . #2#)
-    (position . 1))
+    (visits . 1)
+    (time 22401 23570 153323 810000)
+    (created 22398 40862 368258 203000)
+    (position . 1451))
 #1=(#("miscellaneous config" 0 20
       (bmkp-full-record #1#))
     (time 22398 40855 904564 446000)

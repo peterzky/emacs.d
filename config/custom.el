@@ -18,7 +18,7 @@
  '(mm-text-html-renderer (quote w3m))
  '(package-selected-packages
    (quote
-    (tern youdao-dictionary yasnippet window-numbering w3m use-package smex smartparens shell-pop ranger projectile pdf-tools paradox org-plus-contrib org-bullets js2-mode ido-vertical-mode ido-ubiquitous helm-swoop helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
+    (helm-projectile helm-systemd tern youdao-dictionary yasnippet window-numbering w3m use-package smex smartparens shell-pop ranger projectile pdf-tools paradox org-plus-contrib org-bullets js2-mode ido-vertical-mode ido-ubiquitous helm-swoop helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"

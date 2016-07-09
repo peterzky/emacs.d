@@ -57,19 +57,30 @@
   (evil-leader/set-key
     "SPC" 'avy-goto-char-2))
 
-(use-package ido-vertical-mode
-  :ensure t
-  :config
-  (setq ido-enable-flex-matching t)
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (ido-vertical-mode 1)
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+;; (use-package ido-vertical-mode
+;;   :ensure t
+;;   :config
+;;   (setq ido-enable-flex-matching t)
+;;   (ido-mode 1)
+;;   (ido-everywhere 1)
+;;   (ido-vertical-mode 1)
+;;   (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
-(use-package ido-ubiquitous
+;; (use-package ido-ubiquitous
+;;   :ensure t
+;;   :config
+;;   (ido-ubiquitous-mode 1)) 
+
+
+(global-set-key (kbd "s-/") 'dabbrev-expand)
+
+(use-package helm
   :ensure t
   :config
-  (ido-ubiquitous-mode 1)) 
+  (require 'helm-config)
+  (helm-mode 1)
+  (global-set-key (kbd "s-x") 'helm-M-x)
+  )
 
 (use-package helm-swoop
     :ensure t
@@ -84,12 +95,16 @@
     "ag" 'helm-ag
     "ap" 'helm-ag-project-root))
 
+(use-package helm-projectile
+  :ensure t
+  :config
+  (helm-projectile-on)
+  )
+
 (use-package window-numbering
   :ensure t
   :config
   (window-numbering-mode)
-  (global-set-key (kbd "<f3>") 'next-buffer)
-  (global-set-key (kbd "<f2>") 'previous-buffer)
   (evil-leader/set-key
     "1" 'select-window-1
     "2" 'select-window-2
@@ -107,7 +122,7 @@
 (use-package shell-pop
   :ensure t
   :config
-  (global-set-key (kbd "<f1>") 'shell-pop)
+  (global-set-key (kbd "C-`") 'shell-pop)
   (setq shell-pop-full-span t))
 
 (defalias 'open 'find-file-other-window)
@@ -126,10 +141,10 @@
     "pr" 'paradox-list-packages))
 
 
-(use-package smex
-  :ensure t
-  :config
-  (global-set-key (kbd "s-x") 'smex))
+;; (use-package smex
+;;   :ensure t
+;;   :config
+;;   (global-set-key (kbd "s-x") 'smex))
 
 (use-package bookmark+
   :ensure t
