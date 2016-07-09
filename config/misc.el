@@ -10,15 +10,13 @@
   :ensure t
   :config
   (evil-leader/set-key
-    "ar" 'ranger)
-  )
+    "ar" 'ranger))
 
 (use-package magit
   :ensure t
   :config
   (evil-leader/set-key
-    "gs" 'magit-status)
-  )
+    "gs" 'magit-status))
 
 
 (use-package projectile

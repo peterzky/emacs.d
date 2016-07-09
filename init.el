@@ -71,3 +71,5 @@
 (load "~/.emacs.d/config/completion")
 
 (load "~/.emacs.d/config/mail")
+
+(load "~/.emacs.d/config/helm")
