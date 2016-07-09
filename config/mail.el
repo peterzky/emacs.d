@@ -3,6 +3,9 @@
 (evil-leader/set-key
   "m" 'mu4e)
 
+(add-to-list 'mu4e-view-actions
+	     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
 (define-key mu4e-headers-mode-map "j" #'next-line)
 (define-key mu4e-headers-mode-map "k" #'previous-line)
 (define-key mu4e-headers-mode-map "h" #'backward-char)
