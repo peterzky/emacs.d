@@ -2,8 +2,13 @@
   :ensure t
   :config
   (require 'helm-config)
+  (setq helm-always-two-windows t)
   (helm-mode 1)
+  (helm-autoresize-mode 1)
+
   (global-set-key (kbd "s-x") 'helm-M-x)
+  (evil-leader/set-key
+    "bb" 'helm-mini)
   )
 
 (use-package helm-swoop
@@ -23,3 +28,8 @@
   :ensure t
   :config
   (helm-projectile-on))
+
+(use-package helm-descbinds
+  :ensure t
+  :config
+  (helm-descbinds-mode))

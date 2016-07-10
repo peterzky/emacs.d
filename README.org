@@ -3,3 +3,7 @@
 ** TODO mode line customization
 
 ** TODO evil translation
+
+** TODO helm,magit window behavior
+
+   

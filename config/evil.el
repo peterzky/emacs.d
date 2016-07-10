@@ -22,7 +22,6 @@
   (global-evil-leader-mode 1) 
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-    "bb" 'switch-to-buffer
     "bd" 'kill-this-buffer
     "fs" 'save-buffer
     "ff" 'find-file
