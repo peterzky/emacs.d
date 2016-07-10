@@ -1,3 +1,17 @@
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(menu-bar-mode -1)
+
+
+(tool-bar-mode -1)
+
+;; help window auto-focus
+(setq help-window-select t) 
+
+(scroll-bar-mode -1)
+
+(add-to-list 'default-frame-alist
+	     '(font . "Bitstream Vera Sans Mono-11"))
 (setq load-prefer-newer t)
 
 (require 'package)
@@ -8,7 +22,6 @@
       ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
 (package-initialize)
-
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -29,21 +42,6 @@
 (if (eq system-type 'gnu/linux)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "google-chrome-stable"))
-
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(menu-bar-mode -1)
-
-
-(tool-bar-mode -1)
-
-;; help window auto-focus
-(setq help-window-select t) 
-
-(scroll-bar-mode -1)
-
-(add-to-list 'default-frame-alist
-	     '(font . "Bitstream Vera Sans Mono-11"))
 
 (use-package ample-theme
   :ensure t
