@@ -24,7 +24,7 @@
   (evil-leader/set-key
     "bd" 'kill-this-buffer
     "fs" 'save-buffer
-    "ff" 'find-file
+    "ff" 'helm-find-files
     "nn" 'peter/open-note-file
     "qq" 'save-buffers-kill-emacs
     "wv" 'peter/split-horizontally

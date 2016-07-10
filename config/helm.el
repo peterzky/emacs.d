@@ -29,6 +29,12 @@
   :config
   (helm-projectile-on))
 
+(use-package helm-systemd
+    :ensure t
+    :config
+    (evil-leader/set-key
+      "sd" 'helm-systemd))
+
 (use-package helm-descbinds
   :ensure t
   :config

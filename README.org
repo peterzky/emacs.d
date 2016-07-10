@@ -7,6 +7,10 @@
 ** DONE helm,magit window behavior
    CLOSED: [2016-07-10 Sun 22:43]
 
-** TODO helm-systemd buffer position
+** DONE helm-systemd buffer position
+   CLOSED: [2016-07-11 Mon 00:56]
+quick fix : rename buffer names in package file
+rename ~*helm systemd*~ to ~*systemd*~
+rename ~*helm systemd log*~ to ~*systemd log*~
 
    
