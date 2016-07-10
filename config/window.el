@@ -18,6 +18,7 @@
 (use-package popwin
   :ensure t
   :config
+  (setq popwin:popup-window-height 25)
   (popwin-mode 1))
 
 (use-package shackle

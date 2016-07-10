@@ -18,3 +18,4 @@ ido.last
 url
 *.elc
 bookmarks
+/projectile.cache
