@@ -41,7 +41,10 @@
   :config
   (evil-mode 1)
   (setq evil-insert-state-map (make-sparse-keymap))
-  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state))
+  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
+  (add-to-list 'evil-motion-state-modes 'debugger-mode)
+  (add-to-list 'evil-motion-state-modes 'special-mode)
+  )
 
 (use-package evil-mc
   :ensure t
@@ -52,3 +55,4 @@
     "cd" 'evil-mc-undo-all-cursors
     "cn" 'evil-mc-make-and-goto-next-match
     "cp" 'evil-mc-skip-and-goto-next-match))
+

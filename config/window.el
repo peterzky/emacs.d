@@ -19,6 +19,8 @@
   :ensure t
   :config
   (setq popwin:popup-window-height 25)
+  (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
+  (push '("*Warnings*" :regexp nil) popwin:special-display-config)
   (popwin-mode 1))
 
 ;; helm alway at bottom
