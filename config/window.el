@@ -21,8 +21,8 @@
   (setq popwin:popup-window-height 25)
   (popwin-mode 1))
 
-(use-package shackle
-  :ensure t
-  :config
-  (shackle-mode 1)
-  (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4))))
+(add-to-list 'display-buffer-alist
+                    `(,(rx bos "*helm" (* not-newline) "*" eos)
+                         (display-buffer-in-side-window)
+                         (inhibit-same-window . t)
+                         (window-height . 0.4)))
