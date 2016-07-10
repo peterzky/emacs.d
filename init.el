@@ -2,7 +2,6 @@
 
 (menu-bar-mode -1)
 
-
 (tool-bar-mode -1)
 
 ;; help window auto-focus
@@ -52,24 +51,24 @@
 
 (load custom-file)
 
-(load "~/.emacs.d/config/function")
+(defvar peter/config-path "~/.emacs.d/config/")
 
-(load "~/.emacs.d/config/evil")
 
-(load "~/.emacs.d/config/org")
+(defvar peter/config-files (list
+			    "function"
+			    "evil"
+			    "org"
+			    "misc"
+			    "interface"
+			    "javascript"
+			    "chinese"
+			    "completion"
+			    "window"
+			    "helm"
+			    "mail"
+			    ))
 
-(load "~/.emacs.d/config/misc")
 
-(load "~/.emacs.d/config/interface")
-
-(load "~/.emacs.d/config/javascript")
-
-(load "~/.emacs.d/config/chinese")
-
-(load "~/.emacs.d/config/completion")
-
-(load "~/.emacs.d/config/window")
-
-(load "~/.emacs.d/config/helm")
-
-(load "~/.emacs.d/config/mail")
+(mapc 'load (mapcar (lambda (name)
+	  (concat peter/config-path name))
+	peter/config-files))
