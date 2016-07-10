@@ -33,7 +33,7 @@
     :ensure t
     :config
     (evil-leader/set-key
-      "sd" 'helm-systemd))
+      "ad" 'helm-systemd))
 
 (use-package helm-descbinds
   :ensure t
