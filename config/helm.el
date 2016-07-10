@@ -11,8 +11,10 @@
   (setq helm-completion-in-region-fuzzy-match t)
   (helm-autoresize-mode 1)
   (global-set-key (kbd "s-x") 'helm-M-x)
+  (global-set-key (kbd "M-<tab>") 'helm-mini)
   (evil-leader/set-key
     "s" 'helm-occur
+    "r" 'helm-show-kill-ring
     "bb" 'helm-mini))
 
 (use-package helm-ag

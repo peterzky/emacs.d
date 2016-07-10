@@ -11,7 +11,7 @@
       (quit-window)
     (ibuffer)))
 
-(global-set-key (kbd "M-<tab>") 'peter/ibuffer-toggle)
+;; (global-set-key (kbd "M-<tab>") 'peter/ibuffer-toggle)
 
 ;;disable ibuffer prompt
 (setq ibuffer-expert t)
