@@ -66,6 +66,7 @@
 			    "window"
 			    "helm"
 			    "mail"
+			    "festival"
 			    ))
 
 
