@@ -4,6 +4,9 @@
 
 ** TODO evil translation
 
-** TODO helm,magit window behavior
+** DONE helm,magit window behavior
+   CLOSED: [2016-07-10 Sun 22:43]
+
+** TODO helm-systemd buffer position
 
    
