@@ -57,21 +57,6 @@
   (evil-leader/set-key
     "SPC" 'avy-goto-char-2))
 
-;; (use-package ido-vertical-mode
-;;   :ensure t
-;;   :config
-;;   (setq ido-enable-flex-matching t)
-;;   (ido-mode 1)
-;;   (ido-everywhere 1)
-;;   (ido-vertical-mode 1)
-;;   (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-
-;; (use-package ido-ubiquitous
-;;   :ensure t
-;;   :config
-;;   (ido-ubiquitous-mode 1)) 
-
-
 (global-set-key (kbd "s-/") 'dabbrev-expand)
 
 
@@ -96,12 +81,6 @@
   (evil-set-initial-state 'paradox-menu-mode 'emacs)
   (evil-leader/set-key
     "pr" 'paradox-list-packages))
-
-
-;; (use-package smex
-;;   :ensure t
-;;   :config
-;;   (global-set-key (kbd "s-x") 'smex))
 
 (use-package bookmark+
   :ensure t

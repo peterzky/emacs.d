@@ -21,6 +21,7 @@
   (setq popwin:popup-window-height 25)
   (popwin-mode 1))
 
+;; helm alway at bottom
 (add-to-list 'display-buffer-alist
                     `(,(rx bos "*helm" (* not-newline) "*" eos)
                          (display-buffer-in-side-window)

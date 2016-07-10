@@ -15,13 +15,6 @@
     "s" 'helm-occur
     "bb" 'helm-mini))
 
-;; (use-package helm-swoop
-;;   :ensure t
-;;   :config
-;;   (setq helm-swoop-split-with-multiple-windows t)
-;;   (evil-leader/set-key
-;;     "s" 'helm-swoop))
-
 (use-package helm-ag
   :ensure t
   :config
