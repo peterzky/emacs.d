@@ -74,4 +74,4 @@
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
 (setq mu4e-view-show-images t)
-
+(setq mu4e-html2text-command "w3m -T text/html")
