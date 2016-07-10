@@ -5,11 +5,9 @@
   (setq helm-always-two-windows t)
   (helm-mode 1)
   (helm-autoresize-mode 1)
-
   (global-set-key (kbd "s-x") 'helm-M-x)
   (evil-leader/set-key
-    "bb" 'helm-mini)
-  )
+    "bb" 'helm-mini))
 
 (use-package helm-swoop
     :ensure t
