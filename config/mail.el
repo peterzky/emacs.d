@@ -73,3 +73,5 @@
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
+(setq mu4e-view-show-images t)
+

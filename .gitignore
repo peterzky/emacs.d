@@ -19,3 +19,4 @@ url
 *.elc
 bookmarks
 /projectile.cache
+/network-security.data
