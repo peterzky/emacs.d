@@ -15,6 +15,7 @@
   (yas-global-mode 1)
   (evil-leader/set-key
     "yn" 'yas-new-snippet
+    "ye" 'yas/visit-snippet-file
     ))
 
 (defun check-expansion ()
