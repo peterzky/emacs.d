@@ -264,8 +264,19 @@ See the festival documentation for a list of valid modes."
 ;;; festival.el ends here
 
 
+
+
+(defun my-festival-play ()
+  "play current paragraph"
+  (interactive)
+   (festival-read-region
+    (car (bounds-of-thing-at-point 'paragraph))
+    (cdr (bounds-of-thing-at-point 'paragraph))
+    ))
+
 (evil-leader/set-key
-  "ys" 'festival-stop
-  "yr" 'festival-read-region
-  "yb" 'festival-read-buffer
+  "os" 'festival-stop
+  "or" 'festival-read-region
+  "ob" 'festival-read-buffer
+  "op" 'my-festival-play
   )
