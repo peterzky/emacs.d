@@ -47,6 +47,13 @@
   :config
   (load-theme 'ample t))
 
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (setq sml/no-confirm-load-theme t)
+  (setq sml/theme 'dark)
+  (sml/setup))
+
 (setq custom-file "~/.emacs.d/config/custom.el")
 
 (load custom-file)

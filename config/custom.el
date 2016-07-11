@@ -15,12 +15,25 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (paredit helm-proc helm tern projectile youdao-dictionary yasnippet window-numbering w3m use-package smartparens shell-pop popwin paradox org-plus-contrib org-bullets js2-mode ido-vertical-mode ido-ubiquitous helm-systemd helm-swoop helm-projectile helm-descbinds helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
+    (helm-proc helm tern projectile youdao-dictionary yasnippet window-numbering w3m use-package smartparens shell-pop popwin paradox org-plus-contrib org-bullets js2-mode ido-vertical-mode ido-ubiquitous helm-systemd helm-swoop helm-projectile helm-descbinds helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"
      (lambda nil
-       (eshell shell-pop-term-shell))))))
+       (eshell shell-pop-term-shell)))))
+ '(sml/replacer-regexp-list
+   (quote
+    (("^~/org/" ":Org:")
+     ("^~/\\.emacs\\.d/elpa/" ":ELPA:")
+     ("^~/\\.emacs\\.d/" ":ED:")
+     ("^/sudo:.*:" ":SU:")
+     ("^~/Documents/" ":Doc:")
+     ("^~/Dropbox/" ":DB:")
+     ("^:\\([^:]*\\):Documento?s/" ":\\1/Doc:")
+     ("^~/[Gg]it/" ":Git:")
+     ("^~/[Gg]it[Hh]ub/" ":Git:")
+     ("^~/[Gg]it\\([Hh]ub\\|\\)-?[Pp]rojects/" ":Git:")
+     ("^~/btsync/" ":Sync:")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
