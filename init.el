@@ -67,7 +67,6 @@
 			    'helm
 			    'mail
 			    'festival
-			    'elisp
 			    ))
 
 (mapc 'load (mapcar
