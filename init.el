@@ -55,21 +55,22 @@
 
 
 (defvar peter/config-files (list
-			    "function"
-			    "evil"
-			    "org"
-			    "misc"
-			    "interface"
-			    "javascript"
-			    "chinese"
-			    "completion"
-			    "window"
-			    "helm"
-			    "mail"
-			    "festival"
+			    'function
+			    'evil
+			    'org
+			    'misc
+			    'interface
+			    'javascript
+			    'chinese
+			    'completion
+			    'window
+			    'helm
+			    'mail
+			    'festival
+			    'elisp
 			    ))
 
-
-(mapc 'load (mapcar (lambda (name)
+(mapc 'load (mapcar
+	     (lambda (name)
 	  (concat peter/config-path name))
-	peter/config-files))
+	     (mapcar 'symbol-name peter/config-files)))

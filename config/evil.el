@@ -35,7 +35,11 @@
     "zz" 'delete-frame
     "cl" 'evilnc-comment-or-uncomment-lines
     "ESC" 'delete-other-windows
-    "TAB" 'peter/switch-buffer))
+    "nw" 'widen
+    "TAB" 'peter/switch-buffer)
+  (evil-leader/set-key-for-mode 'org-mode
+    "ns" 'org-narrow-to-subtree))
+
 
 (use-package evil
   :ensure t
@@ -52,7 +56,7 @@
   :config
   (global-evil-mc-mode 1)
   (evil-leader/set-key
-    "cc" 'evil-mc-make-all-cursors
+    ;; "cc" 'evil-mc-make-all-cursors
     "cd" 'evil-mc-undo-all-cursors
     "cn" 'evil-mc-make-and-goto-next-match
     "cp" 'evil-mc-skip-and-goto-next-match))
