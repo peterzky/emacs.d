@@ -5,13 +5,6 @@
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
-
-(use-package ranger
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "ar" 'ranger))
-
 (use-package magit
   :ensure t
   :config

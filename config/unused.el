@@ -59,3 +59,9 @@
 ;;   (evil-leader/set-key
 ;;       "ll" 'bookmark-bmenu-list
 ;;       "lm" 'bookmark-set))
+
+;; (use-package ranger
+;;   :ensure t
+;;   :config
+;;   (evil-leader/set-key
+;;     "ar" 'ranger))
