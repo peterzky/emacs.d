@@ -50,6 +50,7 @@
       "eu" 'elfeed-update)
     (evil-set-initial-state 'elfeed-search-mode 'emacs)
     (evil-set-initial-state 'elfeed-show-mode 'emacs)
+    (setf url-queue-timeout 30)
     (setq-default elfeed-search-filter "@1-week-ago +unread ")
     (define-key elfeed-search-mode-map "v" #'set-mark-command)
     (define-key elfeed-search-mode-map "j" #'next-line)
