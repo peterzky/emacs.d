@@ -10,5 +10,13 @@
     )
   (evil-leader/set-key
     "m" 'hydra-mc/body)
-  )
 
+  (defhydra hydra-nr ()
+    "narrow state"
+    ("n" narrow-to-region "region")
+    ("w" widen "widen")
+  )
+  (evil-leader/set-key
+    "n" 'hydra-nr/body)
+
+)

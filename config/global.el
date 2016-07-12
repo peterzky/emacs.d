@@ -12,6 +12,10 @@
 
 (scroll-bar-mode -1)
 
+(semantic-mode 1)
+
+(show-paren-mode 1)
+
 (add-to-list 'default-frame-alist
 	     '(font . "Bitstream Vera Sans Mono-11"))
 
