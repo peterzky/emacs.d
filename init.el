@@ -55,12 +55,15 @@
 (spaceline-spacemacs-theme)
 (spaceline-helm-mode)
 (spaceline-info-mode)
+(spaceline-toggle-buffer-modified-on)
 (spaceline-toggle-selection-info-on)
 (spaceline-toggle-buffer-size-off)
 (spaceline-toggle-version-control-on)
 (spaceline-toggle-window-number-off)
 (spaceline-toggle-buffer-encoding-abbrev-off)
 (spaceline-toggle-info-topic-on)
+
+(setq evil-mc-mode-line-prefix "¢")
 
 (setq custom-file "~/.emacs.d/config/custom.el")
 
@@ -83,6 +86,7 @@
 			    'mail
 			    'festival
 			    'hydra
+			    'feed
 			    ))
 
 (mapc 'load (mapcar
@@ -90,3 +94,4 @@
 	  (concat peter/config-path name))
 	     (mapcar 'symbol-name peter/config-files)))
 
+(put 'narrow-to-region 'disabled nil)

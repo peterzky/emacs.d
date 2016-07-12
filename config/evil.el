@@ -24,6 +24,7 @@
   (evil-leader/set-key
     "bd" 'kill-this-buffer
     "fs" 'save-buffer
+    "gg" 'customize-group
     "ff" 'helm-find-files
     "he" 'elisp-index-search
     "nn" 'peter/open-note-file
@@ -56,3 +57,15 @@
   :config
   (global-evil-mc-mode 1))
 
+
+(setq evil-normal-state-tag "N"
+      evil-insert-state-tag "I"
+      evil-motion-state-tag "M"
+      evil-emacs-state-tag "E"
+      evil-visual-state-tag "V"
+      evil-motion-state-cursor '(box "YellowGreen")
+      evil-normal-state-cursor '(box "YellowGreen")
+      evil-insert-state-cursor '(bar "#F86155")
+      evil-emacs-state-cursor '(bar "SkyBlue2")
+      evil-visual-state-cursor '(box "White")
+      )
