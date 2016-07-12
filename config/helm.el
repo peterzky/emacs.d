@@ -11,6 +11,8 @@
   (setq helm-split-window-in-side-p t)
   (setq helm-completion-in-region-fuzzy-match t)
   (helm-autoresize-mode 1)
+  ;;add bookmark to helm mini sources
+  (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
   (global-set-key (kbd "s-x") 'helm-M-x)
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "M-<tab>") 'helm-mini)

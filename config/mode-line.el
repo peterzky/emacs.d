@@ -31,9 +31,9 @@
 (spaceline-define-segment buffer-modified
   "test"
   (when (buffer-modified-p)
-     "Ⲙ")
-  :face ((t
-	  (:inherit 'default-face :foreground "dark red")))
+  (propertize "Ⲙ" 'face '(:foreground "dark red")))
+  ;; :face ((t
+  ;; 	  (:inherit 'default-face :foreground "dark red")))
   )
 
 (spaceline-compile)

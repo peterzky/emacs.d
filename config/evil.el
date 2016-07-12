@@ -36,10 +36,8 @@
     "zz" 'delete-frame
     "cl" 'evilnc-comment-or-uncomment-lines
     "ESC" 'delete-other-windows
-    "nw" 'widen
     "TAB" 'peter/switch-buffer)
-  (evil-leader/set-key-for-mode 'org-mode
-    "ns" 'org-narrow-to-subtree))
+  )
 
 
 (use-package evil
@@ -48,8 +46,8 @@
   (evil-mode 1)
   (setq evil-insert-state-map (make-sparse-keymap))
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
-  (define-key evil-motion-state-map (kbd "<tab>") 'forward-button)
-  (define-key evil-motion-state-map (kbd "S-<tab>") 'backward-button)
+  (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
+  (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button)
   (add-to-list 'evil-motion-state-modes 'debugger-mode)
   (add-to-list 'evil-motion-state-modes 'special-mode)
   )

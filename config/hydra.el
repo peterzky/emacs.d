@@ -15,6 +15,7 @@
     "narrow state"
     ("n" narrow-to-region "region")
     ("w" widen "widen")
+    ("s" org-narrow-to-subtree "org tree")
   )
   (evil-leader/set-key
     "n" 'hydra-nr/body)
