@@ -54,10 +54,5 @@
 (use-package evil-mc
   :ensure t
   :config
-  (global-evil-mc-mode 1)
-  (evil-leader/set-key
-    ;; "cc" 'evil-mc-make-all-cursors
-    "cd" 'evil-mc-undo-all-cursors
-    "cn" 'evil-mc-make-and-goto-next-match
-    "cp" 'evil-mc-skip-and-goto-next-match))
+  (global-evil-mc-mode 1))
 

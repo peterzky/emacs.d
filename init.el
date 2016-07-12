@@ -3,7 +3,6 @@
 (menu-bar-mode -1)
 
 (tool-bar-mode -1)
-
 ;; help window auto-focus
 (setq help-window-select t) 
 
@@ -47,12 +46,21 @@
   :config
   (load-theme 'ample t))
 
-(use-package smart-mode-line
-  :ensure t
-  :config
-  (setq sml/no-confirm-load-theme t)
-  (setq sml/theme 'dark)
-  (sml/setup))
+(line-number-mode -1)
+
+(require 'spaceline-config)
+(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+(setq powerline-default-separator nil)
+(setq spaceline-minor-modes-separator nil)
+(spaceline-spacemacs-theme)
+(spaceline-helm-mode)
+(spaceline-info-mode)
+(spaceline-toggle-selection-info-on)
+(spaceline-toggle-buffer-size-off)
+(spaceline-toggle-version-control-on)
+(spaceline-toggle-window-number-off)
+(spaceline-toggle-buffer-encoding-abbrev-off)
+(spaceline-toggle-info-topic-on)
 
 (setq custom-file "~/.emacs.d/config/custom.el")
 
@@ -74,9 +82,11 @@
 			    'helm
 			    'mail
 			    'festival
+			    'hydra
 			    ))
 
 (mapc 'load (mapcar
 	     (lambda (name)
 	  (concat peter/config-path name))
 	     (mapcar 'symbol-name peter/config-files)))
+

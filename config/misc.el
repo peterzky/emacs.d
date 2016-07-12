@@ -1,3 +1,10 @@
+(diminish 'auto-revert-mode)
+
+(use-package undo-tree
+  :diminish undo-tree-mode)
+
+(use-package abbrev
+  :diminish abbrev-mode)
 
 (use-package auto-compile
   :ensure t
@@ -24,6 +31,7 @@
 
 
 (use-package smartparens
+  :diminish smartparens-mode
   :ensure t
   :config
   (require 'smartparens-config)

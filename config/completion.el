@@ -1,7 +1,9 @@
 (use-package company-tern
+  :diminish tern-mode
   :ensure t)
 
 (use-package company
+  :diminish company-mode
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
@@ -10,6 +12,7 @@
   (define-key company-active-map (kbd "s-p") #'company-select-previous-or-abort))
 
 (use-package yasnippet
+  :diminish yas-minor-mode
   :ensure t
   :config
   (yas-global-mode 1)

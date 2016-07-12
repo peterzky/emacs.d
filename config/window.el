@@ -2,6 +2,8 @@
 (use-package window-numbering
   :ensure t
   :config
+  (defun window-numbering-install-mode-line (&optional position)
+  "Do nothing.")
   (window-numbering-mode)
   (evil-leader/set-key
     "1" 'select-window-1
