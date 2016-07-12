@@ -40,4 +40,16 @@
 (use-package w3m
   :ensure t)
 
+(use-package rainbow-mode
+  :diminish t
+  :ensure t
+  :config
+  ;; (add-hook 'prog-mode-hook #'rainbow-mode)
+  )
 
+;; (use-package rainbow-delimiters
+;;   :diminish t
+;;   :ensure t
+;;   :config
+;;   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+;;   )

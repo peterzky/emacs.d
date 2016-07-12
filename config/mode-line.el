@@ -27,3 +27,13 @@
 	    " Projectile"
 	  (format "[%s]"
 		  (projectile-project-name))))))
+
+(spaceline-define-segment buffer-modified
+  "test"
+  (when (buffer-modified-p)
+     "Ⲙ")
+  :face ((t
+	  (:inherit 'default-face :foreground "dark red")))
+  )
+
+(spaceline-compile)
