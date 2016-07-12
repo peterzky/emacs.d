@@ -44,3 +44,12 @@
   )
 
 (setq evil-mc-mode-line-prefix "¢")
+
+(setq projectile-mode-line
+   (quote
+    (:eval
+     (if
+	 (file-remote-p default-directory)
+	 " Projectile"
+       (format "[%s]"
+	       (projectile-project-name))))))

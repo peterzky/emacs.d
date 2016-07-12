@@ -3,24 +3,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(bmkp-last-as-first-bookmark-file "/home/peterzky/.emacs.d/bookmarks")
  '(cfs--current-profile "profile1" t)
  '(cfs--profiles-steps (quote (("profile1" . 3))) t)
  '(cfs-disable-bold t)
  '(cfs-disable-bold-italic t)
  '(cfs-disable-italic t)
- '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
     (helm-systemd smart-mode-line youdao-dictionary yasnippet window-numbering w3m use-package smartparens shell-pop popwin paradox org-plus-contrib org-bullets js2-mode helm-projectile helm-proc helm-descbinds helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
- '(projectile-mode-line
-   (quote
-    (:eval
-     (if
-	 (file-remote-p default-directory)
-	 " Projectile"
-       (format "[%s]"
-	       (projectile-project-name))))))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"
