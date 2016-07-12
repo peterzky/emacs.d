@@ -46,5 +46,6 @@
 (setq socks-server
       (list "My socks server" "localhost" 1080 5))
 (setq socks-noproxy '("localhost"))
- (require 'socks)
- (setq erc-server-connect-function 'socks-open-network-stream)
+
+(require 'socks)
+(setq erc-server-connect-function 'socks-open-network-stream)

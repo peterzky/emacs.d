@@ -3,7 +3,7 @@
   :ensure t
   :config
   (defun window-numbering-install-mode-line (&optional position)
-  "Do nothing.")
+    "Do nothing.")
   (window-numbering-mode)
   (evil-leader/set-key
     "1" 'select-window-1
@@ -28,7 +28,7 @@
 
 ;; helm alway at bottom
 (add-to-list 'display-buffer-alist
-                    `(,(rx bos "*helm" (* not-newline) "*" eos)
-                         (display-buffer-in-side-window)
-                         (inhibit-same-window . t)
-                         (window-height . 0.4)))
+	     `(,(rx bos "*helm" (* not-newline) "*" eos)
+	       (display-buffer-in-side-window)
+	       (inhibit-same-window . t)
+	       (window-height . 0.4)))

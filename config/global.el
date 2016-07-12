@@ -22,8 +22,8 @@
       `((".*" ,temporary-file-directory t)))
 
 (if (eq system-type 'gnu/linux)
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome-stable"))
+    (setq browse-url-browser-function 'browse-url-generic
+	  browse-url-generic-program "google-chrome-stable"))
 
 (use-package ample-theme
   :ensure t

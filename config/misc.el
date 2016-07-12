@@ -38,6 +38,6 @@
   (add-hook 'js2-mode-hook #'smartparens-mode))
 
 (use-package w3m
-    :ensure t)
+  :ensure t)
 
 

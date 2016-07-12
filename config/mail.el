@@ -33,22 +33,22 @@
 ;; the 'All Mail' folder by pressing ``ma''.
 
 (setq mu4e-maildir-shortcuts
-    '( ("/INBOX"               . ?i)
-       ("/[Icloud].Sent Mail"   . ?s)
-       ("/[Icloud].Trash"       . ?t)
-       ("/[Icloud].All Mail"    . ?a)))
+      '( ("/INBOX"               . ?i)
+	 ("/[Icloud].Sent Mail"   . ?s)
+	 ("/[Icloud].Trash"       . ?t)
+	 ("/[Icloud].All Mail"    . ?a)))
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap")
 
 ;; something about ourselves
 (setq
-   user-mail-address "peter.zky@icloud.com"
-   user-full-name  "Peter Zheng"
-   mu4e-compose-signature
-    (concat
-      "Peter Zheng "
-      "peter.zky@icloud.com"))
+ user-mail-address "peter.zky@icloud.com"
+ user-full-name  "Peter Zheng"
+ mu4e-compose-signature
+ (concat
+  "Peter Zheng "
+  "peter.zky@icloud.com"))
 
 ;; sending mail -- replace USERNAME with your gmail username
 ;; also, make sure the gnutls command line utils are installed
@@ -56,13 +56,13 @@
 
 (require 'smtpmail)
 (setq message-send-mail-function 'smtpmail-send-it
-   starttls-use-gnutls t
-   smtpmail-starttls-credentials '(("smtp.mail.me.com" 587 nil nil))
-   smtpmail-auth-credentials
-     '(("smtp.mail.me.com" 587 "peter.zky" nil))
-   smtpmail-default-smtp-server "smtp.mail.me.com"
-   smtpmail-smtp-server "smtp.mail.me.com"
-   smtpmail-smtp-service 587)
+      starttls-use-gnutls t
+      smtpmail-starttls-credentials '(("smtp.mail.me.com" 587 nil nil))
+      smtpmail-auth-credentials
+      '(("smtp.mail.me.com" 587 "peter.zky" nil))
+      smtpmail-default-smtp-server "smtp.mail.me.com"
+      smtpmail-smtp-server "smtp.mail.me.com"
+      smtpmail-smtp-service 587)
 
 ;; alternatively, for emacs-24 you can use:
 ;;(setq message-send-mail-function 'smtpmail-send-it

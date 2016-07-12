@@ -63,11 +63,11 @@
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
       evil-motion-state-tag "M"
-      evil-emacs-state-tag "E"
+      evil-emacs-state-tag  "E"
       evil-visual-state-tag "V"
-      evil-motion-state-cursor '(box "YellowGreen")
-      evil-normal-state-cursor '(box "YellowGreen")
-      evil-insert-state-cursor '(bar "#F86155")
-      evil-emacs-state-cursor '(bar "SkyBlue2")
-      evil-visual-state-cursor '(box "gray")
+      evil-motion-state-cursor	'(box "YellowGreen")
+      evil-normal-state-cursor	'(box "YellowGreen")
+      evil-insert-state-cursor	'(bar "#F86155")
+      evil-emacs-state-cursor	'(bar "SkyBlue2")
+      evil-visual-state-cursor	'(box "gray")
       )
