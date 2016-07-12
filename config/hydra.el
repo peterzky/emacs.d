@@ -9,6 +9,6 @@
     ("s" evil-mc-skip-and-goto-next-cursor "skip")
     )
   (evil-leader/set-key
-    "c" 'hydra-mc/body)
+    "m" 'hydra-mc/body)
   )
 

@@ -15,7 +15,7 @@
     "7" 'select-window-7
     "8" 'select-window-8
     "9" 'select-window-9
-    "0" 'select-window-0))
+    ))
 
 (use-package popwin
   :ensure t

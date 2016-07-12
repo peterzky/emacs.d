@@ -1,7 +1,7 @@
 (require 'mu4e)
 
 (evil-leader/set-key
-  "m" 'mu4e)
+  "0" 'mu4e)
 
 (add-to-list 'mu4e-view-actions
 	     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
