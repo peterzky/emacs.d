@@ -6,7 +6,8 @@
   :mode "\\.js\\'"
   :interpreter "node"
   :config
-  (add-hook 'js2-mode-hook (lambda () (tern-mode t))))
+  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  )
 
 (use-package emmet-mode
   :ensure t)
@@ -20,3 +21,5 @@
 ;;jsx mode  
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+
+(evil-define-key 'normal js2-mode-map (kbd "gd") 'tern-find-definition)
