@@ -67,5 +67,5 @@
       evil-normal-state-cursor '(box "YellowGreen")
       evil-insert-state-cursor '(bar "#F86155")
       evil-emacs-state-cursor '(bar "SkyBlue2")
-      evil-visual-state-cursor '(box "White")
+      evil-visual-state-cursor '(box "gray")
       )
