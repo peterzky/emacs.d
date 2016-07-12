@@ -11,13 +11,22 @@
   (evil-leader/set-key
     "m" 'hydra-mc/body)
 
-  (defhydra hydra-nr ()
+  (defhydra hydra-nr (:exit t)
     "narrow state"
+    ("r" narrow-to-region "region")
     ("n" narrow-to-region "region")
-    ("w" widen "widen")
+    ("w" peter/widen "widen")
     ("s" org-narrow-to-subtree "org tree")
+    ("d" peter/narrow-to-defun "defun")
   )
   (evil-leader/set-key
     "n" 'hydra-nr/body)
 
+  (defhydra hydra-frame ()
+    ("z" make-frame "new frame")
+    ("d" delete-frame"delete frame")
+    ("n" other-frame "switch frame")
+    )
+  (evil-leader/set-key
+    "z" 'hydra-frame/body)
 )

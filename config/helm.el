@@ -15,11 +15,13 @@
   (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
   (global-set-key (kbd "s-x") 'helm-M-x)
   (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-<tab>") 'helm-mini)
+  ;; (global-set-key (kbd "M-<tab>") 'helm-mini)
+  (global-set-key (kbd "s-`") 'helm-mini)
   (evil-leader/set-key
     "s" 'helm-occur
     "r" 'helm-show-kill-ring
-    "bb" 'helm-mini))
+    "bb" 'helm-mini
+    "`" 'helm-mini))
 
 (use-package helm-ag
   :ensure t

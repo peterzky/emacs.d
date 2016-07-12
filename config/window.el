@@ -24,6 +24,7 @@
   (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
   (push '("*Warnings*" :regexp nil) popwin:special-display-config)
   (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
+  (push '("*undo tree*" :regexp nil) popwin:special-display-config)
   (popwin-mode 1))
 
 ;; helm alway at bottom
@@ -32,3 +33,5 @@
 	       (display-buffer-in-side-window)
 	       (inhibit-same-window . t)
 	       (window-height . 0.4)))
+
+(global-set-key (kbd "M-`") 'other-frame)

@@ -2,7 +2,22 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("interface emacs" 0 15
+(("evil.el"
+ (filename . "~/.emacs.d/config/evil.el")
+ (front-context-string . "\n(use-package ev")
+ (rear-context-string)
+ (position . 1))
+("helm.el"
+ (filename . "~/.emacs.d/config/helm.el")
+ (front-context-string . "(use-package hel")
+ (rear-context-string)
+ (position . 1))
+("spaceline-segments.el"
+ (filename . "~/.emacs.d/elpa/spaceline-20160614.626/spaceline-segments.el")
+ (front-context-string . ";;; spaceline-se")
+ (rear-context-string)
+ (position . 1))
+#1=(#("interface emacs" 0 15
       (bmkp-full-record #1#))
     (end-position . 1451)
     (filename . "~/.emacs.d/config/interface.el")

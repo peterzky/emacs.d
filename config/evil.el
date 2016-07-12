@@ -33,9 +33,9 @@
     "ws" 'peter/split-vertically
     "wd" 'delete-window
     "fed" 'peter/edit-config-file
-    "zz" 'delete-frame
+    ;; "zz" 'delete-frame
     "cl" 'evilnc-comment-or-uncomment-lines
-    "ESC" 'delete-other-windows
+    ;; "ESC" 'delete-other-windows
     "TAB" 'peter/switch-buffer)
   )
 

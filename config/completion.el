@@ -19,6 +19,7 @@
   (evil-leader/set-key
     "yn" 'yas-new-snippet
     "ye" 'yas/visit-snippet-file
+    "yl" 'yas/describe-tables
     ))
 
 ;; (defun check-expansion ()

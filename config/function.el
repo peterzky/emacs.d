@@ -42,6 +42,12 @@
   (split-window-horizontally)
   (other-window 1))
 
+(defun peter/widen ()
+  "after widen scroll down"
+  (interactive)
+  (widen)
+  (scroll-down 8))
+
 ;;ERC
 (setq socks-server
       (list "My socks server" "localhost" 1080 5))
@@ -49,3 +55,20 @@
 
 (require 'socks)
 (setq erc-server-connect-function 'socks-open-network-stream)
+
+(defun peter/narrow-to-defun ()
+  "narrow function depanding on mode"
+  (interactive)
+  (let ((current-mode (message "%s" major-mode)))
+    (cond
+     ((equal current-mode "emacs-lisp-mode")
+      ( narrow-to-defun ))
+     ((or (equal current-mode "js2-mode")
+	  (equal current-mode "js2-jsx-mode")
+	  )
+      ( js2-narrow-to-defun ))
+     )))
+
+
+
+
