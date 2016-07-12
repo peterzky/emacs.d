@@ -48,6 +48,8 @@
   (evil-mode 1)
   (setq evil-insert-state-map (make-sparse-keymap))
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
+  (define-key evil-motion-state-map (kbd "<tab>") 'forward-button)
+  (define-key evil-motion-state-map (kbd "S-<tab>") 'backward-button)
   (add-to-list 'evil-motion-state-modes 'debugger-mode)
   (add-to-list 'evil-motion-state-modes 'special-mode)
   )

@@ -13,4 +13,12 @@
 (use-package org-plus-contrib
   :ensure t)
 
+(use-package deft
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "ae" 'deft)
+  (setq deft-extensions '("org"))
+  (setq deft-directory "~/btsync/notes"))
+
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))

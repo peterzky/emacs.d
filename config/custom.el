@@ -12,7 +12,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (smart-mode-line youdao-dictionary yasnippet window-numbering w3m use-package smartparens shell-pop popwin paradox org-plus-contrib org-bullets js2-mode helm-systemd helm-projectile helm-proc helm-descbinds helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
+    (helm-systemd smart-mode-line youdao-dictionary yasnippet window-numbering w3m use-package smartparens shell-pop popwin paradox org-plus-contrib org-bullets js2-mode helm-projectile helm-proc helm-descbinds helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
  '(projectile-mode-line
    (quote
     (:eval
@@ -38,5 +38,4 @@
  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
  '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
  '(sp-pair-overlay-face ((t nil)))
- '(spaceline-evil-insert ((t (:background "#F86155" :foreground "#3E3D31" :inherit (quote mode-line)))))
- )
+ '(spaceline-evil-insert ((t (:background "#F86155" :foreground "#3E3D31" :inherit (quote mode-line))))))

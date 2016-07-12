@@ -1,15 +1,3 @@
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(menu-bar-mode -1)
-
-(tool-bar-mode -1)
-;; help window auto-focus
-(setq help-window-select t) 
-
-(scroll-bar-mode -1)
-
-(add-to-list 'default-frame-alist
-	     '(font . "Bitstream Vera Sans Mono-11"))
 (setq load-prefer-newer t)
 
 (require 'package)
@@ -31,40 +19,6 @@
   (require 'diminish)             
   (require 'bind-key))
 
-;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-(if (eq system-type 'gnu/linux)
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome-stable"))
-
-(use-package ample-theme
-  :ensure t
-  :config
-  (load-theme 'ample t))
-
-(line-number-mode -1)
-
-(require 'spaceline-config)
-(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-(setq powerline-default-separator nil)
-(setq spaceline-minor-modes-separator nil)
-(spaceline-spacemacs-theme)
-(spaceline-helm-mode)
-(spaceline-info-mode)
-(spaceline-toggle-buffer-modified-on)
-(spaceline-toggle-selection-info-on)
-(spaceline-toggle-buffer-size-off)
-(spaceline-toggle-version-control-on)
-(spaceline-toggle-window-number-off)
-(spaceline-toggle-buffer-encoding-abbrev-off)
-(spaceline-toggle-info-topic-on)
-
-(setq evil-mc-mode-line-prefix "¢")
-
 (setq custom-file "~/.emacs.d/config/custom.el")
 
 (load custom-file)
@@ -73,6 +27,8 @@
 
 
 (defvar peter/config-files (list
+			    'global
+			    'mode-line
 			    'function
 			    'evil
 			    'org

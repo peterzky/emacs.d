@@ -34,6 +34,7 @@
 (use-package helm-systemd
     :ensure t
     :config
+    (setq helm-systemd-buffer-name "*Systemd log*")
     (evil-leader/set-key
       "ad" 'helm-systemd))
 

@@ -2,7 +2,7 @@
   :ensure t
   :config
   (evil-leader/set-key
-    "SPC" 'avy-goto-char-2))
+    "SPC" 'avy-goto-word-0))
 
 (global-set-key (kbd "s-/") 'dabbrev-expand)
 
