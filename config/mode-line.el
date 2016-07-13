@@ -33,11 +33,11 @@
   (cond
    ((buffer-modified-p)
     (if buffer-read-only
-	(propertize "R" 'face '(:foreground "blue"))
-      (propertize "M" 'face '(:foreground "dark red")))
+	(propertize "R" 'face '(:foreground "#1F3A93"))
+      (propertize "M" 'face '(:foreground "#CF000F")))
     )
    (buffer-read-only
-    (propertize "R" 'face '(:foreground "blue"))
+    (propertize "R" 'face '(:foreground "#1F3A93"))
     ))
   )
 

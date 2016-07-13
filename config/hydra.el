@@ -5,7 +5,7 @@
     "muti-cursor"
     ("n" evil-mc-make-and-goto-next-match "next")
     ("p" evil-mc-skip-and-goto-prev-cursor "previous")
-    ("d" evil-mc-undo-all-cursors "delete all")
+    ("d" evil-mc-undo-all-cursors "delete all" :exit t)
     ("s" evil-mc-skip-and-goto-next-cursor "skip")
     )
   (evil-leader/set-key

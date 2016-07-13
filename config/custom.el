@@ -28,4 +28,6 @@
  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
  '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
  '(sp-pair-overlay-face ((t nil)))
- '(spaceline-evil-insert ((t (:background "YellowGreen" :foreground "#3E3D31" :inherit (quote mode-line))))))
+ '(spaceline-evil-emacs ((t (:background "#3A539B" :foreground "#D2D7D3" :inherit (quote mode-line)))))
+ '(spaceline-evil-insert ((t (:background "YellowGreen" :foreground "#3E3D31" :inherit (quote mode-line)))))
+ '(spaceline-evil-motion ((t (:background "#663399" :foreground "#D2D7D3" :inherit (quote mode-line))))))
