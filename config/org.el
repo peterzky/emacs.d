@@ -16,6 +16,7 @@
 (use-package deft
   :ensure t
   :config
+  (evil-set-initial-state 'deft-mode 'emacs)
   (evil-leader/set-key
     "ae" 'deft)
   (setq deft-extensions '("org"))

@@ -51,3 +51,4 @@
 	     (mapcar 'symbol-name peter/config-files)))
 
 (put 'narrow-to-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
