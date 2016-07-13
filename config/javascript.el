@@ -1,7 +1,10 @@
+(use-package json-mode
+    :ensure t
+    :config)
+
 (use-package web-beautify
   :ensure t
-  :config
-  )
+  :config)
 
 
 (use-package tern
@@ -24,6 +27,7 @@
 (add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert nil)))
 
 ;;jsx mode  
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))

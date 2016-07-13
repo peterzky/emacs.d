@@ -29,11 +29,17 @@
 		  (projectile-project-name))))))
 
 (spaceline-define-segment buffer-modified
-  "test"
-  (when (buffer-modified-p)
-  (propertize "Ⲙ" 'face '(:foreground "dark red")))
-  ;; :face ((t
-  ;; 	  (:inherit 'default-face :foreground "dark red")))
+  "buffer modified indicator Ⲙ"
+  (cond
+   ((buffer-modified-p)
+    (if buffer-read-only
+	(propertize "R" 'face '(:foreground "blue" :weight "bold"))
+      (propertize "M" 'face '(:foreground "dark red" :weight "bold")))
+    )
+   (buffer-read-only
+    (propertize "R" 'face '(:foreground "blue" :weight "bold"))
+    ))
   )
+
 
 (spaceline-compile)

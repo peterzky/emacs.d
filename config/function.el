@@ -61,7 +61,8 @@
   (interactive)
   (let ((current-mode (message "%s" major-mode)))
     (cond
-     ((equal current-mode "emacs-lisp-mode")
+     ((or (equal current-mode "emacs-lisp-mode")
+	  (equal current-mode "lisp-interaction-mode"))
       ( narrow-to-defun ))
      ((or (equal current-mode "js2-mode")
 	  (equal current-mode "js2-jsx-mode")
