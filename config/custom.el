@@ -10,7 +10,7 @@
  '(cfs-disable-italic t)
  '(package-selected-packages
    (quote
-    (spaceline rainbow-mode helm-systemd smart-mode-line youdao-dictionary yasnippet window-numbering w3m use-package smartparens shell-pop popwin paradox org-plus-contrib org-bullets js2-mode helm-projectile helm-proc helm-descbinds helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
+    (json-mode web-beautify spaceline rainbow-mode helm-systemd smart-mode-line youdao-dictionary yasnippet window-numbering w3m use-package smartparens shell-pop popwin paradox org-plus-contrib org-bullets js2-mode helm-projectile helm-proc helm-descbinds helm-ag evil-surround evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode elfeed deft company-tern chinese-pyim-greatdict chinese-pyim chinese-fonts-setup bookmark+ avy auto-compile ample-theme)))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"
