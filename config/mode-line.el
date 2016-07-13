@@ -13,7 +13,7 @@
   (spaceline-toggle-buffer-size-off)
   (spaceline-toggle-version-control-on)
   (spaceline-toggle-window-number-off)
-  (spaceline-toggle-buffer-encoding-abbrev-off)
+  (spaceline-toggle-buffer-encoding-abbrev-on)
   (spaceline-toggle-info-topic-on)
   )
 
