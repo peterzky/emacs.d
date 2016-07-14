@@ -15,8 +15,6 @@
   (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
   (global-set-key (kbd "s-x") 'helm-M-x)
   (global-set-key (kbd "M-x") 'helm-M-x)
-  ;; (global-set-key (kbd "M-<tab>") 'helm-mini)
-  (global-set-key (kbd "s-`") 'helm-mini)
   (evil-leader/set-key
     "s" 'helm-occur
     "r" 'helm-show-kill-ring
@@ -71,7 +69,12 @@
 
 (add-hook 'helm-after-initialize-hook 'peter/hide-cursor-in-helm-buffer)
 
-;;remap tab key
-;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-;; (define-key helm-find-files-map (kbd "S-<tab>") 'helm-find-files-up-one-level)
-;; (define-key helm-find-files-map (kbd "<backtab>") 'helm-find-files-up-one-level)
+
+(defun peter/helm-toggle ()
+  "toggle helm-mini"
+  (interactive)
+  (if (helm-alive-p)
+      (helm-keyboard-quit)
+    (helm-mini)))
+
+(global-set-key (kbd "s-`") 'peter/helm-toggle)

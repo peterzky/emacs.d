@@ -65,3 +65,8 @@
 ;;   :config
 ;;   (evil-leader/set-key
 ;;     "ar" 'ranger))
+
+;;remap tab key
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+;; (define-key helm-find-files-map (kbd "S-<tab>") 'helm-find-files-up-one-level)
+;; (define-key helm-find-files-map (kbd "<backtab>") 'helm-find-files-up-one-level)
