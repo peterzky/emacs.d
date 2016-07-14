@@ -3,6 +3,7 @@
   :ensure t
   :config
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+  (setq org-default-notes-file "~/btsync/capture.org")
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
   (setq org-startup-folded nil))
@@ -12,6 +13,11 @@
 
 (use-package org-plus-contrib
   :ensure t)
+
+(use-package org-pomodoro
+  :ensure t
+  :config
+  )
 
 (use-package deft
   :ensure t
@@ -23,3 +29,4 @@
   (setq deft-directory "~/btsync/notes"))
 
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(global-set-key (kbd "\C-cc") 'org-capture)

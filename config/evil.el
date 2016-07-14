@@ -27,7 +27,7 @@
     "gg" 'customize-group
     "ff" 'helm-find-files
     "he" 'elisp-index-search
-    "nn" 'peter/open-note-file
+    "an" 'peter/open-note-file
     "qq" 'save-buffers-kill-emacs
     "wv" 'peter/split-horizontally
     "ws" 'peter/split-vertically

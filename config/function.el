@@ -14,7 +14,7 @@
 (defun peter/open-note-file ()
   "open notes.org"
   (interactive)
-  (find-file "~/btsync/notes.org"))
+  (find-file "~/btsync/capture.org"))
 
 
 (defadvice ido-find-file (after find-file-sudo activate)
@@ -47,6 +47,8 @@
   (interactive)
   (widen)
   (scroll-down 8))
+
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
 
 ;;ERC
 (setq socks-server

@@ -33,4 +33,3 @@
   :ensure t
   :config
   (load-theme 'ample t))
-
