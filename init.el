@@ -28,7 +28,7 @@
 
 (defvar peter/config-files (list
 			    'global
-			    'mode-line
+			    'ui
 			    'function
 			    'evil
 			    'org
@@ -50,5 +50,3 @@
 	       (concat peter/config-path name))
 	     (mapcar 'symbol-name peter/config-files)))
 
-(put 'narrow-to-region 'disabled nil)
-(put 'set-goal-column 'disabled nil)

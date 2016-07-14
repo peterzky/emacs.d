@@ -16,6 +16,10 @@
 
 (show-paren-mode 1)
 
+(put 'narrow-to-region 'disabled nil)
+
+(put 'set-goal-column 'disabled nil)
+
 (add-to-list 'default-frame-alist
 	     '(font . "Bitstream Vera Sans Mono-11"))
 
@@ -29,7 +33,3 @@
     (setq browse-url-browser-function 'browse-url-generic
 	  browse-url-generic-program "google-chrome-stable"))
 
-(use-package ample-theme
-  :ensure t
-  :config
-  (load-theme 'ample t))
