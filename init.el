@@ -33,7 +33,6 @@
 			    'evil
 			    'org
 			    'misc
-			    'interface
 			    'javascript
 			    'chinese
 			    'completion
