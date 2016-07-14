@@ -6,6 +6,8 @@
 
 (menu-bar-mode -1)
 
+(recentf-mode 1)
+
 (tool-bar-mode -1)
 ;; help window auto-focus
 (setq help-window-select t) 

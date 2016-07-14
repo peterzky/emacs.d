@@ -70,3 +70,8 @@
     (setq cursor-in-non-selected-windows nil)))
 
 (add-hook 'helm-after-initialize-hook 'peter/hide-cursor-in-helm-buffer)
+
+;;remap tab key
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+;; (define-key helm-find-files-map (kbd "S-<tab>") 'helm-find-files-up-one-level)
+;; (define-key helm-find-files-map (kbd "<backtab>") 'helm-find-files-up-one-level)
