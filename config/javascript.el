@@ -1,4 +1,4 @@
-(defun js-comint-kbd ()
+(defun peter/js-comint-kbd ()
   (local-set-key "\C-x\C-e" 'js-send-last-sexp)
   (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
   (local-set-key "\C-cb" 'js-send-buffer)
@@ -9,7 +9,7 @@
 (use-package js-comint 
     :ensure t
     :config
-    (add-hook 'js2-mode-hook 'js-comint-kbd)
+    (add-hook 'js2-mode-hook 'peter/js-comint-kbd)
     )
 
 (use-package json-mode
@@ -48,6 +48,7 @@
 
 (evil-define-key 'normal js2-mode-map (kbd "gd") 'tern-find-definition)
 (evil-define-key 'normal js2-mode-map (kbd "g=") 'web-beautify-js-buffer)
+(evil-define-key 'normal js2-mode-map (kbd "gp") 'run-js)
 
 
 
