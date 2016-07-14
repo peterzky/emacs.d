@@ -47,7 +47,7 @@
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
 (evil-define-key 'normal js2-mode-map (kbd "gd") 'tern-find-definition)
-(evil-define-key 'normal js2-mode-map (kbd "g=") 'web-beautify-js-buffer)
+(evil-define-key 'normal js2-mode-map (kbd "g=") 'web-beautify-js)
 (evil-define-key 'normal js2-mode-map (kbd "gp") 'run-js)
 
 
