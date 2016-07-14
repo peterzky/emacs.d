@@ -53,3 +53,13 @@
 ;;   :config
 ;;   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 ;;   )
+
+(use-package ranger
+  :ensure t
+  :config
+  (setq ranger-override-dired t)
+  (evil-leader/set-key
+    "ar" 'deer))
+
+(defadvice dired-jump (after peter/dired-to-deer activate)
+  (deer-from-dired))

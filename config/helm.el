@@ -45,6 +45,7 @@
 (use-package helm-descbinds
   :ensure t
   :config
+  (setq helm-descbinds-window-style 'same-window)
   (helm-descbinds-mode))
 
 (defun *-popwin-help-mode-off ()
@@ -61,3 +62,11 @@
 
 (add-hook 'helm-minibuffer-set-up-hook #'*-popwin-help-mode-off)
 (add-hook 'helm-cleanup-hook #'*-popwin-help-mode-on)
+
+;;fix helm cursor
+(defun peter/hide-cursor-in-helm-buffer ()
+  "Hide the cursor in helm buffers."
+  (with-helm-buffer
+    (setq cursor-in-non-selected-windows nil)))
+
+(add-hook 'helm-after-initialize-hook 'peter/hide-cursor-in-helm-buffer)
