@@ -9,7 +9,6 @@
   :defer t
   :ensure t)
 
-
 (use-package spaceline
   :ensure t
   :config

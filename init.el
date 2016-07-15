@@ -38,10 +38,10 @@
 			    'completion
 			    'window
 			    'helm
-			    'mail
 			    'festival
 			    'hydra
 			    'feed
+			    'mail
 			    ))
 
 (mapc 'load (mapcar
