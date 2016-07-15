@@ -1,8 +1,11 @@
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/theme")
+;; (load-theme 'peter-dark t)
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
                (load-theme 'ample-flat t t)
                (load-theme 'ample-light t t)
-               (enable-theme 'ample-flat))
+               (enable-theme 'ample-flat)
+	       )
   :defer t
   :ensure t)
 

@@ -28,7 +28,8 @@
   "Byte-compile all your dotfiles."
   (interactive)
   (byte-compile-file "~/.emacs.d/init.el")
-  (byte-recompile-directory "~/.emacs.d/config" 0))
+  (byte-recompile-directory "~/.emacs.d/config" 0)
+  (byte-recompile-directory "~/.emacs.d/theme" 0))
 
 (defun peter/split-vertically ()
   "Split window vertically and focus"

@@ -4,6 +4,8 @@
 
 (line-number-mode -1)
 
+;; (fringe-mode 0)
+
 (menu-bar-mode -1)
 
 (recentf-mode 1)
