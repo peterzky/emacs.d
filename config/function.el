@@ -17,7 +17,7 @@
   (find-file "~/btsync/capture.org"))
 
 
-(defadvice ido-find-file (after find-file-sudo activate)
+(defadvice find-file (after find-file-sudo activate)
   "Find file as root if necessary"
   (unless (and buffer-file-name
 	       (file-writable-p buffer-file-name))

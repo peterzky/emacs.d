@@ -26,6 +26,7 @@
     "fs" 'save-buffer
     "gg" 'customize-group
     "ff" 'helm-find-files
+    "fl" 'helm-locate
     "he" 'elisp-index-search
     "an" 'peter/open-note-file
     "qq" 'save-buffers-kill-emacs
