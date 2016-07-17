@@ -24,8 +24,8 @@
 
 (put 'set-goal-column 'disabled nil)
 
-(add-to-list 'default-frame-alist
-	     '(font . "Bitstream Vera Sans Mono-11"))
+;; (add-to-list 'default-frame-alist
+;; 	     '(font . "Bitstream Vera Sans Mono-11"))
 
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
