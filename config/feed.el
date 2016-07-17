@@ -74,6 +74,8 @@
 	  "http://hansay.com/atom.xml"
 	  "http://blog.csdn.net/liuyukuan/rss/list"
 	  "http://feeds.feedburner.com/zenhabits"
+	  "http://blog.binchen.org/rss.xml"
+	  "http://oremacs.com/atom.xml"
 	  "http://feeds.gawker.com/lifehacker/vip"))
 	)
   )
