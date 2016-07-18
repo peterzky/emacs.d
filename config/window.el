@@ -34,4 +34,4 @@
 	       (inhibit-same-window . t)
 	       (window-height . 0.4)))
 
-(global-set-key (kbd "M-`") 'other-frame)
+;; (global-set-key (kbd "M-`") 'other-frame)

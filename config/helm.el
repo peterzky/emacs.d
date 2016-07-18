@@ -77,4 +77,4 @@
       (helm-keyboard-quit)
     (helm-mini)))
 
-(global-set-key (kbd "s-`") 'peter/helm-toggle)
+(global-set-key (kbd "M-`") 'peter/helm-toggle)
