@@ -4,7 +4,7 @@
   :init (progn (load-theme 'ample t t)
                (load-theme 'ample-flat t t)
                (load-theme 'ample-light t t)
-               (enable-theme 'ample-flat)
+               (enable-theme 'ample)
 	       )
   :defer t
   :ensure t)

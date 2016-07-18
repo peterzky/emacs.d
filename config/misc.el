@@ -47,12 +47,12 @@
   ;; (add-hook 'prog-mode-hook #'rainbow-mode)
   )
 
-(use-package ranger
-  :ensure t
-  :config
-  (setq ranger-override-dired t)
-  (evil-leader/set-key
-    "ar" 'deer))
+;; (use-package ranger
+;;   :ensure t
+;;   :config
+;;   (setq ranger-override-dired t)
+;;   (evil-leader/set-key
+;;     "ar" 'deer))
 
 
 (use-package avy
