@@ -51,5 +51,7 @@
 (evil-define-key 'normal js2-mode-map (kbd "gp") 'run-js)
 
 
+;;fix smartparens curly braces issue
+(sp-local-pair 'js2-mode "{" "}" :actions '(:rem insert))
 
 
