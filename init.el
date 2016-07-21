@@ -32,6 +32,7 @@
 			    'function
 			    'evil
 			    'org
+			    'vc
 			    'misc
 			    'javascript
 			    'chinese
