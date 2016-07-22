@@ -17,12 +17,19 @@
   (find-file "~/btsync/capture.org"))
 
 
-(defadvice find-file (after find-file-sudo activate)
-  "Find file as root if necessary"
-  (unless (and buffer-file-name
-	       (file-writable-p buffer-file-name))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+;; (defadvice find-file (after find-file-sudo activate)
+;;   "Find file as root if necessary"
+;;   (unless (and buffer-file-name
+;; 	       (file-writable-p buffer-file-name))
+;; (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
+;; (defun peter/helm-sudo-find-file (orig-fun &rest args)
+;;   "find file auto sudo"
+;;   (if (file-writable-p (helm-get-selection))
+;;       (apply orig-fun args)
+;;     (helm-find-file-as-root (helm-get-selection))))
+
+;; (advice-add 'helm-maybe-exit-minibuffer :around #'peter/helm-sudo-find-file)
 
 (defun peter/compile-init ()
   "Byte-compile all your dotfiles."

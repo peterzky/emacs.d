@@ -26,6 +26,8 @@
   (evil-leader/set-key
     "ae" 'deft)
   (setq deft-extensions '("org"))
+  (setq deft-use-filename-as-title t)
+  (setq deft-default-extension "org")
   (setq deft-directory "~/btsync/notes"))
 
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))

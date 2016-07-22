@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: use-stirct
-# key: use
-# --
-'use strict';
