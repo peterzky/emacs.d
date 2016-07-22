@@ -73,3 +73,10 @@
   (evil-leader/set-key
     "pr" 'paradox-list-packages
     "pu" 'paradox-upgrade-packages))
+
+(use-package crux
+  :diminish t
+  :ensure t
+  :config
+  (crux-reopen-as-root-mode)
+  )
