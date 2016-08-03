@@ -43,6 +43,7 @@
 			    'hydra
 			    'feed
 			    'mail
+			    'sml
 			    ))
 
 (mapc 'load (mapcar
