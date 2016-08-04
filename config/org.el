@@ -6,7 +6,8 @@
   (setq org-default-notes-file "~/btsync/capture.org")
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
-  (setq org-startup-folded nil))
+  (setq org-startup-folded nil)
+  (setq org-hide-emphasis-markers t))
 
 (use-package org-bullets
   :ensure t)
