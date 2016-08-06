@@ -31,6 +31,9 @@
 
 ;; (advice-add 'helm-maybe-exit-minibuffer :around #'peter/helm-sudo-find-file)
 
+;; close window after kill buffer command
+(advice-add 'kill-this-buffer :after #'delete-window)
+
 (defun peter/compile-init ()
   "Byte-compile all your dotfiles."
   (interactive)
