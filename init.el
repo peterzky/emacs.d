@@ -31,6 +31,7 @@
 			    'ui
 			    'function
 			    'evil
+			    'doc
 			    'org
 			    'vc
 			    'misc
