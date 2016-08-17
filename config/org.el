@@ -34,3 +34,9 @@
 
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (global-set-key (kbd "\C-cc") 'org-capture)
+
+(defun peter/org-mode-config ()
+  "org mode key bindings"
+  (local-set-key (kbd "C-c l") 'org-pomodoro))
+
+(add-hook 'org-mode-hook 'peter/org-mode-config)
