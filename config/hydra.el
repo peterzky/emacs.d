@@ -29,4 +29,14 @@
     )
   (evil-leader/set-key
     "z" 'hydra-frame/body)
+
+  (defhydra hydra-window-resize ()
+    ("j" shrink-window "down")
+    ("k" enlarge-window "up")
+    ("h" shrink-window-horizontally "left")
+    ("l" enlarge-window-horizontally "right")
+    ("=" balance-windows "balance")
+    )
+  (evil-leader/set-key
+    "wr" 'hydra-window-resize/body)
 )
