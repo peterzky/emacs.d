@@ -31,8 +31,8 @@
   (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
   (add-hook 'js2-mode-hook #'smartparens-mode))
 
-(use-package w3m
-  :ensure t)
+;; (use-package w3m
+;;   :ensure t)
 
 (use-package rainbow-mode
   :diminish t

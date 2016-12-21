@@ -13,4 +13,11 @@ quick fix : rename buffer names in package file
 rename ~*helm systemd*~ to ~*systemd*~
 rename ~*helm systemd log*~ to ~*systemd log*~
 
+* on Linux
+  packages 
+  #+BEGIN_QUOTE
+  the_silver_searcher #ag searcher
+  aspell-en #spell checker
+  #+END_QUOTE
    
+

@@ -39,11 +39,11 @@
 			    'completion
 			    'window
 			    'helm
-			    'festival
+			    ;; 'festival
 			    'hydra
-			    'feed
-			    'mail
-			    'sml
+			    ;; 'feed
+			    ;; 'mail
+			    ;; 'sml
 			    ))
 
 (mapc 'load (mapcar
