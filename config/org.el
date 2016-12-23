@@ -4,6 +4,7 @@
   :config
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
   (setq org-default-notes-file "~/btsync/capture.org")
+  (setq org-agenda-files (list "~/btsync/capture.org"))
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
   (setq org-startup-folded nil)
@@ -34,6 +35,7 @@
 
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (global-set-key (kbd "\C-cc") 'org-capture)
+(global-set-key (kbd "\C-ca") 'org-agenda)
 
 (defun peter/org-mode-config ()
   "org mode key bindings"
