@@ -39,6 +39,7 @@
 			    'completion
 			    'window
 			    'helm
+			    'golang
 			    ;; 'festival
 			    'hydra
 			    ;; 'feed
