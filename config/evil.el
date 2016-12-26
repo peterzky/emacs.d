@@ -34,6 +34,7 @@
     "ws" 'peter/split-vertically
     "wd" 'delete-window
     "fed" 'peter/edit-config-file
+    "fee" 'peter/open-config-folder
     ;; "zz" 'delete-frame
     "cl" 'evilnc-comment-or-uncomment-lines
     ;; "ESC" 'delete-other-windows

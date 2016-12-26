@@ -11,6 +11,11 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
+(defun peter/open-config-folder ()
+  "open config folder"
+  (interactive)
+  (find-file "~/.emacs.d/config/"))
+
 (defun peter/open-note-file ()
   "open notes.org"
   (interactive)
