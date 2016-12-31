@@ -54,5 +54,5 @@
     ("q" nil "quit"))
   (add-hook 'artist-mode-hook
 	    (lambda ()
-	      (local-set-key (kbd "C-c C-c") 'hydra-artist-mode/body)))
+	      (local-set-key (kbd "C-c C-s") 'hydra-artist-mode/body)))
 )
