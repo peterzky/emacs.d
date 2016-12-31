@@ -39,4 +39,20 @@
     )
   (evil-leader/set-key
     "wr" 'hydra-window-resize/body)
+
+  ;; hydra mode that not exit after other activites
+  (defhydra hydra-artist-mode (:foreign-keys run)
+    ("s" artist-select-op-straight-line "line" )
+    ("r" artist-select-op-rectangle "rectangle")
+    ("R" artist-select-op-square "squares")
+    ("a" artist-select-op-poly-line "poly-lines")
+    ("S" artist-select-op-straight-poly-line "straight poly-lines")
+    ("e" artist-select-op-ellipse "drawing ellipses")
+    ("c" artist-select-op-circle "drawing circles")
+    ("y" artist-select-op-cut-rectangle "cutting rectangles")
+    ("p" artist-select-op-copy-rectangle "copying rectangles")
+    ("q" nil "quit"))
+  (add-hook 'artist-mode-hook
+	    (lambda ()
+	      (local-set-key (kbd "C-c C-c") 'hydra-artist-mode/body)))
 )

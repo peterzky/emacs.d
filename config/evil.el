@@ -78,3 +78,12 @@
     ;; (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
     ;; (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
     )
+
+
+;; enter emacs state when artist mode is activated.
+(defun artist-mode-toggle-emacs-state ()
+  (if artist-mode
+      (evil-emacs-state)
+    (evil-exit-emacs-state)))
+
+(add-hook 'artist-mode-hook #'artist-mode-toggle-emacs-state)
