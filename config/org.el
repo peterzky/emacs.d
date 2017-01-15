@@ -3,8 +3,8 @@
   :ensure t
   :config
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
-  (setq org-default-notes-file "~/btsync/capture.org")
-  (setq org-agenda-files (list "~/btsync/capture.org"))
+  (setq org-default-notes-file "~/Sync/capture.org")
+  (setq org-agenda-files (list "~/Sync/capture.org"))
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
   (setq org-startup-folded nil)
@@ -31,7 +31,7 @@
   (setq deft-extensions '("org"))
   (setq deft-use-filename-as-title nil)
   (setq deft-default-extension "org")
-  (setq deft-directory "~/btsync/notes"))
+  (setq deft-directory "~/Sync/notes"))
 
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 (global-set-key (kbd "\C-cc") 'org-capture)
