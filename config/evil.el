@@ -29,7 +29,8 @@
     "fl" 'helm-locate
     "he" 'elisp-index-search
     "an" 'peter/open-note-file
-    "qq" 'save-buffers-kill-emacs
+    "qq" 'delete-frame
+    "qQ" 'save-buffers-kill-emacs
     "wv" 'peter/split-horizontally
     "ws" 'peter/split-vertically
     "wd" 'delete-window

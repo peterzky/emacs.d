@@ -23,8 +23,8 @@
     "n" 'hydra-nr/body)
 
   (defhydra hydra-frame ()
-    ("z" make-frame "new frame")
-    ("d" delete-frame"delete frame")
+    ("d" make-frame "new frame")
+    ("z" delete-frame"delete frame")
     ("n" other-frame "switch frame")
     )
   (evil-leader/set-key
