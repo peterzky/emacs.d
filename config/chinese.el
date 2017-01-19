@@ -4,23 +4,28 @@
   (evil-leader/set-key
     "oo" 'youdao-dictionary-search-at-point+))
 
-(use-package chinese-pyim-greatdict
-  :ensure t)
+;; (use-package chinese-pyim-greatdict
+;;   :ensure t)
 
-(use-package chinese-pyim
+;; (use-package chinese-pyim
+;;   :ensure t
+;;   :config
+;;   (chinese-pyim-greatdict-enable)
+;;   ;; (setq pyim-use-tooltip 'popup)
+;;   ;; (setq pyim-enable-words-predict nil)
+;;   ;;Linux use GTK
+;;   (setq pyim-page-tooltip 'pos-tip)
+;;   (setq x-gtk-use-system-tooltips t)
+;;   )
+
+;; (setq default-input-method "chinese-pyim")
+;; (global-set-key (kbd "C-\\") 'toggle-input-method)
+
+;; ;; (use-package chinese-fonts-setup
+;; ;;   :ensure t
+;; ;;   :config) 
+
+(use-package fcitx
   :ensure t
   :config
-  (chinese-pyim-greatdict-enable)
-  ;; (setq pyim-use-tooltip 'popup)
-  ;; (setq pyim-enable-words-predict nil)
-  ;;Linux use GTK
-  (setq pyim-page-tooltip 'pos-tip)
-  (setq x-gtk-use-system-tooltips t)
-  )
-
-(setq default-input-method "chinese-pyim")
-(global-set-key (kbd "C-\\") 'toggle-input-method)
-
-;; (use-package chinese-fonts-setup
-;;   :ensure t
-;;   :config) 
+  (fcitx-default-setup))
