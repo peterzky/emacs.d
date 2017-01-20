@@ -1,3 +1,6 @@
+;; install gogoc go get -u github.com/nsf/gocode
+;; install goimports go get golang.org/x/tools/cmd/goimports
+
 (use-package company-go
   :ensure t
   :init
