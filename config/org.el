@@ -38,7 +38,7 @@
 (global-set-key (kbd "\C-ca") 'org-agenda)
 
 (defun peter/org-mode-config ()
-  "org mode key bindings"
-  (local-set-key (kbd "C-c l") 'org-pomodoro))
+  "org mode key bindings")
+  ;; (local-set-key (kbd "C-c l") 'org-pomodoro))
 
 (add-hook 'org-mode-hook 'peter/org-mode-config)
