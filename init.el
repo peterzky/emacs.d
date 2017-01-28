@@ -45,6 +45,7 @@
 			    ;; 'feed
 			    ;; 'mail
 			    ;; 'sml
+			    'haskell
 			    ))
 
 (mapc 'load (mapcar
