@@ -12,9 +12,10 @@
  '(custom-safe-themes
    (quote
     ("19addfa172776b89c3586a8bdf86eb49ff64315d5a171e59e563e022d76c1f83" "9510184026d50bad57007bb4912395fef4625c4473c1b0ba721757c2764ff90a" "fe477b3a40d9ce7e34c246b91d8af99db4b925fb1704d263ba4af63c031619d4" "558a826e87956525532923c45820bc63740cd146fd2cbb5a4dd1ba7bc21de513" "4ddda82f297c0cb74063e1dcb532a994ba6d38d5872166cee5d734b632164c2c" "4f7a687093ddd680a4d9c41555fece2b395cc41378c21a72d65411c4d2e4a4ef" "0b6645497e51d80eda1d337d6cabe31814d6c381e69491931a688836c16137ed" default)))
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t) (shell . t))))
  '(package-selected-packages
    (quote
-    (chinese-pyim chinese-pyim-greatdict go-eldoc company-go helm-descbinds helm-systemd helm-projectile helm-ag helm popwin window-numbering yasnippet company-tern youdao-dictionary emmet-mode js2-mode tern web-beautify json-mode js-comint crux paradox shell-pop avy rainbow-mode smartparens projectile auto-compile git-timemachine deft org-pomodoro org-plus-contrib org-bullets evil-numbers evil-mc evil-leader evil-surround evil-nerd-commenter evil-magit spaceline ample-theme use-package)))
+    (scion chinese-pyim chinese-pyim-greatdict go-eldoc company-go helm-descbinds helm-systemd helm-projectile helm-ag helm popwin window-numbering yasnippet company-tern youdao-dictionary emmet-mode js2-mode tern web-beautify json-mode js-comint crux paradox shell-pop avy rainbow-mode smartparens projectile auto-compile git-timemachine deft org-pomodoro org-plus-contrib org-bullets evil-numbers evil-mc evil-leader evil-surround evil-nerd-commenter evil-magit spaceline ample-theme use-package)))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"
