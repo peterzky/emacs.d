@@ -21,6 +21,9 @@
   (interactive)
   (find-file "~/btsync/capture.org"))
 
+(defun peter/recompile-all-packages ()
+  (interactive)
+  (byte-recompile-directory package-user-dir nil 'force))
 
 ;; (defadvice find-file (after find-file-sudo activate)
 ;;   "Find file as root if necessary"
