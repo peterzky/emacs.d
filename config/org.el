@@ -36,6 +36,8 @@
     "ae" 'deft)
   (setq deft-extensions '("org"))
   (setq deft-use-filename-as-title nil)
+  (setq deft-use-filter-string-for-filename t)
+  (setq deft-org-mode-title-prefix t)
   (setq deft-default-extension "org")
   (setq deft-directory "~/Nextcloud/notes"))
 
