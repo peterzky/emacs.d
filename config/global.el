@@ -16,7 +16,7 @@
 
 (scroll-bar-mode -1)
 
-(semantic-mode 1)
+;; (semantic-mode 1)
 
 (show-paren-mode 1)
 

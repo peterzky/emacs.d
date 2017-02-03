@@ -21,7 +21,9 @@
   (evil-leader/set-key
     "op" 'org-mobile-push
     "oP" 'org-mobile-pull
-    "aa" 'org-todo-list))
+    "aa" 'org-todo-list
+    "ac" 'org-capture
+    ))
 
 (use-package org-bullets
   :ensure t)
