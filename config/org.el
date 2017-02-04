@@ -12,8 +12,8 @@
   (setq org-src-fontify-natively t)
   (setq org-startup-folded nil)
   (setq org-hide-emphasis-markers t)
-  (setq org-refile-targets '((nil :maxlevel . 9)
-                                (org-agenda-files :maxlevel . 9)))
+  (setq org-refile-targets '((nil :maxlevel . 2)
+                                (org-agenda-files :maxlevel . 2)))
   ;; Refile in a single go
   (setq org-outline-path-complete-in-steps nil)         
   ;; Show full paths for refiling
