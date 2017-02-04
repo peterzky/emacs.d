@@ -82,7 +82,7 @@
   )
 
 
-(use-package systemd-mode
+(use-package systemd
   :ensure t
   :config
   )
