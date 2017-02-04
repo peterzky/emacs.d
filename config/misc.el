@@ -38,7 +38,8 @@
   :diminish t
   :ensure t
   :config
-  ;; (add-hook 'prog-mode-hook #'rainbow-mode)
+  (add-hook 'prog-mode-hook #'rainbow-mode)
+  (add-hook 'conf-xdefaults-mode-hook #'rainbow-mode)
   )
 
 
