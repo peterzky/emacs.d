@@ -26,7 +26,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(bold ((t (:foreground "firebrick" :weight bold))))
  '(evil-mc-cursor-default-face ((t (:background "blue violet" :inverse-video nil))))
+ '(italic ((t (:foreground "lime green" :slant italic))))
+ '(org-code ((t (:inherit shadow :foreground "dark orange"))))
  '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))

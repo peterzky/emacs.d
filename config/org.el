@@ -3,6 +3,7 @@
   :ensure t
   :config
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+  (setq org-startup-indented t)
   (setq org-default-notes-file "~/Nextcloud/org/capture.org")
   (setq org-agenda-files (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes"))
   (setq org-directory "~/Nextcloud/org")
