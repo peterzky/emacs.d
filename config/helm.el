@@ -19,6 +19,7 @@
     "s" 'helm-occur
     "r" 'helm-show-kill-ring
     "bb" 'helm-mini
+    "i" 'helm-imenu
     "`" 'helm-mini))
 
 (use-package helm-ag
