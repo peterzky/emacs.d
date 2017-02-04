@@ -80,3 +80,19 @@
   :config
   (crux-reopen-as-root-mode)
   )
+
+;; (use-package hungry-delete
+;;   :ensure t
+;;   :config
+;;   (global-hungry-delete-mode)
+;;   )
+
+(use-package expand-region
+  :ensure t
+  :config
+  (global-set-key (kbd "C-=") 'er/expand-region)
+  )
+
+;; spell check world
+
+(global-set-key (kbd "C-\\") 'ispell-word)
