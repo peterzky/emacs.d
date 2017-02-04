@@ -81,6 +81,11 @@
   (crux-reopen-as-root-mode)
   )
 
+
+(use-package systemd-mode
+  :ensure t
+  :config
+  )
 ;; (use-package hungry-delete
 ;;   :ensure t
 ;;   :config
