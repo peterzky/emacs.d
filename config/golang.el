@@ -1,3 +1,5 @@
+;;; Package -- Summary
+;;; 
 ;; install gogoc go get -u github.com/nsf/gocode
 ;; install goimports go get golang.org/x/tools/cmd/goimports
 
@@ -33,3 +35,13 @@
 (evil-define-key 'normal go-mode-map (kbd "g=") 'gofmt)
 
 (setq exec-path (append exec-path '("/home/peterzky/golang/bin")))
+
+;; go get -u github.com/alecthomas/gometalinter
+;; gometalinter --install
+(use-package flycheck-gometalinter
+  :ensure t
+  :config
+  (flycheck-gometalinter-setup)
+  )
+
+(global-set-key (kbd "<f2>") 'flycheck-mode)
