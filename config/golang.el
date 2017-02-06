@@ -34,7 +34,7 @@
 (evil-define-key 'normal go-mode-map (kbd "gd") 'godoc-at-point)
 (evil-define-key 'normal go-mode-map (kbd "g=") 'gofmt)
 
-(setq exec-path (append exec-path '("/home/peterzky/golang/bin")))
+;; (setq exec-path (append exec-path '("/home/peterzky/golang/bin")))
 
 ;; go get -u github.com/alecthomas/gometalinter
 ;; gometalinter --install

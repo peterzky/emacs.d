@@ -1,3 +1,7 @@
+;;; Package --- Summary
+;;; Commentary:
+;;; init.el
+;;; Code:
 (setq load-prefer-newer t)
 
 (require 'package)
@@ -16,7 +20,7 @@
 
 (eval-when-compile
   (require 'use-package)
-  (require 'diminish)             
+  (require 'diminish)
   (require 'bind-key))
 
 (setq custom-file "~/.emacs.d/config/custom.el")
