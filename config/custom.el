@@ -4,6 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(Man-notify-method (quote pushy))
+ '(godoc-at-point-function (quote godoc-gogetdoc))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t) (shell . t))))
  '(package-selected-packages
    (quote

@@ -1,8 +1,9 @@
 ;;; Package -- Summary
-;;; 
+;;; Commentary:
 ;; install gogoc go get -u github.com/nsf/gocode
 ;; install goimports go get golang.org/x/tools/cmd/goimports
 
+;;; Code:
 (use-package company-go
   :ensure t
   :init
@@ -31,8 +32,8 @@
 ;; (advice-add 'godoc :after #'other-window)
 ;; (add-function :after (godoc-at-point point) #'peter/other-window)
 
-(evil-define-key 'normal go-mode-map (kbd "gd") 'godoc-at-point)
-(evil-define-key 'normal go-mode-map (kbd "g=") 'gofmt)
+;; (evil-define-key 'normal go-mode-map (kbd "gd") 'godoc-at-point)
+;; (evil-define-key 'normal go-mode-map (kbd "g=") 'gofmt)
 
 (setq exec-path (append exec-path '("/home/peterzky/golang/bin")))
 
@@ -44,4 +45,5 @@
   (flycheck-gometalinter-setup)
   )
 
-(global-set-key (kbd "<f2>") 'flycheck-mode)
+(provide 'peter/golang)
+;;; golang.el ends here
