@@ -102,3 +102,8 @@
 ;; spell check world
 
 (global-set-key (kbd "C-\\") 'ispell-word)
+
+(use-package info+
+  :ensure t
+  :config
+  )

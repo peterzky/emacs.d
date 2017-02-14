@@ -8,7 +8,7 @@
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t) (shell . t))))
  '(package-selected-packages
    (quote
-    (flycheck-gometalinter systemd youdao-dictionary yasnippet window-numbering web-beautify use-package spaceline smartparens shell-pop scion rainbow-mode pp-c-l popwin paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint hungry-delete helm-systemd helm-projectile helm-descbinds helm-ag haskell-mode graphviz-dot-mode go-eldoc git-timemachine fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode deft crux company-tern company-go chinese-pyim-greatdict chinese-pyim avy auto-compile ample-theme)))
+    (info+ flycheck-gometalinter systemd youdao-dictionary yasnippet window-numbering web-beautify use-package spaceline smartparens shell-pop scion rainbow-mode pp-c-l popwin paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint hungry-delete helm-systemd helm-projectile helm-descbinds helm-ag haskell-mode graphviz-dot-mode go-eldoc git-timemachine fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode deft crux company-tern company-go chinese-pyim-greatdict chinese-pyim avy auto-compile ample-theme)))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"
@@ -21,6 +21,8 @@
  ;; If there is more than one, they won't work right.
  '(bold ((t (:foreground "firebrick" :weight bold))))
  '(evil-mc-cursor-default-face ((t (:background "blue violet" :inverse-video nil))))
+ '(info-quoted-name ((t (:inherit font-lock-string-face :foreground "DarkOrange2"))))
+ '(info-single-quote ((t (:inherit font-lock-keyword-face :foreground "dark violet"))))
  '(italic ((t (:foreground "peru" :slant italic))))
  '(org-code ((t (:inherit shadow :foreground "dark orange"))))
  '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
