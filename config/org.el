@@ -61,8 +61,12 @@
 (global-set-key (kbd "\C-cc") 'org-capture)
 (global-set-key (kbd "\C-ca") 'org-agenda)
 
-(defun peter/org-mode-config ()
-  "org mode key bindings")
-  ;; (local-set-key (kbd "C-c l") 'org-pomodoro))
+(defun peter/agenda-mode-config ()
+  "agenda mode key bindings"
+  (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
+  (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
+  (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
+  (define-key org-agenda-mode-map "n" 'org-agenda-capture)
+  )
 
-(add-hook 'org-mode-hook 'peter/org-mode-config)
+(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
