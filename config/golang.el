@@ -2,8 +2,15 @@
 ;;; Commentary:
 ;; install gogoc go get -u github.com/nsf/gocode
 ;; install goimports go get golang.org/x/tools/cmd/goimports
+;; install go repl gore with go get -u github.com/motemen/gore 
 
 ;;; Code:
+(use-package gorepl-mode
+  :ensure t
+  :config
+  (add-hook 'go-mode-hook #'gorepl-mode)
+  )
+
 (use-package company-go
   :ensure t
   :init
