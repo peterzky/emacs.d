@@ -8,7 +8,7 @@
  '(org-babel-load-languages (quote ((emacs-lisp . t) (dot . t) (shell . t))))
  '(package-selected-packages
    (quote
-    (info+ flycheck-gometalinter systemd youdao-dictionary yasnippet window-numbering web-beautify use-package spaceline smartparens shell-pop scion rainbow-mode pp-c-l popwin paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint hungry-delete helm-systemd helm-projectile helm-descbinds helm-ag haskell-mode graphviz-dot-mode go-eldoc git-timemachine fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode deft crux company-tern company-go chinese-pyim-greatdict chinese-pyim avy auto-compile ample-theme)))
+    (gorepl-mode company-ghc ghc info+ flycheck-gometalinter systemd youdao-dictionary yasnippet window-numbering web-beautify use-package spaceline smartparens shell-pop scion rainbow-mode pp-c-l popwin paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint hungry-delete helm-systemd helm-projectile helm-descbinds helm-ag haskell-mode graphviz-dot-mode go-eldoc git-timemachine fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode deft crux company-tern company-go chinese-pyim-greatdict chinese-pyim avy auto-compile ample-theme)))
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"

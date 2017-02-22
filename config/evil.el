@@ -27,6 +27,7 @@
     "gg" 'customize-group
     "ff" 'helm-find-files
     "fl" 'helm-locate
+    "ll" 'linum-mode
     "he" 'elisp-index-search
     "an" 'peter/open-note-file
     "qq" 'delete-frame

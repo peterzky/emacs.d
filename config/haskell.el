@@ -1,3 +1,15 @@
+(use-package ghc
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+  )
+
+(use-package company-ghc
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-ghc)
+  )
+
 (use-package haskell-mode
   :ensure t
   :config
