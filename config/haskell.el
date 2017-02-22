@@ -11,20 +11,22 @@
 (use-package ghc
   :ensure t
   :config
-  (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-  )
+  (add-hook 'haskell-mode-hook (lambda () (ghc-init))))
 
 (use-package company-ghc
   :ensure t
   :config
-  (add-to-list 'company-backends 'company-ghc)
-  )
+  (add-to-list 'company-backends 'company-ghc))
+
+(use-package shm
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook 'structured-haskell-mode))
 
 (use-package haskell-mode
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-  (add-hook 'haskell-mode-hook 'structured-haskell-mode)
   ;; (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
   )
 
