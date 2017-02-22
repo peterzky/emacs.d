@@ -1,3 +1,13 @@
+;; https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod
+;; cabal install ghc-mod
+;; cabal install structured-haskell-mode
+;; cabal install happy
+;; cabal install hindent
+(use-package hindent
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook #'hindent-mode))
+
 (use-package ghc
   :ensure t
   :config
@@ -14,6 +24,7 @@
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (add-hook 'haskell-mode-hook 'structured-haskell-mode)
   ;; (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
   )
 
