@@ -18,8 +18,9 @@
   (yas-global-mode 1)
   (evil-leader/set-key
     "yn" 'yas-new-snippet
-    "ye" 'yas/visit-snippet-file
-    "yl" 'yas/describe-tables
+    "yv" 'yas-visit-snippet-file
+    "yt" 'yas-describe-tables
+    "yi" 'yas-insert-snippet
     ))
 
 ;;fix color
