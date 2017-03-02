@@ -35,7 +35,7 @@
 ;;   :ensure t)
 
 (use-package rainbow-mode
-  :diminish t
+  :diminish rainbow-mode
   :ensure t
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode)

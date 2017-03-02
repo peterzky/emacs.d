@@ -47,7 +47,7 @@
 			    ;; 'festival
 			    'hydra
 			    ;; 'feed
-			    ;; 'mail
+			    'mail
 			    ;; 'sml
 			    'haskell
 			    ))

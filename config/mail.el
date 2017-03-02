@@ -1,3 +1,8 @@
+(use-package evil-mu4e
+  :ensure t
+  :config
+  )
+
 (require 'mu4e)
 
 (evil-leader/set-key
@@ -6,19 +11,12 @@
 (add-to-list 'mu4e-view-actions
 	     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 
-(define-key mu4e-headers-mode-map "j" #'next-line)
-(define-key mu4e-headers-mode-map "k" #'previous-line)
-(define-key mu4e-headers-mode-map "h" #'backward-char)
-(define-key mu4e-headers-mode-map "l" #'forward-char)
-
-(define-key mu4e-view-mode-map "j" #'scroll-up-line)
-(define-key mu4e-view-mode-map "k" #'scroll-down-line)
 ;; default
-;; (setq mu4e-maildir "~/Maildir")
+(setq mu4e-maildir "~/Mail")
 
-(setq mu4e-drafts-folder "/[Icloud].Drafts")
-(setq mu4e-sent-folder   "/[Icloud].Sent Mail")
-(setq mu4e-trash-folder  "/[Icloud].Trash")
+(setq mu4e-drafts-folder "/[QQ].Drafts")
+(setq mu4e-sent-folder   "/[QQ].Sent Mail")
+(setq mu4e-trash-folder  "/[QQ].Trash")
 
 ;; don't save message to Sent Messages, Icloud/IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
@@ -34,42 +32,48 @@
 
 (setq mu4e-maildir-shortcuts
       '( ("/INBOX"               . ?i)
-	 ("/[Icloud].Sent Mail"   . ?s)
-	 ("/[Icloud].Trash"       . ?t)
-	 ("/[Icloud].All Mail"    . ?a)))
+	 ("/[QQ].Sent Mail"   . ?s)
+	 ("/[QQ].Trash"       . ?t)
+	 ("/[QQ].All Mail"    . ?a)
+	 ))
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap")
 
 ;; something about ourselves
 (setq
- user-mail-address "peter.zky@icloud.com"
+ user-mail-address "peterzky@qq.com"
  user-full-name  "Peter Zheng"
  mu4e-compose-signature
  (concat
   "Peter Zheng "
-  "peter.zky@icloud.com"))
+  "peterzky@qq.com"))
 
 ;; sending mail -- replace USERNAME with your gmail username
 ;; also, make sure the gnutls command line utils are installed
 ;; package 'gnutls-bin' in Debian/Ubuntu
 
 (require 'smtpmail)
-(setq message-send-mail-function 'smtpmail-send-it
-      starttls-use-gnutls t
-      smtpmail-starttls-credentials '(("smtp.mail.me.com" 587 nil nil))
-      smtpmail-auth-credentials
-      '(("smtp.mail.me.com" 587 "peter.zky" nil))
-      smtpmail-default-smtp-server "smtp.mail.me.com"
-      smtpmail-smtp-server "smtp.mail.me.com"
-      smtpmail-smtp-service 587)
+;; (setq message-send-mail-function 'smtpmail-send-it
+;;       starttls-use-gnutls t
+;;       smtpmail-starttls-credentials '(("smtp.qq.com" 587 "378096232" nil))
+;;       smtpmail-auth-credentials
+;;       '(("smtp.qq.com" 587 "378096232" nil))
+;;       smtpmail-default-smtp-server "smtp.qq.com"
+;;       smtpmail-smtp-server "smtp.qq.com"
+;;       smtpmail-smtp-service 587)
 
 ;; alternatively, for emacs-24 you can use:
-;;(setq message-send-mail-function 'smtpmail-send-it
-;;     smtpmail-stream-type 'starttls
-;;     smtpmail-default-smtp-server "smtp.gmail.com"
-;;     smtpmail-smtp-server "smtp.gmail.com"
-;;     smtpmail-smtp-service 587)
+(setq message-send-mail-function 'smtpmail-send-it)
+    ;; smtpmail-stream-type 'starttls
+    ;; smtpmail-default-smtp-server "smtp.qq.com"
+    ;; smtpmail-smtp-server "smtp.qq.com"
+    ;; smtpmail-smtp-service 587 (setq smtpmail-smtp-server "smtp.qq.com")
+  (setq smtpmail-smtp-service 25)
+  (setq user-full-name "peterzky")
+  (setq user-mail-address "peterzky@qq.com")
+  ;; 需要在home下新建.authinfo文件，内容如下（都是你作为发件人的信息，你的邮箱地址，你的邮箱密码）：
+  ;; machine smtp.qq.com login 邮箱地址 port 25 password 密码明文
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
