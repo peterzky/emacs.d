@@ -130,12 +130,3 @@
       :publishing-function org-publish-attachment
       :recursive t)
      ("web" :components ("images" "js" "css")))))
-
-(setq org2jekyll-mode-map
-      (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "C-c . n") 'org2jekyll-create-draft)
-        (define-key map (kbd "C-c . p") 'org2jekyll-publish-post)
-        (define-key map (kbd "C-c . P") 'org2jekyll-publish-posts)
-        (define-key map (kbd "C-c . l") 'org2jekyll-list-posts)
-        (define-key map (kbd "C-c . d") 'org2jekyll-list-drafts)
-        map))

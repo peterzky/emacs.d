@@ -68,6 +68,7 @@
  '(info-quoted-name ((t (:inherit font-lock-string-face :foreground "DarkOrange2"))))
  '(info-single-quote ((t (:inherit font-lock-keyword-face :foreground "dark violet"))))
  '(italic ((t (:foreground "peru" :slant italic))))
+ '(org-block ((t (:foreground "#bdbdb3"))))
  '(org-code ((t (:inherit shadow :foreground "dark orange"))))
  '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
