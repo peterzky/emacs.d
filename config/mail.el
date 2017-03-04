@@ -14,9 +14,9 @@
 ;; default
 (setq mu4e-maildir "~/Mail")
 
-(setq mu4e-drafts-folder "/[QQ].Drafts")
-(setq mu4e-sent-folder   "/[QQ].Sent Mail")
-(setq mu4e-trash-folder  "/[QQ].Trash")
+;; (setq mu4e-drafts-folder "/[QQ].Drafts")
+;; (setq mu4e-sent-folder   "/[QQ].Sent Mail")
+;; (setq mu4e-trash-folder  "/[QQ].Trash")
 
 ;; don't save message to Sent Messages, Icloud/IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
