@@ -27,7 +27,7 @@
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-  ;; (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+  ;; (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring) 
   )
 
 (use-package scion

@@ -43,13 +43,14 @@
 			    'completion
 			    'window
 			    'helm
-			    'golang
-			    ;; 'festival
 			    'hydra
-			    ;; 'feed
 			    'mail
+			    ;; 'feed
+			    ;; 'festival
 			    ;; 'sml
 			    'haskell
+			    'golang
+			    'octave
 			    ))
 
 (mapc 'load (mapcar
