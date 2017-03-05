@@ -27,7 +27,7 @@
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
-  ;(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
   )
 
 (use-package scion
@@ -35,7 +35,8 @@
   :config)
 
 (defun my-haskell-mode-hook ()
-  ;; (local-set-key "\C-c\C-d" 'ghc-browse-document)
+  (local-set-key "\C-c\C-d" 'ghc-browse-document)
+  ;; (evil-leader/set-key-for-mode 'haskell-mode "gd" 'ghc-browse-document)
   )
 
 ;; (evil-set-initial-state 'interactive-haskell-mode 'evil-insert-state)
