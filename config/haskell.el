@@ -26,14 +26,11 @@
 (use-package haskell-mode
   :ensure t
   :config
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-  ;; (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring) 
-  )
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
 
 (use-package scion
   :ensure t
-  :config
-  )
+  :config)
 
 (defun my-haskell-mode-hook ()
   ;; (local-set-key "C-c C-l" 'inferior-haskell-load-file)
