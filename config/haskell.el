@@ -26,6 +26,7 @@
 (use-package haskell-mode
   :ensure t
   :config
+  ;; (setq haskell-font-lock-symbols t)
   (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
   )
