@@ -1,13 +1,9 @@
-(use-package company-tern
-  :diminish tern-mode
-  :ensure t)
 
 (use-package company
   :diminish company-mode
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
-  (add-to-list 'company-backends 'company-tern)
   (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
   (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
 

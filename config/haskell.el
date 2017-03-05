@@ -26,14 +26,16 @@
 (use-package haskell-mode
   :ensure t
   :config
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
+  (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
+  ;(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  )
 
 (use-package scion
   :ensure t
   :config)
 
 (defun my-haskell-mode-hook ()
-  ;; (local-set-key "C-c C-l" 'inferior-haskell-load-file)
+  ;; (local-set-key "\C-c\C-d" 'ghc-browse-document)
   )
 
 ;; (evil-set-initial-state 'interactive-haskell-mode 'evil-insert-state)

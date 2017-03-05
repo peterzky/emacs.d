@@ -32,25 +32,27 @@
 
 (defvar peter/config-files (list
 			    'global
-			    'ui
-			    'function
-			    'evil
-			    'org
-			    'vc
-			    'misc
-			    'javascript
-			    'chinese
-			    'completion
 			    'window
-			    'helm
+			    'function
 			    'hydra
+			    'completion
+			    'smartparens
+			    'misc
+			    'evil
+			    'vc
+			    'ui
+			    'org
+			    'chinese
+			    'helm
 			    'mail
 			    ;; 'feed
 			    ;; 'festival
 			    ;; 'sml
+			    'elisp
 			    'haskell
 			    'golang
 			    'octave
+			    'javascript
 			    ))
 
 (mapc 'load (mapcar

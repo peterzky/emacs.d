@@ -6,6 +6,12 @@
   (local-set-key "\C-cl" 'js-load-file-and-go)
 )
 
+(use-package company-tern
+  :diminish tern-mode
+  :ensure t)
+
+(add-to-list 'company-backends 'company-tern)
+
 (use-package js-comint 
     :ensure t
     :config
@@ -36,6 +42,7 @@
 
 (global-set-key [C-tab] 'emmet-expand-yas)
 
+;; (add-hook 'js2-mode-hook #'smartparens-mode)
 (add-hook 'html-mode 'emmet-mode)
 (add-hook 'js2-jsx-mode 'emmet-mode)
 (add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert nil)))

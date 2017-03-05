@@ -23,14 +23,6 @@
     "pp" 'projectile-switch-project
     "pf" 'projectile-find-file))
 
-(use-package smartparens
-  :diminish smartparens-mode
-  :ensure t
-  :config
-  (require 'smartparens-config)
-  (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
-  (add-hook 'js2-mode-hook #'smartparens-mode))
-
 ;; (use-package w3m
 ;;   :ensure t)
 
@@ -108,5 +100,3 @@
   :config
   )
 
-;; follow symlink without asking
-(setq vc-follow-symlinks "Follow link")

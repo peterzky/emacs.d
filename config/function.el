@@ -88,8 +88,7 @@
      ((or (equal current-mode "js2-mode")
 	  (equal current-mode "js2-jsx-mode")
 	  )
-      ( js2-narrow-to-defun ))
-     )))
+      ( js2-narrow-to-defun )))))
 
 
 

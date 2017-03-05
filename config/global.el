@@ -4,6 +4,8 @@
 
 (line-number-mode -1)
 
+;; follow symlink without asking
+(setq vc-follow-symlinks "Follow link")
 ;; (fringe-mode 0)
 
 (menu-bar-mode -1)
