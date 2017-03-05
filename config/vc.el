@@ -1,6 +1,7 @@
 (use-package magit
   :ensure t
   :config
+  (global-set-key (kbd "C-x g") 'magit-status)
   (evil-leader/set-key
     "gs" 'magit-status))
 
