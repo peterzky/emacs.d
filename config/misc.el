@@ -107,3 +107,6 @@
   :ensure t
   :config
   )
+
+;; follow symlink without asking
+(setq vc-follow-symlinks "Follow link")
