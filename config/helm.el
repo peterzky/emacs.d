@@ -37,6 +37,8 @@
 (use-package helm-systemd
   :ensure t
   :config
+  (setq helm-systemd-list-not-loaded t)
+  (setq helm-systemd-list-all t)
   (setq helm-systemd-buffer-name "*Systemd log*")
   (evil-leader/set-key
     "ad" 'helm-systemd))
