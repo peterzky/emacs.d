@@ -87,6 +87,6 @@
   :ensure t
   :config
   (setq ranger-override-dired t)
-  (setq ranger-deer-show-details nil)
-  (setq ranger-show-literal nil)
+  (setq ranger-deer-show-details t)
+  (setq ranger-show-literal t)
   (evil-leader/set-key "r" 'deer))
