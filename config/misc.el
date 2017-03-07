@@ -38,8 +38,7 @@
 (use-package avy
   :ensure t
   :config
-  (evil-leader/set-key
-    "SPC" 'avy-goto-word-1))
+  (global-set-key (kbd "C-;") 'avy-goto-char-2))
 
 (global-set-key (kbd "s-/") 'dabbrev-expand)
 
