@@ -24,7 +24,6 @@
   (evil-leader/set-key
     "bd" 'kill-this-buffer
     "fs" 'save-buffer
-    "gg" 'customize-group
     "ff" 'helm-find-files
     "fl" 'helm-locate
     "ll" 'linum-mode

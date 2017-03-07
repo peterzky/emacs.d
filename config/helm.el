@@ -32,7 +32,9 @@
 (use-package helm-projectile
   :ensure t
   :config
-  (helm-projectile-on))
+  (helm-projectile-on)
+  (evil-leader/set-key
+    "pp" 'helm-projectile))
 
 (use-package helm-systemd
   :ensure t

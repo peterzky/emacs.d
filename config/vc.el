@@ -1,15 +1,14 @@
 (use-package magit
   :ensure t
+  :bind (("C-x g" . magit-status))
   :config
-  (global-set-key (kbd "C-x g") 'magit-status)
   (evil-leader/set-key
     "gs" 'magit-status))
 
 (use-package git-timemachine
   :ensure t
   :config
-  (evil-leader/set-key
-    "gm" 'git-timemachine))
+  (evil-leader/set-key "gm" 'git-timemachine))
 
 (eval-after-load 'git-timemachine
   '(progn
@@ -20,4 +19,6 @@
 (use-package git-gutter
   :ensure t
   :config
-  (global-git-gutter-mode +1))
+  (global-git-gutter-mode +1)
+  (evil-leader/set-key "gg" 'git-gutter:popup-hunk))
+

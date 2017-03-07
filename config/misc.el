@@ -18,10 +18,7 @@
   :config
   (projectile-global-mode)
   (add-to-list 'projectile-globally-ignored-directories "node_modules") 
-  (add-to-list 'projectile-globally-ignored-files ".tern-port")
-  (evil-leader/set-key
-    "pp" 'projectile-switch-project
-    "pf" 'projectile-find-file))
+  (add-to-list 'projectile-globally-ignored-files ".tern-port"))
 
 (use-package rainbow-mode
   :diminish rainbow-mode
