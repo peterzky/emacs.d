@@ -54,8 +54,7 @@
   (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
   (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button)
   (add-to-list 'evil-motion-state-modes 'debugger-mode)
-  (add-to-list 'evil-motion-state-modes 'special-mode)
-  )
+  (add-to-list 'evil-motion-state-modes 'special-mode))
 
 (use-package evil-mc
   :ensure t

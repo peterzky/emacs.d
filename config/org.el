@@ -1,6 +1,8 @@
 
 (use-package org
   :ensure t
+  :bind (("\C-cc" . org-capture)
+	 ("\C-ca" . org-agenda))
   :config
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
   (setq org-startup-indented t)
@@ -66,15 +68,13 @@
   (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
-  (define-key org-agenda-mode-map "n" 'org-agenda-capture)
-  )
+  (define-key org-agenda-mode-map "n" 'org-agenda-capture))
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 
 ;; Org code block color html
 (use-package htmlize
-  :ensure t
-  :config)
+  :ensure t)
 
 
 

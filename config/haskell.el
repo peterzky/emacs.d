@@ -28,8 +28,7 @@
   :config
   ;; (setq haskell-font-lock-symbols t)
   (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-  )
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
 
 (use-package scion
   :ensure t

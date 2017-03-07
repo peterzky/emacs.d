@@ -23,31 +23,22 @@
     "pp" 'projectile-switch-project
     "pf" 'projectile-find-file))
 
-;; (use-package w3m
-;;   :ensure t)
-
 (use-package rainbow-mode
   :diminish rainbow-mode
   :ensure t
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode)
-  (add-hook 'conf-xdefaults-mode-hook #'rainbow-mode)
-  )
+  (add-hook 'conf-xdefaults-mode-hook #'rainbow-mode))
 
 
 (use-package avy
   :ensure t
-  :config
-  (global-set-key (kbd "C-;") 'avy-goto-char-2))
-
-(global-set-key (kbd "s-/") 'dabbrev-expand)
-
-
+  :bind ("C-;" . avy-goto-char-2))
 
 (use-package shell-pop
   :ensure t
+  :bind ("C-`" . shell-pop)
   :config
-  (global-set-key (kbd "C-`") 'shell-pop)
   (setq shell-pop-full-span t))
 
 (defalias 'open 'find-file-other-window)
@@ -70,32 +61,19 @@
   :diminish t
   :ensure t
   :config
-  (crux-reopen-as-root-mode)
-  )
+  (crux-reopen-as-root-mode))
 
 
 (use-package systemd
-  :ensure t
-  :config
-  )
-;; (use-package hungry-delete
-;;   :ensure t
-;;   :config
-;;   (global-hungry-delete-mode)
-;;   )
+  :ensure t)
 
 (use-package expand-region
   :ensure t
-  :config
-  (global-set-key (kbd "C-=") 'er/expand-region)
-  )
+  :bind ("C-=" . er/expand-region))
 
 ;; spell check world
-
 (global-set-key (kbd "C-\\") 'ispell-word)
 
 (use-package info+
-  :ensure t
-  :config
-  )
+  :ensure t)
 

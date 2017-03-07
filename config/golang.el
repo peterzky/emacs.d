@@ -51,8 +51,7 @@
 (use-package flycheck-gometalinter
   :ensure t
   :config
-  (flycheck-gometalinter-setup)
-  )
+  (flycheck-gometalinter-setup))
 
 (provide 'peter/golang)
 ;;; golang.el ends here

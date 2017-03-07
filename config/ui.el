@@ -4,8 +4,7 @@
   :init (progn (load-theme 'ample t t)
                (load-theme 'ample-flat t t)
                (load-theme 'ample-light t t)
-               (enable-theme 'ample)
-	       )
+               (enable-theme 'ample))
   :defer t
   :ensure t)
 
@@ -25,8 +24,7 @@
   (spaceline-toggle-version-control-on)
   (spaceline-toggle-window-number-off)
   (spaceline-toggle-buffer-encoding-abbrev-on)
-  (spaceline-toggle-info-topic-on)
-  )
+  (spaceline-toggle-info-topic-on))
 
 (setq evil-mc-mode-line-prefix "¢")
 
@@ -49,8 +47,7 @@
     )
    (buffer-read-only
     (propertize "R" 'face '(:foreground "#1F3A93"))
-    ))
-  )
+    )))
 
 
 (spaceline-compile)

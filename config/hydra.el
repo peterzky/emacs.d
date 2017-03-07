@@ -6,8 +6,8 @@
     ("n" evil-mc-make-and-goto-next-match "next")
     ("p" evil-mc-skip-and-goto-prev-cursor "previous")
     ("d" evil-mc-undo-all-cursors "delete all" :exit t)
-    ("s" evil-mc-skip-and-goto-next-cursor "skip")
-    )
+    ("s" evil-mc-skip-and-goto-next-cursor "skip"))
+
   (evil-leader/set-key
     "m" 'hydra-mc/body)
 
@@ -17,16 +17,16 @@
     ("n" narrow-to-region "region")
     ("w" peter/widen "widen")
     ("s" org-narrow-to-subtree "org tree")
-    ("d" peter/narrow-to-defun "defun")
-  )
+    ("d" peter/narrow-to-defun "defun"))
+
   (evil-leader/set-key
     "n" 'hydra-nr/body)
 
   (defhydra hydra-frame ()
     ("d" make-frame "new frame")
     ("z" delete-frame"delete frame")
-    ("n" other-frame "switch frame")
-    )
+    ("n" other-frame "switch frame"))
+
   (evil-leader/set-key
     "z" 'hydra-frame/body)
 
@@ -35,8 +35,8 @@
     ("k" enlarge-window "up")
     ("h" shrink-window-horizontally "left")
     ("l" enlarge-window-horizontally "right")
-    ("=" balance-windows "balance")
-    )
+    ("=" balance-windows "balance"))
+
   (evil-leader/set-key
     "wr" 'hydra-window-resize/body)
 

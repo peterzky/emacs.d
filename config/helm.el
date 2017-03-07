@@ -1,6 +1,8 @@
 (use-package helm
   :diminish helm-mode
   :ensure t
+  :bind (("s-x" . helm-M-x)
+	 ("M-x" . helm-M-x))
   :config
   (require 'helm-config)
   (helm-mode 1)
@@ -13,8 +15,6 @@
   (helm-autoresize-mode 1)
   ;;add bookmark to helm mini sources
   (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
-  (global-set-key (kbd "s-x") 'helm-M-x)
-  (global-set-key (kbd "M-x") 'helm-M-x)
   (evil-leader/set-key
     "s" 'helm-occur
     "r" 'helm-show-kill-ring
