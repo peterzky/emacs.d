@@ -31,7 +31,7 @@
 
 (use-package avy
   :ensure t
-  :bind ("C-;" . avy-goto-char-2))
+  :bind ("C-;" . avy-goto-char))
 
 (use-package shell-pop
   :ensure t
