@@ -6,7 +6,31 @@
  '(Man-notify-method (quote pushy))
  '(package-selected-packages
    (quote
-    (multiple-cursors ranger pdf-tools go-playground rainbow-delimiters paredit evil-org-mode helm tern projectile htmlize org2jekyll evil-mu4e shm hindent gorepl-mode company-ghc ghc info+ flycheck-gometalinter systemd youdao-dictionary yasnippet window-numbering web-beautify use-package spaceline smartparens shell-pop scion rainbow-mode pp-c-l popwin paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint hungry-delete helm-systemd helm-projectile helm-descbinds helm-ag haskell-mode graphviz-dot-mode go-eldoc git-timemachine fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode deft crux company-tern company-go chinese-pyim-greatdict chinese-pyim avy auto-compile ample-theme)))
+    (ranger go-playground rainbow-delimiters paredit evil-org-mode helm tern projectile htmlize org2jekyll evil-mu4e shm hindent gorepl-mode company-ghc ghc info+ flycheck-gometalinter systemd youdao-dictionary yasnippet window-numbering web-beautify use-package spaceline smartparens shell-pop scion rainbow-mode pp-c-l popwin paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint hungry-delete helm-systemd helm-projectile helm-descbinds helm-ag haskell-mode graphviz-dot-mode go-eldoc git-timemachine fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode deft crux company-tern company-go chinese-pyim-greatdict chinese-pyim avy auto-compile ample-theme)))
+ '(popwin:special-display-config
+   (quote
+    (help-mode
+     ("*Gofmt Errors*" :position bottom)
+     ("*HS-Error*" :position bottom)
+     (" *undo-tree Diff*" :position bottom)
+     (" *undo-tree*" :position bottom)
+     ("*Youdao Dictionary*" :regexp nil)
+     ("*Warnings*" :regexp nil)
+     ("*Backtrace*" :regexp nil)
+     ("*Miniedit Help*" :noselect t)
+     (completion-list-mode :noselect t)
+     (compilation-mode :noselect t)
+     (grep-mode :noselect t)
+     (occur-mode :noselect t)
+     ("*Pp Macroexpand Output*" :noselect t)
+     "*Shell Command Output*" "*vc-diff*" "*vc-change-log*"
+     (" *undo-tree*" :width 60 :position right)
+     ("^\\*anything.*\\*$" :regexp t)
+     "*slime-apropos*" "*slime-macroexpansion*" "*slime-description*"
+     ("*slime-compilation*" :noselect t)
+     "*slime-xref*"
+     (sldb-mode :stick t)
+     slime-repl-mode slime-connection-list-mode)))
  '(ranger-deer-show-details nil)
  '(ranger-override-dired t)
  '(ranger-show-literal nil)
