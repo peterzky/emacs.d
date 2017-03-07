@@ -17,6 +17,7 @@
   :ensure t
   :config
   (projectile-global-mode)
+  (setq projectile-switch-project-action 'projectile-dired)
   (add-to-list 'projectile-globally-ignored-directories "node_modules") 
   (add-to-list 'projectile-globally-ignored-files ".tern-port"))
 
@@ -79,4 +80,17 @@
   :config
   (dashboard-setup-startup-hook))
 
+(use-package ranger
+  :ensure t
+  :config
+  (setq ranger-override-dired t)
+  (setq ranger-deer-show-details nil)
+  (setq ranger-show-literal nil)
+  (evil-leader/set-key "r" 'deer))
 
+;; (use-package multiple-cursors
+;;   :ensure t
+;;   :bind (("C-S-c C-S-c" . 'mc/edit-lines)
+;; 	 ("C->" . 'mc/mark-next-like-this)
+;; 	 ("C-<" . 'mc/mark-previous-like-this)
+;; 	 ("C-c C-<" . 'mc/mark-all-like-this)))

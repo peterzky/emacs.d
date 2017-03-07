@@ -1,15 +1,15 @@
 (use-package hydra
   :ensure t
   :config
-  (defhydra hydra-mc ()
-    "muti-cursor"
-    ("n" evil-mc-make-and-goto-next-match "next")
-    ("p" evil-mc-skip-and-goto-prev-cursor "previous")
-    ("d" evil-mc-undo-all-cursors "delete all" :exit t)
-    ("s" evil-mc-skip-and-goto-next-cursor "skip"))
+  ;(defhydra hydra-mc ()
+   ; "muti-cursor"
+    ;("n" evil-mc-make-and-goto-next-match "next")
+    ;("p" evil-mc-skip-and-goto-prev-cursor "previous")
+    ;("d" evil-mc-undo-all-cursors "delete all" :exit t)
+    ;("s" evil-mc-skip-and-goto-next-cursor "skip"))
 
-  (evil-leader/set-key
-    "m" 'hydra-mc/body)
+  ;(evil-leader/set-key
+   ; "m" 'hydra-mc/body)
 
   (defhydra hydra-nr (:exit t)
     "narrow state"

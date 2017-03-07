@@ -55,12 +55,6 @@
   (add-to-list 'evil-motion-state-modes 'debugger-mode)
   (add-to-list 'evil-motion-state-modes 'special-mode))
 
-(use-package evil-mc
-  :ensure t
-  :config
-  (global-evil-mc-mode 1))
-
-
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
       evil-motion-state-tag "M"

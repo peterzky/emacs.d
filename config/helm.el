@@ -17,7 +17,7 @@
   (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
   (evil-leader/set-key
     "s" 'helm-occur
-    "r" 'helm-show-kill-ring
+    "d" 'helm-show-kill-ring
     "bb" 'helm-mini
     "i" 'helm-imenu
     "`" 'helm-mini))
