@@ -14,17 +14,19 @@
     "6" 'select-window-6
     "7" 'select-window-7
     "8" 'select-window-8
-    "9" 'select-window-9
-    ))
+    "9" 'select-window-9))
 
 (use-package popwin
   :ensure t
   :config
-  (setq popwin:popup-window-height 25)
+  (setq popwin:popup-window-height 15)
   (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
   (push '("*Warnings*" :regexp nil) popwin:special-display-config)
   (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
   (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
+  (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
+  (push '("*HS-Error*" :position bottom) popwin:special-display-config)
+  (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
   (popwin-mode 1))
 
 ;; helm alway at bottom
@@ -34,4 +36,6 @@
 	       (inhibit-same-window . t)
 	       (window-height . 0.4)))
 
-;; (global-set-key (kbd "M-`") 'other-frame)
+
+;; Buffer Menu mode map
+
