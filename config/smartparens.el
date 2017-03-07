@@ -57,7 +57,7 @@
             ("b" sp-backward-sexp "Backward")
             ("k" sp-kill-sexp "Kill" :color blue)
             ("q" nil "Quit" :color blue))
-          smartparens-mode-map)
+            smartparens-mode-map)
 
 (bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map)
 (bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map)
