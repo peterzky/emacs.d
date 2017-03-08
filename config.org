@@ -141,7 +141,7 @@
 #+BEGIN_SRC emacs-lisp
 (load-theme 'leuven)
 #+END_SRC
-*** COMMENT Ample 
+*** Ample 
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
@@ -164,6 +164,7 @@
  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
  '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
  '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
+ '(org-special-keyword ((t (:foreground "salmon"))))
  '(sp-pair-overlay-face ((t nil)))
  '(spaceline-evil-emacs ((t (:background "#3A539B" :foreground "#D2D7D3" :inherit (quote mode-line)))))
  '(spaceline-evil-insert ((t (:background "YellowGreen" :foreground "#3E3D31" :inherit (quote mode-line)))))
@@ -176,7 +177,7 @@
   :config
   (load-theme 'monokai-theme))
 #+END_SRC
-*** Moe
+*** COMMENT Moe
 #+BEGIN_SRC emacs-lisp
 ;(use-package powerline
 ;  :ensure t)
@@ -222,10 +223,12 @@
   (zerodark-setup-modeline-format))
 
 (custom-set-faces
+ '(hl-line ((t (:background "dim gray" :foreground "gainsboro"))))
+ '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
 ** Mode Line
-*** COMMENT Spaceline
+*** Spaceline
 #+BEGIN_SRC emacs-lisp
 (use-package spaceline
   :ensure t
