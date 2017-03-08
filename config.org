@@ -176,7 +176,7 @@
   :config
   (load-theme 'monokai-theme))
 #+END_SRC
-*** COMMENT Moe
+*** Moe
 #+BEGIN_SRC emacs-lisp
 ;(use-package powerline
 ;  :ensure t)
@@ -213,7 +213,7 @@
   :config
   (load-theme 'dracula t))
 #+END_SRC
-*** Zerodark
+*** COMMENT Zerodark
 #+BEGIN_SRC emacs-lisp
 (use-package zerodark-theme
   :ensure t
