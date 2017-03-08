@@ -16,29 +16,31 @@
 #+END_SRC
 ** Default Behavior
 #+BEGIN_SRC emacs-lisp
-;; yes or no to y or n
-(fset 'yes-or-no-p 'y-or-n-p)
-;; help window auto-focus
-(setq help-window-select t) 
-;; follow symlink without asking
-(setq vc-follow-symlinks "Follow link")
-;; enable narrow
-(put 'narrow-to-region 'disabled nil)
+  ;; yes or no to y or n
+  (fset 'yes-or-no-p 'y-or-n-p)
+  ;; help window auto-focus
+  (setq help-window-select t) 
+  ;; follow symlink without asking
+  (setq vc-follow-symlinks "Follow link")
+  ;; enable narrow
+  (put 'narrow-to-region 'disabled nil)
 
-(put 'set-goal-column 'disabled nil)
+  (put 'set-goal-column 'disabled nil)
 
-(show-paren-mode 1)
+  (show-paren-mode 1)
 
-(setq show-paren-style 'expression)
-;; recent file mode
-(recentf-mode 1)
-;; man page full screen
-(setq Man-notify-method 'pushy)
-;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+  (setq show-paren-style 'expression)
+  ;; recent file mode
+  (recentf-mode 1)
+  ;; man page full screen
+  (setq Man-notify-method 'pushy)
+  ;; store all backup and autosave files in the tmp dir
+  (setq backup-directory-alist
+	`((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+	`((".*" ,temporary-file-directory t)))
+  ;; empty scratch buffer message
+  (setq initial-scratch-message "")
 #+END_SRC
 ** External Application
 #+BEGIN_SRC emacs-lisp
@@ -122,7 +124,6 @@
 #+END_SRC
 ** Buffer Menu
 #+BEGIN_SRC emacs-lisp
-
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
@@ -175,6 +176,13 @@
   (setq moe-theme-resize-markdown-title '(2.0 1.7 1.5 1.3 1.0 1.0))
   (setq moe-theme-resize-org-title '(2.2 1.8 1.6 1.4 1.2 1.0 1.0 1.0 1.0))
   (setq moe-theme-resize-rst-title '(2.0 1.7 1.5 1.3 1.1 1.0))
+#+END_SRC
+*** COMMENT Grandshell
+#+BEGIN_SRC emacs-lisp
+  (use-package grandshell-theme
+    :ensure t
+    :config
+    (load-theme 'grandshell t))
 #+END_SRC
 ** Mode Line
 *** COMMENT Spaceline
