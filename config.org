@@ -46,82 +46,77 @@
 #+END_SRC
 ** User Defined Functions
 #+BEGIN_SRC emacs-lisp
-(defun peter/switch-buffer ()
-  "switch to last buffer"
-  (interactive)
-  (if (evil-alternate-buffer)
-      (switch-to-buffer (car (evil-alternate-buffer)))
-    (switch-to-buffer (other-buffer (current-buffer) t))))
+  (defun peter/switch-buffer ()
+    "switch to last buffer"
+    (interactive)
+    (if (evil-alternate-buffer)
+	(switch-to-buffer (car (evil-alternate-buffer)))
+      (switch-to-buffer (other-buffer (current-buffer) t))))
 
-(defun peter/edit-config-file ()
-  "edit config file"
-  (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (defun peter/edit-config-file ()
+    "edit config file"
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
 
-(defun peter/open-config-folder ()
-  "open config folder"
-  (interactive)
-  (find-file "~/.emacs.d/config/"))
+  (defun peter/open-note-file ()
+    "open notes.org"
+    (interactive)
+    (find-file "~/btsync/capture.org"))
 
-(defun peter/open-note-file ()
-  "open notes.org"
-  (interactive)
-  (find-file "~/btsync/capture.org"))
+  (defun peter/recompile-all-packages ()
+    (interactive)
+    (byte-recompile-directory package-user-dir nil 'force))
 
-(defun peter/recompile-all-packages ()
-  (interactive)
-  (byte-recompile-directory package-user-dir nil 'force))
+  ;; close window after kill buffer command
+  (advice-add 'kill-this-buffer :after #'delete-window)
 
-;; close window after kill buffer command
-(advice-add 'kill-this-buffer :after #'delete-window)
+  (defun peter/compile-init ()
+    "Byte-compile all your dotfiles."
+    (interactive)
+    (byte-compile-file "~/.emacs.d/init.el")
+    (byte-recompile-directory "~/.emacs.d/config" 0)
+    (byte-recompile-directory "~/.emacs.d/theme" 0))
 
-(defun peter/compile-init ()
-  "Byte-compile all your dotfiles."
-  (interactive)
-  (byte-compile-file "~/.emacs.d/init.el")
-  (byte-recompile-directory "~/.emacs.d/config" 0)
-  (byte-recompile-directory "~/.emacs.d/theme" 0))
+  (defun peter/split-vertically ()
+    "Split window vertically and focus"
+    (interactive)
+    (split-window-vertically)
+    (other-window 1))
 
-(defun peter/split-vertically ()
-  "Split window vertically and focus"
-  (interactive)
-  (split-window-vertically)
-  (other-window 1))
+  (defun peter/split-horizontally ()
+    "Split window horizontally and focus"
+    (interactive)
+    (split-window-horizontally)
+    (other-window 1))
 
-(defun peter/split-horizontally ()
-  "Split window horizontally and focus"
-  (interactive)
-  (split-window-horizontally)
-  (other-window 1))
+  (defun peter/widen ()
+    "after widen scroll down"
+    (interactive)
+    (widen)
+    (scroll-down 8))
 
-(defun peter/widen ()
-  "after widen scroll down"
-  (interactive)
-  (widen)
-  (scroll-down 8))
+  (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
-(global-set-key (kbd "C-x k") 'kill-this-buffer)
+  ;;ERC
+  (setq socks-server
+	(list "My socks server" "localhost" 1080 5))
+  (setq socks-noproxy '("localhost"))
 
-;;ERC
-(setq socks-server
-      (list "My socks server" "localhost" 1080 5))
-(setq socks-noproxy '("localhost"))
+  (require 'socks)
+  (setq erc-server-connect-function 'socks-open-network-stream)
 
-(require 'socks)
-(setq erc-server-connect-function 'socks-open-network-stream)
-
-(defun peter/narrow-to-defun ()
-  "narrow function depanding on mode"
-  (interactive)
-  (let ((current-mode (message "%s" major-mode)))
-    (cond
-     ((or (equal current-mode "emacs-lisp-mode")
-	  (equal current-mode "lisp-interaction-mode"))
-      ( narrow-to-defun ))
-     ((or (equal current-mode "js2-mode")
-	  (equal current-mode "js2-jsx-mode")
-	  )
-      ( js2-narrow-to-defun )))))
+  (defun peter/narrow-to-defun ()
+    "narrow function depanding on mode"
+    (interactive)
+    (let ((current-mode (message "%s" major-mode)))
+      (cond
+       ((or (equal current-mode "emacs-lisp-mode")
+	    (equal current-mode "lisp-interaction-mode"))
+	( narrow-to-defun ))
+       ((or (equal current-mode "js2-mode")
+	    (equal current-mode "js2-jsx-mode")
+	    )
+	( js2-narrow-to-defun )))))
 #+END_SRC
 * Appearance
 ** Window Control
@@ -162,6 +157,7 @@ popup window for better experience
   (popwin-mode 1))
 #+END_SRC
 ** Themes 
+*** COMMENT Leuven
 #+BEGIN_SRC emacs-lisp
 (load-theme 'leuven)
 #+END_SRC
@@ -174,6 +170,27 @@ popup window for better experience
                (enable-theme 'ample))
   :defer t
   :ensure t)
+#+END_SRC
+*** COMMENT Monokai
+#+BEGIN_SRC emacs-lisp
+  (use-package monokai-theme
+    :ensure t
+    :config
+    (load-theme 'monokai-theme))
+#+END_SRC
+*** Moe
+#+BEGIN_SRC emacs-lisp
+  (use-package moe-theme
+    :ensure t
+    :config
+    (load-theme 'moe-theme))
+
+  (use-package powerline
+    :ensure t)
+
+  (setq moe-theme-highlight-buffer-id t)
+
+  (moe-dark)
 #+END_SRC
 ** Mode Line
 *** COMMENT Spaceline
@@ -434,7 +451,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
     "ws" 'peter/split-vertically
     "wd" 'delete-window
     "fed" 'peter/edit-config-file
-    "fee" 'peter/open-config-folder
     "cc" 'flycheck-mode
     "r" 'dired-jump
     "cl" 'evilnc-comment-or-uncomment-lines
@@ -864,7 +880,7 @@ This predicate is only tested on \"insert\" action."
   (setq org-mobile-directory "~/Nextcloud/MobileOrg")
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
-  (setq org-startup-folded nil)
+  (setq org-startup-folded t)
   (setq org-hide-emphasis-markers t)
   (setq org-refile-targets '((nil :maxlevel . 2)
                                 (org-agenda-files :maxlevel . 2)))
@@ -902,13 +918,6 @@ This predicate is only tested on \"insert\" action."
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
-** COMMENT Org Pomodoro
-#+BEGIN_SRC emacs-lisp
-(use-package org-pomodoro
-  :ensure t
-  :config
-  (org-defkey org-agenda-mode-map "I" 'org-pomodoro))
-#+END_SRC
 ** Deft
 #+BEGIN_SRC emacs-lisp
 (use-package deft
@@ -928,6 +937,13 @@ This predicate is only tested on \"insert\" action."
       '((noslash . "-")
         (nospace . "-")
         (case-fn . downcase))))
+#+END_SRC
+** COMMENT Org Pomodoro
+#+BEGIN_SRC emacs-lisp
+(use-package org-pomodoro
+  :ensure t
+  :config
+  (org-defkey org-agenda-mode-map "I" 'org-pomodoro))
 #+END_SRC
 ** COMMENT Blog
 #+BEGIN_SRC emacs-lisp
