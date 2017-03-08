@@ -176,7 +176,7 @@
   :config
   (load-theme 'monokai-theme))
 #+END_SRC
-*** Moe
+*** COMMENT Moe
 #+BEGIN_SRC emacs-lisp
 ;(use-package powerline
 ;  :ensure t)
@@ -205,6 +205,13 @@
   :ensure t
   :config
   (load-theme 'grandshell t))
+#+END_SRC
+*** Dracula
+#+BEGIN_SRC emacs-lisp
+(use-package dracula-theme
+  :ensure t
+  :config
+  (load-theme 'dracula t))
 #+END_SRC
 ** Mode Line
 *** COMMENT Spaceline
