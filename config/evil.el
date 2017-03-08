@@ -37,6 +37,7 @@
     "fed" 'peter/edit-config-file
     "fee" 'peter/open-config-folder
     "cc" 'flycheck-mode
+    "r" 'dired-jump
     ;; "zz" 'delete-frame
     "cl" 'evilnc-comment-or-uncomment-lines
     ;; "ESC" 'delete-other-windows

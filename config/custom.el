@@ -4,6 +4,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(Man-notify-method (quote pushy))
+ '(package-selected-packages
+   (quote
+    (youdao-dictionary yasnippet window-numbering web-beautify use-package tablist systemd spaceline smartparens shm shell-pop scion ranger rainbow-mode rainbow-delimiters popwin paredit paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint ivy info+ htmlize hindent helm-systemd helm-projectile helm-descbinds helm-ag gorepl-mode go-playground go-eldoc git-timemachine git-gutter flycheck-gometalinter fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mu4e evil-mc evil-magit evil-leader emmet-mode deft dashboard crux company-tern company-go company-ghc avy auto-compile ample-theme)))
  '(popwin:special-display-config
    (quote
     (help-mode

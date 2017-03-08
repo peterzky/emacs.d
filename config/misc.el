@@ -83,10 +83,10 @@
   (setq dashboard-startup-banner 1)
   (dashboard-setup-startup-hook))
 
-(use-package ranger
-  :ensure t
-  :config
-  (setq ranger-override-dired t)
-  (setq ranger-deer-show-details t)
-  (setq ranger-show-literal t)
-  (evil-leader/set-key "r" 'deer))
+;; (use-package ranger
+;;   :ensure t
+;;   :config
+;;   (setq ranger-override-dired t)
+;;   (setq ranger-deer-show-details t)
+;;   (setq ranger-show-literal t)
+;;   (evil-leader/set-key "r" 'deer))
