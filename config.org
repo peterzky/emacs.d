@@ -16,31 +16,31 @@
 #+END_SRC
 ** Default Behavior
 #+BEGIN_SRC emacs-lisp
-  ;; yes or no to y or n
-  (fset 'yes-or-no-p 'y-or-n-p)
-  ;; help window auto-focus
-  (setq help-window-select t) 
-  ;; follow symlink without asking
-  (setq vc-follow-symlinks "Follow link")
-  ;; enable narrow
-  (put 'narrow-to-region 'disabled nil)
+;; yes or no to y or n
+(fset 'yes-or-no-p 'y-or-n-p)
+;; help window auto-focus
+(setq help-window-select t) 
+;; follow symlink without asking
+(setq vc-follow-symlinks "Follow link")
+;; enable narrow
+(put 'narrow-to-region 'disabled nil)
 
-  (put 'set-goal-column 'disabled nil)
+(put 'set-goal-column 'disabled nil)
 
-  (show-paren-mode 1)
+(show-paren-mode 1)
 
-  (setq show-paren-style 'expression)
-  ;; recent file mode
-  (recentf-mode 1)
-  ;; man page full screen
-  (setq Man-notify-method 'pushy)
-  ;; store all backup and autosave files in the tmp dir
-  (setq backup-directory-alist
-	`((".*" . ,temporary-file-directory)))
-  (setq auto-save-file-name-transforms
-	`((".*" ,temporary-file-directory t)))
-  ;; empty scratch buffer message
-  (setq initial-scratch-message "")
+(setq show-paren-style 'expression)
+;; recent file mode
+(recentf-mode 1)
+;; man page full screen
+(setq Man-notify-method 'pushy)
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+;; empty scratch buffer message
+(setq initial-scratch-message "")
 #+END_SRC
 ** External Application
 #+BEGIN_SRC emacs-lisp
@@ -50,79 +50,79 @@
 #+END_SRC
 ** User Defined Functions
 #+BEGIN_SRC emacs-lisp
-  (defun peter/switch-buffer ()
-    "switch to last buffer"
-    (interactive)
-    (if (evil-alternate-buffer)
-	(switch-to-buffer (car (evil-alternate-buffer)))
-      (switch-to-buffer (other-buffer (current-buffer) t))))
+(defun peter/switch-buffer ()
+  "switch to last buffer"
+  (interactive)
+  (if (evil-alternate-buffer)
+      (switch-to-buffer (car (evil-alternate-buffer)))
+    (switch-to-buffer (other-buffer (current-buffer) t))))
 
-  (defun peter/edit-config-file ()
-    "edit config file"
-    (interactive)
-    (find-file "~/.emacs.d/config.org"))
+(defun peter/edit-config-file ()
+  "edit config file"
+  (interactive)
+  (find-file "~/.emacs.d/config.org"))
 
-  (defun peter/open-note-file ()
-    "open notes.org"
-    (interactive)
-    (find-file "~/btsync/capture.org"))
+(defun peter/open-note-file ()
+  "open notes.org"
+  (interactive)
+  (find-file "~/btsync/capture.org"))
 
-  (defun peter/recompile-all-packages ()
-    (interactive)
-    (byte-recompile-directory package-user-dir nil 'force))
+(defun peter/recompile-all-packages ()
+  (interactive)
+  (byte-recompile-directory package-user-dir nil 'force))
 
-  ;; close window after kill buffer command
-  (advice-add 'kill-this-buffer :after #'delete-window)
+;; close window after kill buffer command
+(advice-add 'kill-this-buffer :after #'delete-window)
 
-  (defun peter/compile-init ()
-    "Byte-compile all your dotfiles."
-    (interactive)
-    (byte-compile-file "~/.emacs.d/init.el")
-    (byte-recompile-directory "~/.emacs.d/config" 0)
-    (byte-recompile-directory "~/.emacs.d/theme" 0))
+(defun peter/compile-init ()
+  "Byte-compile all your dotfiles."
+  (interactive)
+  (byte-compile-file "~/.emacs.d/init.el")
+  (byte-recompile-directory "~/.emacs.d/config" 0)
+  (byte-recompile-directory "~/.emacs.d/theme" 0))
 
-  (defun peter/split-vertically ()
-    "Split window vertically and focus"
-    (interactive)
-    (split-window-vertically)
-    (other-window 1))
+(defun peter/split-vertically ()
+  "Split window vertically and focus"
+  (interactive)
+  (split-window-vertically)
+  (other-window 1))
 
-  (defun peter/split-horizontally ()
-    "Split window horizontally and focus"
-    (interactive)
-    (split-window-horizontally)
-    (other-window 1))
+(defun peter/split-horizontally ()
+  "Split window horizontally and focus"
+  (interactive)
+  (split-window-horizontally)
+  (other-window 1))
 
-  (defun peter/widen ()
-    "after widen scroll down"
-    (interactive)
-    (widen)
-    (scroll-down 8))
+(defun peter/widen ()
+  "after widen scroll down"
+  (interactive)
+  (widen)
+  (scroll-down 8))
 
-  (global-set-key (kbd "C-x k") 'kill-this-buffer)
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
 
-  ;;ERC
-  (setq socks-server
-	(list "My socks server" "localhost" 1080 5))
-  (setq socks-noproxy '("localhost"))
+;;ERC
+(setq socks-server
+      (list "My socks server" "localhost" 1080 5))
+(setq socks-noproxy '("localhost"))
 
-  (require 'socks)
-  (setq erc-server-connect-function 'socks-open-network-stream)
+(require 'socks)
+(setq erc-server-connect-function 'socks-open-network-stream)
 
-  (defun peter/narrow-to-defun ()
-    "narrow function depanding on mode"
-    (interactive)
-    (let ((current-mode (message "%s" major-mode)))
-      (cond
-       ((or (equal current-mode "emacs-lisp-mode")
-	    (equal current-mode "lisp-interaction-mode"))
-	( narrow-to-defun ))
-       ((or (equal current-mode "js2-mode")
-	    (equal current-mode "js2-jsx-mode")
-	    )
-	( js2-narrow-to-defun )))))
+(defun peter/narrow-to-defun ()
+  "narrow function depanding on mode"
+  (interactive)
+  (let ((current-mode (message "%s" major-mode)))
+    (cond
+     ((or (equal current-mode "emacs-lisp-mode")
+	  (equal current-mode "lisp-interaction-mode"))
+      ( narrow-to-defun ))
+     ((or (equal current-mode "js2-mode")
+	  (equal current-mode "js2-jsx-mode")
+	  )
+      ( js2-narrow-to-defun )))))
 #+END_SRC
-** Buffer Menu
+** COMMENT Buffer Menu
 #+BEGIN_SRC emacs-lisp
 #+END_SRC
 ** Dired
@@ -153,36 +153,40 @@
 #+END_SRC
 *** COMMENT Monokai
 #+BEGIN_SRC emacs-lisp
-  (use-package monokai-theme
-    :ensure t
-    :config
-    (load-theme 'monokai-theme))
+(use-package monokai-theme
+  :ensure t
+  :config
+  (load-theme 'monokai-theme))
 #+END_SRC
 *** Moe
 #+BEGIN_SRC emacs-lisp
-  (use-package powerline
-    :ensure t)
+;(use-package powerline
+;  :ensure t)
 
-  (use-package moe-theme
-    :ensure t)
+(use-package moe-theme
+  :ensure t)
 
-  (moe-light)
+(moe-light)
 
-  (setq moe-theme-highlight-buffer-id t)
+(setq moe-theme-highlight-buffer-id t)
 
-  (powerline-moe-theme)
+;(powerline-moe-theme)
 
-  ;; Resize titles
-  (setq moe-theme-resize-markdown-title '(2.0 1.7 1.5 1.3 1.0 1.0))
-  (setq moe-theme-resize-org-title '(2.2 1.8 1.6 1.4 1.2 1.0 1.0 1.0 1.0))
-  (setq moe-theme-resize-rst-title '(2.0 1.7 1.5 1.3 1.1 1.0))
+;; Resize titles
+(setq moe-theme-resize-markdown-title '(2.0 1.7 1.5 1.3 1.0 1.0))
+(setq moe-theme-resize-org-title '(2.2 1.8 1.6 1.4 1.2 1.0 1.0 1.0 1.0))
+(setq moe-theme-resize-rst-title '(2.0 1.7 1.5 1.3 1.1 1.0))
+
+(custom-set-faces
+ '(shm-current-face ((t (:background "gainsboro"))))) 
+
 #+END_SRC
 *** COMMENT Grandshell
 #+BEGIN_SRC emacs-lisp
-  (use-package grandshell-theme
-    :ensure t
-    :config
-    (load-theme 'grandshell t))
+(use-package grandshell-theme
+  :ensure t
+  :config
+  (load-theme 'grandshell t))
 #+END_SRC
 ** Mode Line
 *** COMMENT Spaceline
@@ -271,19 +275,19 @@ Use Alt + 1 2 3 to switch window
 *** Popwin 
 popup window for better experience
 #+BEGIN_SRC emacs-lisp
-  (use-package popwin
-    :ensure t
-    :config
-    (setq popwin:popup-window-height 15)
-    (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
-    (push '("*Warnings*" :regexp nil) popwin:special-display-config)
-    (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
-    (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
-    (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
-    (push '("*HS-Error*" :position bottom) popwin:special-display-config)
-    (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
-    (push '("*Buffer List*" :position bottom) popwin:special-display-config)
-    (popwin-mode 1))
+(use-package popwin
+  :ensure t
+  :config
+  (setq popwin:popup-window-height 15)
+  (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
+  (push '("*Warnings*" :regexp nil) popwin:special-display-config)
+  (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
+  (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
+  (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
+  (push '("*HS-Error*" :position bottom) popwin:special-display-config)
+  (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
+  (push '("*Buffer List*" :position bottom) popwin:special-display-config)
+  (popwin-mode 1))
 #+END_SRC
 ** Interface Enhancement
 *** Rainbow Mode
@@ -488,29 +492,29 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+END_SRC
 ** Evil Mode Setup
 #+BEGIN_SRC emacs-lisp
-  (use-package evil
-    :ensure t
-    :config
-    (evil-mode 1)
-    (setq evil-insert-state-map (make-sparse-keymap))
-    (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
-    (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
-    (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button)
-    (add-to-list 'evil-motion-state-modes 'debugger-mode)
-    (add-to-list 'evil-motion-state-modes 'special-mode)
-    (add-to-list 'evil-emacs-state-modes 'artist-mode))
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1)
+  (setq evil-insert-state-map (make-sparse-keymap))
+  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
+  (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
+  (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button)
+  (add-to-list 'evil-motion-state-modes 'debugger-mode)
+  (add-to-list 'evil-motion-state-modes 'special-mode)
+  (add-to-list 'evil-emacs-state-modes 'artist-mode))
 
-  (setq evil-normal-state-tag "N"
-	evil-insert-state-tag "I"
-	evil-motion-state-tag "M"
-	evil-emacs-state-tag  "E"
-	evil-visual-state-tag "V"
-	evil-motion-state-cursor	'(box "YellowGreen")
-	evil-normal-state-cursor	'(box "YellowGreen")
-	evil-insert-state-cursor	'(bar "#F86155")
-	evil-emacs-state-cursor	'(bar "SkyBlue2")
-	evil-visual-state-cursor	'(box "gray")
-	)
+(setq evil-normal-state-tag "N"
+      evil-insert-state-tag "I"
+      evil-motion-state-tag "M"
+      evil-emacs-state-tag  "E"
+      evil-visual-state-tag "V"
+      evil-motion-state-cursor	'(box "YellowGreen")
+      evil-normal-state-cursor	'(box "YellowGreen")
+      evil-insert-state-cursor	'(bar "#F86155")
+      evil-emacs-state-cursor	'(bar "SkyBlue2")
+      evil-visual-state-cursor	'(box "gray")
+      )
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
@@ -540,29 +544,30 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 * Helm
 ** Helm Config
 #+BEGIN_SRC emacs-lisp
-  (use-package helm
-    :diminish helm-mode
-    :ensure t
-    :bind (("s-x" . helm-M-x)
-	   ("M-x" . helm-M-x))
-    :config
-    (require 'helm-config)
-    (helm-mode 1)
-    (setq helm-display-header-line nil)
-    (setq helm-display-source-at-screen-top nil)
-    (setq helm-autoresize-min-height 10)
-    (setq helm-mode-fuzzy-match t)
-    (setq helm-split-window-in-side-p t)
-    (setq helm-completion-in-region-fuzzy-match t)
-    (helm-autoresize-mode 1)
-    ;;add bookmark to helm mini sources
-    (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
-    (evil-leader/set-key
-      "s" 'helm-occur
-      "d" 'helm-show-kill-ring
-      "bb" 'helm-mini
-      "i" 'helm-imenu
-      "`" 'helm-mini))
+(use-package helm
+  :diminish helm-mode
+  :ensure t
+  :bind (("s-x" . helm-M-x)
+	 ("M-x" . helm-M-x))
+  :config
+  (require 'helm-config)
+  (helm-mode 1)
+  (setq helm-display-header-line nil)
+  (setq helm-display-source-at-screen-top nil)
+  (setq helm-autoresize-min-height 10)
+  (setq helm-mode-fuzzy-match t)
+  (setq helm-split-window-in-side-p t)
+  (setq helm-completion-in-region-fuzzy-match t)
+  (helm-autoresize-mode 1)
+  ;;add bookmark to helm mini sources
+  (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
+  (evil-leader/set-key
+    "s" 'helm-occur
+    "d" 'helm-show-kill-ring
+    ";" 'helm-mark-ring
+    "bb" 'helm-mini
+    "i" 'helm-imenu
+    "`" 'helm-mini))
 #+END_SRC
 ** Helm Workaround
 #+BEGIN_SRC emacs-lisp
@@ -903,42 +908,49 @@ This predicate is only tested on \"insert\" action."
 (use-package org
   :ensure t
   :bind (("\C-cc" . org-capture)
-	 ("\C-ca" . org-agenda))
-  :config
-  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
-  (setq org-startup-indented t)
-  (setq org-default-notes-file "~/Nextcloud/org/capture.org")
-  (setq org-agenda-files (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes"))
-  (setq org-directory "~/Nextcloud/org")
-  (setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
-  (setq org-mobile-directory "~/Nextcloud/MobileOrg")
-  (setq org-log-done 'time)
-  (setq org-src-fontify-natively t)
-  (setq org-startup-folded t)
-  (setq org-hide-emphasis-markers t)
-  (setq org-refile-targets '((nil :maxlevel . 2)
-                                (org-agenda-files :maxlevel . 2)))
-  ;; Refile in a single go
-  (setq org-outline-path-complete-in-steps nil)         
-  ;; Show full paths for refiling
-  (setq org-refile-use-outline-path t)                  
-  (evil-leader/set-key
-    "op" 'org-mobile-push
-    "oP" 'org-mobile-pull
-    "aa" 'org-todo-list
-    "ac" 'org-capture))
+	 ("\C-ca" . org-agenda)))
+(evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+(setq org-startup-indented t)
+(setq org-startup-folded t)
+(setq org-hide-emphasis-markers t)
+(evil-leader/set-key
+  "op" 'org-mobile-push
+  "oP" 'org-mobile-pull
+  "aa" 'org-todo-list
+  "ac" 'org-capture)
+#+END_SRC
+** Org Agenda
+#+BEGIN_SRC emacs-lisp
+(setq org-default-notes-file "~/Nextcloud/org/capture.org")
+(setq org-agenda-files (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes"))
+(setq org-directory "~/Nextcloud/org")
+(setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
+(setq org-mobile-directory "~/Nextcloud/MobileOrg")
+(setq org-log-done 'time)
 
-(global-set-key (kbd "\C-cc") 'org-capture)
-(global-set-key (kbd "\C-ca") 'org-agenda)
+;; org refile
+(setq org-refile-targets '((nil :maxlevel . 2)
+			   (org-agenda-files :maxlevel . 2)))
+;; Refile in a single go
+(setq org-outline-path-complete-in-steps nil)         
+;; Show full paths for refiling
+(setq org-refile-use-outline-path t)                  
 
 (defun peter/agenda-mode-config ()
-  "agenda mode key bindings"
+  "agenda mode key bindings and config"
   (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
-  (define-key org-agenda-mode-map "n" 'org-agenda-capture))
+  (define-key org-agenda-mode-map "n" 'org-agenda-capture)
+  (hl-line-mode))
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
+#+END_SRC
+** Org Source Block
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+(setq org-src-window-setup 'current-window)
+(setq org-src-preserve-indentation t)
 #+END_SRC
 ** COMMENT Org Contrib
 #+BEGIN_SRC emacs-lisp
@@ -947,10 +959,10 @@ This predicate is only tested on \"insert\" action."
 #+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
 ** Deft
 #+BEGIN_SRC emacs-lisp
@@ -1045,6 +1057,7 @@ This predicate is only tested on \"insert\" action."
 ;;      ("web" :components ("images" "js" "css")))))
 
 #+END_SRC
+
 * Programming Language Supports
 ** Go
 Go-mode dependencies
