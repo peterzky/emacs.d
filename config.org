@@ -158,7 +158,7 @@
 (custom-set-faces
  '(bold ((t (:foreground "firebrick" :weight bold))))
  '(evil-mc-cursor-default-face ((t (:background "blue violet" :inverse-video nil))))
- '(hl-line ((t (:background "dim gray" :foreground "black"))))
+ '(hl-line ((t (:background "#353535"))))
  '(info-quoted-name ((t (:inherit font-lock-string-face :foreground "DarkOrange2"))))
  '(info-single-quote ((t (:inherit font-lock-keyword-face :foreground "dark violet"))))
  '(italic ((t (:foreground "peru" :slant italic))))
