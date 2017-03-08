@@ -275,7 +275,10 @@
     (propertize "R" 'face '(:foreground "#1F3A93")))))
 (spaceline-compile)
 #+END_SRC
-*** TODO Mode line git icon and save icon                          :emcas:
+*** TODO [#B] Mode line git icon and save icon                      :emcas:
+:LOGBOOK:
+CLOCK: [2017-03-09 Thu 07:26]--[2017-03-09 Thu 07:26] =>  0:00
+:END:
 ** Window Control
 *** Window Numbering
 Use Alt + 1 2 3 to switch window
@@ -484,6 +487,22 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
     "pr" 'paradox-list-packages
     "pu" 'paradox-upgrade-packages))
 #+END_SRC
+** Projectile
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-global-mode)
+  (setq projectile-switch-project-action 'projectile-dired)
+  (add-to-list 'projectile-globally-ignored-directories "node_modules") 
+  (add-to-list 'projectile-globally-ignored-files ".tern-port"))
+#+END_SRC
+** Avy
+#+BEGIN_SRC emacs-lisp
+(use-package avy
+  :ensure t
+  :bind ("C-;" . avy-goto-char))
+#+END_SRC
 * Evil Mode
 ** Evil Leader
 #+BEGIN_SRC emacs-lisp
@@ -499,8 +518,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (evil-leader/set-key
     "bd" 'kill-this-buffer
     "fs" 'save-buffer
-    "ff" 'helm-find-files
-    "fl" 'helm-locate
     "ll" 'linum-mode
     "he" 'elisp-index-search
     "an" 'peter/open-note-file
@@ -591,6 +608,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
     "d" 'helm-show-kill-ring
     ";" 'helm-mark-ring
     "bb" 'helm-mini
+    "ff" 'helm-find-files
+    "fl" 'helm-locate
     "i" 'helm-imenu
     "`" 'helm-mini))
 #+END_SRC
@@ -677,21 +696,24 @@ helm interface for systemd services
   (setq helm-descbinds-window-style 'same-window)
   (helm-descbinds-mode))
 #+END_SRC
-** Avy
+* COMMENT Ivy
 #+BEGIN_SRC emacs-lisp
-(use-package avy
-  :ensure t
-  :bind ("C-;" . avy-goto-char))
-#+END_SRC
-** Projectile
-#+BEGIN_SRC emacs-lisp
-(use-package projectile
+(use-package counsel
   :ensure t
   :config
-  (projectile-global-mode)
-  (setq projectile-switch-project-action 'projectile-dired)
-  (add-to-list 'projectile-globally-ignored-directories "node_modules") 
-  (add-to-list 'projectile-globally-ignored-files ".tern-port"))
+  (ivy-mode 1))
+#+END_SRC
+** Ivy Bindings
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "s-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 #+END_SRC
 * Completion and Efficent Editing
 ** Company Mode
