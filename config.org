@@ -988,7 +988,7 @@ This predicate is only tested on \"insert\" action."
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-bullets-bullet-list '("◉" "●" "◇" "✚" "✜" "☯" "◆")))
+  (setq org-bullets-bullet-list '("●" "◉" "◇" "✚" "✜" "☯" "◆")))
 #+END_SRC
 ** Deft
 #+BEGIN_SRC emacs-lisp
