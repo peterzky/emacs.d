@@ -119,43 +119,6 @@
 	( js2-narrow-to-defun )))))
 #+END_SRC
 * Appearance
-** Window Control
-*** Window Numbering
-Use Alt + 1 2 3 to switch window
-#+BEGIN_SRC emacs-lisp
-(use-package window-numbering
-  :ensure t
-  :config
-  (defun window-numbering-install-mode-line (&optional position)
-    "Do nothing.")
-  (window-numbering-mode)
-  (evil-leader/set-key
-    "1" 'select-window-1
-    "2" 'select-window-2
-    "3" 'select-window-3
-    "4" 'select-window-4
-    "5" 'select-window-5
-    "6" 'select-window-6
-    "7" 'select-window-7
-    "8" 'select-window-8
-    "9" 'select-window-9))
-#+END_SRC
-*** Popwin 
-popup window for better experience
-#+BEGIN_SRC emacs-lisp
-(use-package popwin
-  :ensure t
-  :config
-  (setq popwin:popup-window-height 15)
-  (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
-  (push '("*Warnings*" :regexp nil) popwin:special-display-config)
-  (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
-  (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
-  (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
-  (push '("*HS-Error*" :position bottom) popwin:special-display-config)
-  (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
-  (popwin-mode 1))
-#+END_SRC
 ** Themes 
 *** COMMENT Leuven
 #+BEGIN_SRC emacs-lisp
@@ -180,17 +143,22 @@ popup window for better experience
 #+END_SRC
 *** Moe
 #+BEGIN_SRC emacs-lisp
-  (use-package moe-theme
-    :ensure t
-    :config
-    (load-theme 'moe-theme))
-
   (use-package powerline
     :ensure t)
 
+  (use-package moe-theme
+    :ensure t)
+
+  (moe-light)
+
   (setq moe-theme-highlight-buffer-id t)
 
-  (moe-dark)
+  (powerline-moe-theme)
+
+  ;; Resize titles
+  (setq moe-theme-resize-markdown-title '(2.0 1.7 1.5 1.3 1.0 1.0))
+  (setq moe-theme-resize-org-title '(2.2 1.8 1.6 1.4 1.2 1.0 1.0 1.0 1.0))
+  (setq moe-theme-resize-rst-title '(2.0 1.7 1.5 1.3 1.1 1.0))
 #+END_SRC
 ** Mode Line
 *** COMMENT Spaceline
@@ -254,6 +222,43 @@ popup window for better experience
  '(spaceline-evil-emacs ((t (:background "#3A539B" :foreground "#D2D7D3" :inherit (quote mode-line)))))
  '(spaceline-evil-insert ((t (:background "YellowGreen" :foreground "#3E3D31" :inherit (quote mode-line)))))
  '(spaceline-evil-motion ((t (:background "#663399" :foreground "#D2D7D3" :inherit (quote mode-line))))))
+#+END_SRC
+** Window Control
+*** Window Numbering
+Use Alt + 1 2 3 to switch window
+#+BEGIN_SRC emacs-lisp
+(use-package window-numbering
+  :ensure t
+  :config
+  (defun window-numbering-install-mode-line (&optional position)
+    "Do nothing.")
+  (window-numbering-mode)
+  (evil-leader/set-key
+    "1" 'select-window-1
+    "2" 'select-window-2
+    "3" 'select-window-3
+    "4" 'select-window-4
+    "5" 'select-window-5
+    "6" 'select-window-6
+    "7" 'select-window-7
+    "8" 'select-window-8
+    "9" 'select-window-9))
+#+END_SRC
+*** Popwin 
+popup window for better experience
+#+BEGIN_SRC emacs-lisp
+(use-package popwin
+  :ensure t
+  :config
+  (setq popwin:popup-window-height 15)
+  (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
+  (push '("*Warnings*" :regexp nil) popwin:special-display-config)
+  (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
+  (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
+  (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
+  (push '("*HS-Error*" :position bottom) popwin:special-display-config)
+  (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
+  (popwin-mode 1))
 #+END_SRC
 ** Interface Enhancement
 *** Rainbow Mode
@@ -906,7 +911,7 @@ This predicate is only tested on \"insert\" action."
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 #+END_SRC
-** Org Contrib
+** COMMENT Org Contrib
 #+BEGIN_SRC emacs-lisp
 (use-package org-plus-contrib
   :ensure t)
