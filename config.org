@@ -120,6 +120,20 @@
 	    )
 	( js2-narrow-to-defun )))))
 #+END_SRC
+** Buffer Menu
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+** Dired
+#+BEGIN_SRC emacs-lisp
+;; Dired mode highlight lines
+(add-hook 'dired-mode-hook 'hl-line-mode)
+#+END_SRC
+** Ispell
+#+BEGIN_SRC emacs-lisp
+;; spell check world
+(global-set-key (kbd "C-\\") 'ispell-word)
+#+END_SRC
 * Appearance
 ** Themes 
 *** COMMENT Leuven
@@ -249,18 +263,19 @@ Use Alt + 1 2 3 to switch window
 *** Popwin 
 popup window for better experience
 #+BEGIN_SRC emacs-lisp
-(use-package popwin
-  :ensure t
-  :config
-  (setq popwin:popup-window-height 15)
-  (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
-  (push '("*Warnings*" :regexp nil) popwin:special-display-config)
-  (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
-  (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
-  (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
-  (push '("*HS-Error*" :position bottom) popwin:special-display-config)
-  (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
-  (popwin-mode 1))
+  (use-package popwin
+    :ensure t
+    :config
+    (setq popwin:popup-window-height 15)
+    (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
+    (push '("*Warnings*" :regexp nil) popwin:special-display-config)
+    (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
+    (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
+    (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
+    (push '("*HS-Error*" :position bottom) popwin:special-display-config)
+    (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
+    (push '("*Buffer List*" :position bottom) popwin:special-display-config)
+    (popwin-mode 1))
 #+END_SRC
 ** Interface Enhancement
 *** Rainbow Mode
@@ -672,7 +687,9 @@ helm interface for systemd services
   :config
   (smartparens-global-mode t)
   (require 'smartparens-config))
-;; keybinding management
+#+END_SRC
+*** Smartparens Keybinding
+#+BEGIN_SRC emacs-lisp
 (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
 (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
 
@@ -752,14 +769,9 @@ helm interface for systemd services
 (bind-key ";" 'sp-comment emacs-lisp-mode-map)
 
 (bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
-
-;;;;;;;;;;;;;;;;;;
-;; pair management
-
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-(bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
-
-;;; markdown-mode
+#+END_SRC
+*** Smartparens Markdown Mode
+#+BEGIN_SRC emacs-lisp
 (sp-with-modes '(markdown-mode gfm-mode rst-mode)
   (sp-local-pair "*" "*"
                  :wrap "C-*"
@@ -779,12 +791,9 @@ This predicate is only tested on \"insert\" action."
   (save-excursion
     (goto-char mb)
     (save-match-data (looking-at "^\\* "))))
-
-;;; rst-mode
-(sp-with-modes 'rst-mode
-  (sp-local-pair "``" "``"))
-
-;;; org-mode
+#+END_SRC
+*** Smartparens Org Mode
+#+BEGIN_SRC emacs-lisp
 (sp-with-modes 'org-mode
   (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
   (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
@@ -798,12 +807,9 @@ This predicate is only tested on \"insert\" action."
            (eq 32 (char-after (1+ mb))))
       (and (= (1+ (line-beginning-position)) me)
            (eq 32 (char-after me)))))
-
-;;; tex-mode latex-mode
-(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
-  (sp-local-tag "i" "\"<" "\">"))
-
-;;; lisp modes
+#+END_SRC
+*** Smartparens Lisp Mode
+#+BEGIN_SRC emacs-lisp
 (sp-with-modes sp--lisp-modes
   (sp-local-pair "(" nil
                  :wrap "C-("
@@ -828,12 +834,25 @@ This predicate is only tested on \"insert\" action."
                 (and (looking-back (sp--get-closing-regexp))
                      (not (eq (char-syntax (preceding-char)) ?'))))
         (insert " ")))))
+#+END_SRC
+*** COMMENT Smartparens etc
+#+BEGIN_SRC emacs-lisp
+;; pair management
+(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+(bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
+
+;;; rst-mode
+(sp-with-modes 'rst-mode
+  (sp-local-pair "``" "``"))
+
+;;; tex-mode latex-mode
+(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
+  (sp-local-tag "i" "\"<" "\">"))
 
 ;;; C++
 (sp-with-modes '(malabar-mode c++-mode)
   (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
 (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
-                                                    ("* ||\n[i]" "RET")))
 
 ;;; PHP
 (sp-with-modes '(php-mode)
@@ -1348,8 +1367,5 @@ cabal install hindent
 (use-package systemd
   :ensure t)
 
-;; spell check world
-(global-set-key (kbd "C-\\") 'ispell-word)
-;; Dired mode highlight lines
-(add-hook 'dired-mode-hook 'hl-line-mode)
+
 #+END_SRC
