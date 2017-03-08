@@ -4,9 +4,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(Man-notify-method (quote pushy))
- '(package-selected-packages
-   (quote
-    (ranger go-playground rainbow-delimiters paredit evil-org-mode helm tern projectile htmlize org2jekyll evil-mu4e shm hindent gorepl-mode company-ghc ghc info+ flycheck-gometalinter systemd youdao-dictionary yasnippet window-numbering web-beautify use-package spaceline smartparens shell-pop scion rainbow-mode pp-c-l popwin paradox org-pomodoro org-plus-contrib org-bullets json-mode js2-mode js-comint hungry-delete helm-systemd helm-projectile helm-descbinds helm-ag haskell-mode graphviz-dot-mode go-eldoc git-timemachine fcitx expand-region evil-surround evil-numbers evil-nerd-commenter evil-mc evil-magit evil-leader emmet-mode deft crux company-tern company-go chinese-pyim-greatdict chinese-pyim avy auto-compile ample-theme)))
  '(popwin:special-display-config
    (quote
     (help-mode
@@ -31,9 +28,6 @@
      "*slime-xref*"
      (sldb-mode :stick t)
      slime-repl-mode slime-connection-list-mode)))
- '(ranger-deer-show-details nil)
- '(ranger-override-dired t)
- '(ranger-show-literal nil)
  '(shell-pop-shell-type
    (quote
     ("eshell-pop" "*eshell-pop*"
