@@ -206,12 +206,23 @@
   :config
   (load-theme 'grandshell t))
 #+END_SRC
-*** Dracula
+*** COMMENT Dracula
 #+BEGIN_SRC emacs-lisp
 (use-package dracula-theme
   :ensure t
   :config
   (load-theme 'dracula t))
+#+END_SRC
+*** Zerodark
+#+BEGIN_SRC emacs-lisp
+(use-package zerodark-theme
+  :ensure t
+  :config
+  (load-theme 'zerodark t)
+  (zerodark-setup-modeline-format))
+
+(custom-set-faces
+ '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
 ** Mode Line
 *** COMMENT Spaceline
