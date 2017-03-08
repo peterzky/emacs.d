@@ -13,8 +13,6 @@
 (menu-bar-mode -1)
 
 (tool-bar-mode -1)
-
-(show-paren-mode 1)
 #+END_SRC
 ** Default Behavior
 #+BEGIN_SRC emacs-lisp
@@ -28,6 +26,10 @@
 (put 'narrow-to-region 'disabled nil)
 
 (put 'set-goal-column 'disabled nil)
+
+(show-paren-mode 1)
+
+(setq show-paren-style 'expression)
 ;; recent file mode
 (recentf-mode 1)
 ;; man page full screen
