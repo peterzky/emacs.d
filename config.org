@@ -28,7 +28,7 @@
 (put 'set-goal-column 'disabled nil)
 
 (show-paren-mode 1)
-
+;; hilight parenthesis
 (setq show-paren-style 'parenthesis)
 ;; recent file mode
 (recentf-mode 1)
