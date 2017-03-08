@@ -29,7 +29,7 @@
 
 (show-paren-mode 1)
 
-(setq show-paren-style 'expression)
+;; (setq show-paren-style 'expression)
 ;; recent file mode
 (recentf-mode 1)
 ;; man page full screen
@@ -121,6 +121,10 @@
 	  (equal current-mode "js2-jsx-mode")
 	  )
       ( js2-narrow-to-defun )))))
+#+END_SRC
+** Help binds
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-h C-f") 'describe-face)
 #+END_SRC
 ** COMMENT Buffer Menu
 #+BEGIN_SRC emacs-lisp
@@ -929,6 +933,7 @@ This predicate is only tested on \"insert\" action."
   :bind (("\C-cc" . org-capture)
 	 ("\C-ca" . org-agenda)))
 (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+(evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
 (setq org-startup-indented t)
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
