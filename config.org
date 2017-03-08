@@ -275,6 +275,7 @@
     (propertize "R" 'face '(:foreground "#1F3A93")))))
 (spaceline-compile)
 #+END_SRC
+*** TODO Mode line git icon and save icon                          :emcas:
 ** Window Control
 *** Window Numbering
 Use Alt + 1 2 3 to switch window
@@ -947,7 +948,8 @@ This predicate is only tested on \"insert\" action."
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-default-notes-file "~/Nextcloud/org/capture.org")
-(setq org-agenda-files (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes"))
+(setq org-agenda-files 
+      (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes" "~/.emacs.d/config.org"))
 (setq org-directory "~/Nextcloud/org")
 (setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
 (setq org-mobile-directory "~/Nextcloud/MobileOrg")
