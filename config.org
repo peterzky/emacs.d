@@ -62,10 +62,10 @@
   (interactive)
   (find-file "~/.emacs.d/config.org"))
 
-(defun peter/open-note-file ()
-  "open notes.org"
-  (interactive)
-  (find-file "~/btsync/capture.org"))
+;; (defun peter/open-note-file ()
+;;   "open notes.org"
+;;   (interactive)
+;;   (find-file "~/btsync/capture.org"))
 
 (defun peter/recompile-all-packages ()
   (interactive)
@@ -74,12 +74,12 @@
 ;; close window after kill buffer command
 (advice-add 'kill-this-buffer :after #'delete-window)
 
-(defun peter/compile-init ()
-  "Byte-compile all your dotfiles."
-  (interactive)
-  (byte-compile-file "~/.emacs.d/init.el")
-  (byte-recompile-directory "~/.emacs.d/config" 0)
-  (byte-recompile-directory "~/.emacs.d/theme" 0))
+;; (defun peter/compile-init ()
+;;   "Byte-compile all your dotfiles."
+;;   (interactive)
+;;   (byte-compile-file "~/.emacs.d/init.el")
+;;   (byte-recompile-directory "~/.emacs.d/config" 0)
+;;   (byte-recompile-directory "~/.emacs.d/theme" 0))
 
 (defun peter/split-vertically ()
   "Split window vertically and focus"
@@ -121,18 +121,40 @@
 	  (equal current-mode "js2-jsx-mode")
 	  )
       ( js2-narrow-to-defun )))))
+
+;; Scroll other window
+(defun peter/scroll-other-window-up ()
+  (interactive)
+  (scroll-other-window 1))
+
+(defun peter/scroll-other-window-down ()
+  (interactive)
+  (scroll-other-window-down 1))
+
+(defun peter/scroll-window-down ()
+  (interactive)
+  (scroll-down 1))
+
+(defun peter/scroll-window-up ()
+  (interactive)
+  (scroll-up 1))
 #+END_SRC
-** Help binds
+** User Defined Bindings
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-h C-f") 'describe-face)
+;; Scrolling
+(global-set-key [C-next] 'peter/scroll-other-window-up)
+(global-set-key [C-prior] 'peter/scroll-other-window-down)
+(global-set-key [next] 'peter/scroll-window-up)
+(global-set-key [prior] 'peter/scroll-window-down)
 #+END_SRC
-** COMMENT Buffer Menu
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-** Ispell
+** ISpell
 #+BEGIN_SRC emacs-lisp
 ;; spell check world
 (global-set-key (kbd "C-\\") 'ispell-word)
+#+END_SRC
+** COMMENT Buffer Menu
+#+BEGIN_SRC emacs-lisp
 #+END_SRC
 * Appearance
 ** Themes 
@@ -980,7 +1002,7 @@ This predicate is only tested on \"insert\" action."
 (use-package org
   :ensure t
   :bind (("\C-cc" . org-capture)
-	 ("\C-ca" . org-agenda)))
+	     ("\C-ca" . org-agenda)))
 (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
 (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
 (setq org-startup-indented t)
@@ -991,6 +1013,8 @@ This predicate is only tested on \"insert\" action."
   "oP" 'org-mobile-pull
   "aa" 'org-todo-list
   "ac" 'org-capture)
+;; diminish org-indent-mode
+(eval-after-load 'org-indent '(diminish 'org-indent-mode))
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
@@ -1020,16 +1044,16 @@ This predicate is only tested on \"insert\" action."
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 #+END_SRC
+** Org Plot
+#+BEGIN_SRC emacs-lisp
+(use-package gnuplot-mode
+  :ensure t)
+#+END_SRC
 ** Org Source Block
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
 (setq org-src-window-setup 'current-window)
 (setq org-src-preserve-indentation t)
-#+END_SRC
-** COMMENT Org Contrib
-#+BEGIN_SRC emacs-lisp
-(use-package org-plus-contrib
-  :ensure t)
 #+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
@@ -1058,6 +1082,11 @@ This predicate is only tested on \"insert\" action."
       '((noslash . "-")
         (nospace . "-")
         (case-fn . downcase))))
+#+END_SRC
+** COMMENT Org Contrib
+#+BEGIN_SRC emacs-lisp
+(use-package org-plus-contrib
+  :ensure t)
 #+END_SRC
 ** COMMENT Org Pomodoro
 #+BEGIN_SRC emacs-lisp
@@ -1147,8 +1176,7 @@ go get -u github.com/alecthomas/gometalinter
 (use-package gorepl-mode
   :ensure t
   :config
-  (add-hook 'go-mode-hook #'gorepl-mode)
-  )
+  (add-hook 'go-mode-hook #'gorepl-mode))
 
 (use-package company-go
   :ensure t
@@ -1221,6 +1249,18 @@ cabal install hindent
 (defun my-haskell-mode-hook ()
   (local-set-key "\C-c\C-d" 'ghc-browse-document))
 #+END_SRC
+** Emacs Lisp
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :diminish rainbow-delimiters-mode
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+#+END_SRC
+** COMMENT Octave
+#+BEGIN_SRC emacs-lisp
+(evil-set-initial-state 'inferior-octave-mode 'emacs)
+#+END_SRC
 ** COMMENT Javascript
 #+BEGIN_SRC emacs-lisp
 (defun peter/js-comint-kbd ()
@@ -1285,14 +1325,6 @@ cabal install hindent
 ;;fix smartparens curly braces issue
 (sp-local-pair 'js2-mode "{" "}" :actions '(:rem insert))
 #+END_SRC
-** Emacs Lisp
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :diminish rainbow-delimiters-mode
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
-#+END_SRC
 ** COMMENT ReactJS
 #+BEGIN_SRC emacs-lisp
 (use-package evil-matchit
@@ -1342,10 +1374,6 @@ cabal install hindent
       (let ((web-mode-enable-part-face nil))
         ad-do-it)))
 (add-hook 'react-mode-hook 'react/setup-react-mode))
-#+END_SRC
-** Octave
-#+BEGIN_SRC emacs-lisp
-(evil-set-initial-state 'inferior-octave-mode 'emacs)
 #+END_SRC
 ** COMMENT Sml
 #+BEGIN_SRC emacs-lisp
@@ -1462,6 +1490,4 @@ cabal install hindent
 ;;For editing systemd file
 (use-package systemd
   :ensure t)
-
-
 #+END_SRC
