@@ -565,7 +565,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
       evil-motion-state-tag "M"
       evil-emacs-state-tag  "E"
       evil-visual-state-tag "V"
-      evil-motion-state-cursor	'(box "YellowGreen")
+      evil-motion-state-cursor	'(box "#663399")
       evil-normal-state-cursor	'(box "YellowGreen")
       evil-insert-state-cursor	'(bar "#F86155")
       evil-emacs-state-cursor	'(bar "SkyBlue2")
@@ -578,9 +578,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t)
 #+END_SRC
 ** Evil Nerd Commenter
+text object ~c~ as comment
+operator ~,,~ as comment
 #+BEGIN_SRC emacs-lisp
 (use-package evil-nerd-commenter
-  :ensure t)
+  :ensure t
+  :config
+  (evilnc-default-hotkeys))
 #+END_SRC
 ** Evil Surround
 #+BEGIN_SRC emacs-lisp
@@ -588,6 +592,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (global-evil-surround-mode 1))
+#+END_SRC
+** COMMENT Evil Smartparens
+#+BEGIN_SRC emacs-lisp
+(use-package evil-smartparens
+  :ensure t
+  :config
+  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
 #+END_SRC
 ** COMMENT Evil Numbers
 #+BEGIN_SRC emacs-lisp
