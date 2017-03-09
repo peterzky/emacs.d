@@ -293,6 +293,9 @@
 (spaceline-compile)
 #+END_SRC
 *** TODO [#B] Mode line git icon and save icon                      :emcas:
+:PROPERTIES:
+:ID:       abf0fc79-ac53-40b1-aada-a3ab392d902e
+:END:
 :LOGBOOK:
 CLOCK: [2017-03-09 Thu 07:26]--[2017-03-09 Thu 07:26] =>  0:00
 :END:
@@ -1018,6 +1021,8 @@ This predicate is only tested on \"insert\" action."
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "CANCELED(c)")))
 (setq org-default-notes-file "~/Nextcloud/org/capture.org")
 (setq org-agenda-files 
       (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes" "~/.emacs.d/config.org"))
