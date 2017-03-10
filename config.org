@@ -162,7 +162,7 @@
 #+BEGIN_SRC emacs-lisp  
 (load-theme 'leuven)
 #+END_SRC
-*** Ample 
+*** COMMENT Ample 
 **** Custom Ample
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
@@ -236,7 +236,7 @@
     (propertize "R" 'face '(:foreground "#1F3A93")))))
 (spaceline-compile)
 #+END_SRC
-*** COMMENT Monokai
+*** Monokai
 #+BEGIN_SRC emacs-lisp 
 (use-package monokai-theme
   :ensure t
@@ -772,7 +772,7 @@ helm interface for systemd services
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "CANCELED(c)")))
+      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
 (setq org-default-notes-file "~/Nextcloud/org/capture.org")
 (setq org-agenda-files 
       (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes" "~/.emacs.d/config.org"))
