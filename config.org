@@ -158,10 +158,6 @@
 #+END_SRC
 * Appearance
 ** Themes 
-*** COMMENT Leuven
-#+BEGIN_SRC emacs-lisp  
-(load-theme 'leuven)
-#+END_SRC
 *** Ample 
 **** Custom Ample
 #+BEGIN_SRC emacs-lisp
@@ -235,6 +231,10 @@
    (buffer-read-only
     (propertize "R" 'face '(:foreground "#1F3A93")))))
 (spaceline-compile)
+#+END_SRC
+*** COMMENT Leuven
+#+BEGIN_SRC emacs-lisp  
+(load-theme 'leuven)
 #+END_SRC
 *** COMMENT Monokai
 #+BEGIN_SRC emacs-lisp 
