@@ -879,14 +879,14 @@ helm interface for systemd services
 ** Org Download
 Drag and Drop Image to Emacs
 #+BEGIN_SRC emacs-lisp
-
+(use-package org-download
+  :ensure t
+  :config)
 #+END_SRC
-** COMMENT Org Pomodoro
+** Org Pomodoro
 #+BEGIN_SRC emacs-lisp
 (use-package org-pomodoro
-  :ensure t
-  :config
-  (org-defkey org-agenda-mode-map "I" 'org-pomodoro))
+  :ensure t)
 #+END_SRC
 ** COMMENT Blog
 #+BEGIN_SRC emacs-lisp
@@ -1431,7 +1431,7 @@ cabal install hindent
 (setenv "PATH" (concat (getenv "PATH") ":/home/peterzky/playground/smlnj/bin"))
 (setq exec-path (append exec-path '("/home/peterzky/playground/smlnj/bin")))
 #+END_SRC
-* Gnus
+* COMMENT Gnus
 * Misc
 ** Mail
 #+BEGIN_SRC emacs-lisp 
