@@ -413,7 +413,9 @@ popup window for better experience
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
 (use-package evil-magit
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
 ** Evil Nerd Commenter
 text object ~c~ as comment
@@ -548,6 +550,13 @@ operator ~,,~ as comment
   (add-hook 'artist-mode-hook
 	    (lambda ()
 	      (local-set-key (kbd "C-c C-s") 'hydra-artist-mode/body)))
+#+END_SRC
+** Hide Show Comments
+#+BEGIN_SRC emacs-lisp
+(use-package hide-comnt
+  :ensure t
+  :config
+  (evil-leader/set-key "ch" 'hide/show-comments-toggle))
 #+END_SRC
 ** Chinese Support
 *** Youdao Dictionary
@@ -1413,7 +1422,7 @@ cabal install hindent
 #+END_SRC
 * Gnus
 * Misc
-** COMMENT Mail
+** Mail
 #+BEGIN_SRC emacs-lisp 
 (use-package evil-mu4e
   :ensure t)
