@@ -415,6 +415,7 @@ popup window for better experience
 (use-package evil-magit
   :ensure t
   :config
+  ;; Open commit message with insert state
   (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
 ** Evil Nerd Commenter
@@ -830,6 +831,8 @@ Org Capture Evil State
   (hl-line-mode))
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
+;; Enter insert state when opening log buffer
+(add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
 #+END_SRC
 ** Org Plot
 #+BEGIN_SRC emacs-lisp
