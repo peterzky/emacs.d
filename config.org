@@ -795,10 +795,6 @@ helm interface for systemd services
 	("x" "org-protocol" entry (file "~/Nextcloud/notes/web.org")
 	 "* TODO Review %c\n%U\n%i\n" :immediate-finish)))
 #+END_SRC
-Org Capture Evil State
-#+BEGIN_SRC emacs-lisp
-(add-hook 'org-capture-mode-hook 'evil-insert-state)
-#+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
@@ -833,6 +829,8 @@ Org Capture Evil State
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 ;; Enter insert state when opening log buffer
 (add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
+;; Org capture initial state insert
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
 #+END_SRC
 ** Org Plot
 #+BEGIN_SRC emacs-lisp
