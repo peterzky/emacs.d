@@ -772,14 +772,18 @@ helm interface for systemd services
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 ;; org modules
 (add-to-list 'org-modules 'org-habit)
+(add-to-list 'org-modules 'org-protocol)
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
+(require 'org-protocol)
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Nextcloud/org/GTD.org" "Tasks")
 	 "* TODO %?\n %i\n %a")
 	("j" "Journal" entry (file+datetree "~/Nextcloud/notes/journal.org")
-	 "* %?\nEntered on %U\n %i\n %a")))
+	 "* %?\nEntered on %U\n %i\n %a")
+	("x" "org-protocol" entry (file "~/Nextcloud/notes/web.org")
+	 "* TODO Review %c\n%U\n%i\n" :immediate-finish)))
 #+END_SRC
 Org Capture Evil State
 #+BEGIN_SRC emacs-lisp
