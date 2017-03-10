@@ -19,6 +19,10 @@
   (require 'diminish)
   (require 'bind-key))
 
+;; Bootstrap `Org-mode' for parsing config file
+(use-package org
+  :ensure t)
+
 (setq custom-file "~/.emacs.d/custom.el")
 
 (org-babel-load-file (concat user-emacs-directory "config.org"))

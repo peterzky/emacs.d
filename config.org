@@ -159,10 +159,10 @@
 * Appearance
 ** Themes 
 *** COMMENT Leuven
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp  
 (load-theme 'leuven)
 #+END_SRC
-*** Ample 
+*** COMMENT Ample 
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
@@ -193,14 +193,14 @@
  '(spaceline-evil-motion ((t (:background "#663399" :foreground "#D2D7D3" :inherit (quote mode-line))))))
 #+END_SRC
 *** COMMENT Monokai
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 (use-package monokai-theme
   :ensure t
   :config
   (load-theme 'monokai-theme))
 #+END_SRC
 *** COMMENT Moe
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 ;(use-package powerline
 ;  :ensure t)
 
@@ -223,21 +223,21 @@
 
 #+END_SRC
 *** COMMENT Grandshell
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 (use-package grandshell-theme
   :ensure t
   :config
   (load-theme 'grandshell t))
 #+END_SRC
-*** COMMENT Dracula
+*** COMMENT Dracula 
 #+BEGIN_SRC emacs-lisp
 (use-package dracula-theme
   :ensure t
   :config
   (load-theme 'dracula t))
-#+END_SRC
+#+END_SRC 
 *** COMMENT Zerodark
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 (use-package zerodark-theme
   :ensure t
   :config
@@ -308,17 +308,7 @@ Use Alt + 1 2 3 to switch window
   :config
   (defun window-numbering-install-mode-line (&optional position)
     "Do nothing.")
-  (window-numbering-mode)
-  (evil-leader/set-key
-    "1" 'select-window-1
-    "2" 'select-window-2
-    "3" 'select-window-3
-    "4" 'select-window-4
-    "5" 'select-window-5
-    "6" 'select-window-6
-    "7" 'select-window-7
-    "8" 'select-window-8
-    "9" 'select-window-9))
+  (window-numbering-mode))
 #+END_SRC
 *** Popwin 
 popup window for better experience
@@ -618,15 +608,28 @@ operator ~,,~ as comment
   :config
   (global-evil-surround-mode 1))
 #+END_SRC
-** COMMENT Evil Smartparens
+** Evil Window Numbering
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key
+    "1" 'select-window-1
+    "2" 'select-window-2
+    "3" 'select-window-3
+    "4" 'select-window-4
+    "5" 'select-window-5
+    "6" 'select-window-6
+    "7" 'select-window-7
+    "8" 'select-window-8
+    "9" 'select-window-9)
+#+END_SRC
+** COMMENT Evil Smartparens 
 #+BEGIN_SRC emacs-lisp
 (use-package evil-smartparens
   :ensure t
   :config
   (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
 #+END_SRC
-** COMMENT Evil Numbers
-#+BEGIN_SRC emacs-lisp
+** COMMENT Evil Numbers 
+#+BEGIN_SRC emacs-lisp 
 (use-package evil-numbers
     :ensure t
     :config
@@ -747,7 +750,7 @@ helm interface for systemd services
   (helm-descbinds-mode))
 #+END_SRC
 * COMMENT Ivy
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 (use-package counsel
   :ensure t
   :config
@@ -946,7 +949,7 @@ This predicate is only tested on \"insert\" action."
         (insert " ")))))
 #+END_SRC
 *** COMMENT Smartparens etc
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 ;; pair management
 (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 (bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
@@ -1002,22 +1005,20 @@ This predicate is only tested on \"insert\" action."
 * Org Mode
 ** Org Mode Setup
 #+BEGIN_SRC emacs-lisp
-(use-package org
-  :ensure t
-  :bind (("\C-cc" . org-capture)
-	     ("\C-ca" . org-agenda)))
-(evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
-(evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
-(setq org-startup-indented t)
-(setq org-startup-folded t)
-(setq org-hide-emphasis-markers t)
-(evil-leader/set-key
-  "op" 'org-mobile-push
-  "oP" 'org-mobile-pull
-  "aa" 'org-todo-list
-  "ac" 'org-capture)
-;; diminish org-indent-mode
-(eval-after-load 'org-indent '(diminish 'org-indent-mode))
+  (global-set-key (kbd "\C-cc") 'org-capture)
+  (global-set-key (kbd "\C-ca") 'org-agenda)
+  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+  (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
+  (setq org-startup-indented t)
+  (setq org-startup-folded t)
+  (setq org-hide-emphasis-markers t)
+  (evil-leader/set-key
+    "op" 'org-mobile-push
+    "oP" 'org-mobile-pull
+    "aa" 'org-todo-list
+    "ac" 'org-capture)
+  ;; diminish org-indent-mode
+  (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
@@ -1267,7 +1268,7 @@ cabal install hindent
 (evil-set-initial-state 'inferior-octave-mode 'emacs)
 #+END_SRC
 ** COMMENT Javascript
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 (defun peter/js-comint-kbd ()
   (local-set-key "\C-x\C-e" 'js-send-last-sexp)
   (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
@@ -1281,7 +1282,7 @@ cabal install hindent
 
 (add-to-list 'company-backends 'company-tern)
 
-(use-package js-comint 
+(use-package js-comint
     :ensure t
     :config
     (add-hook 'js2-mode-hook 'peter/js-comint-kbd)
@@ -1316,7 +1317,7 @@ cabal install hindent
 (add-hook 'js2-jsx-mode 'emmet-mode)
 (add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert nil)))
 
-;;jsx mode  
+;;jsx mode
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
@@ -1331,7 +1332,7 @@ cabal install hindent
 (sp-local-pair 'js2-mode "{" "}" :actions '(:rem insert))
 #+END_SRC
 ** COMMENT ReactJS
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
 (use-package evil-matchit
   :ensure t)
 
@@ -1349,7 +1350,7 @@ cabal install hindent
       (flycheck-add-mode 'javascript-eslint 'react-mode)
       (defun react/disable-jshint ()
 	(push 'javascript-jshint flycheck-disabled-checkers))
-      (add-hook 'react-mode-hook #'react/disable-jshint))))
+      (add-hook 'react-mode-hook #'react/disable-jshint)))
 
 
 
@@ -1391,8 +1392,8 @@ cabal install hindent
 (setq exec-path (append exec-path '("/home/peterzky/playground/smlnj/bin")))
 #+END_SRC
 * Misc
-** Mail
-#+BEGIN_SRC emacs-lisp
+** COMMENT Mail
+#+BEGIN_SRC emacs-lisp 
 (use-package evil-mu4e
   :ensure t)
 
