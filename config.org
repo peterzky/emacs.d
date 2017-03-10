@@ -797,7 +797,6 @@ helm interface for systemd services
 #+END_SRC
 ** Org Evil Management
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 ;; Enter insert state when opening log buffer
 (add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
 ;; Org capture initial state insert
@@ -835,6 +834,8 @@ helm interface for systemd services
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
   (hl-line-mode))
+
+(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 #+END_SRC
 ** Org Plot
 #+BEGIN_SRC emacs-lisp
