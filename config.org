@@ -162,7 +162,7 @@
 #+BEGIN_SRC emacs-lisp  
 (load-theme 'leuven)
 #+END_SRC
-*** COMMENT Ample 
+*** Ample 
 **** Custom Ample
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
@@ -236,7 +236,7 @@
     (propertize "R" 'face '(:foreground "#1F3A93")))))
 (spaceline-compile)
 #+END_SRC
-*** Monokai
+*** COMMENT Monokai
 #+BEGIN_SRC emacs-lisp 
 (use-package monokai-theme
   :ensure t
@@ -754,20 +754,22 @@ helm interface for systemd services
 * Org Mode
 ** Org Mode Setup
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "\C-cc") 'org-capture)
-  (global-set-key (kbd "\C-ca") 'org-agenda)
-  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
-  (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
-  (setq org-startup-indented t)
-  (setq org-startup-folded t)
-  (setq org-hide-emphasis-markers t)
-  (evil-leader/set-key
-    "op" 'org-mobile-push
-    "oP" 'org-mobile-pull
-    "aa" 'org-todo-list
-    "ac" 'org-capture)
-  ;; diminish org-indent-mode
-  (eval-after-load 'org-indent '(diminish 'org-indent-mode))
+(global-set-key (kbd "\C-cc") 'org-capture)
+(global-set-key (kbd "\C-ca") 'org-agenda)
+(evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+(evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
+(setq org-startup-indented t)
+(setq org-startup-folded t)
+(setq org-hide-emphasis-markers t)
+(evil-leader/set-key
+  "op" 'org-mobile-push
+  "oP" 'org-mobile-pull
+  "aa" 'org-todo-list
+  "ac" 'org-capture)
+;; diminish org-indent-mode
+(eval-after-load 'org-indent '(diminish 'org-indent-mode))
+;; org modules
+(add-to-list 'org-modules 'org-habit)
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
