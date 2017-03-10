@@ -563,7 +563,9 @@ operator ~,,~ as comment
 (use-package fcitx
   :ensure t
   :config
-  (fcitx-default-setup))
+  (setq fcitx-use-dbus t)
+  (setq fcitx-active-evil-states '(insert emacs hydrid))
+  (fcitx-aggressive-setup))
 #+END_SRC
 ** Shell Pop
 #+BEGIN_SRC emacs-lisp
@@ -778,6 +780,10 @@ helm interface for systemd services
 	 "* TODO %?\n %i\n %a")
 	("j" "Journal" entry (file+datetree "~/Nextcloud/notes/journal.org")
 	 "* %?\nEntered on %U\n %i\n %a")))
+#+END_SRC
+Org Capture Evil State
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
