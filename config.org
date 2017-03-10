@@ -833,6 +833,7 @@ helm interface for systemd services
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
+  (define-key org-agenda-mode-map "p" 'org-pomodoro)
   (hl-line-mode))
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
