@@ -250,7 +250,7 @@
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
 ** Mode Line
-*** Spaceline
+*** COMMENT Spaceline
 #+BEGIN_SRC emacs-lisp
 (use-package spaceline
   :ensure t
@@ -356,6 +356,113 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package info+
   :ensure t)
+#+END_SRC
+* Evil Mode
+** Evil Leader
+#+BEGIN_SRC emacs-lisp
+(use-package evil-leader
+  :ensure t
+  :config
+  (setq evil-leader/in-all-states t)
+  (setq evil-leader/no-prefix-mode-rx
+	'("elfeed-.*-mode"
+	  "paradox-.*-mode"
+	  "dired-mode"))
+  (global-evil-leader-mode 1) 
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+    "bd" 'kill-this-buffer
+    "fs" 'save-buffer
+    "ll" 'linum-mode
+    "he" 'elisp-index-search
+    "an" 'peter/open-note-file
+    "qq" 'delete-frame
+    "qQ" 'save-buffers-kill-emacs
+    "wv" 'peter/split-horizontally
+    "ws" 'peter/split-vertically
+    "wd" 'delete-window
+    "fed" 'peter/edit-config-file
+    "cc" 'flycheck-mode
+    "r" 'dired-jump
+    "cl" 'evilnc-comment-or-uncomment-lines
+    "TAB" 'peter/switch-buffer))
+#+END_SRC
+** Evil Mode Setup
+#+BEGIN_SRC emacs-lisp
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1)
+  (setq evil-insert-state-map (make-sparse-keymap))
+  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
+  (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
+  (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button))
+
+(add-to-list 'evil-motion-state-modes 'debugger-mode)
+(add-to-list 'evil-motion-state-modes 'special-mode)
+(add-to-list 'evil-emacs-state-modes 'artist-mode)
+(add-to-list 'evil-emacs-state-modes 'dired-mode)
+
+(setq evil-normal-state-tag "N"
+      evil-insert-state-tag "I"
+      evil-motion-state-tag "M"
+      evil-emacs-state-tag  "E"
+      evil-visual-state-tag "V"
+      evil-motion-state-cursor	'(box "#663399")
+      evil-normal-state-cursor	'(box "YellowGreen")
+      evil-insert-state-cursor	'(bar "#F86155")
+      evil-emacs-state-cursor	'(bar "SkyBlue2")
+      evil-visual-state-cursor	'(box "gray")
+      )
+#+END_SRC
+** Evil Magit
+#+BEGIN_SRC emacs-lisp
+(use-package evil-magit
+  :ensure t)
+#+END_SRC
+** Evil Nerd Commenter
+text object ~c~ as comment
+operator ~,,~ as comment
+#+BEGIN_SRC emacs-lisp
+(use-package evil-nerd-commenter
+  :ensure t
+  :config
+  (evilnc-default-hotkeys))
+#+END_SRC
+** Evil Surround
+#+BEGIN_SRC emacs-lisp
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+#+END_SRC
+** Evil Window Numbering
+#+BEGIN_SRC emacs-lisp
+(evil-leader/set-key
+    "1" 'select-window-1
+    "2" 'select-window-2
+    "3" 'select-window-3
+    "4" 'select-window-4
+    "5" 'select-window-5
+    "6" 'select-window-6
+    "7" 'select-window-7
+    "8" 'select-window-8
+    "9" 'select-window-9)
+#+END_SRC
+** COMMENT Evil Smartparens 
+#+BEGIN_SRC emacs-lisp
+(use-package evil-smartparens
+  :ensure t
+  :config
+  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+#+END_SRC
+** COMMENT Evil Numbers 
+#+BEGIN_SRC emacs-lisp 
+(use-package evil-numbers
+    :ensure t
+    :config
+    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+    (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
 #+END_SRC
 * Utility
 ** Git
@@ -529,113 +636,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
-* Evil Mode
-** Evil Leader
-#+BEGIN_SRC emacs-lisp
-(use-package evil-leader
-  :ensure t
-  :config
-  (setq evil-leader/in-all-states t)
-  (setq evil-leader/no-prefix-mode-rx
-	'("elfeed-.*-mode"
-	  "paradox-.*-mode"
-	  "dired-mode"))
-  (global-evil-leader-mode 1) 
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-    "bd" 'kill-this-buffer
-    "fs" 'save-buffer
-    "ll" 'linum-mode
-    "he" 'elisp-index-search
-    "an" 'peter/open-note-file
-    "qq" 'delete-frame
-    "qQ" 'save-buffers-kill-emacs
-    "wv" 'peter/split-horizontally
-    "ws" 'peter/split-vertically
-    "wd" 'delete-window
-    "fed" 'peter/edit-config-file
-    "cc" 'flycheck-mode
-    "r" 'dired-jump
-    "cl" 'evilnc-comment-or-uncomment-lines
-    "TAB" 'peter/switch-buffer))
-#+END_SRC
-** Evil Mode Setup
-#+BEGIN_SRC emacs-lisp
-(use-package evil
-  :ensure t
-  :config
-  (evil-mode 1)
-  (setq evil-insert-state-map (make-sparse-keymap))
-  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
-  (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
-  (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button))
-
-(add-to-list 'evil-motion-state-modes 'debugger-mode)
-(add-to-list 'evil-motion-state-modes 'special-mode)
-(add-to-list 'evil-emacs-state-modes 'artist-mode)
-(add-to-list 'evil-emacs-state-modes 'dired-mode)
-
-(setq evil-normal-state-tag "N"
-      evil-insert-state-tag "I"
-      evil-motion-state-tag "M"
-      evil-emacs-state-tag  "E"
-      evil-visual-state-tag "V"
-      evil-motion-state-cursor	'(box "#663399")
-      evil-normal-state-cursor	'(box "YellowGreen")
-      evil-insert-state-cursor	'(bar "#F86155")
-      evil-emacs-state-cursor	'(bar "SkyBlue2")
-      evil-visual-state-cursor	'(box "gray")
-      )
-#+END_SRC
-** Evil Magit
-#+BEGIN_SRC emacs-lisp
-(use-package evil-magit
-  :ensure t)
-#+END_SRC
-** Evil Nerd Commenter
-text object ~c~ as comment
-operator ~,,~ as comment
-#+BEGIN_SRC emacs-lisp
-(use-package evil-nerd-commenter
-  :ensure t
-  :config
-  (evilnc-default-hotkeys))
-#+END_SRC
-** Evil Surround
-#+BEGIN_SRC emacs-lisp
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-#+END_SRC
-** Evil Window Numbering
-#+BEGIN_SRC emacs-lisp
-(evil-leader/set-key
-    "1" 'select-window-1
-    "2" 'select-window-2
-    "3" 'select-window-3
-    "4" 'select-window-4
-    "5" 'select-window-5
-    "6" 'select-window-6
-    "7" 'select-window-7
-    "8" 'select-window-8
-    "9" 'select-window-9)
-#+END_SRC
-** COMMENT Evil Smartparens 
-#+BEGIN_SRC emacs-lisp
-(use-package evil-smartparens
-  :ensure t
-  :config
-  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
-#+END_SRC
-** COMMENT Evil Numbers 
-#+BEGIN_SRC emacs-lisp 
-(use-package evil-numbers
-    :ensure t
-    :config
-    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-    (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
-#+END_SRC
 * Helm
 ** Helm Config
 #+BEGIN_SRC emacs-lisp
@@ -749,6 +749,166 @@ helm interface for systemd services
   (setq helm-descbinds-window-style 'same-window)
   (helm-descbinds-mode))
 #+END_SRC
+* Org Mode
+** Org Mode Setup
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "\C-cc") 'org-capture)
+  (global-set-key (kbd "\C-ca") 'org-agenda)
+  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+  (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
+  (setq org-startup-indented t)
+  (setq org-startup-folded t)
+  (setq org-hide-emphasis-markers t)
+  (evil-leader/set-key
+    "op" 'org-mobile-push
+    "oP" 'org-mobile-pull
+    "aa" 'org-todo-list
+    "ac" 'org-capture)
+  ;; diminish org-indent-mode
+  (eval-after-load 'org-indent '(diminish 'org-indent-mode))
+#+END_SRC
+** Org Agenda
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "CANCELED(c)")))
+(setq org-default-notes-file "~/Nextcloud/org/capture.org")
+(setq org-agenda-files 
+      (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes" "~/.emacs.d/config.org"))
+(setq org-directory "~/Nextcloud/org")
+(setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
+(setq org-mobile-directory "~/Nextcloud/MobileOrg")
+(setq org-log-done 'time)
+
+;; org refile
+(setq org-refile-targets '((nil :maxlevel . 2)
+			   (org-agenda-files :maxlevel . 2)))
+;; Refile in a single go
+(setq org-outline-path-complete-in-steps nil)         
+;; Show full paths for refiling
+(setq org-refile-use-outline-path t)                  
+
+(defun peter/agenda-mode-config ()
+  "agenda mode key bindings and config"
+  (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
+  (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
+  (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
+  (define-key org-agenda-mode-map "n" 'org-agenda-capture)
+  (hl-line-mode))
+
+(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
+#+END_SRC
+** Org Plot
+#+BEGIN_SRC emacs-lisp
+(use-package gnuplot-mode
+  :ensure t)
+#+END_SRC
+** Org Source Block
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+(setq org-src-window-setup 'current-window)
+(setq org-src-preserve-indentation t)
+#+END_SRC
+** Org Bullets
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-bullets-bullet-list '("●" "◉" "◇" "✚" "✜" "☯" "◆")))
+#+END_SRC
+** Deft
+#+BEGIN_SRC emacs-lisp
+(use-package deft
+  :ensure t
+  :config
+  (evil-set-initial-state 'deft-mode 'emacs)
+  (evil-set-initial-state 'artist-mode 'emacs)
+  (evil-leader/set-key
+    "ae" 'deft)
+  (setq deft-extensions '("org"))
+  (setq deft-use-filename-as-title nil)
+  (setq deft-use-filter-string-for-filename t)
+  ;; (setq deft-org-mode-title-prefix t)
+  (setq deft-default-extension "org")
+  (setq deft-directory "~/Nextcloud/notes")
+  (setq deft-file-naming-rules
+      '((noslash . "-")
+        (nospace . "-")
+        (case-fn . downcase))))
+#+END_SRC
+** COMMENT Org Pomodoro
+#+BEGIN_SRC emacs-lisp
+(use-package org-pomodoro
+  :ensure t
+  :config
+  (org-defkey org-agenda-mode-map "I" 'org-pomodoro))
+#+END_SRC
+** COMMENT Blog
+#+BEGIN_SRC emacs-lisp
+;; Org code block color html
+(use-package htmlize
+  :ensure t)
+;; ;; Org to Jekyll
+;; (use-package org2jekyll
+;;   :ensure t
+;;   :config)
+
+;; (custom-set-variables
+;;  '(org2jekyll-blog-author "Peterzky")
+;;  '(org2jekyll-source-directory (expand-file-name "~/org/"))
+;;  '(org2jekyll-jekyll-directory (expand-file-name "~/Projects/Blog/"))
+;;  '(org2jekyll-jekyll-drafts-dir "")
+;;  '(org2jekyll-jekyll-posts-dir "_posts/")
+;;  '(org-publish-project-alist
+;;    `(("default"
+;;       :base-directory ,(org2jekyll-input-directory)
+;;       :base-extension "org"
+;;       :publishing-directory ,(org2jekyll-output-directory)
+;;       :publishing-function org-html-publish-to-html
+;;       :headline-levels 4
+;;       :section-numbers nil
+;;       :with-toc nil
+;;       :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
+;;       :html-preamble t
+;;       :recursive t
+;;       :make-index t
+;;       :html-extension "html"
+;;       :body-only t)
+;;      ("post"
+;;       :base-directory ,(org2jekyll-input-directory)
+;;       :base-extension "org"
+;;       :publishing-directory ,(org2jekyll-output-directory org2jekyll-jekyll-posts-dir)
+;;       :publishing-function org-html-publish-to-html
+;;       :headline-levels 4
+;;       :section-numbers nil
+;;       :with-toc nil
+;;       :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
+;;       :html-preamble t
+;;       :recursive t
+;;       :make-index t
+;;       :html-extension "html"
+;;       :body-only t)
+;;      ("images"
+;;       :base-directory ,(org2jekyll-input-directory "img")
+;;       :base-extension "jpg\\|gif\\|png"
+;;       :publishing-directory ,(org2jekyll-output-directory "img")
+;;       :publishing-function org-publish-attachment
+;;       :recursive t)
+;;      ("js"
+;;       :base-directory ,(org2jekyll-input-directory "js")
+;;       :base-extension "js"
+;;       :publishing-directory ,(org2jekyll-output-directory "js")
+;;       :publishing-function org-publish-attachment
+;;       :recursive t)
+;;      ("css"
+;;       :base-directory ,(org2jekyll-input-directory "css")
+;;       :base-extension "css\\|el"
+;;       :publishing-directory ,(org2jekyll-output-directory "css")
+;;       :publishing-function org-publish-attachment
+;;       :recursive t)
+;;      ("web" :components ("images" "js" "css")))))
+
+#+END_SRC
 * COMMENT Ivy
 #+BEGIN_SRC emacs-lisp 
 (use-package counsel
@@ -768,7 +928,7 @@ helm interface for systemd services
 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 #+END_SRC
-* Completion and Efficent Editing
+* Completion and Error Checking
 ** Company Mode
 #+BEGIN_SRC emacs-lisp
 (use-package company
@@ -949,7 +1109,7 @@ This predicate is only tested on \"insert\" action."
         (insert " ")))))
 #+END_SRC
 *** COMMENT Smartparens etc
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 ;; pair management
 (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 (bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
@@ -1001,171 +1161,6 @@ This predicate is only tested on \"insert\" action."
 (use-package expand-region
   :ensure t
   :bind ("C-=" . er/expand-region))
-#+END_SRC
-* Org Mode
-** Org Mode Setup
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "\C-cc") 'org-capture)
-  (global-set-key (kbd "\C-ca") 'org-agenda)
-  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
-  (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
-  (setq org-startup-indented t)
-  (setq org-startup-folded t)
-  (setq org-hide-emphasis-markers t)
-  (evil-leader/set-key
-    "op" 'org-mobile-push
-    "oP" 'org-mobile-pull
-    "aa" 'org-todo-list
-    "ac" 'org-capture)
-  ;; diminish org-indent-mode
-  (eval-after-load 'org-indent '(diminish 'org-indent-mode))
-#+END_SRC
-** Org Agenda
-#+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "FEEDBACK(f)" "VERIFY(v)" "|" "DONE(d)" "CANCELED(c)")))
-(setq org-default-notes-file "~/Nextcloud/org/capture.org")
-(setq org-agenda-files 
-      (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes" "~/.emacs.d/config.org"))
-(setq org-directory "~/Nextcloud/org")
-(setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
-(setq org-mobile-directory "~/Nextcloud/MobileOrg")
-(setq org-log-done 'time)
-
-;; org refile
-(setq org-refile-targets '((nil :maxlevel . 2)
-			   (org-agenda-files :maxlevel . 2)))
-;; Refile in a single go
-(setq org-outline-path-complete-in-steps nil)         
-;; Show full paths for refiling
-(setq org-refile-use-outline-path t)                  
-
-(defun peter/agenda-mode-config ()
-  "agenda mode key bindings and config"
-  (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
-  (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
-  (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
-  (define-key org-agenda-mode-map "n" 'org-agenda-capture)
-  (hl-line-mode))
-
-(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
-#+END_SRC
-** Org Plot
-#+BEGIN_SRC emacs-lisp
-(use-package gnuplot-mode
-  :ensure t)
-#+END_SRC
-** Org Source Block
-#+BEGIN_SRC emacs-lisp
-(setq org-src-fontify-natively t)
-(setq org-src-window-setup 'current-window)
-(setq org-src-preserve-indentation t)
-#+END_SRC
-** Org Bullets
-#+BEGIN_SRC emacs-lisp
-(use-package org-bullets
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-bullets-bullet-list '("●" "◉" "◇" "✚" "✜" "☯" "◆")))
-#+END_SRC
-** Deft
-#+BEGIN_SRC emacs-lisp
-(use-package deft
-  :ensure t
-  :config
-  (evil-set-initial-state 'deft-mode 'emacs)
-  (evil-set-initial-state 'artist-mode 'emacs)
-  (evil-leader/set-key
-    "ae" 'deft)
-  (setq deft-extensions '("org"))
-  (setq deft-use-filename-as-title nil)
-  (setq deft-use-filter-string-for-filename t)
-  ;; (setq deft-org-mode-title-prefix t)
-  (setq deft-default-extension "org")
-  (setq deft-directory "~/Nextcloud/notes")
-  (setq deft-file-naming-rules
-      '((noslash . "-")
-        (nospace . "-")
-        (case-fn . downcase))))
-#+END_SRC
-** COMMENT Org Contrib
-#+BEGIN_SRC emacs-lisp
-(use-package org-plus-contrib
-  :ensure t)
-#+END_SRC
-** COMMENT Org Pomodoro
-#+BEGIN_SRC emacs-lisp
-(use-package org-pomodoro
-  :ensure t
-  :config
-  (org-defkey org-agenda-mode-map "I" 'org-pomodoro))
-#+END_SRC
-** COMMENT Blog
-#+BEGIN_SRC emacs-lisp
-;; Org code block color html
-(use-package htmlize
-  :ensure t)
-;; ;; Org to Jekyll
-;; (use-package org2jekyll
-;;   :ensure t
-;;   :config)
-
-;; (custom-set-variables
-;;  '(org2jekyll-blog-author "Peterzky")
-;;  '(org2jekyll-source-directory (expand-file-name "~/org/"))
-;;  '(org2jekyll-jekyll-directory (expand-file-name "~/Projects/Blog/"))
-;;  '(org2jekyll-jekyll-drafts-dir "")
-;;  '(org2jekyll-jekyll-posts-dir "_posts/")
-;;  '(org-publish-project-alist
-;;    `(("default"
-;;       :base-directory ,(org2jekyll-input-directory)
-;;       :base-extension "org"
-;;       :publishing-directory ,(org2jekyll-output-directory)
-;;       :publishing-function org-html-publish-to-html
-;;       :headline-levels 4
-;;       :section-numbers nil
-;;       :with-toc nil
-;;       :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
-;;       :html-preamble t
-;;       :recursive t
-;;       :make-index t
-;;       :html-extension "html"
-;;       :body-only t)
-;;      ("post"
-;;       :base-directory ,(org2jekyll-input-directory)
-;;       :base-extension "org"
-;;       :publishing-directory ,(org2jekyll-output-directory org2jekyll-jekyll-posts-dir)
-;;       :publishing-function org-html-publish-to-html
-;;       :headline-levels 4
-;;       :section-numbers nil
-;;       :with-toc nil
-;;       :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
-;;       :html-preamble t
-;;       :recursive t
-;;       :make-index t
-;;       :html-extension "html"
-;;       :body-only t)
-;;      ("images"
-;;       :base-directory ,(org2jekyll-input-directory "img")
-;;       :base-extension "jpg\\|gif\\|png"
-;;       :publishing-directory ,(org2jekyll-output-directory "img")
-;;       :publishing-function org-publish-attachment
-;;       :recursive t)
-;;      ("js"
-;;       :base-directory ,(org2jekyll-input-directory "js")
-;;       :base-extension "js"
-;;       :publishing-directory ,(org2jekyll-output-directory "js")
-;;       :publishing-function org-publish-attachment
-;;       :recursive t)
-;;      ("css"
-;;       :base-directory ,(org2jekyll-input-directory "css")
-;;       :base-extension "css\\|el"
-;;       :publishing-directory ,(org2jekyll-output-directory "css")
-;;       :publishing-function org-publish-attachment
-;;       :recursive t)
-;;      ("web" :components ("images" "js" "css")))))
-
 #+END_SRC
 
 * Programming Language Supports

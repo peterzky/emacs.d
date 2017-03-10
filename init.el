@@ -23,6 +23,9 @@
 (use-package org
   :ensure t)
 
+(use-package org-plus-contrib
+  :ensure t)
+
 (setq custom-file "~/.emacs.d/custom.el")
 
 (org-babel-load-file (concat user-emacs-directory "config.org"))
