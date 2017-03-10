@@ -347,7 +347,7 @@ popup window for better experience
   (setq dashboard-startup-banner 1)
   (dashboard-setup-startup-hook))
 #+END_SRC
-*** Info Plus
+*** COMMENT Info Plus
 #+BEGIN_SRC emacs-lisp
 (use-package info+
   :ensure t)
