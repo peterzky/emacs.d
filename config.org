@@ -162,7 +162,7 @@
 #+BEGIN_SRC emacs-lisp  
 (load-theme 'leuven)
 #+END_SRC
-*** COMMENT Ample 
+*** Ample 
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
@@ -250,7 +250,7 @@
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
 ** Mode Line
-*** COMMENT Spaceline
+*** Spaceline
 #+BEGIN_SRC emacs-lisp
 (use-package spaceline
   :ensure t
