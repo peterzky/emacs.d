@@ -9,8 +9,17 @@
 
 (package-initialize)
 
-;; Bootstrap `use-package'
+
+;;Bootstrap `use-package'		       
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(unless (package-installed-p 'org)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(unless (package-installed-p 'org-plus-contrib)
   (package-refresh-contents)
   (package-install 'use-package))
 
@@ -20,11 +29,11 @@
   (require 'bind-key))
 
 ;; Bootstrap `Org-mode' for parsing config file
-(use-package org
-  :ensure t)
+;; (use-package org
+;;   :ensure t)
 
-(use-package org-plus-contrib
-  :ensure t)
+;; (use-package org-plus-contrib
+;;   :ensure t)
 
 (setq custom-file "~/.emacs.d/custom.el")
 

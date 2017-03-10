@@ -163,6 +163,7 @@
 (load-theme 'leuven)
 #+END_SRC
 *** Ample 
+**** Custom Ample
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
   :init (progn (load-theme 'ample t t)
@@ -184,6 +185,7 @@
  '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
  '(org-level-3 ((t (:inherit outline-3 :foreground "green yellow" :height 1.0))))
+ '(org-level-4 ((t (:inherit outline-4 :foreground "peru"))))
  '(org-meta-line ((t (:inherit font-lock-comment-face :weight light))))
  '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
  '(org-special-keyword ((t (:foreground "salmon"))))
@@ -191,6 +193,48 @@
  '(spaceline-evil-emacs ((t (:background "#3A539B" :foreground "#D2D7D3" :inherit (quote mode-line)))))
  '(spaceline-evil-insert ((t (:background "YellowGreen" :foreground "#3E3D31" :inherit (quote mode-line)))))
  '(spaceline-evil-motion ((t (:background "#663399" :foreground "#D2D7D3" :inherit (quote mode-line))))))
+#+END_SRC
+**** Spaceline
+#+BEGIN_SRC emacs-lisp
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (setq powerline-default-separator nil)
+  (setq spaceline-minor-modes-separator nil)
+  (spaceline-spacemacs-theme)
+  (spaceline-helm-mode)
+  (spaceline-info-mode)
+  (spaceline-toggle-buffer-modified-on)
+  (spaceline-toggle-selection-info-on)
+  (spaceline-toggle-buffer-size-off)
+  (spaceline-toggle-version-control-on)
+  (spaceline-toggle-window-number-off)
+  (spaceline-toggle-buffer-encoding-abbrev-on)
+  (spaceline-toggle-info-topic-on))
+
+;;(setq evil-mc-mode-line-prefix "¢")
+(setq projectile-mode-line
+      (quote
+       (:eval
+        (if
+            (file-remote-p default-directory)
+            " Projectile"
+          (format "[%s]"
+                  (projectile-project-name))))))
+
+(spaceline-define-segment buffer-modified
+  "buffer modified indicator Ⲙ"
+  (cond
+   ((buffer-modified-p)
+    (if buffer-read-only
+        (propertize "R" 'face '(:foreground "#1F3A93"))
+      (propertize "M" 'face '(:foreground "#CF000F")))
+    )
+   (buffer-read-only
+    (propertize "R" 'face '(:foreground "#1F3A93")))))
+(spaceline-compile)
 #+END_SRC
 *** COMMENT Monokai
 #+BEGIN_SRC emacs-lisp 
@@ -250,55 +294,6 @@
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
 ** Mode Line
-*** Spaceline
-#+BEGIN_SRC emacs-lisp
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-  (setq powerline-default-separator nil)
-  (setq spaceline-minor-modes-separator nil)
-  (spaceline-spacemacs-theme)
-  (spaceline-helm-mode)
-  (spaceline-info-mode)
-  (spaceline-toggle-buffer-modified-on)
-  (spaceline-toggle-selection-info-on)
-  (spaceline-toggle-buffer-size-off)
-  (spaceline-toggle-version-control-on)
-  (spaceline-toggle-window-number-off)
-  (spaceline-toggle-buffer-encoding-abbrev-on)
-  (spaceline-toggle-info-topic-on))
-
-;;(setq evil-mc-mode-line-prefix "¢")
-(setq projectile-mode-line
-      (quote
-       (:eval
-        (if
-            (file-remote-p default-directory)
-            " Projectile"
-          (format "[%s]"
-                  (projectile-project-name))))))
-
-(spaceline-define-segment buffer-modified
-  "buffer modified indicator Ⲙ"
-  (cond
-   ((buffer-modified-p)
-    (if buffer-read-only
-        (propertize "R" 'face '(:foreground "#1F3A93"))
-      (propertize "M" 'face '(:foreground "#CF000F")))
-    )
-   (buffer-read-only
-    (propertize "R" 'face '(:foreground "#1F3A93")))))
-(spaceline-compile)
-#+END_SRC
-*** TODO [#B] Mode line git icon and save icon                      :emcas:
-:PROPERTIES:
-:ID:       abf0fc79-ac53-40b1-aada-a3ab392d902e
-:END:
-:LOGBOOK:
-CLOCK: [2017-03-09 Thu 07:26]--[2017-03-09 Thu 07:26] =>  0:00
-:END:
 ** Window Control
 *** Window Numbering
 Use Alt + 1 2 3 to switch window
