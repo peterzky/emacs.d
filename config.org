@@ -771,13 +771,24 @@ helm interface for systemd services
 ;; org modules
 (add-to-list 'org-modules 'org-habit)
 #+END_SRC
+** Org Caputre
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/Nextcloud/org/GTD.org" "Tasks")
+	 "* TODO %?\n %i\n %a")
+	("j" "Journal" entry (file+datetree "~/Nextcloud/notes/journal.org")
+	 "* %?\nEntered on %U\n %i\n %a")))
+#+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
 (setq org-default-notes-file "~/Nextcloud/org/capture.org")
 (setq org-agenda-files 
-      (list "~/Nextcloud/org/capture.org" "~/Nextcloud/notes" "~/.emacs.d/config.org"))
+      (list "~/Nextcloud/org/capture.org"
+	    "~/Nextcloud/notes"
+	    "~/.emacs.d/config.org"
+	    "~/Nextcloud/org/GTD.org"))
 (setq org-directory "~/Nextcloud/org")
 (setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
 (setq org-mobile-directory "~/Nextcloud/MobileOrg")
@@ -1390,6 +1401,7 @@ cabal install hindent
 (setenv "PATH" (concat (getenv "PATH") ":/home/peterzky/playground/smlnj/bin"))
 (setq exec-path (append exec-path '("/home/peterzky/playground/smlnj/bin")))
 #+END_SRC
+* Gnus
 * Misc
 ** COMMENT Mail
 #+BEGIN_SRC emacs-lisp 
