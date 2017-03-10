@@ -744,6 +744,13 @@ helm interface for systemd services
   (setq helm-descbinds-window-style 'same-window)
   (helm-descbinds-mode))
 #+END_SRC
+*** Helm Flycheck
+#+BEGIN_SRC emacs-lisp
+(use-package helm-flycheck
+  :ensure t
+  :config
+  (evil-leader/set-key "cf" 'helm-flycheck))
+#+END_SRC
 * Org Mode
 ** Org Mode Setup
 #+BEGIN_SRC emacs-lisp
