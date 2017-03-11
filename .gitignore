@@ -32,3 +32,4 @@ bookmarks
 /custom.el
 config.el
 ./config.el
+/async-bytecomp.log
