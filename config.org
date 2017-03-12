@@ -62,24 +62,12 @@
   (interactive)
   (find-file "~/.emacs.d/config.org"))
 
-;; (defun peter/open-note-file ()
-;;   "open notes.org"
-;;   (interactive)
-;;   (find-file "~/btsync/capture.org"))
-
 (defun peter/recompile-all-packages ()
   (interactive)
   (byte-recompile-directory package-user-dir nil 'force))
 
 ;; close window after kill buffer command
 (advice-add 'kill-this-buffer :after #'delete-window)
-
-;; (defun peter/compile-init ()
-;;   "Byte-compile all your dotfiles."
-;;   (interactive)
-;;   (byte-compile-file "~/.emacs.d/init.el")
-;;   (byte-recompile-directory "~/.emacs.d/config" 0)
-;;   (byte-recompile-directory "~/.emacs.d/theme" 0))
 
 (defun peter/split-vertically ()
   "Split window vertically and focus"
@@ -100,14 +88,6 @@
   (scroll-down 8))
 
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
-
-;;ERC
-(setq socks-server
-      (list "My socks server" "localhost" 1080 5))
-(setq socks-noproxy '("localhost"))
-
-(require 'socks)
-(setq erc-server-connect-function 'socks-open-network-stream)
 
 (defun peter/narrow-to-defun ()
   "narrow function depanding on mode"
