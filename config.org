@@ -802,6 +802,35 @@ helm interface for systemd services
 	("x" "org-protocol" entry (file "~/Nextcloud/notes/web.org")
 	 "* TODO Review %c\n%U\n%i\n" :immediate-finish)))
 #+END_SRC
+** Org Mime
+#+BEGIN_SRC emacs-lisp
+(use-package htmlize
+  :ensure t)
+
+(require 'org-mime)
+
+(setq org-mime-library 'mml)
+
+
+(add-hook 'message-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (org-mime-change-element-style
+             "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                           "#E6E1DC" "#232323"))))
+
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (org-mime-change-element-style
+             "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
+#+END_SRC
 ** Org Evil Management
 #+BEGIN_SRC emacs-lisp
 ;; Enter insert state when opening log buffer
