@@ -33,3 +33,4 @@ bookmarks
 config.el
 ./config.el
 /async-bytecomp.log
+/history

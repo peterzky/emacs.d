@@ -774,6 +774,13 @@ helm interface for systemd services
 (require 'org-man)
 (require 'org-drill)
 #+END_SRC
+** Org Drill Table
+#+BEGIN_SRC emacs-lisp
+(use-package org-drill-table
+  :ensure t
+  :config
+  (evil-define-key 'normal org-mode-map (kbd "gt") 'org-drill-table-generate))
+#+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
