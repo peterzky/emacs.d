@@ -275,6 +275,13 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
+*** COMMENT Atom Dark
+#+BEGIN_SRC emacs-lisp
+(use-package atom-dark-theme
+  :ensure t
+  :config
+  (load-theme 'atom-dark))
+#+END_SRC
 ** Mode Line
 ** Window Control
 *** Window Numbering
