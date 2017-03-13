@@ -127,6 +127,8 @@
 (global-set-key [C-prior] 'peter/scroll-other-window-down)
 (global-set-key [next] 'peter/scroll-window-up)
 (global-set-key [prior] 'peter/scroll-window-down)
+;; Compile
+(global-set-key [f5] 'compile)
 #+END_SRC
 ** ISpell
 #+BEGIN_SRC emacs-lisp
@@ -772,10 +774,12 @@ helm interface for systemd services
 (require 'org-habit)
 (require 'org-protocol)
 (require 'org-man)
-(require 'org-drill)
 #+END_SRC
-** Org Drill Table
+** Org Drill 
 #+BEGIN_SRC emacs-lisp
+(require 'org-drill)
+(setq org-drill-save-buffers-after-drill-sessions-p t)
+
 (use-package org-drill-table
   :ensure t
   :config
