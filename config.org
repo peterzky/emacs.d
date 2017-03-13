@@ -140,7 +140,7 @@
 #+END_SRC
 * Appearance
 ** Themes 
-*** Ample 
+*** COMMENT Ample 
 **** Custom Ample
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
@@ -275,12 +275,12 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
-*** COMMENT Atom Dark
+*** Atom One Dark
 #+BEGIN_SRC emacs-lisp
-(use-package atom-dark-theme
+(use-package atom-one-dark-theme
   :ensure t
   :config
-  (load-theme 'atom-dark))
+  (load-theme 'atom-one-dark))
 #+END_SRC
 ** Mode Line
 ** Window Control
