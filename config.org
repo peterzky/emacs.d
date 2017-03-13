@@ -748,6 +748,7 @@ helm interface for systemd services
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "\C-cc") 'org-capture)
 (global-set-key (kbd "\C-ca") 'org-agenda)
+(global-set-key (kbd "\C-cl") 'org-store-link)
 (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
 (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
 (setq org-startup-indented t)
@@ -771,6 +772,7 @@ helm interface for systemd services
 (require 'org-habit)
 (require 'org-protocol)
 (require 'org-man)
+(require 'org-drill)
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
@@ -805,6 +807,7 @@ helm interface for systemd services
 (setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
 (setq org-mobile-directory "~/Nextcloud/MobileOrg")
 (setq org-log-done 'time)
+(setq org-log-states-order-reversed nil)
 
 ;; org refile
 (setq org-refile-targets '((nil :maxlevel . 2)
@@ -844,6 +847,21 @@ helm interface for systemd services
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (setq org-bullets-bullet-list '("●" "◉" "◇" "✚" "✜" "☯" "◆")))
 #+END_SRC
+** Org Download
+Drag and Drop Image to Emacs
+#+BEGIN_SRC emacs-lisp
+(use-package org-download
+  :ensure t
+  :config)
+#+END_SRC
+** Org Pomodoro
+#+BEGIN_SRC emacs-lisp
+(use-package org-pomodoro
+  :ensure t
+  :config
+  (setq org-pomodoro-keep-killed-pomodoro-time t)
+  (global-set-key [f2] 'org-pomodoro))
+#+END_SRC
 ** Deft
 #+BEGIN_SRC emacs-lisp
 (use-package deft
@@ -863,20 +881,6 @@ helm interface for systemd services
       '((noslash . "-")
         (nospace . "-")
         (case-fn . downcase))))
-#+END_SRC
-** Org Download
-Drag and Drop Image to Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package org-download
-  :ensure t
-  :config)
-#+END_SRC
-** Org Pomodoro
-#+BEGIN_SRC emacs-lisp
-(use-package org-pomodoro
-  :ensure t
-  :config
-  (global-set-key [f2] 'org-pomodoro))
 #+END_SRC
 ** COMMENT Blog
 #+BEGIN_SRC emacs-lisp
@@ -1002,11 +1006,11 @@ Drag and Drop Image to Emacs
 (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
 
 (define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
-(define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
+;; (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
 (define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
 (define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
 
-(define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
+;; (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
 (define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
 (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
 
