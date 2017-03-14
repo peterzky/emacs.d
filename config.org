@@ -129,6 +129,8 @@
 (global-set-key [prior] 'peter/scroll-window-down)
 ;; Compile
 (global-set-key [f5] 'compile)
+;; GDB
+(global-set-key [f6] 'gdb)
 #+END_SRC
 ** ISpell
 #+BEGIN_SRC emacs-lisp
