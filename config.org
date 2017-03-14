@@ -629,6 +629,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (define-key dired-mode-map "k" 'dired-previous-line))
 
 (add-hook 'dired-mode-hook 'peter/dired-mode-hook)
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+
 
 (use-package all-the-icons-dired
   :ensure t
