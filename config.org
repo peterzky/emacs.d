@@ -574,6 +574,7 @@ operator ~,,~ as comment
   :ensure t
   :bind ("C-`" . shell-pop)
   :config
+  (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
   (setq shell-pop-full-span t))
 #+END_SRC
 *** Eshell Alias
