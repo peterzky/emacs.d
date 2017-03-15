@@ -1280,6 +1280,7 @@ This predicate is only tested on \"insert\" action."
 
 
 (defun peter/c-mode-hook ()
+  (setq semantic-lex-spp-use-headers-flag t)
   (semantic-mode 1)
   (local-set-key (kbd "C-c C-j") 'semantic-ia-fast-jump)
   (local-set-key (kbd "C-c C-d") 'semantic-ia-show-doc)
