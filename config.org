@@ -1278,6 +1278,7 @@ This predicate is only tested on \"insert\" action."
   :config
   (add-to-list 'company-backends 'company-c-headers))
 
+
 (defun peter/c-mode-hook ()
   (semantic-mode 1)
   (local-set-key (kbd "C-c C-j") 'semantic-ia-fast-jump)
