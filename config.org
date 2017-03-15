@@ -574,7 +574,7 @@ operator ~,,~ as comment
   :ensure t
   :bind ("C-`" . shell-pop)
   :config
-  (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
+  ;(setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
   (setq shell-pop-full-span t))
 #+END_SRC
 *** Eshell Alias
@@ -1254,7 +1254,38 @@ This predicate is only tested on \"insert\" action."
   :bind ("C-=" . er/expand-region))
 #+END_SRC
 
+** COMMENT Ycmd
+#+BEGIN_SRC emacs-lisp
+(use-package ycmd
+  :ensure t
+  :config
+  (setq  ycmd-server-command
+	 (list "python"
+	       (file-truename "~/tools/ycmd/ycmd")))
+  (add-hook 'after-init-hook #'global-ycmd-mode))
+#+END_SRC
 * Programming Language Supports
+** C
+#+BEGIN_SRC emacs-lisp
+(use-package google-c-style
+  :ensure t
+  :config
+  (add-hook 'c-mode-common-hook 'google-set-c-style)
+  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
+
+(use-package company-c-headers
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-c-headers))
+
+(defun peter/c-mode-hook ()
+  (semantic-mode 1)
+  (local-set-key (kbd "C-c C-j") 'semantic-ia-fast-jump)
+  (local-set-key (kbd "C-c C-d") 'semantic-ia-show-doc)
+  (local-set-key (kbd "C-c C-h") 'man))
+
+(add-hook 'c-mode-common-hook 'peter/c-mode-hook)
+#+END_SRC
 ** Go
 Go-mode dependencies
 #+BEGIN_SRC sh
@@ -1340,7 +1371,7 @@ cabal install hindent
 
 (defun my-haskell-mode-hook ()
   (local-set-key "\C-c\C-d" 'ghc-browse-document))
-#+END_SRC
+  #+END_SRC
 ** Emacs Lisp
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
