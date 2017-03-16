@@ -574,7 +574,7 @@ operator ~,,~ as comment
   :ensure t
   :bind ("C-`" . shell-pop)
   :config
-  ;(setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
+  (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
   (setq shell-pop-full-span t))
 #+END_SRC
 *** Eshell Alias
@@ -1028,7 +1028,14 @@ Drag and Drop Image to Emacs
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort))
+  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
+  (define-key company-active-map (kbd "C-h") #'company-quickhelp-manual-begin))
+
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (company-quickhelp-mode 1)
+  (setq company-quickhelp-delay nil))
 #+END_SRC
 ** Yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -1254,7 +1261,9 @@ This predicate is only tested on \"insert\" action."
   :bind ("C-=" . er/expand-region))
 #+END_SRC
 
-** COMMENT Ycmd
+** Ycmd
+In Gentoo you need to install ~sys-libs/ncurses:5~ with *tinfo* use flag
+slot 5 indicate version 5, which ycmd depend on.
 #+BEGIN_SRC emacs-lisp
 (use-package ycmd
   :ensure t
@@ -1262,7 +1271,8 @@ This predicate is only tested on \"insert\" action."
   (setq  ycmd-server-command
 	 (list "python"
 	       (file-truename "~/tools/ycmd/ycmd")))
-  (add-hook 'after-init-hook #'global-ycmd-mode))
+  (setq ycmd-global-config
+	(file-truename "~/dot/ycm_extra_conf.py")))
 #+END_SRC
 * Programming Language Supports
 ** C
@@ -1273,17 +1283,19 @@ This predicate is only tested on \"insert\" action."
   (add-hook 'c-mode-common-hook 'google-set-c-style)
   (add-hook 'c-mode-common-hook 'google-make-newline-indent))
 
-(use-package company-c-headers
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'company-c-headers))
+;; (use-package company-c-headers
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'company-backends 'company-c-headers))
 
+(use-package company-ycmd
+  :ensure t)
 
 (defun peter/c-mode-hook ()
-  (setq semantic-lex-spp-use-headers-flag t)
-  (semantic-mode 1)
-  (local-set-key (kbd "C-c C-j") 'semantic-ia-fast-jump)
-  (local-set-key (kbd "C-c C-d") 'semantic-ia-show-doc)
+  (ycmd-mode)
+  (company-ycmd-setup)
+  (local-set-key (kbd "C-c C-j") 'ycmd-goto)
+  (local-set-key (kbd "C-c C-d") 'ycmd-show-documentation)
   (local-set-key (kbd "C-c C-h") 'man))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
