@@ -1278,21 +1278,16 @@ slot 5 indicate version 5, which ycmd depend on.
 ** C
 #+BEGIN_SRC emacs-lisp
 (use-package google-c-style
-  :ensure t
-  :config
-  (add-hook 'c-mode-common-hook 'google-set-c-style)
-  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
-
-;; (use-package company-c-headers
-;;   :ensure t
-;;   :config
-;;   (add-to-list 'company-backends 'company-c-headers))
+  :ensure t)
 
 (use-package company-ycmd
   :ensure t)
 
 (defun peter/c-mode-hook ()
+  (google-set-c-style)
+  (google-make-newline-indent)
   (ycmd-mode)
+  (set (make-local-variable 'company-backends) nil)
   (company-ycmd-setup)
   (local-set-key (kbd "C-c C-j") 'ycmd-goto)
   (local-set-key (kbd "C-c C-d") 'ycmd-show-documentation)
