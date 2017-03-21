@@ -626,7 +626,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (define-key dired-mode-map "l" 'dired-find-file)
   (define-key dired-mode-map "h" 'dired-up-directory)
   (define-key dired-mode-map "j" 'dired-next-line)
-  (define-key dired-mode-map "k" 'dired-previous-line))
+  (define-key dired-mode-map "k" 'dired-previous-line)
+  (define-key dired-mode-map "p" 'helm-projectile-find-file))
 
 (add-hook 'dired-mode-hook 'peter/dired-mode-hook)
 (add-hook 'dired-mode-hook 'auto-revert-mode)
@@ -636,6 +637,12 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+#+END_SRC
+** COMMENT Zeal At Point
+#+BEGIN_SRC emacs-lisp
+(use-package zeal-at-point
+  :ensure t
+  :bind (([f1] . zeal-at-point)))
 #+END_SRC
 * Helm
 ** Helm Config
@@ -707,6 +714,12 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
     (helm-mini)))
 
 (global-set-key (kbd "M-`") 'peter/helm-toggle)
+#+END_SRC
+** Helm Dash
+#+BEGIN_SRC emacs-lisp
+(use-package helm-dash
+  :ensure t
+  :bind (([f1] . helm-dash-at-point)))
 #+END_SRC
 ** Helm Uitls
 *** Helm Ag
@@ -1287,6 +1300,7 @@ slot 5 indicate version 5, which ycmd depend on.
   (google-set-c-style)
   (google-make-newline-indent)
   (ycmd-mode)
+  (setq-local helm-dash-docsets '("C"))
   (set (make-local-variable 'company-backends) nil)
   (company-ycmd-setup)
   (local-set-key (kbd "C-c C-j") 'ycmd-goto)
