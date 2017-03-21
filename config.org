@@ -388,6 +388,7 @@ popup window for better experience
 (add-to-list 'evil-motion-state-modes 'special-mode)
 (add-to-list 'evil-emacs-state-modes 'artist-mode)
 (add-to-list 'evil-emacs-state-modes 'dired-mode)
+(add-to-list 'evil-emacs-state-modes 'org-brain-visualize-mode)
 
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
@@ -946,6 +947,15 @@ Drag and Drop Image to Emacs
       '((noslash . "-")
         (nospace . "-")
         (case-fn . downcase))))
+#+END_SRC
+** Org Brain
+#+BEGIN_SRC emacs-lisp
+(use-package dash
+  :ensure t)
+
+(load-file "~/.emacs.d/site-lisp/org-brain.el")
+
+(require 'org-brain)
 #+END_SRC
 ** COMMENT Blog
 #+BEGIN_SRC emacs-lisp
