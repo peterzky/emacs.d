@@ -800,7 +800,7 @@ helm interface for systemd services
 (require 'org-protocol)
 (require 'org-man)
 #+END_SRC
-** Org Drill 
+** COMMENT Org Drill 
 #+BEGIN_SRC emacs-lisp
 (require 'org-drill)
 (setq org-drill-save-buffers-after-drill-sessions-p t)
@@ -903,6 +903,11 @@ helm interface for systemd services
 (setq org-src-fontify-natively t)
 (setq org-src-window-setup 'current-window)
 (setq org-src-preserve-indentation t)
+(org-babel-do-load-languages 'org-babel-load-languages
+    '(
+        (shell . t)
+    )
+)
 #+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
@@ -1311,12 +1316,14 @@ slot 5 indicate version 5, which ycmd depend on.
 #+END_SRC
 ** Go
 Go-mode dependencies
-#+BEGIN_SRC sh
-go get -u github.com/nsf/gocode
-go get golang.org/x/tools/cmd/goimports
-go get -u github.com/motemen/gore 
-go get -u github.com/alecthomas/gometalinter
+#+BEGIN_SRC bash
+proxychains go get -u github.com/nsf/gocode
+proxychains go get golang.org/x/tools/cmd/goimports
+proxychains go get -u github.com/motemen/gore 
+proxychains go get -u github.com/alecthomas/gometalinter
 #+END_SRC
+
+#+RESULTS:
 
 #+BEGIN_SRC emacs-lisp
 (use-package gorepl-mode
@@ -1555,7 +1562,7 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 ;;gnus-newsgroup-ignored-charsets '(unknown-8bit x-unknown iso-8859-1)
 )
 #+END_SRC
-* Mail
+* COMMENT Mail
 #+BEGIN_SRC emacs-lisp 
 (use-package evil-mu4e
   :ensure t)
