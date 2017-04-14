@@ -1342,12 +1342,17 @@ proxychains go get -u github.com/alecthomas/gometalinter
   :config
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
+(defun go-doc ()
+  (interactive)
+  (setq-local helm-dash-docsets '("Go")))
+  
 (use-package go-mode
   :ensure t
   :config
   (setq gofmt-command "goimports")
   (setq godoc-at-point-function 'godoc-gogetdoc)
   (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'go-mode-hook 'go-doc)
   (add-hook 'go-mode-hook (lambda ()
   			    (set (make-local-variable 'company-backends) '(company-go))
   			    (company-mode))))
