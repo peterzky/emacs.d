@@ -277,6 +277,27 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
+*** COMMENT Kaolin
+#+BEGIN_SRC emacs-lisp
+(use-package kaolin-theme
+  :ensure t
+  :config
+  (load-theme 'kaolin t))
+#+END_SRC
+*** COMMENT Doom Theme
+#+BEGIN_SRC emacs-lisp
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-enable-bold t
+	doom-enable-italic t
+	doom-one-brighter-modeline nil
+	doom-one-brighter-comments nil
+	org-fontify-whole-heading-line t
+	org-fontify-done-headline t         	
+	org-fontify-quote-and-verse-blocks t)
+  (load-theme 'doom-one t))
+#+END_SRC
 *** COMMENT Atom One Dark
 #+BEGIN_SRC emacs-lisp
 (use-package atom-one-dark-theme
@@ -285,6 +306,14 @@
   (load-theme 'atom-one-dark t))
 #+END_SRC
 ** Mode Line
+*** COMMENT Telephone Line
+#+BEGIN_SRC emacs-lisp
+(use-package telephone-line
+  :ensure t
+  :config
+  (require 'telephone-line-config)
+  (telephone-line-evil-config))
+#+END_SRC
 ** Window Control
 *** Window Numbering
 Use Alt + 1 2 3 to switch window
