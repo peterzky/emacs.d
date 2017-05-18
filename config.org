@@ -142,7 +142,7 @@
 #+END_SRC
 * Appearance
 ** Themes 
-*** Ample 
+*** COMMENT Ample 
 **** Custom Ample
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
@@ -277,7 +277,7 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
-*** COMMENT Kaolin
+*** Kaolin
 #+BEGIN_SRC emacs-lisp
 (use-package kaolin-theme
   :ensure t
@@ -293,10 +293,10 @@
 	doom-enable-italic t
 	doom-one-brighter-modeline nil
 	doom-one-brighter-comments nil
-	org-fontify-whole-heading-line t
-	org-fontify-done-headline t         	
+	org-fontify-whole-heading-line nil
+	org-fontify-done-headline nil         	
 	org-fontify-quote-and-verse-blocks t)
-  (load-theme 'doom-one t))
+  (load-theme 'doom-tomorrow-night t))
 #+END_SRC
 *** COMMENT Atom One Dark
 #+BEGIN_SRC emacs-lisp
@@ -601,7 +601,7 @@ operator ~,,~ as comment
   (setq fcitx-active-evil-states '(insert emacs hydrid))
   (fcitx-aggressive-setup))
 #+END_SRC
-** Shell Pop
+** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
 (use-package shell-pop
   :ensure t
@@ -677,7 +677,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :bind (([f1] . zeal-at-point)))
 #+END_SRC
-* Helm
+* COMMENT Helm
 ** Helm Config
 #+BEGIN_SRC emacs-lisp
 (use-package helm
@@ -1051,14 +1051,18 @@ Drag and Drop Image to Emacs
 ;;      ("web" :components ("images" "js" "css")))))
 
 #+END_SRC
-* COMMENT Ivy
+* Ivy
 #+BEGIN_SRC emacs-lisp 
 (use-package counsel
   :ensure t
+  :diminish ivy-mode
   :config
   (ivy-mode 1))
 #+END_SRC
 ** Ivy Bindings
+:LOGBOOK:
+CLOCK: [2017-05-19 Fri 04:20]
+:END:
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -1067,8 +1071,22 @@ Drag and Drop Image to Emacs
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(evil-leader/set-key
+  "ag" 'counsel-ag
+  "`"  'ivy-switch-buffer
+  "s"  'swiper
+  "bb" 'ivy-switch-buffer
+  "pp" 'projectile-switch-project
+  "i"  'counsel-imenu
+  "fl" 'counsel-locate
+  "ff" 'counsel-find-file)
+#+END_SRC
+** Packages Compatibility
+#+BEGIN_SRC emacs-lisp
+(setq magit-completing-read-function 'ivy-completing-read)
+(setq projectile-completion-system 'ivy)
 #+END_SRC
 * Completion and Error Checking
 ** Company Mode
