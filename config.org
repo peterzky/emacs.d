@@ -642,7 +642,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (projectile-global-mode)
-  (setq projectile-switch-project-action 'projectile-dired)
+  ;; (setq projectile-switch-project-action 'projectile-dired)
   (add-to-list 'projectile-globally-ignored-directories "node_modules") 
   (add-to-list 'projectile-globally-ignored-files ".tern-port"))
 #+END_SRC
@@ -670,6 +670,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+#+END_SRC
+** Which Key
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 #+END_SRC
 ** COMMENT Zeal At Point
 #+BEGIN_SRC emacs-lisp
