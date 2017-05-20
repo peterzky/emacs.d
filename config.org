@@ -636,8 +636,12 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   (projectile-global-mode)
   ;; (setq projectile-switch-project-action 'projectile-dired)
+  ;; Mode line
+  (setq projectile-mode-line
+	'(:eval (format " Proj[%s]" (projectile-project-name))))
   (add-to-list 'projectile-globally-ignored-directories "node_modules") 
   (add-to-list 'projectile-globally-ignored-files ".tern-port"))
+
 #+END_SRC
 ** Avy
 #+BEGIN_SRC emacs-lisp
@@ -671,10 +675,11 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (define-key ibuffer-mode-map "h" 'ibuffer-visit-buffer-other-window-noselect)
   (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
   (define-key ibuffer-mode-map "k" 'ibuffer-backward-line)
-  ;(define-key ibuffer-mode-map "RET" 'ibuffer-visit-buffer-1-window)
+  (define-key ibuffer-mode-map (kbd "RET") 'ibuffer-visit-buffer-1-window)
   )
 
 (add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
+(global-set-key (kbd "M-`") 'ibuffer)
 
 #+END_SRC
 ** Bookmark Menu
