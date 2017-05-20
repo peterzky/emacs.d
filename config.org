@@ -132,14 +132,6 @@
 ;; GDB
 (global-set-key [f6] 'gdb)
 #+END_SRC
-** ISpell
-#+BEGIN_SRC emacs-lisp
-;; spell check world
-(global-set-key (kbd "C-\\") 'ispell-word)
-#+END_SRC
-** COMMENT Buffer Menu
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
 * Appearance
 ** Themes 
 *** COMMENT Ample 
@@ -417,6 +409,7 @@ popup window for better experience
 (add-to-list 'evil-motion-state-modes 'special-mode)
 (add-to-list 'evil-emacs-state-modes 'artist-mode)
 (add-to-list 'evil-emacs-state-modes 'dired-mode)
+(add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
 
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
@@ -671,7 +664,28 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
-** Which Key
+** Ibuffer Mode
+#+BEGIN_SRC emacs-lisp
+(defun peter/ibuffer-mode-hook ()
+  (hl-line-mode)
+  (define-key ibuffer-mode-map "h" 'ibuffer-visit-buffer-other-window-noselect)
+  (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
+  (define-key ibuffer-mode-map "k" 'ibuffer-backward-line)
+  ;(define-key ibuffer-mode-map "RET" 'ibuffer-visit-buffer-1-window)
+  )
+
+(add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
+
+#+END_SRC
+** Bookmark Menu
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+** ISpell
+#+BEGIN_SRC emacs-lisp
+;; spell check world
+(global-set-key (kbd "C-\\") 'ispell-word)
+#+END_SRC
+** COMMENT Which Key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
   :ensure t
@@ -1080,6 +1094,7 @@ CLOCK: [2017-05-19 Fri 04:20]
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
 ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
 (evil-leader/set-key
   "ag" 'counsel-ag
   "`"  'ivy-switch-buffer
