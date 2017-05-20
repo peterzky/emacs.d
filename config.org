@@ -269,14 +269,14 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
-*** Kaolin
+*** COMMENT Kaolin
 #+BEGIN_SRC emacs-lisp
 (use-package kaolin-theme
   :ensure t
   :config
   (load-theme 'kaolin t))
 #+END_SRC
-*** COMMENT Doom Theme
+*** Doom Theme
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
   :ensure t
@@ -287,7 +287,7 @@
 	doom-one-brighter-comments nil
 	org-fontify-whole-heading-line nil
 	org-fontify-done-headline nil         	
-	org-fontify-quote-and-verse-blocks t)
+	org-fontify-quote-and-verse-blocks nil)
   (load-theme 'doom-tomorrow-night t))
 #+END_SRC
 *** COMMENT Atom One Dark
@@ -1109,6 +1109,8 @@ CLOCK: [2017-05-19 Fri 04:20]
   "i"  'counsel-imenu
   "fl" 'counsel-locate
   "ff" 'counsel-find-file)
+
+(define-key ivy-mode-map (kbd "C-l") 'ivy-backward-delete-char)
 #+END_SRC
 ** Packages Compatibility
 #+BEGIN_SRC emacs-lisp
