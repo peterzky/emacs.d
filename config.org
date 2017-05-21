@@ -1466,9 +1466,7 @@ cabal install hindent
   (add-hook 'haskell-mode-hook (lambda () (ghc-init))))
 
 (use-package company-ghc
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'company-ghc))
+  :ensure t)
 
 (use-package shm
   :ensure t
@@ -1486,7 +1484,8 @@ cabal install hindent
   :config)
 
 (defun my-haskell-mode-hook ()
-  (local-set-key "\C-c\C-d" 'ghc-browse-document))
+  (local-set-key "\C-c\C-d" 'ghc-browse-document)
+  (set (make-local-variable 'company-backends) '(company-ghc company-files)))
   #+END_SRC
 ** Emacs Lisp
 #+BEGIN_SRC emacs-lisp
