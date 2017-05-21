@@ -269,7 +269,7 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
-*** COMMENT Kaolin
+*** Kaolin
 #+BEGIN_SRC emacs-lisp
 (use-package kaolin-theme
   :ensure t
@@ -297,7 +297,7 @@
   :config
   (load-theme 'atom-one-dark t))
 #+END_SRC
-*** Material Theme
+*** COMMENT Material Theme
 #+BEGIN_SRC emacs-lisp
 (use-package material-theme
   :ensure t
