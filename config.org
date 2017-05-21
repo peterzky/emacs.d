@@ -269,7 +269,7 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
-*** Kaolin
+*** COMMENT Kaolin
 #+BEGIN_SRC emacs-lisp
 (use-package kaolin-theme
   :ensure t
@@ -296,6 +296,13 @@
   :ensure t
   :config
   (load-theme 'atom-one-dark t))
+#+END_SRC
+*** Material Theme
+#+BEGIN_SRC emacs-lisp
+(use-package material-theme
+  :ensure t
+  :config
+  (load-theme 'material t))
 #+END_SRC
 ** Mode Line
 *** COMMENT Telephone Line
@@ -596,23 +603,6 @@ operator ~,,~ as comment
   (setq fcitx-active-evil-states '(insert emacs hydrid))
   (fcitx-aggressive-setup))
 #+END_SRC
-** COMMENT Shell Pop
-#+BEGIN_SRC emacs-lisp
-(use-package shell-pop
-  :ensure t
-  :bind ("C-`" . shell-pop)
-  :config
-  (custom-set-variables
-   '(shell-pop-term-shell "/bin/zsh")
-   '(shell-pop-universal-key "C-t")
-   '(shell-pop-window-size 30)
-   '(shell-pop-full-span t)
-   '(shell-pop-window-position "bottom")))
-#+END_SRC
-*** Eshell Alias
-#+BEGIN_SRC emacs-lisp
-(defalias 'open 'find-file-other-window)
-#+END_SRC
 ** Crux
 Open file with sudo if needed
 #+BEGIN_SRC emacs-lisp
@@ -695,6 +685,23 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
 ;; spell check world
 (global-set-key (kbd "C-\\") 'ispell-word)
+#+END_SRC
+** COMMENT Shell Pop
+#+BEGIN_SRC emacs-lisp
+(use-package shell-pop
+  :ensure t
+  :bind ("C-`" . shell-pop)
+  :config
+  (custom-set-variables
+   '(shell-pop-term-shell "/bin/zsh")
+   '(shell-pop-universal-key "C-t")
+   '(shell-pop-window-size 30)
+   '(shell-pop-full-span t)
+   '(shell-pop-window-position "bottom")))
+#+END_SRC
+*** Eshell Alias
+#+BEGIN_SRC emacs-lisp
+(defalias 'open 'find-file-other-window)
 #+END_SRC
 ** COMMENT Which Key
 #+BEGIN_SRC emacs-lisp
@@ -1088,7 +1095,7 @@ Drag and Drop Image to Emacs
 #+BEGIN_SRC emacs-lisp 
 (use-package counsel
   :ensure t
-  :diminish ivy-mode
+  :diminish ivy-mode ivy-minor-mode
   :config
   (ivy-mode 1))
 #+END_SRC
