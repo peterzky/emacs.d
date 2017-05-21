@@ -1132,6 +1132,7 @@ CLOCK: [2017-05-19 Fri 04:20]
   "s"  'swiper
   "bb" 'ivy-switch-buffer
   "pp" 'projectile-switch-project
+  "pf" 'projectile-find-file-dwim
   "i"  'counsel-imenu
   "fl" 'counsel-locate
   "ff" 'counsel-find-file)
