@@ -332,6 +332,7 @@ popup window for better experience
   (push '("*HS-Error*" :position bottom) popwin:special-display-config)
   (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
   (push '("*Buffer List*" :position bottom) popwin:special-display-config)
+  (global-set-key (kbd "C-`") popwin:keymap)
   (popwin-mode 1))
 #+END_SRC
 ** Interface Enhancement
