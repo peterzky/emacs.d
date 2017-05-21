@@ -339,7 +339,7 @@ popup window for better experience
   (push '("*HS-Error*" :position bottom) popwin:special-display-config)
   (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
   (push '("*Buffer List*" :position bottom) popwin:special-display-config)
-  (global-set-key (kbd "M-`") popwin:keymap)
+  (global-set-key (kbd "C-`") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
 #+END_SRC
@@ -685,6 +685,15 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
 ;; spell check world
 (global-set-key (kbd "C-\\") 'ispell-word)
+#+END_SRC
+** Terminal Here
+#+BEGIN_SRC emacs-lisp
+(use-package terminal-here
+  :ensure t
+  :config
+  (setq terminal-here-terminal-command '("urxvtc"))
+  (evil-leader/set-key
+    "t" 'terminal-here))
 #+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
