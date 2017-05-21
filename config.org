@@ -339,6 +339,8 @@ popup window for better experience
   (push '("*HS-Error*" :position bottom) popwin:special-display-config)
   (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
   (push '("*Buffer List*" :position bottom) popwin:special-display-config)
+  (push '("*godoc <at point>*" :position bottom) popwin:special-display-config)
+  (push '("*Go Test*" :position bottom) popwin:special-display-config)
   (global-set-key (kbd "C-`") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
@@ -419,6 +421,7 @@ popup window for better experience
 (add-to-list 'evil-emacs-state-modes 'artist-mode)
 (add-to-list 'evil-emacs-state-modes 'dired-mode)
 (add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
+(add-to-list 'evil-emacs-state-modes 'view-mode)
 
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
@@ -1445,9 +1448,11 @@ proxychains go get -u github.com/alecthomas/gometalinter
   :config
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
-(defun go-doc ()
+(defun peter/go-mode-hook ()
   (interactive)
-  (setq-local helm-dash-docsets '("Go")))
+  (setq-local helm-dash-docsets '("Go"))
+  (local-set-key (kbd "C-c C-d") 'godoc-at-point)
+  (local-set-key [f5] 'go-run))
   
 (use-package go-mode
   :ensure t
@@ -1455,7 +1460,7 @@ proxychains go get -u github.com/alecthomas/gometalinter
   (setq gofmt-command "goimports")
   (setq godoc-at-point-function 'godoc-gogetdoc)
   (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook 'go-doc)
+  (add-hook 'go-mode-hook 'peter/go-mode-hook)
   (add-hook 'go-mode-hook (lambda ()
   			    (set (make-local-variable 'company-backends) '(company-go company-files))
   			    (company-mode))))
