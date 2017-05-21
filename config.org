@@ -332,7 +332,8 @@ popup window for better experience
   (push '("*HS-Error*" :position bottom) popwin:special-display-config)
   (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
   (push '("*Buffer List*" :position bottom) popwin:special-display-config)
-  (global-set-key (kbd "C-`") popwin:keymap)
+  (global-set-key (kbd "M-`") popwin:keymap)
+  (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
 #+END_SRC
 ** Interface Enhancement
@@ -601,8 +602,12 @@ operator ~,,~ as comment
   :ensure t
   :bind ("C-`" . shell-pop)
   :config
-  (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
-  (setq shell-pop-full-span t))
+  (custom-set-variables
+   '(shell-pop-term-shell "/bin/zsh")
+   '(shell-pop-universal-key "C-t")
+   '(shell-pop-window-size 30)
+   '(shell-pop-full-span t)
+   '(shell-pop-window-position "bottom")))
 #+END_SRC
 *** Eshell Alias
 #+BEGIN_SRC emacs-lisp
@@ -680,7 +685,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   )
 
 (add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
-(global-set-key (kbd "M-`") 'ibuffer)
+;(global-set-key (kbd "M-`") 'ibuffer)
 
 #+END_SRC
 ** Bookmark Menu
@@ -841,6 +846,7 @@ helm interface for systemd services
 (setq org-startup-indented t)
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
+(setq org-imenu-depth 5)
 (evil-leader/set-key
   "op" 'org-mobile-push
   "oP" 'org-mobile-pull
