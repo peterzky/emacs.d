@@ -698,6 +698,15 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (evil-leader/set-key
     "t" 'terminal-here))
 #+END_SRC
+** Fasd
+#+BEGIN_SRC emacs-lisp
+(use-package fasd
+  :ensure t
+  :config
+  (global-fasd-mode 1)
+  (evil-leader/set-key
+    "fd" 'fasd-find-file))
+#+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
 (use-package shell-pop
