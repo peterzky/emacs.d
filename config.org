@@ -1444,6 +1444,9 @@ proxychains go get -u github.com/alecthomas/gometalinter
   (progn
     (setq company-go-show-annotation nil)))
 
+(use-package gotest
+  :ensure t)
+
 (use-package go-eldoc
   :ensure t
   :config
