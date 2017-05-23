@@ -269,14 +269,14 @@
  '(shm-current-face ((t (:background "#505050"))))
  '(org-special-keyword ((t (:foreground "light coral")))))
 #+END_SRC
-*** Kaolin
+*** COMMENT Kaolin
 #+BEGIN_SRC emacs-lisp
 (use-package kaolin-theme
   :ensure t
   :config
   (load-theme 'kaolin t))
 #+END_SRC
-*** COMMENT Doom Theme
+*** Doom Theme
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
   :ensure t
@@ -288,6 +288,11 @@
   ;; 	org-fontify-whole-heading-line nil
   ;; 	org-fontify-done-headline nil         	
   ;; 	org-fontify-quote-and-verse-blocks nil)
+  (add-hook 'find-file-hook #'doom-buffer-mode-maybe)
+  ;; ...if you use auto-revert-mode
+  (add-hook 'after-revert-hook #'doom-buffer-mode-maybe)
+  ;; And you can brighten other buffers (unconditionally) with:
+  (add-hook 'ediff-prepare-buffer-hook #'doom-buffer-mode)
   (load-theme 'doom-tomorrow-night t))
 #+END_SRC
 *** COMMENT Atom One Dark
@@ -303,6 +308,13 @@
   :ensure t
   :config
   (load-theme 'material t))
+#+END_SRC
+*** COMMENT Base16 Theme
+#+BEGIN_SRC emacs-lisp
+(use-package base16-theme
+  :ensure t
+  :config
+  (load-theme 'base16-brewer t))
 #+END_SRC
 ** Mode Line
 *** COMMENT Telephone Line
@@ -1438,6 +1450,7 @@ proxy go get golang.org/x/tools/cmd/goimports
 proxy go get -u github.com/motemen/gore 
 proxy go get -u github.com/alecthomas/gometalinter
 proxy go get -u github.com/zmb3/gogetdoc
+proxy go get -u golang.org/x/tools/cmd/guru
 #+END_SRC
 
 #+RESULTS:
@@ -1456,6 +1469,7 @@ proxy go get -u github.com/zmb3/gogetdoc
 
 (use-package gotest
   :ensure t)
+  
 
 (use-package go-eldoc
   :ensure t
