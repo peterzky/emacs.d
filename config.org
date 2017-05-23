@@ -1444,7 +1444,7 @@ slot 5 indicate version 5, which ycmd depend on.
 #+END_SRC
 ** Go
 Go-mode dependencies
-#+BEGIN_SRC sh :session yes :result no
+#+BEGIN_SRC sh :result no
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/nsf/gocode
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/goimports
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/motemen/gore 
