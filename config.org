@@ -276,7 +276,7 @@
   :config
   (load-theme 'kaolin t))
 #+END_SRC
-*** Doom Theme
+*** COMMENT Doom Theme
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
   :ensure t
@@ -295,7 +295,7 @@
   (add-hook 'ediff-prepare-buffer-hook #'doom-buffer-mode)
   (load-theme 'doom-tomorrow-night t))
 #+END_SRC
-*** COMMENT Atom One Dark
+*** Atom One Dark
 #+BEGIN_SRC emacs-lisp
 (use-package atom-one-dark-theme
   :ensure t
