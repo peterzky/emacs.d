@@ -316,6 +316,20 @@
   :config
   (load-theme 'base16-brewer t))
 #+END_SRC
+*** COMMENT Zenburn
+#+BEGIN_SRC emacs-lisp
+(use-package zenburn-theme
+  :ensure t
+  :config
+  (load-theme 'zenburn t))
+#+END_SRC
+*** COMMENT Darktooth
+#+BEGIN_SRC emacs-lisp
+(use-package darktooth-theme
+  :ensure t
+  :config
+  (load-theme 'darktooth t))
+#+END_SRC
 ** Mode Line
 *** COMMENT Telephone Line
 #+BEGIN_SRC emacs-lisp
