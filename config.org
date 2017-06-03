@@ -331,6 +331,17 @@
   (load-theme 'darktooth t))
 #+END_SRC
 ** Mode Line
+*** COMMENT Spaceline
+#+BEGIN_SRC emacs-lisp
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config))
+
+;; (use-package spaceline-all-the-icons 
+;;   :after spaceline
+;;   :config (spaceline-all-the-icons-theme))
+#+END_SRC
 *** COMMENT Telephone Line
 #+BEGIN_SRC emacs-lisp
 (use-package telephone-line
@@ -338,6 +349,38 @@
   :config
   (require 'telephone-line-config)
   (telephone-line-evil-config))
+#+END_SRC
+*** Smart Mode Line
+#+BEGIN_SRC emacs-lisp
+(use-package smart-mode-line
+  :ensure t
+  :init
+  (setq sml/no-confirm-load-theme t
+	sml/theme 'respectful
+	sml/mode-width 'right
+	projectile-mode-line nil
+	)
+  :config
+  (sml/setup))
+
+(setq evil-mode-line-format '(before . mode-line-front-space))
+;; (setq mode-line-format '("%e"
+;; 			 mode-line-front-space
+;; 			 mode-line-mule-info
+;; 			 mode-line-client
+;; 			 mode-line-modified
+;; 			 mode-line-auto-compile
+;; 			 mode-line-remote
+;; 			 mode-line-frame-identification
+;; 			 mode-line-buffer-identification
+;; 			 sml/pos-id-separator
+;; 			 (vc-mode vc-mode)
+;; 			 sml/pre-modes-separator
+;; 			 mode-line-modes
+;; 			 mode-line-misc-info
+;; 			 mode-line-position
+;; 			 mode-line-end-spaces
+;; 			 ))
 #+END_SRC
 ** Window Control
 *** Window Numbering
@@ -446,11 +489,12 @@ popup window for better experience
 
 (add-to-list 'evil-motion-state-modes 'debugger-mode)
 (add-to-list 'evil-motion-state-modes 'special-mode)
+(add-to-list 'evil-motion-state-modes 'go-guru-output-mode)
+
 (add-to-list 'evil-emacs-state-modes 'artist-mode)
 (add-to-list 'evil-emacs-state-modes 'dired-mode)
 (add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
 (add-to-list 'evil-emacs-state-modes 'view-mode)
-(add-to-list 'evil-emacs-state-modes 'go-guru-output-mode)
 
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
@@ -461,8 +505,7 @@ popup window for better experience
       evil-normal-state-cursor	'(box "YellowGreen")
       evil-insert-state-cursor	'(bar "#F86155")
       evil-emacs-state-cursor	'(bar "SkyBlue2")
-      evil-visual-state-cursor	'(box "gray")
-      )
+      evil-visual-state-cursor	'(box "gray"))
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
@@ -665,8 +708,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (projectile-global-mode)
   ;; (setq projectile-switch-project-action 'projectile-dired)
   ;; Mode line
-  (setq projectile-mode-line
-	'(:eval (format " Proj[%s]" (projectile-project-name))))
+  ;; (setq projectile-mode-line
+  ;; 	'(:eval (format " Proj[%s]" (projectile-project-name))))
   (add-to-list 'projectile-globally-ignored-directories "node_modules") 
   (add-to-list 'projectile-globally-ignored-files ".tern-port"))
 
@@ -1172,9 +1215,6 @@ Drag and Drop Image to Emacs
   (ivy-mode 1))
 #+END_SRC
 ** Ivy Bindings
-:LOGBOOK:
-CLOCK: [2017-05-19 Fri 04:20]
-:END:
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -1183,6 +1223,8 @@ CLOCK: [2017-05-19 Fri 04:20]
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f1> b") 'counsel-descbinds)
+
 ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -1190,6 +1232,7 @@ CLOCK: [2017-05-19 Fri 04:20]
   "ag" 'counsel-ag
   "`"  'ivy-switch-buffer
   "d"  'counsel-yank-pop
+  "m"  'counsel-mark-ring
   "s"  'swiper
   "bb" 'ivy-switch-buffer
   "pp" 'projectile-switch-project
@@ -1499,6 +1542,7 @@ http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u
 #+BEGIN_SRC emacs-lisp
 (use-package gorepl-mode
   :ensure t
+  :diminish gorepl-mode
   :config
   (add-hook 'go-mode-hook #'gorepl-mode))
 
@@ -1518,6 +1562,7 @@ http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u
 
 (use-package go-eldoc
   :ensure t
+  :diminish eldoc-mode
   :config
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
