@@ -361,6 +361,9 @@
 	projectile-mode-line nil
 	)
   :config
+  (line-number-mode 1)
+  (column-number-mode 1)
+  (size-indication-mode 1)
   (sml/setup))
 
 (setq evil-mode-line-format '(before . mode-line-front-space))
