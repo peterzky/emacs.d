@@ -367,6 +367,8 @@ popup window for better experience
   (push '("*Buffer List*" :position bottom) popwin:special-display-config)
   (push '("*godoc <at point>*" :position bottom) popwin:special-display-config)
   (push '("*Go Test*" :position bottom) popwin:special-display-config)
+  (push '(compilation-mode :noselect nil) popwin:special-display-config)
+  (push '(go-guru-output-mode :noselect nil) popwin:special-display-config)
   (global-set-key (kbd "C-`") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
@@ -448,6 +450,7 @@ popup window for better experience
 (add-to-list 'evil-emacs-state-modes 'dired-mode)
 (add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
 (add-to-list 'evil-emacs-state-modes 'view-mode)
+(add-to-list 'evil-emacs-state-modes 'go-guru-output-mode)
 
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
