@@ -380,10 +380,11 @@
 		mode-line-buffer-identification
 		sml/pos-id-separator 
 		" "
+		(vc-mode vc-mode)
+          " "
 		mode-line-modes
 		mode-line-misc-info
 		sml/pre-modes-separator
-		(vc-mode vc-mode)
 		mode-line-position
 		"(%l:%c)"
 		mode-line-end-spaces
@@ -984,6 +985,9 @@ helm interface for systemd services
   "ac" 'org-capture)
 ;; diminish org-indent-mode
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
+
+(evil-leader/set-key-for-mode 'org-mode
+  "i" 'counsel-org-goto)
 #+END_SRC
 ** Org Modules
 #+BEGIN_SRC emacs-lisp
