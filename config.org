@@ -362,9 +362,6 @@
 	projectile-mode-line nil
 	)
   :config
-  ;; (line-number-mode 1)
-  ;; (column-number-mode 1)
-  ;; (size-indication-mode 1)
   (sml/setup))
 
 (setq evil-mode-line-format '(before . mode-line-front-space))
@@ -372,21 +369,25 @@
 (setq-default mode-line-format
 	      '("%e"
 		mode-line-front-space
-		mode-line-mule-info
+		" "
+		;mode-line-mule-info
 		mode-line-client
 		mode-line-modified
 		mode-line-auto-compile
 		mode-line-remote
 		mode-line-frame-identification
+		" "
 		mode-line-buffer-identification
 		sml/pos-id-separator 
+		" "
 		mode-line-modes
 		mode-line-misc-info
 		sml/pre-modes-separator
-          (vc-mode vc-mode)
-          mode-line-position
-          "(%l:%c)"
-		mode-line-end-spaces))
+		(vc-mode vc-mode)
+		mode-line-position
+		"(%l:%c)"
+		mode-line-end-spaces
+		))
 #+END_SRC
 *** COMMENT Vanilla Mode Line
 #+BEGIN_SRC emacs-lisp
@@ -438,6 +439,7 @@ popup window for better experience
   (push '("*Buffer List*" :position bottom) popwin:special-display-config)
   (push '("*godoc <at point>*" :position bottom) popwin:special-display-config)
   (push '("*Go Test*" :position bottom) popwin:special-display-config)
+  (push '(vc-mode :noselect nil) popwin:special-display-config)
   (push '(compilation-mode :noselect nil) popwin:special-display-config)
   (push '(go-guru-output-mode :noselect nil) popwin:special-display-config)
   (global-set-key (kbd "C-`") popwin:keymap)
