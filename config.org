@@ -803,12 +803,30 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+END_SRC
 ** Fasd
 #+BEGIN_SRC emacs-lisp
+(defun counsel-fasd-function (str)
+  (process-lines "fasd" str))
+
+(defun counsel-fasd (&optional initial-input)
+  "fasd counsel interface"
+  (interactive)
+  (ivy-read "fasd: " #'counsel-fasd-function
+	    :initial-input initial-input
+	    :dynamic-collection t
+	    :require-match t
+	    :sort t
+	    :history 'counsel-fasd
+	    :action (lambda (str)
+		      (if (directory-name-p str)
+			  (dired str) 
+			(find-file str)))
+	    :caller 'counsel-fasd))
+
 (use-package fasd
   :ensure t
   :config
   (global-fasd-mode 1)
   (evil-leader/set-key
-    "fd" 'fasd-find-file))
+    "fd" 'counsel-fasd))
 #+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
