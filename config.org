@@ -383,7 +383,7 @@
 		(vc-mode vc-mode)
           " "
 		mode-line-modes
-		mode-line-misc-info
+		;mode-line-misc-info
 		sml/pre-modes-separator
 		mode-line-position
 		"(%l:%c)"
@@ -988,6 +988,9 @@ helm interface for systemd services
 
 (evil-leader/set-key-for-mode 'org-mode
   "i" 'counsel-org-goto)
+
+;; disable time dispaly for mode line compatibility
+(setq org-timer-display nil)
 #+END_SRC
 ** Org Modules
 #+BEGIN_SRC emacs-lisp
