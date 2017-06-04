@@ -357,7 +357,7 @@
   :init
   (setq sml/no-confirm-load-theme t
 	sml/theme 'respectful
-	sml/mode-width 'right
+	sml/mode-width 'full
 	sml/vc-mode-show-backend t
 	projectile-mode-line nil
 	)
