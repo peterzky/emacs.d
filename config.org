@@ -1039,9 +1039,9 @@ helm interface for systemd services
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/Nextcloud/org/GTD.org" "Tasks")
 	 "* TODO %?\n %i\n %a")
-	("j" "Journal" entry (file+datetree "~/Nextcloud/notes/journal.org")
+	("j" "Journal" entry (file+datetree "~/Nextcloud/org/journal.org")
 	 "* %?\nEntered on %U\n %i\n %a")
-	("x" "org-protocol" entry (file "~/Nextcloud/notes/web.org")
+	("x" "org-protocol" entry (file "~/Nextcloud/org/web.org")
 	 "* %^{Title}\nSource: [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
 :empty-line 1)))
 #+END_SRC
@@ -1091,6 +1091,8 @@ helm interface for systemd services
 (setq org-agenda-files 
       (list "~/Nextcloud/org/capture.org"
 	    "~/Nextcloud/org/brain/"
+	    "~/Nextcloud/org/web.org"
+	    "~/Nextcloud/org/journal.org"
 	    "~/.emacs.d/config.org"
 	    "~/Nextcloud/org/GTD.org"))
 (setq org-directory "~/Nextcloud/org")
