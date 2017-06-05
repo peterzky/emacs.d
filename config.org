@@ -749,7 +749,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind ("C-;" . avy-goto-char))
+  :bind ("C-;" . avy-goto-char-2))
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
