@@ -46,7 +46,7 @@
 #+BEGIN_SRC emacs-lisp
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
-	  browse-url-generic-program "firefox"))
+	  browse-url-generic-program "google-chrome-beta"))
 #+END_SRC
 ** User Defined Functions
 #+BEGIN_SRC emacs-lisp
