@@ -46,7 +46,7 @@
 #+BEGIN_SRC emacs-lisp
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
-	  browse-url-generic-program "google-chrome-beta"))
+	  browse-url-generic-program "conkeror"))
 #+END_SRC
 ** User Defined Functions
 #+BEGIN_SRC emacs-lisp
@@ -1009,6 +1009,9 @@ helm interface for systemd services
 
 ;; disable time dispaly for mode line compatibility
 (setq org-timer-display nil)
+
+;; line wrap in org mode
+(add-hook 'org-mode-hook 'visual-line-mode)
 #+END_SRC
 ** Org Modules
 #+BEGIN_SRC emacs-lisp
@@ -1039,7 +1042,8 @@ helm interface for systemd services
 	("j" "Journal" entry (file+datetree "~/Nextcloud/notes/journal.org")
 	 "* %?\nEntered on %U\n %i\n %a")
 	("x" "org-protocol" entry (file "~/Nextcloud/notes/web.org")
-	 "* TODO Review %c\n%U\n%i\n" :immediate-finish)))
+	 "* %^{Title}\nSource: [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
+:empty-line 1)))
 #+END_SRC
 ** Org Mime
 #+BEGIN_SRC emacs-lisp
@@ -1086,7 +1090,7 @@ helm interface for systemd services
 (setq org-default-notes-file "~/Nextcloud/org/capture.org")
 (setq org-agenda-files 
       (list "~/Nextcloud/org/capture.org"
-	    "~/Nextcloud/notes"
+	    "~/Nextcloud/org/brain/"
 	    "~/.emacs.d/config.org"
 	    "~/Nextcloud/org/GTD.org"))
 (setq org-directory "~/Nextcloud/org")
@@ -1167,7 +1171,7 @@ Drag and Drop Image to Emacs
   (setq deft-use-filter-string-for-filename t)
   ;; (setq deft-org-mode-title-prefix t)
   (setq deft-default-extension "org")
-  (setq deft-directory "~/Nextcloud/notes")
+  (setq deft-directory "~/Nextcloud/org/brain")
   (setq deft-file-naming-rules
       '((noslash . "-")
         (nospace . "-")
