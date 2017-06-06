@@ -828,6 +828,15 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (evil-leader/set-key
     "fd" 'counsel-fasd))
 #+END_SRC
+** Dumb Jump
+#+BEGIN_SRC emacs-lisp
+(use-package dumb-jump
+  :ensure t
+  :config
+ (define-key evil-normal-state-map "gd" 'dumb-jump-go)
+ (define-key evil-normal-state-map "gb" 'dumb-jump-back)
+ (define-key evil-normal-state-map "gq" 'dumb-jump-quick-look))
+#+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
 (use-package shell-pop
@@ -1289,6 +1298,8 @@ Drag and Drop Image to Emacs
 ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "C-c v") 'ivy-push-view)
+(global-set-key (kbd "C-c V") 'ivy-pop-view)
 (evil-leader/set-key
   "ag" 'counsel-ag
   "`"  'ivy-switch-buffer
