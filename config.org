@@ -1311,6 +1311,7 @@ Drag and Drop Image to Emacs
   "pf" 'projectile-find-file-dwim
   "i"  'counsel-imenu
   "fl" 'counsel-locate
+  "gg" 'counsel-git-grep
   "ff" 'counsel-find-file)
 
 (define-key ivy-mode-map (kbd "C-l") 'ivy-backward-delete-char)
