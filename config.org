@@ -868,132 +868,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :bind (([f1] . zeal-at-point)))
 #+END_SRC
-* COMMENT Helm
-** Helm Config
-#+BEGIN_SRC emacs-lisp
-(use-package helm
-  :diminish helm-mode
-  :ensure t
-  :bind (("s-x" . helm-M-x)
-	 ("M-x" . helm-M-x))
-  :config
-  (require 'helm-config)
-  (helm-mode 1)
-  (setq helm-display-header-line nil)
-  (setq helm-display-source-at-screen-top nil)
-  (setq helm-autoresize-min-height 10)
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-split-window-in-side-p t)
-  (setq helm-completion-in-region-fuzzy-match t)
-  (helm-autoresize-mode 1)
-  ;;add bookmark to helm mini sources
-  (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
-  (evil-leader/set-key
-    "s" 'helm-occur
-    "d" 'helm-show-kill-ring
-    ";" 'helm-mark-ring
-    "bb" 'helm-mini
-    "ff" 'helm-find-files
-    "fl" 'helm-locate
-    "i" 'helm-imenu
-    "`" 'helm-mini))
-#+END_SRC
-** Helm Workaround
-#+BEGIN_SRC emacs-lisp
-;; helm alway at bottom
-(add-to-list 'display-buffer-alist
-	     `(,(rx bos "*helm" (* not-newline) "*" eos)
-	       (display-buffer-in-side-window)
-	       (inhibit-same-window . t)
-	       (window-height . 0.4)))
-
-(defun *-popwin-help-mode-off ()
-  "Turn `popwin-mode' off for *Help* buffers."
-  (when (boundp 'popwin:special-display-config)
-    (customize-set-variable 'popwin:special-display-config
-			    (delq 'help-mode popwin:special-display-config))))
-
-(defun *-popwin-help-mode-on ()
-  "Turn `popwin-mode' on for *Help* buffers."
-  (when (boundp 'popwin:special-display-config)
-    (customize-set-variable 'popwin:special-display-config
-			    (add-to-list 'popwin:special-display-config 'help-mode nil #'eq))))
-
-(add-hook 'helm-minibuffer-set-up-hook #'*-popwin-help-mode-off)
-(add-hook 'helm-cleanup-hook #'*-popwin-help-mode-on)
-
-;;fix helm cursor
-(defun peter/hide-cursor-in-helm-buffer ()
-  "Hide the cursor in helm buffers."
-  (with-helm-buffer
-    (setq cursor-in-non-selected-windows nil)))
-
-(add-hook 'helm-after-initialize-hook 'peter/hide-cursor-in-helm-buffer)
-
-(defun peter/helm-toggle ()
-  "toggle helm-mini"
-  (interactive)
-  (if (helm-alive-p)
-      (helm-keyboard-quit)
-    (helm-mini)))
-
-(global-set-key (kbd "M-`") 'peter/helm-toggle)
-#+END_SRC
-** Helm Dash
-#+BEGIN_SRC emacs-lisp
-(use-package helm-dash
-  :ensure t
-  :bind (([f1] . helm-dash-at-point)))
-#+END_SRC
-** Helm Uitls
-*** Helm Ag
-the silverlight searcher
-#+BEGIN_SRC emacs-lisp
-(use-package helm-ag
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "ag" 'helm-ag
-    "ap" 'helm-ag-project-root))
-#+END_SRC
-
-*** Helm Systemd
-helm interface for systemd services
-#+BEGIN_SRC emacs-lisp
-(use-package helm-systemd
-  :ensure t
-  :config
-  (setq helm-systemd-list-not-loaded t)
-  (setq helm-systemd-list-all t)
-  (setq helm-systemd-buffer-name "*Systemd log*")
-  (evil-leader/set-key
-    "ad" 'helm-systemd))
-#+END_SRC
-
-*** Helm Projectile
-#+BEGIN_SRC emacs-lisp
-(use-package helm-projectile
-  :ensure t
-  :config
-  (helm-projectile-on)
-  (evil-leader/set-key
-    "pp" 'helm-projectile))
-#+END_SRC
-*** Helm Descbinds
-#+BEGIN_SRC emacs-lisp
-(use-package helm-descbinds
-  :ensure t
-  :config
-  (setq helm-descbinds-window-style 'same-window)
-  (helm-descbinds-mode))
-#+END_SRC
-*** Helm Flycheck
-#+BEGIN_SRC emacs-lisp
-(use-package helm-flycheck
-  :ensure t
-  :config
-  (evil-leader/set-key "cf" 'helm-flycheck))
-#+END_SRC
 * Org Mode
 ** Org Mode Setup
 #+BEGIN_SRC emacs-lisp
@@ -1845,6 +1719,154 @@ cabal install hindent
 (setenv "PATH" (concat (getenv "PATH") ":/home/peterzky/playground/smlnj/bin"))
 (setq exec-path (append exec-path '("/home/peterzky/playground/smlnj/bin")))
 #+END_SRC
+* Misc
+#+BEGIN_SRC emacs-lisp
+(diminish 'auto-revert-mode)
+
+(use-package abbrev
+  :diminish abbrev-mode)
+
+(use-package auto-compile
+  :ensure t
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+
+(defun eshell/clear ()
+  "Clear the eshell buffer."
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
+
+;;For editing systemd file
+(use-package systemd
+  :ensure t)
+#+END_SRC
+* COMMENT Helm
+** Helm Config
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+  :diminish helm-mode
+  :ensure t
+  :bind (("s-x" . helm-M-x)
+	 ("M-x" . helm-M-x))
+  :config
+  (require 'helm-config)
+  (helm-mode 1)
+  (setq helm-display-header-line nil)
+  (setq helm-display-source-at-screen-top nil)
+  (setq helm-autoresize-min-height 10)
+  (setq helm-mode-fuzzy-match t)
+  (setq helm-split-window-in-side-p t)
+  (setq helm-completion-in-region-fuzzy-match t)
+  (helm-autoresize-mode 1)
+  ;;add bookmark to helm mini sources
+  (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
+  (evil-leader/set-key
+    "s" 'helm-occur
+    "d" 'helm-show-kill-ring
+    ";" 'helm-mark-ring
+    "bb" 'helm-mini
+    "ff" 'helm-find-files
+    "fl" 'helm-locate
+    "i" 'helm-imenu
+    "`" 'helm-mini))
+#+END_SRC
+** Helm Workaround
+#+BEGIN_SRC emacs-lisp
+;; helm alway at bottom
+(add-to-list 'display-buffer-alist
+	     `(,(rx bos "*helm" (* not-newline) "*" eos)
+	       (display-buffer-in-side-window)
+	       (inhibit-same-window . t)
+	       (window-height . 0.4)))
+
+(defun *-popwin-help-mode-off ()
+  "Turn `popwin-mode' off for *Help* buffers."
+  (when (boundp 'popwin:special-display-config)
+    (customize-set-variable 'popwin:special-display-config
+			    (delq 'help-mode popwin:special-display-config))))
+
+(defun *-popwin-help-mode-on ()
+  "Turn `popwin-mode' on for *Help* buffers."
+  (when (boundp 'popwin:special-display-config)
+    (customize-set-variable 'popwin:special-display-config
+			    (add-to-list 'popwin:special-display-config 'help-mode nil #'eq))))
+
+(add-hook 'helm-minibuffer-set-up-hook #'*-popwin-help-mode-off)
+(add-hook 'helm-cleanup-hook #'*-popwin-help-mode-on)
+
+;;fix helm cursor
+(defun peter/hide-cursor-in-helm-buffer ()
+  "Hide the cursor in helm buffers."
+  (with-helm-buffer
+    (setq cursor-in-non-selected-windows nil)))
+
+(add-hook 'helm-after-initialize-hook 'peter/hide-cursor-in-helm-buffer)
+
+(defun peter/helm-toggle ()
+  "toggle helm-mini"
+  (interactive)
+  (if (helm-alive-p)
+      (helm-keyboard-quit)
+    (helm-mini)))
+
+(global-set-key (kbd "M-`") 'peter/helm-toggle)
+#+END_SRC
+** Helm Dash
+#+BEGIN_SRC emacs-lisp
+(use-package helm-dash
+  :ensure t
+  :bind (([f1] . helm-dash-at-point)))
+#+END_SRC
+** Helm Uitls
+*** Helm Ag
+the silverlight searcher
+#+BEGIN_SRC emacs-lisp
+(use-package helm-ag
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "ag" 'helm-ag
+    "ap" 'helm-ag-project-root))
+#+END_SRC
+
+*** Helm Systemd
+helm interface for systemd services
+#+BEGIN_SRC emacs-lisp
+(use-package helm-systemd
+  :ensure t
+  :config
+  (setq helm-systemd-list-not-loaded t)
+  (setq helm-systemd-list-all t)
+  (setq helm-systemd-buffer-name "*Systemd log*")
+  (evil-leader/set-key
+    "ad" 'helm-systemd))
+#+END_SRC
+
+*** Helm Projectile
+#+BEGIN_SRC emacs-lisp
+(use-package helm-projectile
+  :ensure t
+  :config
+  (helm-projectile-on)
+  (evil-leader/set-key
+    "pp" 'helm-projectile))
+#+END_SRC
+*** Helm Descbinds
+#+BEGIN_SRC emacs-lisp
+(use-package helm-descbinds
+  :ensure t
+  :config
+  (setq helm-descbinds-window-style 'same-window)
+  (helm-descbinds-mode))
+#+END_SRC
+*** Helm Flycheck
+#+BEGIN_SRC emacs-lisp
+(use-package helm-flycheck
+  :ensure t
+  :config
+  (evil-leader/set-key "cf" 'helm-flycheck))
+#+END_SRC
 * COMMENT Gnus
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "peterzky")
@@ -1911,26 +1933,4 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 ; tell msmtp to choose the SMTP server according to the from field in the outgoing email
 (setq message-sendmail-extra-arguments '("--read-envelope-from"))
 (setq message-sendmail-f-is-evil 't)
-#+END_SRC
-* Misc
-#+BEGIN_SRC emacs-lisp
-(diminish 'auto-revert-mode)
-
-(use-package abbrev
-  :diminish abbrev-mode)
-
-(use-package auto-compile
-  :ensure t
-  :config
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
-
-(defun eshell/clear ()
-  "Clear the eshell buffer."
-  (let ((inhibit-read-only t))
-    (erase-buffer)))
-
-;;For editing systemd file
-(use-package systemd
-  :ensure t)
 #+END_SRC
