@@ -621,7 +621,8 @@ operator ~,,~ as comment
   :diminish git-gutter-mode
   :config
   (global-git-gutter-mode +1)
-  (evil-leader/set-key "gg" 'git-gutter:popup-hunk))
+  ;(evil-leader/set-key "gg" 'git-gutter:popup-hunk)
+  )
 #+END_SRC
 *** Git Auto Commit Mode
 #+BEGIN_SRC emacs-lisp
