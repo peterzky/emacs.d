@@ -390,7 +390,7 @@
   :config
   (load-theme 'kaolin t))
 #+END_SRC
-*** Doom Theme
+*** COMMENT Doom Theme
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
   :ensure t)
