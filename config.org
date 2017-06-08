@@ -19,7 +19,7 @@
 ;; yes or no to y or n
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; help window auto-focus
-(setq help-window-select t) 
+(setq help-window-select t)
 ;; follow symlink without asking
 (setq vc-follow-symlinks "Follow link")
 ;; enable narrow
@@ -41,6 +41,8 @@
       `((".*" ,temporary-file-directory t)))
 ;; empty scratch buffer message
 (setq initial-scratch-message "")
+;; remove trailing whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 ** External Application
 #+BEGIN_SRC emacs-lisp
@@ -133,8 +135,8 @@
 (global-set-key [f6] 'gdb)
 #+END_SRC
 * Appearance
-** Themes 
-*** COMMENT Ample 
+** Themes
+*** COMMENT Ample
 **** Custom Ample
 #+BEGIN_SRC emacs-lisp
 (use-package ample-theme
@@ -209,18 +211,18 @@
 (spaceline-compile)
 #+END_SRC
 *** COMMENT Leuven
-#+BEGIN_SRC emacs-lisp  
+#+BEGIN_SRC emacs-lisp
 (load-theme 'leuven)
 #+END_SRC
 *** COMMENT Monokai
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package monokai-theme
   :ensure t
   :config
   (load-theme 'monokai-theme))
 #+END_SRC
 *** COMMENT Moe
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 ;(use-package powerline
 ;  :ensure t)
 
@@ -239,25 +241,25 @@
 (setq moe-theme-resize-rst-title '(2.0 1.7 1.5 1.3 1.1 1.0))
 
 (custom-set-faces
- '(shm-current-face ((t (:background "gainsboro"))))) 
+ '(shm-current-face ((t (:background "gainsboro")))))
 
 #+END_SRC
 *** COMMENT Grandshell
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package grandshell-theme
   :ensure t
   :config
   (load-theme 'grandshell t))
 #+END_SRC
-*** COMMENT Dracula 
+*** COMMENT Dracula
 #+BEGIN_SRC emacs-lisp
 (use-package dracula-theme
   :ensure t
   :config
   (load-theme 'dracula t))
-#+END_SRC 
+#+END_SRC
 *** COMMENT Zerodark
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package zerodark-theme
   :ensure t
   :config
@@ -326,7 +328,7 @@
   :config
   (require 'spaceline-config))
 
-;; (use-package spaceline-all-the-icons 
+;; (use-package spaceline-all-the-icons
 ;;   :after spaceline
 ;;   :config (spaceline-all-the-icons-theme))
 #+END_SRC
@@ -366,7 +368,7 @@
 		mode-line-frame-identification
 		" "
 		mode-line-buffer-identification
-		sml/pos-id-separator 
+		sml/pos-id-separator
 		" "
 		(vc-mode vc-mode)
           " "
@@ -384,14 +386,14 @@
   (line-number-mode 1)
   (column-number-mode 1)
 
-  (setq-default mode-line-format 
+  (setq-default mode-line-format
 	(list
 	 "%e"
 	 mode-line-front-space
 	 mode-line-mule-info
 	 mode-line-client
 	 mode-line-modified
-       
+
 	 mode-line-remote
 	 mode-line-frame-identification
 	 mode-line-buffer-identification
@@ -411,7 +413,7 @@ Use Alt + 1 2 3 to switch window
     "Do nothing.")
   (window-numbering-mode))
 #+END_SRC
-*** Popwin 
+*** Popwin
 popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package popwin
@@ -476,7 +478,7 @@ popup window for better experience
 	'("elfeed-.*-mode"
 	  "paradox-.*-mode"
 	  "dired-mode"))
-  (global-evil-leader-mode 1) 
+  (global-evil-leader-mode 1)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
     "bd" 'kill-this-buffer
@@ -563,15 +565,15 @@ operator ~,,~ as comment
     "8" 'select-window-8
     "9" 'select-window-9)
 #+END_SRC
-** COMMENT Evil Smartparens 
+** COMMENT Evil Smartparens
 #+BEGIN_SRC emacs-lisp
 (use-package evil-smartparens
   :ensure t
   :config
   (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
 #+END_SRC
-** COMMENT Evil Numbers 
-#+BEGIN_SRC emacs-lisp 
+** COMMENT Evil Numbers
+#+BEGIN_SRC emacs-lisp
 (use-package evil-numbers
     :ensure t
     :config
@@ -595,7 +597,7 @@ operator ~,,~ as comment
   :ensure t
   :config
   (evil-leader/set-key "gm" 'git-timemachine))
-  
+
 (eval-after-load 'git-timemachine
   '(progn
      (evil-make-overriding-map git-timemachine-mode-map 'normal)
@@ -635,7 +637,7 @@ operator ~,,~ as comment
 (evil-leader/set-key
     "n" 'hydra-nr/body)
 #+END_SRC
-*** Hrdra Frame
+*** Hydra Frame
 #+BEGIN_SRC emacs-lisp
 (defhydra hydra-frame ()
     ("d" make-frame "new frame")
@@ -655,7 +657,7 @@ operator ~,,~ as comment
 (evil-leader/set-key
     "wr" 'hydra-window-resize/body)
 #+END_SRC
-*** Hrdra Artist Mode
+*** Hydra Artist Mode
 #+BEGIN_SRC emacs-lisp
   ;; hydra mode that not exit after other activites
   (defhydra hydra-artist-mode (:foreign-keys run)
@@ -672,6 +674,22 @@ operator ~,,~ as comment
   (add-hook 'artist-mode-hook
 	    (lambda ()
 	      (local-set-key (kbd "C-c C-s") 'hydra-artist-mode/body)))
+#+END_SRC
+*** Hydra Flycheck
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-flycheck
+  (:pre (progn (setq hydra-lv t) (flycheck-list-errors))
+   :post (progn (setq hydra-lv nil) (quit-windows-on "*Flycheck errors*"))
+   :hint nil)
+  "Errors"
+  ("f"  flycheck-error-list-set-filter                            "Filter")
+  ("j"  flycheck-next-error                                       "Next")
+  ("k"  flycheck-previous-error                                   "Previous")
+  ("gg" flycheck-first-error                                      "First")
+  ("G"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
+  ("q"  nil))
+  (evil-leader/set-key
+    "cf" 'hydra-nr/body)
 #+END_SRC
 ** Hide Show Comments
 #+BEGIN_SRC emacs-lisp
@@ -732,7 +750,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   ;; Mode line
   ;; (setq projectile-mode-line
   ;; 	'(:eval (format " Proj[%s]" (projectile-project-name))))
-  (add-to-list 'projectile-globally-ignored-directories "node_modules") 
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-files ".tern-port"))
 
 #+END_SRC
@@ -808,7 +826,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 	    :history 'counsel-fasd
 	    :action (lambda (str)
 		      (if (directory-name-p str)
-			  (dired str) 
+			  (dired str)
 			(find-file str)))
 	    :caller 'counsel-fasd))
 
@@ -898,7 +916,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (require 'org-protocol)
 (require 'org-man)
 #+END_SRC
-** COMMENT Org Drill 
+** COMMENT Org Drill
 #+BEGIN_SRC emacs-lisp
 (require 'org-drill)
 (setq org-drill-save-buffers-after-drill-sessions-p t)
@@ -962,7 +980,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
 (setq org-default-notes-file "~/Nextcloud/org/capture.org")
-(setq org-agenda-files 
+(setq org-agenda-files
       (list "~/Nextcloud/org/capture.org"
 	    "~/Nextcloud/org/brain/"
 	    "~/Nextcloud/org/web.org"
@@ -979,9 +997,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-refile-targets '((nil :maxlevel . 2)
 			   (org-agenda-files :maxlevel . 2)))
 ;; Refile in a single go
-(setq org-outline-path-complete-in-steps nil)         
+(setq org-outline-path-complete-in-steps nil)
 ;; Show full paths for refiling
-(setq org-refile-use-outline-path t)                  
+(setq org-refile-use-outline-path t)
 
 (defun peter/agenda-mode-config ()
   "agenda mode key bindings and config"
@@ -1033,7 +1051,7 @@ Drag and Drop Image to Emacs
   (setq org-pomodoro-keep-killed-pomodoro-time t)
   (setq org-clock-continuously t)
   (global-set-key [f2] 'org-pomodoro)
-  (global-set-key "C-x t" 'org-pomodoro))
+  (global-set-key (kbd "C-x t") 'org-pomodoro))
 
 (add-hook 'org-clock-out-hook #'org-pomodoro-kill)
 #+END_SRC
@@ -1146,7 +1164,7 @@ Drag and Drop Image to Emacs
 
 #+END_SRC
 * Ivy
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package counsel
   :ensure t
   :diminish ivy-mode ivy-minor-mode
@@ -1472,7 +1490,7 @@ Go-mode dependencies
 #+BEGIN_SRC sh :result no
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/nsf/gocode
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/goimports
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/motemen/gore 
+http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/motemen/gore
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/alecthomas/gometalinter
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/zmb3/gogetdoc
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/guru
@@ -1587,7 +1605,7 @@ cabal install hindent
 (evil-set-initial-state 'inferior-octave-mode 'emacs)
 #+END_SRC
 ** COMMENT Javascript
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (defun peter/js-comint-kbd ()
   (local-set-key "\C-x\C-e" 'js-send-last-sexp)
   (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
@@ -1651,7 +1669,7 @@ cabal install hindent
 (sp-local-pair 'js2-mode "{" "}" :actions '(:rem insert))
 #+END_SRC
 ** COMMENT ReactJS
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package evil-matchit
   :ensure t)
 
@@ -1883,7 +1901,7 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 )
 #+END_SRC
 * COMMENT Mail
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package evil-mu4e
   :ensure t)
 
