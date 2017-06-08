@@ -135,7 +135,98 @@
 (global-set-key [f6] 'gdb)
 #+END_SRC
 * Appearance
+** Mode Line
+*** COMMENT Spaceline
+#+BEGIN_SRC emacs-lisp
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config))
+
+;; (use-package spaceline-all-the-icons
+;;   :after spaceline
+;;   :config (spaceline-all-the-icons-theme))
+#+END_SRC
+*** COMMENT Telephone Line
+#+BEGIN_SRC emacs-lisp
+(use-package telephone-line
+  :ensure t
+  :config
+  (require 'telephone-line-config)
+  (telephone-line-evil-config))
+#+END_SRC
+*** Smart Mode Line
+#+BEGIN_SRC emacs-lisp
+(use-package smart-mode-line
+  :ensure t
+  :init
+  (setq sml/no-confirm-load-theme t
+	sml/theme 'respectful
+	sml/mode-width 'full
+	sml/vc-mode-show-backend t
+	projectile-mode-line nil
+	)
+  :config
+  (sml/setup))
+
+(setq evil-mode-line-format '(before . mode-line-front-space))
+
+(setq-default mode-line-format
+	      '("%e"
+		mode-line-front-space
+		" "
+		;mode-line-mule-info
+		mode-line-client
+		mode-line-modified
+		mode-line-auto-compile
+		mode-line-remote
+		mode-line-frame-identification
+		" "
+		mode-line-buffer-identification
+		sml/pos-id-separator
+		" "
+		(vc-mode vc-mode)
+          " "
+		mode-line-modes
+		;mode-line-misc-info
+		sml/pre-modes-separator
+		mode-line-position
+		"(%l:%c)"
+		mode-line-end-spaces
+		))
+#+END_SRC
+*** COMMENT Vanilla Mode Line
+#+BEGIN_SRC emacs-lisp
+  (setq evil-mode-line-format '(before . mode-line-front-space))
+  (line-number-mode 1)
+  (column-number-mode 1)
+
+  (setq-default mode-line-format
+	(list
+	 "%e"
+	 mode-line-front-space
+	 mode-line-mule-info
+	 mode-line-client
+	 mode-line-modified
+
+	 mode-line-remote
+	 mode-line-frame-identification
+	 mode-line-buffer-identification
+	 mode-line-modes
+	 mode-line-misc-info
+	 mode-line-position
+	 mode-line-end-spaces))
+#+END_SRC
 ** Themes
+[[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
+#+BEGIN_SRC emacs-lisp
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (select-frame frame)
+            (load-theme 'doom-vibrant t)))
+    (load-theme 'doom-vibrant t))
+#+END_SRC
 *** COMMENT Ample
 **** Custom Ample
 #+BEGIN_SRC emacs-lisp
@@ -281,9 +372,7 @@
 *** Doom Theme
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
-  :ensure t
-  :config
-  (load-theme 'doom-vibrant t))
+  :ensure t)
 #+END_SRC
 *** COMMENT Atom One Dark
 #+BEGIN_SRC emacs-lisp
@@ -320,87 +409,12 @@
   :config
   (load-theme 'darktooth t))
 #+END_SRC
-** Mode Line
-*** COMMENT Spaceline
+*** COMMENT Gruvbox
 #+BEGIN_SRC emacs-lisp
-(use-package spaceline
+(use-package gruvbox-theme
   :ensure t
   :config
-  (require 'spaceline-config))
-
-;; (use-package spaceline-all-the-icons
-;;   :after spaceline
-;;   :config (spaceline-all-the-icons-theme))
-#+END_SRC
-*** COMMENT Telephone Line
-#+BEGIN_SRC emacs-lisp
-(use-package telephone-line
-  :ensure t
-  :config
-  (require 'telephone-line-config)
-  (telephone-line-evil-config))
-#+END_SRC
-*** Smart Mode Line
-#+BEGIN_SRC emacs-lisp
-(use-package smart-mode-line
-  :ensure t
-  :init
-  (setq sml/no-confirm-load-theme t
-	sml/theme 'respectful
-	sml/mode-width 'full
-	sml/vc-mode-show-backend t
-	projectile-mode-line nil
-	)
-  :config
-  (sml/setup))
-
-(setq evil-mode-line-format '(before . mode-line-front-space))
-
-(setq-default mode-line-format
-	      '("%e"
-		mode-line-front-space
-		" "
-		;mode-line-mule-info
-		mode-line-client
-		mode-line-modified
-		mode-line-auto-compile
-		mode-line-remote
-		mode-line-frame-identification
-		" "
-		mode-line-buffer-identification
-		sml/pos-id-separator
-		" "
-		(vc-mode vc-mode)
-          " "
-		mode-line-modes
-		;mode-line-misc-info
-		sml/pre-modes-separator
-		mode-line-position
-		"(%l:%c)"
-		mode-line-end-spaces
-		))
-#+END_SRC
-*** COMMENT Vanilla Mode Line
-#+BEGIN_SRC emacs-lisp
-  (setq evil-mode-line-format '(before . mode-line-front-space))
-  (line-number-mode 1)
-  (column-number-mode 1)
-
-  (setq-default mode-line-format
-	(list
-	 "%e"
-	 mode-line-front-space
-	 mode-line-mule-info
-	 mode-line-client
-	 mode-line-modified
-
-	 mode-line-remote
-	 mode-line-frame-identification
-	 mode-line-buffer-identification
-	 mode-line-modes
-	 mode-line-misc-info
-	 mode-line-position
-	 mode-line-end-spaces))
+  (load-theme 'gruvbox))
 #+END_SRC
 ** Window Control
 *** Window Numbering
@@ -452,7 +466,7 @@ popup window for better experience
 (use-package undo-tree
   :diminish undo-tree-mode)
 #+END_SRC
-*** Dashboard
+*** COMMENT Dashboard
 #+BEGIN_SRC emacs-lisp
 (use-package dashboard
   :ensure t
@@ -466,6 +480,10 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package info+
   :ensure t)
+#+END_SRC
+*** Ujelly
+#+BEGIN_SRC emacs-lisp
+
 #+END_SRC
 * Evil Mode
 ** Evil Leader
@@ -689,7 +707,7 @@ operator ~,,~ as comment
   ("G"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
   ("q"  nil))
   (evil-leader/set-key
-    "cf" 'hydra-nr/body)
+    "cf" 'hydra-flycheck/body)
 #+END_SRC
 ** Hide Show Comments
 #+BEGIN_SRC emacs-lisp
