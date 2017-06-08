@@ -136,25 +136,6 @@
 #+END_SRC
 * Appearance
 ** Mode Line
-*** COMMENT Spaceline
-#+BEGIN_SRC emacs-lisp
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config))
-
-;; (use-package spaceline-all-the-icons
-;;   :after spaceline
-;;   :config (spaceline-all-the-icons-theme))
-#+END_SRC
-*** COMMENT Telephone Line
-#+BEGIN_SRC emacs-lisp
-(use-package telephone-line
-  :ensure t
-  :config
-  (require 'telephone-line-config)
-  (telephone-line-evil-config))
-#+END_SRC
 *** Smart Mode Line
 #+BEGIN_SRC emacs-lisp
 (use-package smart-mode-line
@@ -195,6 +176,25 @@
 		mode-line-end-spaces
 		))
 #+END_SRC
+*** COMMENT Spaceline
+#+BEGIN_SRC emacs-lisp
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config))
+
+;; (use-package spaceline-all-the-icons
+;;   :after spaceline
+;;   :config (spaceline-all-the-icons-theme))
+#+END_SRC
+*** COMMENT Telephone Line
+#+BEGIN_SRC emacs-lisp
+(use-package telephone-line
+  :ensure t
+  :config
+  (require 'telephone-line-config)
+  (telephone-line-evil-config))
+#+END_SRC
 *** COMMENT Vanilla Mode Line
 #+BEGIN_SRC emacs-lisp
   (setq evil-mode-line-format '(before . mode-line-front-space))
@@ -223,7 +223,7 @@
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes :ensure t)
 
-(defvar my:theme 'doom-vibrant)
+(defvar my:theme 'doom-tomorrow-night)
 (defvar my:theme-window-loaded nil)
 (defvar my:theme-terminal-loaded nil)
 
