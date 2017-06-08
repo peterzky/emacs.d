@@ -219,13 +219,32 @@
 #+END_SRC
 ** Themes
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
+[[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr/34697306#34697306][follow up solution]]
 #+BEGIN_SRC emacs-lisp
+(defvar my:theme 'doom-vibrant)
+(defvar my:theme-window-loaded nil)
+(defvar my:theme-terminal-loaded nil)
+
 (if (daemonp)
-    (add-hook 'after-make-frame-functions
-        (lambda (frame)
-            (select-frame frame)
-            (load-theme 'doom-vibrant t)))
-    (load-theme 'doom-vibrant t))
+    (add-hook 'after-make-frame-functions(lambda (frame)
+                       (select-frame frame)
+                       (if (window-system frame)
+                           (unless my:theme-window-loaded
+                             (if my:theme-terminal-loaded
+                                 (enable-theme my:theme)
+                               (load-theme my:theme t))
+                             (setq my:theme-window-loaded t))
+                         (unless my:theme-terminal-loaded
+                           (if my:theme-window-loaded
+                               (enable-theme my:theme)
+                             (load-theme my:theme t))
+                           (setq my:theme-terminal-loaded t)))))
+
+  (progn
+    (load-theme my:theme t)
+    (if (display-graphic-p)
+        (setq my:theme-window-loaded t)
+      (setq my:theme-terminal-loaded t))))
 #+END_SRC
 *** COMMENT Ample
 **** Custom Ample
