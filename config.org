@@ -1044,7 +1044,8 @@ Drag and Drop Image to Emacs
   :config
   (setq org-pomodoro-keep-killed-pomodoro-time t)
   (setq org-clock-continuously t)
-  (global-set-key [f2] 'org-pomodoro))
+  (global-set-key [f2] 'org-pomodoro)
+  (global-set-key "C-x t" 'org-pomodoro))
 
 (add-hook 'org-clock-out-hook #'org-pomodoro-kill)
 #+END_SRC
