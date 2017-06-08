@@ -708,6 +708,8 @@ operator ~,,~ as comment
   :config
   (setq fcitx-use-dbus t)
   (setq fcitx-active-evil-states '(insert emacs hydrid))
+  (fcitx-org-speed-command-turn-on)
+  (fcitx-aggressive-minibuffer-turn-off)
   (fcitx-aggressive-setup))
 #+END_SRC
 ** Crux
