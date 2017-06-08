@@ -276,26 +276,14 @@
   :config
   (load-theme 'kaolin t))
 #+END_SRC
-*** COMMENT Doom Theme
+*** Doom Theme
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
   :ensure t
   :config
-  ;; (setq doom-enable-bold t
-  ;; 	doom-enable-italic t
-  ;; 	doom-one-brighter-modeline nil
-  ;; 	doom-one-brighter-comments nil
-  ;; 	org-fontify-whole-heading-line nil
-  ;; 	org-fontify-done-headline nil         	
-  ;; 	org-fontify-quote-and-verse-blocks nil)
-  (add-hook 'find-file-hook #'doom-buffer-mode-maybe)
-  ;; ...if you use auto-revert-mode
-  (add-hook 'after-revert-hook #'doom-buffer-mode-maybe)
-  ;; And you can brighten other buffers (unconditionally) with:
-  (add-hook 'ediff-prepare-buffer-hook #'doom-buffer-mode)
-  (load-theme 'doom-tomorrow-night t))
+  (load-theme 'doom-vibrant t))
 #+END_SRC
-*** Atom One Dark
+*** COMMENT Atom One Dark
 #+BEGIN_SRC emacs-lisp
 (use-package atom-one-dark-theme
   :ensure t
