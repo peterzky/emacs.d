@@ -221,7 +221,8 @@
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr/34697306#34697306][follow up solution]]
 #+BEGIN_SRC emacs-lisp
-(use-package doom-themes :ensure t)
+(use-package doom-themes
+  :load-path "~/Nextcloud/site-lisp/doom-themes/")
 
 (defvar my:theme 'doom-tomorrow-night)
 (defvar my:theme-window-loaded nil)
@@ -1069,7 +1070,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-bullets-bullet-list '("●" "◉" "◇" "✚" "✜" "☯" "◆")))
+  (setq org-bullets-bullet-list '("●" "◆" "◇" "✚" "✜" "☯" "◉" )))
 #+END_SRC
 ** Org Download
 Drag and Drop Image to Emacs
