@@ -925,8 +925,10 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-hide-emphasis-markers t)
 (setq org-imenu-depth 5)
 (evil-leader/set-key
-  "op" 'org-mobile-push
-  "oP" 'org-mobile-pull
+  ;; "op" 'org-mobile-push
+  ;; "oP" 'org-mobile-pull
+  "as" 'org-clock-goto
+  "aw" 'org-agenda-list
   "aa" 'org-todo-list
   "ac" 'org-capture)
 ;; diminish org-indent-mode
@@ -952,7 +954,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (require 'org-protocol)
 (require 'org-man)
 #+END_SRC
-** COMMENT Org Drill
+** Org Drill
 #+BEGIN_SRC emacs-lisp
 (require 'org-drill)
 (setq org-drill-save-buffers-after-drill-sessions-p t)
@@ -971,7 +973,86 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 	 "* %?\nEntered on %U\n %i\n %a")
 	("x" "org-protocol" entry (file "~/Nextcloud/org/web.org")
 	 "* %^{Title}\nSource: [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
-:empty-line 1)))
+	 :empty-line 1)
+	("w" "vocabulary prompt" plain (file "~/Nextcloud/org/vocabulary.org")
+	 "%(call-interactively #'my-vocabulary-format-result-prompt)")
+	))
+
+(defun my-vocabulary-format-result (word)
+  "Format request result of WORD."
+  (let* ((json (youdao-dictionary--request word))
+         (query        (assoc-default 'query       json)) ; string
+         (translation  (assoc-default 'translation json)) ; array
+         (errorCode    (assoc-default 'errorCode   json)) ; number
+         (web          (assoc-default 'web         json)) ; array
+         (basic        (assoc-default 'basic       json)) ; alist
+         ;; construct data for display
+         (phonetic (assoc-default 'phonetic basic))
+         (translation-str (mapconcat
+                           (lambda (trans) (concat " " trans))
+                           translation "\n"))
+         (basic-explains-str (mapconcat
+                              (lambda (explain) (concat " " explain))
+                              (assoc-default 'explains basic) "\n"))
+         (web-str (mapconcat
+                   (lambda (k-v)
+                     (format " %s :: %s"
+                             (assoc-default 'key k-v)
+                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
+                   web "\n")))
+    (if basic
+        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
+                query phonetic basic-explains-str web-str)
+      (format "** English\n%s\n*** Translation\n%s\n"
+              query translation-str))))
+
+(defun my-vocabulary-format-result-prompt ()
+  "Format request result of WORD."
+  (interactive)
+  (let* ((json (youdao-dictionary--request (read-from-minibuffer "word: ")))
+         (query        (assoc-default 'query       json)) ; string
+         (translation  (assoc-default 'translation json)) ; array
+         (errorCode    (assoc-default 'errorCode   json)) ; number
+         (web          (assoc-default 'web         json)) ; array
+         (basic        (assoc-default 'basic       json)) ; alist
+         ;; construct data for display
+         (phonetic (assoc-default 'phonetic basic))
+         (translation-str (mapconcat
+                           (lambda (trans) (concat " " trans))
+                           translation "\n"))
+         (basic-explains-str (mapconcat
+                              (lambda (explain) (concat " " explain))
+                              (assoc-default 'explains basic) "\n"))
+         (web-str (mapconcat
+                   (lambda (k-v)
+                     (format " %s :: %s"
+                             (assoc-default 'key k-v)
+                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
+                   web "\n")))
+    (if basic
+        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
+                query phonetic basic-explains-str web-str)
+      (format "** English\n%s\n*** Translation\n%s\n"
+              query translation-str))))
+#+END_SRC
+** Org Protocol
+#+BEGIN_SRC emacs-lisp
+(defun my-vocabulary-write (word)
+  (write-region
+   (my-vocabulary-format-result word)  nil
+   my-vocabulary-path t))
+
+(defvar my-vocabulary-path "/home/peterzky/Nextcloud/org/vocabulary.org")
+
+(defun org-protocol-vocabulary (fname)
+  (let* ((splitparts (org-protocol-parse-parameters fname t))
+         (w (plist-get splitparts :word)))
+    (my-vocabulary-write w)
+(message "word saved %s" w))
+  nil)
+
+(add-to-list 'org-protocol-protocol-alist
+	     '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
 #+END_SRC
 ** Org Mime
 #+BEGIN_SRC emacs-lisp
@@ -1044,6 +1125,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
   (define-key org-agenda-mode-map "p" 'org-pomodoro)
+  (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
+  (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
   (hl-line-mode))
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
@@ -1634,7 +1717,11 @@ cabal install hindent
   :diminish rainbow-delimiters-mode
   :ensure t
   :config
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook 'peter/emacs-mode-hook))
+
+(defun peter/emacs-mode-hook ()
+  (local-set-key (kbd "C-j") 'eval-print-last-sexp))
 #+END_SRC
 ** COMMENT Octave
 #+BEGIN_SRC emacs-lisp
