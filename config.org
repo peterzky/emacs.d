@@ -954,6 +954,10 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 ;; line wrap in org mode
 (add-hook 'org-mode-hook 'visual-line-mode)
+
+;; narrow to subtree after selecting entry in org agenda
+(add-hook 'org-clock-goto-hook 'org-narrow-to-subtree)
+(advice-add 'org-agenda-switch-to :after #'org-narrow-to-subtree)
 #+END_SRC
 ** Org Modules
 #+BEGIN_SRC emacs-lisp
