@@ -488,6 +488,13 @@ popup window for better experience
 (use-package undo-tree
   :diminish undo-tree-mode)
 #+END_SRC
+*** Beacon Mode
+#+BEGIN_SRC emacs-lisp
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1))
+#+END_SRC
 *** COMMENT Dashboard
 #+BEGIN_SRC emacs-lisp
 (use-package dashboard
@@ -959,7 +966,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (require 'org-protocol)
 (require 'org-man)
 #+END_SRC
-** Org Drill
+** COMMENT Org Drill
 #+BEGIN_SRC emacs-lisp
 (require 'org-drill)
 (setq org-drill-save-buffers-after-drill-sessions-p t)
