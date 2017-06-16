@@ -882,6 +882,11 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
  (define-key evil-normal-state-map "gb" 'dumb-jump-back)
  (define-key evil-normal-state-map "gq" 'dumb-jump-quick-look))
 #+END_SRC
+** Restart Emacs
+#+BEGIN_SRC emacs-lisp
+(use-package restart-emacs
+  :ensure t)
+#+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
 (use-package shell-pop
@@ -1722,6 +1727,11 @@ cabal install hindent
 
 (defun peter/emacs-mode-hook ()
   (local-set-key (kbd "C-j") 'eval-print-last-sexp))
+#+END_SRC
+** Nixos
+#+BEGIN_SRC emacs-lisp
+(use-package nix-mode
+  :ensure t)
 #+END_SRC
 ** COMMENT Octave
 #+BEGIN_SRC emacs-lisp
