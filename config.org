@@ -1218,7 +1218,7 @@ Drag and Drop Image to Emacs
   (setq org-brain-path "~/Nextcloud/org/brain")
     (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
   :config
-  (org-brain-activate-cache-saving)
+  ;; (org-brain-activate-cache-saving)
   (evil-leader/set-key
     "oa" 'org-brain-visualize
     "oe" 'org-brain-deft)
