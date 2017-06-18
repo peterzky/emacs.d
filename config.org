@@ -44,7 +44,7 @@
 ;; remove trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; mouse cursor
-(setq mouse-avoidance-mode 'banish)
+(mouse-avoidance-mode 'banish)
 #+END_SRC
 ** External Application
 #+BEGIN_SRC emacs-lisp
