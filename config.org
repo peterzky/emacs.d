@@ -1307,6 +1307,11 @@ Drag and Drop Image to Emacs
   :diminish ivy-mode ivy-minor-mode
   :config
   (ivy-mode 1))
+
+(defun ivy-open-other-window (x)
+  (find-file-other-window x))
+
+(ivy-set-actions t '(("i" ivy-open-other-window "open other window")))
 #+END_SRC
 ** Ivy Bindings
 #+BEGIN_SRC emacs-lisp
