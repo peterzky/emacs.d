@@ -1599,11 +1599,9 @@ slot 5 indicate version 5, which ycmd depend on.
 (use-package ycmd
   :ensure t
   :config
-  (setq  ycmd-server-command
-	 (list "python"
-	       (file-truename "~/tools/ycmd/ycmd")))
+  (setq  ycmd-server-command "ycmd")
   (setq ycmd-global-config
-	(file-truename "~/dot/ycm_extra_conf.py")))
+	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
 #+END_SRC
 * Programming Language Supports
 ** C
