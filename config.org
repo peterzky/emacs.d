@@ -472,11 +472,18 @@ popup window for better experience
   (push '(compilation-mode :noselect nil) popwin:special-display-config)
   (push '(go-guru-output-mode :noselect nil) popwin:special-display-config)
   (push '(racer-help-mode :noselect nil) popwin:special-display-config)
+  (push '(helpful-mode :noselect nil) popwin:special-display-config)
   (global-set-key (kbd "C-`") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
 #+END_SRC
 ** Interface Enhancement
+*** Helpful
+#+BEGIN_SRC emacs-lisp
+(use-package helpful
+  :ensure t
+  :config)
+#+END_SRC
 *** Rainbow Mode
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
@@ -557,6 +564,8 @@ popup window for better experience
 (add-to-list 'evil-motion-state-modes 'debugger-mode)
 (add-to-list 'evil-motion-state-modes 'special-mode)
 (add-to-list 'evil-motion-state-modes 'go-guru-output-mode)
+(add-to-list 'evil-motion-state-modes 'racer-help-mode)
+(add-to-list 'evil-motion-state-modes 'helpful-mode)
 
 (add-to-list 'evil-emacs-state-modes 'artist-mode)
 (add-to-list 'evil-emacs-state-modes 'dired-mode)
@@ -1320,7 +1329,8 @@ Drag and Drop Image to Emacs
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "s-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> f") 'helpful-function)
+(global-set-key (kbd "<f1> c") 'helpful-command)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
 (global-set-key (kbd "<f1> b") 'counsel-descbinds)
@@ -1604,6 +1614,14 @@ slot 5 indicate version 5, which ycmd depend on.
   (setq ycmd-global-config
 	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
 #+END_SRC
+** Flycheck
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck-pos-tip
+  :ensure t
+  :config
+ (with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode)))
+#+END_SRC
 * Programming Language Supports
 ** C
 #+BEGIN_SRC emacs-lisp
@@ -1637,6 +1655,7 @@ http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/zmb3/gogetdoc
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/guru
 http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/gorename
+gometalinter --install
 #+END_SRC
 
 #+RESULTS:
@@ -1730,6 +1749,9 @@ cabal install hindent
   :ensure t
   :config)
 
+(use-package nix-sandbox
+  :ensure t)
+
 
 (defun my-haskell-mode-hook ()
   (smartparens-mode -1)
@@ -1754,6 +1776,11 @@ cabal install hindent
   :ensure t)
 #+END_SRC
 ** Rust
+Rust-mode dependencies
+#+BEGIN_SRC sh :result no
+cargo install racer
+cargo install rustfmt
+#+END_SRC
 #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
   :ensure t
@@ -1769,6 +1796,21 @@ cabal install hindent
   :config
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode))
+
+(use-package cargo
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
+(use-package toml-mode
+  :ensure t)
+#+END_SRC
+** Python
+#+BEGIN_SRC emacs-lisp
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable))
 #+END_SRC
 ** COMMENT Octave
 #+BEGIN_SRC emacs-lisp

@@ -38,3 +38,5 @@ config.el
 /nix-buffer/|home|peterzky|.xmonad|xmonad.hs/result
 /nix-buffer/trusted-exprs
 /nix-buffer/|home|peterzky|playground|rust|guessing_game|src|main.rs/result
+/nix-buffer/|home|peterzky|playground|python|hello.py/result
+/nix-buffer/|home|peterzky|playground|rust|hello_cargo|src|main.rs/result
