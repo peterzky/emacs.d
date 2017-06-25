@@ -471,6 +471,7 @@ popup window for better experience
   (push '(vc-mode :noselect nil) popwin:special-display-config)
   (push '(compilation-mode :noselect nil) popwin:special-display-config)
   (push '(go-guru-output-mode :noselect nil) popwin:special-display-config)
+  (push '(racer-help-mode :noselect nil) popwin:special-display-config)
   (global-set-key (kbd "C-`") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
@@ -1759,6 +1760,8 @@ cabal install hindent
   :config
   (add-hook 'rust-mode-hook #'racer-mode)
   (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+  (define-key rust-mode-map (kbd "C-c C-j") #'racer-find-definition)
+  (define-key rust-mode-map (kbd "C-c C-d") #'racer-describe)
   (setq company-tooltip-align-annotations t))
 
 (use-package racer

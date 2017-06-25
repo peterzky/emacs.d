@@ -37,3 +37,4 @@ config.el
 /.#recentf
 /nix-buffer/|home|peterzky|.xmonad|xmonad.hs/result
 /nix-buffer/trusted-exprs
+/nix-buffer/|home|peterzky|playground|rust|guessing_game|src|main.rs/result
