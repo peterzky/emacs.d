@@ -1621,7 +1621,7 @@ slot 5 indicate version 5, which ycmd depend on.
   (company-ycmd-setup)
   (local-set-key (kbd "C-c C-j") 'ycmd-goto)
   (local-set-key (kbd "C-c C-d") 'ycmd-show-documentation)
-  (local-set-key (kbd "C-c C-h") 'man))
+  (local-set-key (kbd "C-c C-h") 'woman))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
 #+END_SRC
@@ -1728,7 +1728,9 @@ cabal install hindent
   :ensure t
   :config)
 
+
 (defun my-haskell-mode-hook ()
+  (smartparens-mode -1)
   (local-set-key "\C-c\C-d" 'ghc-browse-document)
   (set (make-local-variable 'company-backends) '(company-ghc company-files)))
   #+END_SRC
@@ -1748,6 +1750,21 @@ cabal install hindent
 #+BEGIN_SRC emacs-lisp
 (use-package nix-mode
   :ensure t)
+#+END_SRC
+** Rust
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+  (setq company-tooltip-align-annotations t))
+
+(use-package racer
+  :ensure t
+  :config
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode))
 #+END_SRC
 ** COMMENT Octave
 #+BEGIN_SRC emacs-lisp
@@ -1899,7 +1916,7 @@ cabal install hindent
 (use-package systemd
   :ensure t)
 #+END_SRC
-* News
+* COMMENT News
 #+BEGIN_SRC emacs-lisp
 (setq gnus-select-method '(nntp "news.gmane.org"))
 #+END_SRC

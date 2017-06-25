@@ -35,3 +35,5 @@ config.el
 /async-bytecomp.log
 /history
 /.#recentf
+/nix-buffer/|home|peterzky|.xmonad|xmonad.hs/result
+/nix-buffer/trusted-exprs
