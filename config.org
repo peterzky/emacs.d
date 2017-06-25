@@ -1773,7 +1773,16 @@ cabal install hindent
 ** Nixos
 #+BEGIN_SRC emacs-lisp
 (use-package nix-mode
+  :ensure t
+  :config
+  (add-hook 'nix-mode-hook 'my/nix-mode-hook))
+
+(use-package company-nix-options
   :ensure t)
+
+(defun my/nix-mode-hook ()
+  (set (make-local-variable 'company-backends) '(company-nixos-options company-files)
+	(company-mode)))
 #+END_SRC
 ** Rust
 Rust-mode dependencies
