@@ -227,6 +227,7 @@
   :load-path "~/Nextcloud/site-lisp/doom-themes/")
 
 (defvar my:theme 'doom-tomorrow-night)
+;; (defvar my:theme 'leuven)
 (defvar my:theme-window-loaded nil)
 (defvar my:theme-terminal-loaded nil)
 
@@ -620,6 +621,13 @@ operator ~,,~ as comment
     "8" 'select-window-8
     "9" 'select-window-9)
 #+END_SRC
+** COMMENT Evil Snipe
+#+BEGIN_SRC emacs-lisp
+(use-package evil-snipe
+  :ensure t
+  :config
+  (evil-snipe-override-mode 1))
+#+END_SRC
 ** COMMENT Evil Smartparens
 #+BEGIN_SRC emacs-lisp
 (use-package evil-smartparens
@@ -817,22 +825,22 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
-(defun peter/dired-mode-hook ()
-  (hl-line-mode)
-  (define-key dired-mode-map "l" 'dired-find-file)
-  (define-key dired-mode-map "h" 'dired-up-directory)
-  (define-key dired-mode-map "j" 'dired-next-line)
-  (define-key dired-mode-map "k" 'dired-previous-line)
-  (define-key dired-mode-map "p" 'helm-projectile-find-file))
+  (defun peter/dired-mode-hook ()
+    (hl-line-mode)
+    (define-key dired-mode-map "l" 'dired-find-file)
+    (define-key dired-mode-map "h" 'dired-up-directory)
+    (define-key dired-mode-map "j" 'dired-next-line)
+    (define-key dired-mode-map "k" 'dired-previous-line)
+    )
 
-(add-hook 'dired-mode-hook 'peter/dired-mode-hook)
-(add-hook 'dired-mode-hook 'auto-revert-mode)
+  (add-hook 'dired-mode-hook 'peter/dired-mode-hook)
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
 
 
-;; (use-package all-the-icons-dired
-;;   :ensure t
-;;   :config
-;;   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+  ;; (use-package all-the-icons-dired
+  ;;   :ensure t
+  ;;   :config
+  ;;   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
 ** Ibuffer Mode
 #+BEGIN_SRC emacs-lisp
@@ -981,16 +989,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (require 'org-habit)
 (require 'org-protocol)
 (require 'org-man)
-#+END_SRC
-** COMMENT Org Drill
-#+BEGIN_SRC emacs-lisp
-(require 'org-drill)
-(setq org-drill-save-buffers-after-drill-sessions-p t)
-
-(use-package org-drill-table
-  :ensure t
-  :config
-  (evil-define-key 'normal org-mode-map (kbd "gt") 'org-drill-table-generate))
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
@@ -1202,26 +1200,6 @@ Drag and Drop Image to Emacs
 
 (add-hook 'org-clock-out-hook #'org-pomodoro-kill)
 #+END_SRC
-** Deft
-#+BEGIN_SRC emacs-lisp
-(use-package deft
-  :ensure t
-  :config
-  (evil-set-initial-state 'deft-mode 'emacs)
-  (evil-set-initial-state 'artist-mode 'emacs)
-  (evil-leader/set-key
-    "ae" 'deft)
-  (setq deft-extensions '("org"))
-  (setq deft-use-filename-as-title nil)
-  (setq deft-use-filter-string-for-filename t)
-  ;; (setq deft-org-mode-title-prefix t)
-  (setq deft-default-extension "org")
-  (setq deft-directory "~/Nextcloud/org/brain")
-  (setq deft-file-naming-rules
-      '((noslash . "-")
-        (nospace . "-")
-        (case-fn . downcase))))
-#+END_SRC
 ** Org Brain
 #+BEGIN_SRC emacs-lisp
 (use-package org-brain
@@ -1257,6 +1235,36 @@ Drag and Drop Image to Emacs
     (aa2u (point-min) (point-max)))
 
   (add-hook 'org-brain-after-visualize-hook #'aa2u-buffer))
+#+END_SRC
+** Deft
+#+BEGIN_SRC emacs-lisp
+(use-package deft
+  :ensure t
+  :config
+  (evil-set-initial-state 'deft-mode 'emacs)
+  (evil-set-initial-state 'artist-mode 'emacs)
+  (evil-leader/set-key
+    "ae" 'deft)
+  (setq deft-extensions '("org"))
+  (setq deft-use-filename-as-title nil)
+  (setq deft-use-filter-string-for-filename t)
+  ;; (setq deft-org-mode-title-prefix t)
+  (setq deft-default-extension "org")
+  (setq deft-directory "~/Nextcloud/org/brain")
+  (setq deft-file-naming-rules
+      '((noslash . "-")
+        (nospace . "-")
+        (case-fn . downcase))))
+#+END_SRC
+** COMMENT Org Drill
+#+BEGIN_SRC emacs-lisp
+(require 'org-drill)
+(setq org-drill-save-buffers-after-drill-sessions-p t)
+
+(use-package org-drill-table
+  :ensure t
+  :config
+  (evil-define-key 'normal org-mode-map (kbd "gt") 'org-drill-table-generate))
 #+END_SRC
 ** COMMENT Blog
 #+BEGIN_SRC emacs-lisp
@@ -1519,7 +1527,7 @@ This predicate is only tested on \"insert\" action."
     (goto-char mb)
     (save-match-data (looking-at "^\\* "))))
 #+END_SRC
-*** Smartparens Org Mode
+*** COMMENT Smartparens Org Mode
 #+BEGIN_SRC emacs-lisp
 (sp-with-modes 'org-mode
   (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
@@ -1705,7 +1713,11 @@ gometalinter --install
   (interactive)
   (setq-local helm-dash-docsets '("Go"))
   (local-set-key (kbd "C-c C-d") 'godoc-at-point)
-  (local-set-key [f5] 'go-run))
+  (local-set-key [f5] 'peter/go-install))
+
+(defun peter/go-install ()
+  (interactive)
+  (compile "go install"))
 
 (use-package go-mode
   :ensure t
