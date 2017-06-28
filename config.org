@@ -1713,7 +1713,13 @@ gometalinter --install
   (interactive)
   (setq-local helm-dash-docsets '("Go"))
   (local-set-key (kbd "C-c C-d") 'godoc-at-point)
-  (local-set-key [f5] 'peter/go-install))
+  (local-set-key [f5] 'peter/go-install-or-run))
+
+(defun peter/go-install-or-run ()
+  (interactive)
+  (if (string= (buffer-substring-no-properties 1 13) "package main")
+      (go-run)
+    (compile "go install")))
 
 (defun peter/go-install ()
   (interactive)
