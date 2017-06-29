@@ -1717,6 +1717,7 @@ gometalinter --install
 
 (defun peter/go-install-or-run ()
   (interactive)
+  (when (bound-and-true-p go-playground-mode) (go-playground-exec))
   (if (string= (buffer-substring-no-properties 1 13) "package main")
       (go-run)
     (compile "go install")))
