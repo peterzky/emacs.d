@@ -1727,10 +1727,6 @@ gometalinter --install
       (go-run)
     (compile "go install")))
 
-(defun peter/go-install ()
-  (interactive)
-  (compile "go install"))
-
 (use-package go-mode
   :ensure t
   :config
