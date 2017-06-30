@@ -562,16 +562,6 @@ popup window for better experience
   (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
   (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button))
 
-(add-to-list 'evil-motion-state-modes 'debugger-mode)
-(add-to-list 'evil-motion-state-modes 'special-mode)
-(add-to-list 'evil-motion-state-modes 'go-guru-output-mode)
-(add-to-list 'evil-motion-state-modes 'racer-help-mode)
-(add-to-list 'evil-motion-state-modes 'helpful-mode)
-
-(add-to-list 'evil-emacs-state-modes 'artist-mode)
-(add-to-list 'evil-emacs-state-modes 'dired-mode)
-(add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
-(add-to-list 'evil-emacs-state-modes 'view-mode)
 
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
@@ -583,6 +573,29 @@ popup window for better experience
       evil-insert-state-cursor	'(bar "#F86155")
       evil-emacs-state-cursor	'(bar "SkyBlue2")
       evil-visual-state-cursor	'(box "gray"))
+#+END_SRC
+** Evil Initial Mode
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'evil-motion-state-modes 'special-mode)
+(add-to-list 'evil-motion-state-modes 'go-guru-output-mode)
+(add-to-list 'evil-motion-state-modes 'racer-help-mode)
+(add-to-list 'evil-motion-state-modes 'helpful-mode)
+
+(add-to-list 'evil-emacs-state-modes 'artist-mode)
+(add-to-list 'evil-emacs-state-modes 'dired-mode)
+(add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
+(add-to-list 'evil-emacs-state-modes 'view-mode)
+(add-to-list 'evil-emacs-state-modes 'debugger-mode)
+
+(defvar peter/emacs-state-minor-modes
+  '(edebug-mode git-commit-mode magit-blame-mode))
+
+(cl-loop for mode in peter/emacs-state-minor-modes
+	 do (let ((hook (concat (symbol-name mode) "-hook")))
+	      (add-hook (intern hook) `(lambda ()
+					 (if ,mode
+					     (evil-emacs-state)
+					   (evil-normal-state))))))
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
@@ -1162,14 +1175,14 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (use-package gnuplot-mode
   :ensure t)
 #+END_SRC
-** Org Source Block
+** Org Babel
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
 (setq org-src-window-setup 'current-window)
 (setq org-src-preserve-indentation t)
 (org-babel-do-load-languages 'org-babel-load-languages
-    '(
-        (shell . t)
+    '((shell . t)
+    (gnuplot . t)
     )
 )
 #+END_SRC
@@ -1722,11 +1735,13 @@ gometalinter --install
 
 (defun peter/go-install-or-run ()
   (interactive)
-  (when (bound-and-true-p go-playground-mode) (go-playground-exec))
-  (if (string= (buffer-substring-no-properties 1 13) "package main")
-      (go-run)
-    (compile "go install")))
+  (cond ((bound-and-true-p go-playground-mode)
+	 (go-playground-exec))
+	((string= (buffer-substring-no-properties 1 13) "package main")
+	 (go-run))
+	(t (compile "go install")))
 
+  )
 (use-package go-mode
   :ensure t
   :config
