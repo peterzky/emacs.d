@@ -575,20 +575,35 @@ popup window for better experience
       evil-visual-state-cursor	'(box "gray"))
 #+END_SRC
 ** Evil Initial Mode
+[[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'evil-motion-state-modes 'special-mode)
-(add-to-list 'evil-motion-state-modes 'go-guru-output-mode)
-(add-to-list 'evil-motion-state-modes 'racer-help-mode)
-(add-to-list 'evil-motion-state-modes 'helpful-mode)
+;; (add-to-list 'evil-motion-state-modes 'special-mode)
+;; (add-to-list 'evil-motion-state-modes 'go-guru-output-mode)
+;; (add-to-list 'evil-motion-state-modes 'racer-help-mode)
+;; (add-to-list 'evil-motion-state-modes 'helpful-mode)
 
-(add-to-list 'evil-emacs-state-modes 'artist-mode)
-(add-to-list 'evil-emacs-state-modes 'dired-mode)
-(add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
-(add-to-list 'evil-emacs-state-modes 'view-mode)
-(add-to-list 'evil-emacs-state-modes 'debugger-mode)
+;; (add-to-list 'evil-emacs-state-modes 'artist-mode)
+;; (add-to-list 'evil-emacs-state-modes 'dired-mode)
+;; (add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
+;; (add-to-list 'evil-emacs-state-modes 'view-mode)
+;; (add-to-list 'evil-emacs-state-modes 'debugger-mode)
+(defvar peter/motion-state-modes
+  '(special-mode go-guru-output-mode racer-help-mode helpful-mode))
+
+(defvar peter/emacs-state-modes
+  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode))
 
 (defvar peter/emacs-state-minor-modes
-  '(edebug-mode git-commit-mode magit-blame-mode))
+  '(edebug-mode))
+
+(cl-loop for mode in peter/motion-state-modes
+	 do (add-to-list 'evil-motion-state-modes mode))
+
+(cl-loop for mode in peter/emacs-state-modes
+	 do (add-to-list 'evil-emacs-state-modes mode))
+
+(cl-loop for mode in peter/emacs-state-modes
+	 do (add-to-list 'evil-emacs-state-modes mode))
 
 (cl-loop for mode in peter/emacs-state-minor-modes
 	 do (let ((hook (concat (symbol-name mode) "-hook")))
