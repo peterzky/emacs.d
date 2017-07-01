@@ -1372,6 +1372,14 @@ Drag and Drop Image to Emacs
   (find-file-other-window x))
 
 (ivy-set-actions t '(("i" ivy-open-other-window "open other window")))
+
+(use-package ivy-rich
+  :ensure t
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+  (setq ivy-virtual-abbreviate 'full
+	ivy-rich-switch-buffer-align-virtual-buffer t)
+  (setq ivy-rich-abbreviate-paths t))
 #+END_SRC
 ** Ivy Bindings
 #+BEGIN_SRC emacs-lisp
