@@ -1844,7 +1844,7 @@ cabal install hindent
 	    (lambda ()
 	      (set (make-local-variable 'company-backends) '(company-nixos-options company-files)))))
 
-(use-package company-nix-options
+(use-package company-nixos-options
   :ensure t)
 #+END_SRC
 ** Rust
