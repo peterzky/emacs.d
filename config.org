@@ -1366,7 +1366,9 @@ Drag and Drop Image to Emacs
   :ensure t
   :diminish ivy-mode ivy-minor-mode
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t
+	ivy-count-format "%d/%d "))
 
 (defun ivy-open-other-window (x)
   (find-file-other-window x))
