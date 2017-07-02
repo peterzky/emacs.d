@@ -223,8 +223,10 @@
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr/34697306#34697306][follow up solution]]
 #+BEGIN_SRC emacs-lisp
-(use-package doom-themes
-  :load-path "~/Nextcloud/site-lisp/doom-themes/")
+(if (file-exists-p "~/Nextcloud")
+ (use-package doom-themes
+   :load-path "~/Nextcloud/site-lisp/doom-themes/")
+ (use-package doom-themes :ensure t))
 
 (defvar my:theme 'doom-tomorrow-night)
 ;; (defvar my:theme 'leuven)
@@ -800,14 +802,15 @@ operator ~,,~ as comment
 #+END_SRC
 *** Fcitx
 #+BEGIN_SRC emacs-lisp
-(use-package fcitx
-  :ensure t
-  :config
-  (setq fcitx-use-dbus t)
-  (setq fcitx-active-evil-states '(insert emacs hydrid))
-  (fcitx-org-speed-command-turn-on)
-  (fcitx-aggressive-minibuffer-turn-off)
-  (fcitx-aggressive-setup))
+(when (string= system-type "gnu/linux")
+  (use-package fcitx
+	   :ensure t
+	   :config
+	   (setq fcitx-use-dbus t)
+	   (setq fcitx-active-evil-states '(insert emacs hydrid))
+	   (fcitx-org-speed-command-turn-on)
+	   (fcitx-aggressive-minibuffer-turn-off)
+	   (fcitx-aggressive-setup)))
 #+END_SRC
 ** Crux
 Open file with sudo if needed
@@ -1178,7 +1181,6 @@ access yadm repo via tramp
 (setq org-default-notes-file "~/Nextcloud/org/capture.org")
 (setq org-agenda-files
       (list "~/Nextcloud/org/capture.org"
-	    "~/Nextcloud/org/brain/"
 	    "~/Nextcloud/org/web.org"
 	    "~/Nextcloud/org/journal.org"
 	    "~/.emacs.d/config.org"
@@ -1258,7 +1260,8 @@ Drag and Drop Image to Emacs
 (use-package org-brain
   :ensure t
   :init
-  (setq org-brain-path "~/Nextcloud/org/brain")
+  (when (file-exists-p "~/Nextcloud")
+    (setq org-brain-path "~/Nextcloud/org/brain"))
   (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
   :config
   ;; (org-brain-activate-cache-saving)
@@ -1863,21 +1866,28 @@ cabal install hindent
   :diminish rainbow-delimiters-mode
   :ensure t
   :config
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'peter/emacs-mode-hook))
 
 (defun peter/emacs-mode-hook ()
   (local-set-key (kbd "C-j") 'eval-print-last-sexp))
+
+(use-package paredit
+  :ensure t
+  :config
+  )
 #+END_SRC
 ** Nixos
 #+BEGIN_SRC emacs-lisp
-(use-package nix-mode
-  :load-path "~/Nextcloud/site-lisp/nix-mode"
-  :ensure t
-  :config
-  (add-hook 'nix-mode-hook
-	    (lambda ()
-	      (set (make-local-variable 'company-backends) '(company-nixos-options company-files)))))
+(when (file-exists-p "~/Nextcloud")
+  (use-package nix-mode
+	   :load-path "~/Nextcloud/site-lisp/nix-mode"
+	   :ensure t
+	   :config
+	   (add-hook 'nix-mode-hook
+		     (lambda ()
+		       (set (make-local-variable 'company-backends) '(company-nixos-options company-files))))))
 
 (use-package company-nixos-options
   :ensure t)
