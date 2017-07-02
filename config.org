@@ -942,6 +942,16 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (use-package restart-emacs
   :ensure t)
 #+END_SRC
+** Yadm
+access yadm repo via tramp
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'tramp-methods
+	     '("yadm"
+	       (tramp-login-program "yadm")
+	       (tramp-login-args (("enter")))
+	       (tramp-remote-shell "/bin/sh")
+	       (tramp-remote-shell-args ("-c"))))
+#+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
 (use-package shell-pop
@@ -1808,10 +1818,10 @@ cabal install hindent
 (use-package company-ghc
   :ensure t)
 
-(use-package shm
-  :ensure t
-  :config
-  (add-hook 'haskell-mode-hook 'structured-haskell-mode))
+;; (use-package shm
+;;   :ensure t
+;;   :config
+;;   (add-hook 'haskell-mode-hook 'structured-haskell-mode))
 
 (use-package haskell-mode
   :ensure t
