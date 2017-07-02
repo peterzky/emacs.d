@@ -579,16 +579,6 @@ popup window for better experience
 ** Evil Initial Mode
 [[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
-;; (add-to-list 'evil-motion-state-modes 'special-mode)
-;; (add-to-list 'evil-motion-state-modes 'go-guru-output-mode)
-;; (add-to-list 'evil-motion-state-modes 'racer-help-mode)
-;; (add-to-list 'evil-motion-state-modes 'helpful-mode)
-
-;; (add-to-list 'evil-emacs-state-modes 'artist-mode)
-;; (add-to-list 'evil-emacs-state-modes 'dired-mode)
-;; (add-to-list 'evil-emacs-state-modes 'ivy-occur-mode)
-;; (add-to-list 'evil-emacs-state-modes 'view-mode)
-;; (add-to-list 'evil-emacs-state-modes 'debugger-mode)
 (defvar peter/motion-state-modes
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode))
 
@@ -969,6 +959,15 @@ access yadm repo via tramp
   (find-alternate-file
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
+#+END_SRC
+** Multiple Cursors
+#+BEGIN_SRC emacs-lisp
+(use-package multiple-cursors
+  :ensure t
+  :config
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 #+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
@@ -1710,6 +1709,26 @@ slot 5 indicate version 5, which ycmd depend on.
  (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode)))
 #+END_SRC
+** Paredit
+#+BEGIN_SRC emacs-lisp
+(use-package paredit
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
+
+(defvar peter/paredit-modes
+  '(emacs-lisp-mode
+    eval-expression-minibuffer-setup
+    ielm-mode
+    lisp-mode
+    lisp-interaction-mode
+    scheme-mode
+    slime-repl-mode))
+
+(cl-loop for mode in peter/paredit-modes
+	 do (let ((hook (concat (symbol-name mode) "-hook")))
+	      (add-hook (intern hook) #'paredit-mode)))
+#+END_SRC
 * Programming Language Supports
 ** C
 #+BEGIN_SRC emacs-lisp
@@ -1867,16 +1886,10 @@ cabal install hindent
   :ensure t
   :config
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'peter/emacs-mode-hook))
 
 (defun peter/emacs-mode-hook ()
   (local-set-key (kbd "C-j") 'eval-print-last-sexp))
-
-(use-package paredit
-  :ensure t
-  :config
-  )
 #+END_SRC
 ** Nixos
 #+BEGIN_SRC emacs-lisp
