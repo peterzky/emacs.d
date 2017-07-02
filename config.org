@@ -943,7 +943,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t)
 #+END_SRC
 ** Yadm
-access yadm repo via tramp, yadm version > 1.0.8
+Prerequisite: yadm version >= 1.0.8
+access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'tramp-methods
 	     '("yadm"
@@ -963,7 +964,7 @@ access yadm repo via tramp, yadm version > 1.0.8
 (defun reopen-as-yadm ()
   (interactive)
   (find-alternate-file
-   (concat "/yadm:peterzky@localhost:" buffer-file-name)))
+   (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
 #+END_SRC
 ** COMMENT Shell Pop
