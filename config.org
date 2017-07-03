@@ -228,8 +228,18 @@
    :load-path "~/Nextcloud/site-lisp/doom-themes/")
  (use-package doom-themes :ensure t))
 
-(defvar my:theme 'doom-tomorrow-night)
-;; (defvar my:theme 'leuven)
+(setq my:theme-index 0)
+(setq my:theme-list
+      '(doom-tomorrow-night adwaita))
+
+(defun my:switch-theme ()
+  (interactive)
+  (mapcar #'disable-theme my:theme-list)
+  (setq my:theme-index (% (1+ my:theme-index) (length my:theme-list)))
+  (setq my:theme (nth my:theme-index my:theme-list))
+  (load-theme my:theme :no-confirm))
+
+(setq my:theme (nth my:theme-index my:theme-list))
 (defvar my:theme-window-loaded nil)
 (defvar my:theme-terminal-loaded nil)
 
