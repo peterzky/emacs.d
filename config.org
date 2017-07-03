@@ -960,15 +960,6 @@ access yadm repo via tramp
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
 #+END_SRC
-** Multiple Cursors
-#+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors
-  :ensure t
-  :config
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
-#+END_SRC
 ** COMMENT Shell Pop
 #+BEGIN_SRC emacs-lisp
 (use-package shell-pop
@@ -1395,6 +1386,7 @@ Drag and Drop Image to Emacs
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
+	enable-recursive-minibuffers t
 	ivy-count-format "%d/%d "))
 
 (defun ivy-open-other-window (x)
@@ -1421,7 +1413,7 @@ Drag and Drop Image to Emacs
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
 (global-set-key (kbd "<f1> b") 'counsel-descbinds)
-
+(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
 ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -1689,7 +1681,6 @@ This predicate is only tested on \"insert\" action."
   :ensure t
   :bind ("C-=" . er/expand-region))
 #+END_SRC
-
 ** Ycmd
 In Gentoo you need to install ~sys-libs/ncurses:5~ with *tinfo* use flag
 slot 5 indicate version 5, which ycmd depend on.
@@ -1811,9 +1802,8 @@ gometalinter --install
 	 (go-playground-exec))
 	((string= (buffer-substring-no-properties 1 13) "package main")
 	 (go-run))
-	(t (compile "go install")))
+	(t (compile "go install"))))
 
-  )
 (use-package go-mode
   :ensure t
   :config
@@ -1830,7 +1820,6 @@ gometalinter --install
   :config
   (flycheck-gometalinter-setup))
 #+END_SRC
-
 ** Haskell
 [[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod][Haskell Mode Tutorail]]
 Haskell dependencies
