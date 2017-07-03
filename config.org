@@ -288,7 +288,8 @@ popup window for better experience
 (use-package beacon
   :ensure t
   :config
-  (beacon-mode 1))
+  (beacon-mode 1)
+  (diminish 'beacon-mode))
 #+END_SRC
 * Evil Mode
 ** Evil Leader
