@@ -5,47 +5,32 @@
 ** GUI
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t)
-
 (line-number-mode -1)
-
 (scroll-bar-mode -1)
-
 (menu-bar-mode -1)
-
 (tool-bar-mode -1)
 #+END_SRC
 ** Default Behavior
 #+BEGIN_SRC emacs-lisp
-;; yes or no to y or n
 (fset 'yes-or-no-p 'y-or-n-p)
-;; help window auto-focus
 (setq help-window-select t)
-;; follow symlink without asking
 (setq vc-follow-symlinks "Follow link")
-;; enable narrow
 (put 'narrow-to-region 'disabled nil)
-
 (put 'set-goal-column 'disabled nil)
-
 (show-paren-mode 1)
-;; hilight parenthesis
 (setq show-paren-style 'parenthesis)
-;; recent file mode
 (recentf-mode 1)
-;; man page full screen
 (setq Man-notify-method 'pushy)
-;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
-;; empty scratch buffer message
 (setq initial-scratch-message "")
-;; remove trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; mouse cursor
 (mouse-avoidance-mode 'none)
 ;; start server if not started
+(require 'server)
 (unless (server-running-p) (server-start))
 #+END_SRC
 ** External Application
@@ -986,6 +971,43 @@ This predicate is only tested on \"insert\" action."
 (add-hook 'org-clock-goto-hook 'org-narrow-to-subtree)
 (advice-add 'org-agenda-switch-to :after #'org-narrow-to-subtree)
 #+END_SRC
+** Org Agenda
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
+(setq org-default-notes-file "~/Nextcloud/org/inbox.org")
+(setq org-agenda-files
+      (list "~/Nextcloud/org/inbox.org"
+	    "~/Nextcloud/org/project.org"
+	    "~/Nextcloud/org/someday.org"
+	    "~/Nextcloud/org/todo.org"))
+(setq org-directory "~/Nextcloud/org")
+;; (setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
+;; (setq org-mobile-directory "~/Nextcloud/MobileOrg")
+(setq org-log-done 'time)
+(setq org-log-states-order-reversed nil)
+
+;; org refile
+(setq org-refile-targets '((nil :maxlevel . 2)
+			   (org-agenda-files :maxlevel . 2)))
+;; Refile in a single go
+(setq org-outline-path-complete-in-steps nil)
+;; Show full paths for refiling
+(setq org-refile-use-outline-path t)
+
+(defun peter/agenda-mode-config ()
+  "agenda mode key bindings and config"
+  (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
+  (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
+  (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
+  (define-key org-agenda-mode-map "n" 'org-agenda-capture)
+  (define-key org-agenda-mode-map "p" 'org-pomodoro)
+  (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
+  (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
+  (hl-line-mode))
+
+(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
+#+END_SRC
 ** Org Modules
 #+BEGIN_SRC emacs-lisp
 ;; org modules
@@ -1000,16 +1022,15 @@ This predicate is only tested on \"insert\" action."
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/Nextcloud/org/GTD.org" "Tasks")
+      '(("t" "Inbox" entry (file+headline "~/Nextcloud/org/inbox.org" "Tasks")
 	 "* TODO %?\n %i\n %a")
 	("j" "Journal" entry (file+datetree "~/Nextcloud/org/journal.org")
-	 "* %?\nEntered on %U\n %i\n %a")
+	 "* %?\nEntered on %U\n %i\n")
 	("x" "org-protocol" entry (file "~/Nextcloud/org/web.org")
 	 "* %^{Title}\nSource: [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
 	 :empty-line 1)
 	("w" "vocabulary prompt" plain (file "~/Nextcloud/org/vocabulary.org")
-	 "%(call-interactively #'my-vocabulary-format-result-prompt)")
-	))
+	 "%(call-interactively #'my-vocabulary-format-result-prompt)")))
 
 (defun my-vocabulary-format-result (word)
   "Format request result of WORD."
@@ -1087,7 +1108,7 @@ This predicate is only tested on \"insert\" action."
 (add-to-list 'org-protocol-protocol-alist
 	     '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
 #+END_SRC
-** Org Mime
+** Org Htmlize
 #+BEGIN_SRC emacs-lisp
 (use-package htmlize
   :ensure t)
@@ -1124,44 +1145,6 @@ This predicate is only tested on \"insert\" action."
 (add-hook 'org-capture-mode-hook 'evil-insert-state)
 ;; Org src initial insert state
 (add-hook 'org-src-mode-hook 'evil-insert-state)
-#+END_SRC
-** Org Agenda
-#+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
-(setq org-default-notes-file "~/Nextcloud/org/capture.org")
-(setq org-agenda-files
-      (list "~/Nextcloud/org/capture.org"
-	    "~/Nextcloud/org/web.org"
-	    "~/Nextcloud/org/journal.org"
-	    "~/.emacs.d/config.org"
-	    "~/Nextcloud/org/GTD.org"))
-(setq org-directory "~/Nextcloud/org")
-(setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
-(setq org-mobile-directory "~/Nextcloud/MobileOrg")
-(setq org-log-done 'time)
-(setq org-log-states-order-reversed nil)
-
-;; org refile
-(setq org-refile-targets '((nil :maxlevel . 2)
-			   (org-agenda-files :maxlevel . 2)))
-;; Refile in a single go
-(setq org-outline-path-complete-in-steps nil)
-;; Show full paths for refiling
-(setq org-refile-use-outline-path t)
-
-(defun peter/agenda-mode-config ()
-  "agenda mode key bindings and config"
-  (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
-  (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
-  (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
-  (define-key org-agenda-mode-map "n" 'org-agenda-capture)
-  (define-key org-agenda-mode-map "p" 'org-pomodoro)
-  (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
-  (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
-  (hl-line-mode))
-
-(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 #+END_SRC
 ** Org Plot
 #+BEGIN_SRC emacs-lisp
