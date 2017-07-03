@@ -45,6 +45,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; mouse cursor
 (mouse-avoidance-mode 'none)
+;; start server if not started
+(unless (server-running-p) (server-start))
 #+END_SRC
 ** External Application
 #+BEGIN_SRC emacs-lisp
@@ -178,66 +180,35 @@
 		mode-line-end-spaces
 		))
 #+END_SRC
-*** COMMENT Spaceline
-#+BEGIN_SRC emacs-lisp
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config))
-
-;; (use-package spaceline-all-the-icons
-;;   :after spaceline
-;;   :config (spaceline-all-the-icons-theme))
-#+END_SRC
-*** COMMENT Telephone Line
-#+BEGIN_SRC emacs-lisp
-(use-package telephone-line
-  :ensure t
-  :config
-  (require 'telephone-line-config)
-  (telephone-line-evil-config))
-#+END_SRC
-*** COMMENT Vanilla Mode Line
-#+BEGIN_SRC emacs-lisp
-  (setq evil-mode-line-format '(before . mode-line-front-space))
-  (line-number-mode 1)
-  (column-number-mode 1)
-
-  (setq-default mode-line-format
-	(list
-	 "%e"
-	 mode-line-front-space
-	 mode-line-mule-info
-	 mode-line-client
-	 mode-line-modified
-
-	 mode-line-remote
-	 mode-line-frame-identification
-	 mode-line-buffer-identification
-	 mode-line-modes
-	 mode-line-misc-info
-	 mode-line-position
-	 mode-line-end-spaces))
-#+END_SRC
 ** Themes
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr/34697306#34697306][follow up solution]]
 #+BEGIN_SRC emacs-lisp
 (if (file-exists-p "~/Nextcloud")
- (use-package doom-themes
-   :load-path "~/Nextcloud/site-lisp/doom-themes/")
- (use-package doom-themes :ensure t))
+    (use-package doom-themes
+      :load-path "~/Nextcloud/site-lisp/doom-themes/")
+  (use-package doom-themes :ensure t))
 
 (setq my:theme-index 0)
 (setq my:theme-list
-      '(doom-tomorrow-night adwaita))
+      '(adwaita doom-tomorrow-night))
+
+(defun my:enabled-themes ()
+      (delete 'smart-mode-line-respectful
+	      custom-enabled-themes))
+
+(defun my:clear-theme ()
+  (interactive)
+  (mapcar #'disable-theme (my:enabled-themes)))
 
 (defun my:switch-theme ()
   (interactive)
-  (mapcar #'disable-theme my:theme-list)
+  (mapcar #'disable-theme (my:enabled-themes))
   (setq my:theme-index (% (1+ my:theme-index) (length my:theme-list)))
   (setq my:theme (nth my:theme-index my:theme-list))
   (load-theme my:theme :no-confirm))
+
+(evil-leader/set-key "u" 'my:switch-theme)
 
 (setq my:theme (nth my:theme-index my:theme-list))
 (defvar my:theme-window-loaded nil)
@@ -245,213 +216,24 @@
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions(lambda (frame)
-                       (select-frame frame)
-                       (if (window-system frame)
-                           (unless my:theme-window-loaded
-                             (if my:theme-terminal-loaded
-                                 (enable-theme my:theme)
-                               (load-theme my:theme t))
-                             (setq my:theme-window-loaded t))
-                         (unless my:theme-terminal-loaded
-                           (if my:theme-window-loaded
-                               (enable-theme my:theme)
-                             (load-theme my:theme t))
-                           (setq my:theme-terminal-loaded t)))))
+					   (select-frame frame)
+					   (if (window-system frame)
+					       (unless my:theme-window-loaded
+						 (if my:theme-terminal-loaded
+						     (enable-theme my:theme)
+						   (load-theme my:theme t))
+						 (setq my:theme-window-loaded t))
+					     (unless my:theme-terminal-loaded
+					       (if my:theme-window-loaded
+						   (enable-theme my:theme)
+						 (load-theme my:theme t))
+					       (setq my:theme-terminal-loaded t)))))
 
   (progn
     (load-theme my:theme t)
     (if (display-graphic-p)
-        (setq my:theme-window-loaded t)
+	(setq my:theme-window-loaded t)
       (setq my:theme-terminal-loaded t))))
-#+END_SRC
-*** COMMENT Ample
-**** Custom Ample
-#+BEGIN_SRC emacs-lisp
-(use-package ample-theme
-  :init (progn (load-theme 'ample t t)
-               (load-theme 'ample-flat t t)
-               (load-theme 'ample-light t t)
-               (enable-theme 'ample))
-  :defer t
-  :ensure t)
-
-(custom-set-faces
- '(bold ((t (:foreground "firebrick" :weight bold))))
- '(evil-mc-cursor-default-face ((t (:background "blue violet" :inverse-video nil))))
- '(hl-line ((t (:background "#353535"))))
- '(info-quoted-name ((t (:inherit font-lock-string-face :foreground "DarkOrange2"))))
- '(info-single-quote ((t (:inherit font-lock-keyword-face :foreground "dark violet"))))
- '(italic ((t (:foreground "peru" :slant italic))))
- '(org-block ((t (:inherit default))))
- '(org-code ((t (:inherit shadow :foreground "dark orange"))))
- '(org-level-1 ((t (:inherit outline-1 :foreground "dark cyan" :height 1.1))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
- '(org-level-3 ((t (:inherit outline-3 :foreground "green yellow" :height 1.0))))
- '(org-level-4 ((t (:inherit outline-4 :foreground "peru"))))
- '(org-meta-line ((t (:inherit font-lock-comment-face :weight light))))
- '(org-pomodoro-mode-line ((t (:foreground "dark red"))))
- '(org-special-keyword ((t (:foreground "salmon"))))
- '(sp-pair-overlay-face ((t nil)))
- '(spaceline-evil-emacs ((t (:background "#3A539B" :foreground "#D2D7D3" :inherit (quote mode-line)))))
- '(spaceline-evil-insert ((t (:background "YellowGreen" :foreground "#3E3D31" :inherit (quote mode-line)))))
- '(spaceline-evil-motion ((t (:background "#663399" :foreground "#D2D7D3" :inherit (quote mode-line))))))
-#+END_SRC
-**** Spaceline
-#+BEGIN_SRC emacs-lisp
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-  (setq powerline-default-separator nil)
-  (setq spaceline-minor-modes-separator nil)
-  (spaceline-spacemacs-theme)
-  (spaceline-helm-mode)
-  (spaceline-info-mode)
-  (spaceline-toggle-buffer-modified-on)
-  (spaceline-toggle-selection-info-on)
-  (spaceline-toggle-buffer-size-off)
-  (spaceline-toggle-version-control-on)
-  (spaceline-toggle-window-number-off)
-  (spaceline-toggle-buffer-encoding-abbrev-on)
-  (spaceline-toggle-info-topic-on))
-
-;;(setq evil-mc-mode-line-prefix "¢")
-(setq projectile-mode-line
-      (quote
-       (:eval
-        (if
-            (file-remote-p default-directory)
-            " Projectile"
-          (format "[%s]"
-                  (projectile-project-name))))))
-
-(spaceline-define-segment buffer-modified
-  "buffer modified indicator Ⲙ"
-  (cond
-   ((buffer-modified-p)
-    (if buffer-read-only
-        (propertize "R" 'face '(:foreground "#1F3A93"))
-      (propertize "M" 'face '(:foreground "#CF000F")))
-    )
-   (buffer-read-only
-    (propertize "R" 'face '(:foreground "#1F3A93")))))
-(spaceline-compile)
-#+END_SRC
-*** COMMENT Leuven
-#+BEGIN_SRC emacs-lisp
-(load-theme 'leuven)
-#+END_SRC
-*** COMMENT Monokai
-#+BEGIN_SRC emacs-lisp
-(use-package monokai-theme
-  :ensure t
-  :config
-  (load-theme 'monokai-theme))
-#+END_SRC
-*** COMMENT Moe
-#+BEGIN_SRC emacs-lisp
-;(use-package powerline
-;  :ensure t)
-
-(use-package moe-theme
-  :ensure t)
-
-(moe-light)
-
-(setq moe-theme-highlight-buffer-id t)
-
-;(powerline-moe-theme)
-
-;; Resize titles
-(setq moe-theme-resize-markdown-title '(2.0 1.7 1.5 1.3 1.0 1.0))
-(setq moe-theme-resize-org-title '(2.2 1.8 1.6 1.4 1.2 1.0 1.0 1.0 1.0))
-(setq moe-theme-resize-rst-title '(2.0 1.7 1.5 1.3 1.1 1.0))
-
-(custom-set-faces
- '(shm-current-face ((t (:background "gainsboro")))))
-
-#+END_SRC
-*** COMMENT Grandshell
-#+BEGIN_SRC emacs-lisp
-(use-package grandshell-theme
-  :ensure t
-  :config
-  (load-theme 'grandshell t))
-#+END_SRC
-*** COMMENT Dracula
-#+BEGIN_SRC emacs-lisp
-(use-package dracula-theme
-  :ensure t
-  :config
-  (load-theme 'dracula t))
-#+END_SRC
-*** COMMENT Zerodark
-#+BEGIN_SRC emacs-lisp
-(use-package zerodark-theme
-  :ensure t
-  :config
-  (load-theme 'zerodark t)
-  (zerodark-setup-modeline-format))
-
-(custom-set-faces
- '(hl-line ((t (:background "dim gray" :foreground "gainsboro"))))
- '(shm-current-face ((t (:background "#505050"))))
- '(org-special-keyword ((t (:foreground "light coral")))))
-#+END_SRC
-*** COMMENT Kaolin
-#+BEGIN_SRC emacs-lisp
-(use-package kaolin-theme
-  :ensure t
-  :config
-  (load-theme 'kaolin t))
-#+END_SRC
-*** COMMENT Doom Theme
-#+BEGIN_SRC emacs-lisp
-(use-package doom-themes
-  :ensure t)
-#+END_SRC
-*** COMMENT Atom One Dark
-#+BEGIN_SRC emacs-lisp
-(use-package atom-one-dark-theme
-  :ensure t
-  :config
-  (load-theme 'atom-one-dark t))
-#+END_SRC
-*** COMMENT Material Theme
-#+BEGIN_SRC emacs-lisp
-(use-package material-theme
-  :ensure t
-  :config
-  (load-theme 'material t))
-#+END_SRC
-*** COMMENT Base16 Theme
-#+BEGIN_SRC emacs-lisp
-(use-package base16-theme
-  :ensure t
-  :config
-  (load-theme 'base16-brewer t))
-#+END_SRC
-*** COMMENT Zenburn
-#+BEGIN_SRC emacs-lisp
-(use-package zenburn-theme
-  :ensure t
-  :config
-  (load-theme 'zenburn t))
-#+END_SRC
-*** COMMENT Darktooth
-#+BEGIN_SRC emacs-lisp
-(use-package darktooth-theme
-  :ensure t
-  :config
-  (load-theme 'darktooth t))
-#+END_SRC
-*** COMMENT Gruvbox
-#+BEGIN_SRC emacs-lisp
-(use-package gruvbox-theme
-  :ensure t
-  :config
-  (load-theme 'gruvbox))
 #+END_SRC
 ** Window Control
 *** Window Numbering
@@ -471,24 +253,29 @@ popup window for better experience
   :ensure t
   :config
   (setq popwin:popup-window-height 15)
-  (push '("*Backtrace*" :regexp nil) popwin:special-display-config)
-  (push '("*Warnings*" :regexp nil) popwin:special-display-config)
-  (push '("*Youdao Dictionary*" :regexp nil) popwin:special-display-config)
-  (push '(" *undo-tree*" :position bottom) popwin:special-display-config)
-  (push '(" *undo-tree Diff*" :position bottom) popwin:special-display-config)
-  (push '("*HS-Error*" :position bottom) popwin:special-display-config)
-  (push '("*Gofmt Errors*" :position bottom) popwin:special-display-config)
-  (push '("*Buffer List*" :position bottom) popwin:special-display-config)
-  (push '("*godoc <at point>*" :position bottom) popwin:special-display-config)
-  (push '("*Go Test*" :position bottom) popwin:special-display-config)
-  (push '(vc-mode :noselect nil) popwin:special-display-config)
-  (push '(compilation-mode :noselect nil) popwin:special-display-config)
-  (push '(go-guru-output-mode :noselect nil) popwin:special-display-config)
-  (push '(racer-help-mode :noselect nil) popwin:special-display-config)
-  (push '(helpful-mode :noselect nil) popwin:special-display-config)
   (global-set-key (kbd "C-`") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
+
+(defvar my:popup-config
+  '(("*Backtrace*" :regexp nil)
+    ("*warnings*" :regexp nil)
+    ("*Youdao Dictionary*" :regexp nil)
+    (" *undo-tree*" :position bottom)
+    (" *undo-tree Diff*" :position bottom)
+    ("*HS-Error*" :position bottom)
+    ("*Gofmt Errors*" :position bottom)
+    ("*Buffer List*" :position bottom)
+    ("*godoc <at point>*" :position bottom)
+    ("*Go Test*" :position bottom)
+    (vc-mode :noselect nil)
+    (compilation-mode :noselect nil)
+    (go-guru-output-mode :noselect nil)
+    (racer-help-mode :noselect nil)
+    (helpful-mode :noselect nil)))
+
+(cl-loop for conf in my:popup-config
+	 do (push conf popwin:special-display-config))
 #+END_SRC
 ** Interface Enhancement
 *** Helpful
@@ -517,21 +304,6 @@ popup window for better experience
   :ensure t
   :config
   (beacon-mode 1))
-#+END_SRC
-*** COMMENT Dashboard
-#+BEGIN_SRC emacs-lisp
-(use-package dashboard
-  :ensure t
-  :diminish page-break-lines-mode
-  :config
-  (setq dashboard-banner-logo-title "Hello Peter")
-  (setq dashboard-startup-banner 1)
-  (dashboard-setup-startup-hook))
-#+END_SRC
-*** COMMENT Info Plus
-#+BEGIN_SRC emacs-lisp
-(use-package info+
-  :ensure t)
 #+END_SRC
 * Evil Mode
 ** Evil Leader
@@ -650,28 +422,6 @@ operator ~,,~ as comment
     "7" 'select-window-7
     "8" 'select-window-8
     "9" 'select-window-9)
-#+END_SRC
-** COMMENT Evil Snipe
-#+BEGIN_SRC emacs-lisp
-(use-package evil-snipe
-  :ensure t
-  :config
-  (evil-snipe-override-mode 1))
-#+END_SRC
-** COMMENT Evil Smartparens
-#+BEGIN_SRC emacs-lisp
-(use-package evil-smartparens
-  :ensure t
-  :config
-  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
-#+END_SRC
-** COMMENT Evil Numbers
-#+BEGIN_SRC emacs-lisp
-(use-package evil-numbers
-    :ensure t
-    :config
-    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-    (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
 #+END_SRC
 * Utility
 ** Git
@@ -970,35 +720,236 @@ access yadm repo via tramp
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
 #+END_SRC
-** COMMENT Shell Pop
+* Edit Enhancement
+** Expand Region
 #+BEGIN_SRC emacs-lisp
-(use-package shell-pop
+(use-package expand-region
   :ensure t
-  :bind ("C-`" . shell-pop)
-  :config
-  (custom-set-variables
-   '(shell-pop-term-shell "/bin/zsh")
-   '(shell-pop-universal-key "C-t")
-   '(shell-pop-window-size 30)
-   '(shell-pop-full-span t)
-   '(shell-pop-window-position "bottom")))
+  :bind ("C-=" . er/expand-region))
 #+END_SRC
-*** Eshell Alias
+** Paredit
 #+BEGIN_SRC emacs-lisp
-(defalias 'open 'find-file-other-window)
-#+END_SRC
-** COMMENT Which Key
-#+BEGIN_SRC emacs-lisp
-(use-package which-key
+(use-package paredit
   :ensure t
   :config
-  (which-key-mode))
+  (define-key paredit-mode-map (kbd "C-j") 'eval-print-last-sexp))
+
+(defvar peter/paredit-modes
+  '(emacs-lisp-mode
+    eval-expression-minibuffer-setup
+    ielm-mode
+    lisp-mode
+    lisp-interaction-mode
+    scheme-mode
+    slime-repl-mode))
+
+(cl-loop for mode in peter/paredit-modes
+	 do (let ((hook (concat (symbol-name mode) "-hook")))
+	      (add-hook (intern hook) #'paredit-mode)))
 #+END_SRC
-** COMMENT Zeal At Point
+** Smartparens
 #+BEGIN_SRC emacs-lisp
-(use-package zeal-at-point
+(use-package smartparens
+  :diminish smartparens-mode
   :ensure t
-  :bind (([f1] . zeal-at-point)))
+  :config
+  (smartparens-global-mode t)
+  (require 'smartparens-config))
+#+END_SRC
+*** Smartparens Keybinding
+#+BEGIN_SRC emacs-lisp
+(define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
+(define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
+
+(define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
+;; (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
+(define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
+(define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
+
+;; (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
+(define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
+(define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
+
+(define-key smartparens-mode-map (kbd "C-M-n") 'sp-next-sexp)
+(define-key smartparens-mode-map (kbd "C-M-p") 'sp-previous-sexp)
+
+(define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
+(define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
+
+(define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp)
+(define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
+
+(define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp)
+(define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
+(define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
+(define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
+(define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
+(define-key smartparens-mode-map (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
+
+(define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
+(define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing)
+(define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
+
+(define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
+(define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
+
+(bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
+(bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
+
+(bind-key "C-M-s"
+          (defhydra smartparens-hydra ()
+            "Smartparens"
+            ("d" sp-down-sexp "Down")
+            ("e" sp-up-sexp "Up")
+            ("u" sp-backward-up-sexp "Up")
+            ("a" sp-backward-down-sexp "Down")
+            ("f" sp-forward-sexp "Forward")
+            ("b" sp-backward-sexp "Backward")
+            ("k" sp-kill-sexp "Kill" :color blue)
+            ("q" nil "Quit" :color blue))
+            smartparens-mode-map)
+
+(bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map)
+(bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map)
+(bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map)
+(bind-key "H-h" 'sp-highlight-current-sexp smartparens-mode-map)
+(bind-key "H-e" 'sp-prefix-save-excursion smartparens-mode-map)
+(bind-key "H-s c" 'sp-convolute-sexp smartparens-mode-map)
+(bind-key "H-s a" 'sp-absorb-sexp smartparens-mode-map)
+(bind-key "H-s e" 'sp-emit-sexp smartparens-mode-map)
+(bind-key "H-s p" 'sp-add-to-previous-sexp smartparens-mode-map)
+(bind-key "H-s n" 'sp-add-to-next-sexp smartparens-mode-map)
+(bind-key "H-s j" 'sp-join-sexp smartparens-mode-map)
+(bind-key "H-s s" 'sp-split-sexp smartparens-mode-map)
+(bind-key "H-s r" 'sp-rewrap-sexp smartparens-mode-map)
+(defvar hyp-s-x-map)
+(define-prefix-command 'hyp-s-x-map)
+(bind-key "H-s x" hyp-s-x-map smartparens-mode-map)
+(bind-key "H-s x x" 'sp-extract-before-sexp smartparens-mode-map)
+(bind-key "H-s x a" 'sp-extract-after-sexp smartparens-mode-map)
+(bind-key "H-s x s" 'sp-swap-enclosing-sexp smartparens-mode-map)
+
+(bind-key "C-x C-t" 'sp-transpose-hybrid-sexp smartparens-mode-map)
+
+(bind-key ";" 'sp-comment emacs-lisp-mode-map)
+
+(bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
+#+END_SRC
+*** COMMENT Smartparens Markdown Mode
+#+BEGIN_SRC emacs-lisp
+(sp-with-modes '(markdown-mode gfm-mode rst-mode)
+  (sp-local-pair "*" "*"
+                 :wrap "C-*"
+                 :unless '(sp--gfm-point-after-word-p sp-point-at-bol-p)
+                 :post-handlers '(("[d1]" "SPC"))
+                 :skip-match 'sp--gfm-skip-asterisk)
+  (sp-local-pair "**" "**")
+  (sp-local-pair "_" "_" :wrap "C-_" :unless '(sp-point-after-word-p)))
+
+(defun sp--gfm-point-after-word-p (id action context)
+  "Return t if point is after a word, nil otherwise.
+This predicate is only tested on \"insert\" action."
+  (when (eq action 'insert)
+    (sp--looking-back-p (concat "\\(\\sw\\)" (regexp-quote id)))))
+
+(defun sp--gfm-skip-asterisk (ms mb me)
+  (save-excursion
+    (goto-char mb)
+    (save-match-data (looking-at "^\\* "))))
+#+END_SRC
+*** COMMENT Smartparens Org Mode
+#+BEGIN_SRC emacs-lisp
+(sp-with-modes 'org-mode
+  (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
+  (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
+  (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+  (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+  (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+  (sp-local-pair "«" "»"))
+
+(defun sp--org-skip-asterisk (ms mb me)
+  (or (and (= (line-beginning-position) mb)
+           (eq 32 (char-after (1+ mb))))
+      (and (= (1+ (line-beginning-position)) me)
+           (eq 32 (char-after me)))))
+#+END_SRC
+*** Smartparens Lisp Mode
+#+BEGIN_SRC emacs-lisp
+(sp-with-modes sp--lisp-modes
+  (sp-local-pair "(" nil
+                 :wrap "C-("
+                 :pre-handlers '(my-add-space-before-sexp-insertion)
+                 :post-handlers '(my-add-space-after-sexp-insertion)))
+
+
+
+(defun my-add-space-after-sexp-insertion (id action _context)
+  (when (eq action 'insert)
+    (save-excursion
+      (forward-char (sp-get-pair id :cl-l))
+      (when (or (eq (char-syntax (following-char)) ?w)
+                (looking-at (sp--get-opening-regexp)))
+        (insert " ")))))
+
+(defun my-add-space-before-sexp-insertion (id action _context)
+  (when (eq action 'insert)
+    (save-excursion
+      (backward-char (length id))
+      (when (or (eq (char-syntax (preceding-char)) ?w)
+                (and (looking-back (sp--get-closing-regexp))
+                     (not (eq (char-syntax (preceding-char)) ?'))))
+        (insert " ")))))
+#+END_SRC
+*** COMMENT Smartparens etc
+#+BEGIN_SRC emacs-lisp
+;; pair management
+(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+(bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
+
+;;; rst-mode
+(sp-with-modes 'rst-mode
+  (sp-local-pair "``" "``"))
+
+;;; tex-mode latex-mode
+(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
+  (sp-local-tag "i" "\"<" "\">"))
+
+;;; C++
+(sp-with-modes '(malabar-mode c++-mode)
+  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
+(sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
+
+;;; PHP
+(sp-with-modes '(php-mode)
+  (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
+                                             (my-php-handle-docstring "RET")))
+  (sp-local-pair "/*." ".*/" :post-handlers '(("| " "SPC")))
+  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+  (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
+
+(defun my-php-handle-docstring (&rest _ignored)
+  (-when-let (line (save-excursion
+                     (forward-line)
+                     (thing-at-point 'line)))
+    (cond
+     ((string-match-p "function" line)
+      (save-excursion
+        (insert "\n")
+        (let ((args (save-excursion
+                      (forward-line)
+                      (my-php-get-function-args))))
+          (--each args
+            (insert (format "* @param %s\n" it)))))
+      (insert "* "))
+     ((string-match-p ".*class\\|interface" line)
+      (save-excursion (insert "\n*\n* @author\n"))
+      (insert "* ")))
+    (let ((o (sp--get-active-overlay)))
+      (indent-region (overlay-start o) (overlay-end o)))))
+
 #+END_SRC
 * Org Mode
 ** Org Mode Setup
@@ -1481,216 +1432,6 @@ Drag and Drop Image to Emacs
     "yt" 'yas-describe-tables
     "yi" 'yas-insert-snippet))
 #+END_SRC
-** Smartparens
-#+BEGIN_SRC emacs-lisp
-(use-package smartparens
-  :diminish smartparens-mode
-  :ensure t
-  :config
-  (smartparens-global-mode t)
-  (require 'smartparens-config))
-#+END_SRC
-*** Smartparens Keybinding
-#+BEGIN_SRC emacs-lisp
-(define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
-(define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
-;; (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
-(define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
-(define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
-
-;; (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
-(define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
-(define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-n") 'sp-next-sexp)
-(define-key smartparens-mode-map (kbd "C-M-p") 'sp-previous-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
-(define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
-
-(define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp)
-(define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
-
-(define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp)
-
-(define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
-(define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
-(define-key smartparens-mode-map (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
-
-(define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
-(define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-(define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
-
-(define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
-(define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
-
-(bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
-(bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
-
-(bind-key "C-M-s"
-          (defhydra smartparens-hydra ()
-            "Smartparens"
-            ("d" sp-down-sexp "Down")
-            ("e" sp-up-sexp "Up")
-            ("u" sp-backward-up-sexp "Up")
-            ("a" sp-backward-down-sexp "Down")
-            ("f" sp-forward-sexp "Forward")
-            ("b" sp-backward-sexp "Backward")
-            ("k" sp-kill-sexp "Kill" :color blue)
-            ("q" nil "Quit" :color blue))
-            smartparens-mode-map)
-
-(bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map)
-(bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map)
-(bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map)
-(bind-key "H-h" 'sp-highlight-current-sexp smartparens-mode-map)
-(bind-key "H-e" 'sp-prefix-save-excursion smartparens-mode-map)
-(bind-key "H-s c" 'sp-convolute-sexp smartparens-mode-map)
-(bind-key "H-s a" 'sp-absorb-sexp smartparens-mode-map)
-(bind-key "H-s e" 'sp-emit-sexp smartparens-mode-map)
-(bind-key "H-s p" 'sp-add-to-previous-sexp smartparens-mode-map)
-(bind-key "H-s n" 'sp-add-to-next-sexp smartparens-mode-map)
-(bind-key "H-s j" 'sp-join-sexp smartparens-mode-map)
-(bind-key "H-s s" 'sp-split-sexp smartparens-mode-map)
-(bind-key "H-s r" 'sp-rewrap-sexp smartparens-mode-map)
-(defvar hyp-s-x-map)
-(define-prefix-command 'hyp-s-x-map)
-(bind-key "H-s x" hyp-s-x-map smartparens-mode-map)
-(bind-key "H-s x x" 'sp-extract-before-sexp smartparens-mode-map)
-(bind-key "H-s x a" 'sp-extract-after-sexp smartparens-mode-map)
-(bind-key "H-s x s" 'sp-swap-enclosing-sexp smartparens-mode-map)
-
-(bind-key "C-x C-t" 'sp-transpose-hybrid-sexp smartparens-mode-map)
-
-(bind-key ";" 'sp-comment emacs-lisp-mode-map)
-
-(bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
-#+END_SRC
-*** COMMENT Smartparens Markdown Mode
-#+BEGIN_SRC emacs-lisp
-(sp-with-modes '(markdown-mode gfm-mode rst-mode)
-  (sp-local-pair "*" "*"
-                 :wrap "C-*"
-                 :unless '(sp--gfm-point-after-word-p sp-point-at-bol-p)
-                 :post-handlers '(("[d1]" "SPC"))
-                 :skip-match 'sp--gfm-skip-asterisk)
-  (sp-local-pair "**" "**")
-  (sp-local-pair "_" "_" :wrap "C-_" :unless '(sp-point-after-word-p)))
-
-(defun sp--gfm-point-after-word-p (id action context)
-  "Return t if point is after a word, nil otherwise.
-This predicate is only tested on \"insert\" action."
-  (when (eq action 'insert)
-    (sp--looking-back-p (concat "\\(\\sw\\)" (regexp-quote id)))))
-
-(defun sp--gfm-skip-asterisk (ms mb me)
-  (save-excursion
-    (goto-char mb)
-    (save-match-data (looking-at "^\\* "))))
-#+END_SRC
-*** COMMENT Smartparens Org Mode
-#+BEGIN_SRC emacs-lisp
-(sp-with-modes 'org-mode
-  (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
-  (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-  (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "«" "»"))
-
-(defun sp--org-skip-asterisk (ms mb me)
-  (or (and (= (line-beginning-position) mb)
-           (eq 32 (char-after (1+ mb))))
-      (and (= (1+ (line-beginning-position)) me)
-           (eq 32 (char-after me)))))
-#+END_SRC
-*** Smartparens Lisp Mode
-#+BEGIN_SRC emacs-lisp
-(sp-with-modes sp--lisp-modes
-  (sp-local-pair "(" nil
-                 :wrap "C-("
-                 :pre-handlers '(my-add-space-before-sexp-insertion)
-                 :post-handlers '(my-add-space-after-sexp-insertion)))
-
-
-
-(defun my-add-space-after-sexp-insertion (id action _context)
-  (when (eq action 'insert)
-    (save-excursion
-      (forward-char (sp-get-pair id :cl-l))
-      (when (or (eq (char-syntax (following-char)) ?w)
-                (looking-at (sp--get-opening-regexp)))
-        (insert " ")))))
-
-(defun my-add-space-before-sexp-insertion (id action _context)
-  (when (eq action 'insert)
-    (save-excursion
-      (backward-char (length id))
-      (when (or (eq (char-syntax (preceding-char)) ?w)
-                (and (looking-back (sp--get-closing-regexp))
-                     (not (eq (char-syntax (preceding-char)) ?'))))
-        (insert " ")))))
-#+END_SRC
-*** COMMENT Smartparens etc
-#+BEGIN_SRC emacs-lisp
-;; pair management
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-(bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
-
-;;; rst-mode
-(sp-with-modes 'rst-mode
-  (sp-local-pair "``" "``"))
-
-;;; tex-mode latex-mode
-(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
-  (sp-local-tag "i" "\"<" "\">"))
-
-;;; C++
-(sp-with-modes '(malabar-mode c++-mode)
-  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
-(sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
-
-;;; PHP
-(sp-with-modes '(php-mode)
-  (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
-                                             (my-php-handle-docstring "RET")))
-  (sp-local-pair "/*." ".*/" :post-handlers '(("| " "SPC")))
-  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
-  (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
-
-(defun my-php-handle-docstring (&rest _ignored)
-  (-when-let (line (save-excursion
-                     (forward-line)
-                     (thing-at-point 'line)))
-    (cond
-     ((string-match-p "function" line)
-      (save-excursion
-        (insert "\n")
-        (let ((args (save-excursion
-                      (forward-line)
-                      (my-php-get-function-args))))
-          (--each args
-            (insert (format "* @param %s\n" it)))))
-      (insert "* "))
-     ((string-match-p ".*class\\|interface" line)
-      (save-excursion (insert "\n*\n* @author\n"))
-      (insert "* ")))
-    (let ((o (sp--get-active-overlay)))
-      (indent-region (overlay-start o) (overlay-end o)))))
-
-#+END_SRC
-** Expand Region
-#+BEGIN_SRC emacs-lisp
-(use-package expand-region
-  :ensure t
-  :bind ("C-=" . er/expand-region))
-#+END_SRC
 ** Ycmd
 In Gentoo you need to install ~sys-libs/ncurses:5~ with *tinfo* use flag
 slot 5 indicate version 5, which ycmd depend on.
@@ -1709,26 +1450,6 @@ slot 5 indicate version 5, which ycmd depend on.
   :config
  (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode)))
-#+END_SRC
-** Paredit
-#+BEGIN_SRC emacs-lisp
-(use-package paredit
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
-
-(defvar peter/paredit-modes
-  '(emacs-lisp-mode
-    eval-expression-minibuffer-setup
-    ielm-mode
-    lisp-mode
-    lisp-interaction-mode
-    scheme-mode
-    slime-repl-mode))
-
-(cl-loop for mode in peter/paredit-modes
-	 do (let ((hook (concat (symbol-name mode) "-hook")))
-	      (add-hook (intern hook) #'paredit-mode)))
 #+END_SRC
 * Programming Language Supports
 ** C
