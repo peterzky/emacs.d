@@ -1653,7 +1653,11 @@ cargo install rustfmt
   :ensure t
   :config
   (setq inferior-lisp-program "sbcl")
-  (setq slime-contribs '(slime-fancy)))
+  (setq slime-contribs '(slime-fancy))
+  (slime-setup '(slime-fancy slime-company)))
+
+(use-package slime-company
+  :ensure t)
 #+END_SRC
 ** COMMENT Octave
 #+BEGIN_SRC emacs-lisp
