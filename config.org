@@ -321,7 +321,7 @@ popup window for better experience
     "cl" 'evilnc-comment-or-uncomment-lines
     "TAB" 'peter/switch-buffer))
 #+END_SRC
-** Evil Mode Setup
+** Evil Setup
 #+BEGIN_SRC emacs-lisp
 (use-package evil
   :ensure t
@@ -351,7 +351,7 @@ popup window for better experience
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode))
 
 (defvar peter/emacs-state-modes
-  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode))
+  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode interactive-haskell-mode))
 
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
@@ -1023,7 +1023,7 @@ This predicate is only tested on \"insert\" action."
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      '(("t" "Inbox" entry (file+headline "~/Nextcloud/org/inbox.org" "Tasks")
+      '(("i" "Inbox" entry (file+headline "~/Nextcloud/org/inbox.org" "Tasks")
 	 "* TODO %?\n %i\n %a")
 	("j" "Journal" entry (file+datetree "~/Nextcloud/org/journal.org")
 	 "* %?\nEntered on %U\n %i\n")
@@ -1539,10 +1539,7 @@ gometalinter --install
 [[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod][Haskell Mode Tutorail]]
 Haskell dependencies
 #+BEGIN_SRC sh
-cabal install ghc-mod
-cabal install structured-haskell-mode
-cabal install happy
-cabal install hindent
+stack --nix install ghc-mod structured-haskell-mode happy hindent
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -1573,10 +1570,6 @@ cabal install hindent
 (use-package scion
   :ensure t
   :config)
-
-(use-package nix-sandbox
-  :ensure t)
-
 
 (defun my-haskell-mode-hook ()
   (smartparens-mode -1)
