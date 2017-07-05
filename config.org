@@ -1539,7 +1539,7 @@ gometalinter --install
 [[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod][Haskell Mode Tutorail]]
 Haskell dependencies
 #+BEGIN_SRC sh
-stack --nix install ghc-mod structured-haskell-mode happy hindent
+stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskell
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -1564,6 +1564,7 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent
 (use-package haskell-mode
   :ensure t
   :config
+  (setq haskell-stylish-on-save t)
   (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
 
