@@ -351,7 +351,7 @@ popup window for better experience
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode))
 
 (defvar peter/emacs-state-modes
-  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode interactive-haskell-mode))
+  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode))
 
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
