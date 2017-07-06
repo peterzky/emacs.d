@@ -176,7 +176,7 @@
 
 (setq my:theme-index 0)
 (setq my:theme-list
-      '(adwaita doom-tomorrow-night))
+      '(doom-tomorrow-night adwaita))
 
 (defun my:enabled-themes ()
       (delete 'smart-mode-line-respectful
