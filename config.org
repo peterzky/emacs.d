@@ -409,6 +409,21 @@ operator ~,,~ as comment
     "8" 'select-window-8
     "9" 'select-window-9)
 #+END_SRC
+** Evil MC
+=grm= make all cursors
+=gru= remove all cursors
+=grj= next match
+=grk= previous match
+visual mode:
+=C-n= next match
+=C-p= previous match
+=C-t= skip match
+#+BEGIN_SRC emacs-lisp
+(use-package evil-mc
+  :ensure t
+  :config
+  (global-evil-mc-mode 1))
+#+END_SRC
 * Utility
 ** Git
 *** Magit
@@ -588,7 +603,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind ("C-;" . avy-goto-char-2))
+  :bind ("C-;" . avy-goto-char)
+  :config
+  (evil-leader/set-key "SPC" 'avy-goto-char))
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
