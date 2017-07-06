@@ -626,7 +626,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   ;;   :config
   ;;   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
-** Ibuffer Mode
+** COMMENT Ibuffer Mode
 #+BEGIN_SRC emacs-lisp
 (defun peter/ibuffer-mode-hook ()
   (hl-line-mode)
@@ -640,7 +640,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 ;(global-set-key (kbd "M-`") 'ibuffer)
 
 #+END_SRC
-** Bookmark Menu
 #+BEGIN_SRC emacs-lisp
 #+END_SRC
 ** ISpell
@@ -693,7 +692,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
  (define-key evil-normal-state-map "gb" 'dumb-jump-back)
  (define-key evil-normal-state-map "gq" 'dumb-jump-quick-look))
 #+END_SRC
-** Restart Emacs
+** COMMENT Restart Emacs
 #+BEGIN_SRC emacs-lisp
 (use-package restart-emacs
   :ensure t)
@@ -1188,13 +1187,6 @@ This predicate is only tested on \"insert\" action."
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (setq org-bullets-bullet-list '("●" "◆" "◇" "✚" "✜" "☯" "◉" )))
 #+END_SRC
-** Org Download
-Drag and Drop Image to Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package org-download
-  :ensure t
-  :config)
-#+END_SRC
 ** Org Pomodoro
 #+BEGIN_SRC emacs-lisp
 (use-package org-pomodoro
@@ -1263,6 +1255,13 @@ Drag and Drop Image to Emacs
       '((noslash . "-")
         (nospace . "-")
         (case-fn . downcase))))
+#+END_SRC
+** COMMENT Org Download
+Drag and Drop Image to Emacs
+#+BEGIN_SRC emacs-lisp
+(use-package org-download
+  :ensure t
+  :config)
 #+END_SRC
 ** COMMENT Org Drill
 #+BEGIN_SRC emacs-lisp
