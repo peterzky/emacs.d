@@ -626,22 +626,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   ;;   :config
   ;;   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
-** COMMENT Ibuffer Mode
-#+BEGIN_SRC emacs-lisp
-(defun peter/ibuffer-mode-hook ()
-  (hl-line-mode)
-  (define-key ibuffer-mode-map "h" 'ibuffer-visit-buffer-other-window-noselect)
-  (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
-  (define-key ibuffer-mode-map "k" 'ibuffer-backward-line)
-  (define-key ibuffer-mode-map (kbd "RET") 'ibuffer-visit-buffer-1-window)
-  )
-
-(add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
-;(global-set-key (kbd "M-`") 'ibuffer)
-
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
 ** ISpell
 #+BEGIN_SRC emacs-lisp
 ;; spell check world
@@ -692,11 +676,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
  (define-key evil-normal-state-map "gb" 'dumb-jump-back)
  (define-key evil-normal-state-map "gq" 'dumb-jump-quick-look))
 #+END_SRC
-** COMMENT Restart Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package restart-emacs
-  :ensure t)
-#+END_SRC
 ** Yadm
 Prerequisite: yadm version >= 1.0.8
 access yadm repo via tramp
@@ -721,6 +700,27 @@ access yadm repo via tramp
   (find-alternate-file
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
+#+END_SRC
+** COMMENT Restart Emacs
+#+BEGIN_SRC emacs-lisp
+(use-package restart-emacs
+  :ensure t)
+#+END_SRC
+** COMMENT Ibuffer Mode
+#+BEGIN_SRC emacs-lisp
+(defun peter/ibuffer-mode-hook ()
+  (hl-line-mode)
+  (define-key ibuffer-mode-map "h" 'ibuffer-visit-buffer-other-window-noselect)
+  (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
+  (define-key ibuffer-mode-map "k" 'ibuffer-backward-line)
+  (define-key ibuffer-mode-map (kbd "RET") 'ibuffer-visit-buffer-1-window)
+  )
+
+(add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
+;(global-set-key (kbd "M-`") 'ibuffer)
+
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
 #+END_SRC
 * Edit Enhancement
 ** Expand Region
