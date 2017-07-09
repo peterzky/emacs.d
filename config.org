@@ -1973,8 +1973,21 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 ;;gnus-newsgroup-ignored-charsets '(unknown-8bit x-unknown iso-8859-1)
 )
 #+END_SRC
-* COMMENT Mail
+* Mail
 #+BEGIN_SRC emacs-lisp
+;; nixos add to load path
+(let ((mu4epath
+       (concat
+        (f-dirname
+         (file-truename
+          (executable-find "mu")))
+        "/../share/emacs/site-lisp/mu4e")))
+  (when (and
+         (string-prefix-p "/nix/store/" mu4epath)
+         (file-directory-p mu4epath))
+    (add-to-list 'load-path mu4epath)))
+
+
 (use-package evil-mu4e
   :ensure t)
 
@@ -2003,7 +2016,7 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
  mu4e-compose-signature
  (concat
   "Peter Zheng "
-  "peterzky@qq.com"))
+  "peter.zky@qq.com"))
 
 (setq message-kill-buffer-on-exit t)
 (setq mu4e-view-show-images t)
@@ -2015,4 +2028,5 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 ; tell msmtp to choose the SMTP server according to the from field in the outgoing email
 (setq message-sendmail-extra-arguments '("--read-envelope-from"))
 (setq message-sendmail-f-is-evil 't)
+
 #+END_SRC
