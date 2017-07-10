@@ -2004,14 +2004,15 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 (setq mu4e-sent-messages-behavior 'delete)
 
 (setq mu4e-maildir-shortcuts
-      '( ("/sina/Inbox"               . ?s)
-	 ("/qq/Inbox"               . ?q)))
+      '( ("/sina/Inbox"            . ?a)
+	 ("/qq/Inbox"              . ?q)
+	 ("/icloud/Inbox"         . ?c)))
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "mbsync -a")
 
 (setq
- user-mail-address "peter.zky@qq.com"
+ user-mail-address "378096232@qq.com"
  user-full-name  "Peter Zheng"
  mu4e-compose-signature
  (concat
@@ -2029,4 +2030,7 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 (setq message-sendmail-extra-arguments '("--read-envelope-from"))
 (setq message-sendmail-f-is-evil 't)
 
+
+(setq mu4e-use-fancy-chars t)
+(setq mu4e-change-filenames-when-moving t)
 #+END_SRC
