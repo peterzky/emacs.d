@@ -1974,6 +1974,15 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 )
 #+END_SRC
 * Mail
+** Send Mail
+#+BEGIN_SRC emacs-lisp
+(setq message-send-mail-function 'message-send-mail-with-sendmail)
+(setq sendmail-program "msmtp")
+; tell msmtp to choose the SMTP server according to the from field in the outgoing email
+(setq message-sendmail-extra-arguments '("--read-envelope-from"))
+(setq message-sendmail-f-is-evil 't)
+#+END_SRC
+** Mu4e
 #+BEGIN_SRC emacs-lisp
 ;; nixos add to load path
 (let ((mu4epath
@@ -2023,14 +2032,40 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 (setq mu4e-view-show-images t)
 (setq mu4e-html2text-command "w3m -T text/html")
 
-;; Send Mail
-(setq message-send-mail-function 'message-send-mail-with-sendmail)
-(setq sendmail-program "msmtp")
-; tell msmtp to choose the SMTP server according to the from field in the outgoing email
-(setq message-sendmail-extra-arguments '("--read-envelope-from"))
-(setq message-sendmail-f-is-evil 't)
 
 
 (setq mu4e-use-fancy-chars t)
 (setq mu4e-change-filenames-when-moving t)
+(setq mu4e-headers-skip-duplicates t)
+
+(evil-define-key 'motion 'mu4e-main-mode-map
+  (kbd "u") 'mu4e-update-index
+  (kbd "U") 'mu4e-update-mail-and-index)
+
+(evil-define-key 'motion 'mu4e-headers-mode-map
+  (kbd "%") 'mu4e-headers-mark-pattern)
+
+(add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
+;; alert
+(use-package mu4e-alert
+  :ensure t
+  :config
+  (mu4e-alert-set-default-style 'libnotify)
+  (add-hook 'after-init-hook #'mu4e-alert-enable-notifications))
+
+#+END_SRC
+** COMMENT NotMuch
+#+BEGIN_SRC emacs-lisp
+(let ((notmuchpath
+       (concat
+        (f-dirname
+         (file-truename
+          (executable-find "notmuch")))
+        "/../share/emacs/site-lisp/")))
+  (when (and
+         (string-prefix-p "/nix/store/" notmuchpath)
+         (file-directory-p notmuchpath))
+    (add-to-list 'load-path notmuchpath)))
+
+(require 'notmuch)
 #+END_SRC
