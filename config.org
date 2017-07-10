@@ -2011,7 +2011,7 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 (setq mu4e-get-mail-command "mbsync -a")
 
 (setq
- user-mail-address "peterzky@qq.com"
+ user-mail-address "peter.zky@qq.com"
  user-full-name  "Peter Zheng"
  mu4e-compose-signature
  (concat
