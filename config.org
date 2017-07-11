@@ -1819,6 +1819,96 @@ cargo install rustfmt
 (use-package systemd
   :ensure t)
 #+END_SRC
+* Mail
+** Send Mail
+#+BEGIN_SRC emacs-lisp
+(setq message-send-mail-function 'message-send-mail-with-sendmail)
+(setq sendmail-program "msmtp")
+; tell msmtp to choose the SMTP server according to the from field in the outgoing email
+(setq message-sendmail-extra-arguments '("--read-envelope-from"))
+(setq message-sendmail-f-is-evil 't)
+#+END_SRC
+** Mu4e
+#+BEGIN_SRC emacs-lisp
+;; nixos add to load path
+(let ((mu4epath
+       (concat
+        (f-dirname
+         (file-truename
+          (executable-find "mu")))
+        "/../share/emacs/site-lisp/mu4e")))
+  (when (and
+         (string-prefix-p "/nix/store/" mu4epath)
+         (file-directory-p mu4epath))
+    (add-to-list 'load-path mu4epath)))
+
+
+(use-package evil-mu4e
+  :ensure t)
+
+(require 'mu4e)
+
+(evil-leader/set-key
+  "0" 'mu4e)
+
+(add-to-list 'mu4e-view-actions
+	     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
+(setq mu4e-maildir "~/.mail")
+
+(setq mu4e-sent-messages-behavior 'delete)
+
+(setq mu4e-maildir-shortcuts
+      '( ("/sina/Inbox"            . ?a)
+	 ("/qq/Inbox"              . ?q)
+	 ("/icloud/Inbox"         . ?c)))
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "mbsync -a")
+
+(setq
+ user-mail-address "378096232@qq.com"
+ user-full-name  "Peter Zheng"
+ mu4e-compose-signature
+ (concat
+  "Peter Zheng "
+  "peter.zky@qq.com"))
+
+(setq message-kill-buffer-on-exit t)
+(setq mu4e-view-show-images t)
+(setq mu4e-html2text-command "w3m -T text/html")
+
+
+
+(setq mu4e-use-fancy-chars t)
+(setq mu4e-change-filenames-when-moving t)
+(setq mu4e-headers-skip-duplicates t)
+
+(evil-define-key 'motion 'mu4e-main-mode-map
+  (kbd "u") 'mu4e-update-index
+  (kbd "U") 'mu4e-update-mail-and-index)
+
+(evil-define-key 'motion 'mu4e-headers-mode-map
+  (kbd "%") 'mu4e-headers-mark-pattern)
+
+(add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
+
+#+END_SRC
+** COMMENT NotMuch
+#+BEGIN_SRC emacs-lisp
+(let ((notmuchpath
+       (concat
+        (f-dirname
+         (file-truename
+          (executable-find "notmuch")))
+        "/../share/emacs/site-lisp/")))
+  (when (and
+         (string-prefix-p "/nix/store/" notmuchpath)
+         (file-directory-p notmuchpath))
+    (add-to-list 'load-path notmuchpath)))
+
+(require 'notmuch)
+#+END_SRC
 * COMMENT News
 #+BEGIN_SRC emacs-lisp
 (setq gnus-select-method '(nntp "news.gmane.org"))
@@ -1972,94 +2062,4 @@ gnus-group-name-charset-group-alist '((".*" . cn-gb-2312))
 gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
 ;;gnus-newsgroup-ignored-charsets '(unknown-8bit x-unknown iso-8859-1)
 )
-#+END_SRC
-* Mail
-** Send Mail
-#+BEGIN_SRC emacs-lisp
-(setq message-send-mail-function 'message-send-mail-with-sendmail)
-(setq sendmail-program "msmtp")
-; tell msmtp to choose the SMTP server according to the from field in the outgoing email
-(setq message-sendmail-extra-arguments '("--read-envelope-from"))
-(setq message-sendmail-f-is-evil 't)
-#+END_SRC
-** Mu4e
-#+BEGIN_SRC emacs-lisp
-;; nixos add to load path
-(let ((mu4epath
-       (concat
-        (f-dirname
-         (file-truename
-          (executable-find "mu")))
-        "/../share/emacs/site-lisp/mu4e")))
-  (when (and
-         (string-prefix-p "/nix/store/" mu4epath)
-         (file-directory-p mu4epath))
-    (add-to-list 'load-path mu4epath)))
-
-
-(use-package evil-mu4e
-  :ensure t)
-
-(require 'mu4e)
-
-(evil-leader/set-key
-  "0" 'mu4e)
-
-(add-to-list 'mu4e-view-actions
-	     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-
-(setq mu4e-maildir "~/.mail")
-
-(setq mu4e-sent-messages-behavior 'delete)
-
-(setq mu4e-maildir-shortcuts
-      '( ("/sina/Inbox"            . ?a)
-	 ("/qq/Inbox"              . ?q)
-	 ("/icloud/Inbox"         . ?c)))
-
-;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "mbsync -a")
-
-(setq
- user-mail-address "378096232@qq.com"
- user-full-name  "Peter Zheng"
- mu4e-compose-signature
- (concat
-  "Peter Zheng "
-  "peter.zky@qq.com"))
-
-(setq message-kill-buffer-on-exit t)
-(setq mu4e-view-show-images t)
-(setq mu4e-html2text-command "w3m -T text/html")
-
-
-
-(setq mu4e-use-fancy-chars t)
-(setq mu4e-change-filenames-when-moving t)
-(setq mu4e-headers-skip-duplicates t)
-
-(evil-define-key 'motion 'mu4e-main-mode-map
-  (kbd "u") 'mu4e-update-index
-  (kbd "U") 'mu4e-update-mail-and-index)
-
-(evil-define-key 'motion 'mu4e-headers-mode-map
-  (kbd "%") 'mu4e-headers-mark-pattern)
-
-(add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
-
-#+END_SRC
-** COMMENT NotMuch
-#+BEGIN_SRC emacs-lisp
-(let ((notmuchpath
-       (concat
-        (f-dirname
-         (file-truename
-          (executable-find "notmuch")))
-        "/../share/emacs/site-lisp/")))
-  (when (and
-         (string-prefix-p "/nix/store/" notmuchpath)
-         (file-directory-p notmuchpath))
-    (add-to-list 'load-path notmuchpath)))
-
-(require 'notmuch)
 #+END_SRC
