@@ -2046,12 +2046,6 @@ gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
   (kbd "%") 'mu4e-headers-mark-pattern)
 
 (add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
-;; alert
-(use-package mu4e-alert
-  :ensure t
-  :config
-  (mu4e-alert-set-default-style 'libnotify)
-  (add-hook 'after-init-hook #'mu4e-alert-enable-notifications))
 
 #+END_SRC
 ** COMMENT NotMuch
