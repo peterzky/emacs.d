@@ -281,6 +281,7 @@ popup window for better experience
     (compilation-mode :noselect nil)
     (go-guru-output-mode :noselect nil)
     (racer-help-mode :noselect nil)
+    (intero-help-mode :noselect nil)
     (helpful-mode :noselect nil)))
 
 (cl-loop for conf in my:popup-config
@@ -343,10 +344,12 @@ popup window for better experience
 [[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
 (defvar peter/motion-state-modes
-  '(special-mode go-guru-output-mode racer-help-mode helpful-mode))
+  '(special-mode go-guru-output-mode racer-help-mode helpful-mode
+		 intero-help-mode))
 
 (defvar peter/emacs-state-modes
-  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode))
+  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
+		intero-repl-mode ))
 
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
@@ -682,22 +685,6 @@ access yadm repo via tramp
   (find-alternate-file
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
-#+END_SRC
-** Misc
-#+BEGIN_SRC emacs-lisp
-(diminish 'auto-revert-mode)
-
-(use-package abbrev
-  :diminish abbrev-mode)
-
-(use-package auto-compile
-  :ensure t
-  :config
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
-;;For editing systemd file
-(use-package systemd
-  :ensure t)
 #+END_SRC
 * Edit Enhancement
 ** Expand Region
@@ -1326,48 +1313,19 @@ gometalinter --install
   :config
   (flycheck-gometalinter-setup))
 #+END_SRC
-** Haskell
-[[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod][Haskell Mode Tutorail]]
-Haskell dependencies
-#+BEGIN_SRC sh
-stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskell
-#+END_SRC
-
+** Haskell intero
+prerequisite: resolver 7.10
 #+BEGIN_SRC emacs-lisp
-(use-package hindent
+(use-package intero
   :ensure t
   :config
-  (add-hook 'haskell-mode-hook #'hindent-mode))
-
-(use-package ghc
-  :ensure t
-  :config
-  (add-hook 'haskell-mode-hook (lambda () (ghc-init))))
-
-(use-package company-ghc
-  :ensure t)
-
-;; (use-package shm
-;;   :ensure t
-;;   :config
-;;   (add-hook 'haskell-mode-hook 'structured-haskell-mode))
-
-(use-package haskell-mode
-  :ensure t
-  :config
-  (setq haskell-stylish-on-save t)
-  (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
-
-(use-package scion
-  :ensure t
-  :config)
-
-(defun my-haskell-mode-hook ()
-  (smartparens-mode -1)
-  (local-set-key "\C-c\C-d" 'ghc-browse-document)
-  (set (make-local-variable 'company-backends) '(company-ghc company-files)))
-  #+END_SRC
+  (intero-global-mode 1)
+  (general-define-key :states '(normal emacs)
+		      :keymaps 'intero-mode-map
+		      :prefix "C-c"
+		      "C-d" 'intero-info
+		      "C-j" 'intero-goto-definition))
+#+END_SRC
 ** Emacs Lisp
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
@@ -1444,6 +1402,48 @@ cargo install rustfmt
 (use-package slime-company
   :ensure t)
 #+END_SRC
+** COMMENT Haskell haskell-mode
+[[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod][Haskell Mode Tutorail]]
+Haskell dependencies
+#+BEGIN_SRC sh
+stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskell
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package hindent
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook #'hindent-mode))
+
+(use-package ghc
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook (lambda () (ghc-init))))
+
+(use-package company-ghc
+  :ensure t)
+
+;; (use-package shm
+;;   :ensure t
+;;   :config
+;;   (add-hook 'haskell-mode-hook 'structured-haskell-mode))
+
+(use-package haskell-mode
+  :ensure t
+  :config
+  (setq haskell-stylish-on-save t)
+  (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
+
+(use-package scion
+  :ensure t
+  :config)
+
+(defun my-haskell-mode-hook ()
+  (smartparens-mode -1)
+  (local-set-key "\C-c\C-d" 'ghc-browse-document)
+  (set (make-local-variable 'company-backends) '(company-ghc company-files)))
+  #+END_SRC
 ** COMMENT Octave
 #+BEGIN_SRC emacs-lisp
 (evil-set-initial-state 'inferior-octave-mode 'emacs)
@@ -1571,6 +1571,25 @@ cargo install rustfmt
 
 (setenv "PATH" (concat (getenv "PATH") ":/home/peterzky/playground/smlnj/bin"))
 (setq exec-path (append exec-path '("/home/peterzky/playground/smlnj/bin")))
+#+END_SRC
+* Other Modes
+#+BEGIN_SRC emacs-lisp
+(diminish 'auto-revert-mode)
+
+(use-package abbrev
+  :diminish abbrev-mode)
+
+(use-package auto-compile
+  :ensure t
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+;;For editing systemd file
+(use-package systemd
+  :ensure t)
+
+(use-package yaml-mode
+  :ensure t)
 #+END_SRC
 * Mail
 ** Send Mail
