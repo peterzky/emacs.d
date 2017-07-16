@@ -683,6 +683,22 @@ access yadm repo via tramp
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
 #+END_SRC
+** Misc
+#+BEGIN_SRC emacs-lisp
+(diminish 'auto-revert-mode)
+
+(use-package abbrev
+  :diminish abbrev-mode)
+
+(use-package auto-compile
+  :ensure t
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+;;For editing systemd file
+(use-package systemd
+  :ensure t)
+#+END_SRC
 * Edit Enhancement
 ** Expand Region
 #+BEGIN_SRC emacs-lisp
@@ -1555,22 +1571,6 @@ cargo install rustfmt
 
 (setenv "PATH" (concat (getenv "PATH") ":/home/peterzky/playground/smlnj/bin"))
 (setq exec-path (append exec-path '("/home/peterzky/playground/smlnj/bin")))
-#+END_SRC
-* Misc
-#+BEGIN_SRC emacs-lisp
-(diminish 'auto-revert-mode)
-
-(use-package abbrev
-  :diminish abbrev-mode)
-
-(use-package auto-compile
-  :ensure t
-  :config
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
-;;For editing systemd file
-(use-package systemd
-  :ensure t)
 #+END_SRC
 * Mail
 ** Send Mail
