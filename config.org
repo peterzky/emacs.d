@@ -126,7 +126,7 @@
  "fs" 'save-buffer
  ;; "ll" 'linum-mode
  "he" 'elisp-index-search
- "an" 'peter/open-note-file
+ ;; "an" 'peter/open-note-file
  "qq" 'delete-frame
  "qQ" 'save-buffers-kill-emacs
  "wv" 'peter/split-horizontally
@@ -483,7 +483,7 @@ visual mode:
 (my/leader
     "wr" 'hydra-window-resize/body)
 #+END_SRC
-*** Hydra Artist Mode
+*** COMMENT Hydra Artist Mode
 #+BEGIN_SRC emacs-lisp
   ;; hydra mode that not exit after other activites
   (defhydra hydra-artist-mode (:foreign-keys run)
