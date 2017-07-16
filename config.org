@@ -93,35 +93,59 @@
 	  )
       ( js2-narrow-to-defun )))))
 
-;; Scroll other window
-(defun peter/scroll-other-window-up ()
+(defun increment-number-at-point ()
   (interactive)
-  (scroll-other-window 1))
-
-(defun peter/scroll-other-window-down ()
-  (interactive)
-  (scroll-other-window-down 1))
-
-(defun peter/scroll-window-down ()
-  (interactive)
-  (scroll-down 1))
-
-(defun peter/scroll-window-up ()
-  (interactive)
-  (scroll-up 1))
+  (skip-chars-backward "0-9")
+  (or (looking-at "[0-9]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
 #+END_SRC
 ** User Defined Bindings
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-h C-f") 'describe-face)
-;; Scrolling
-(global-set-key [C-next] 'peter/scroll-other-window-up)
-(global-set-key [C-prior] 'peter/scroll-other-window-down)
-(global-set-key [next] 'peter/scroll-window-up)
-(global-set-key [prior] 'peter/scroll-window-down)
 ;; Compile
 (global-set-key [f5] 'compile)
 ;; GDB
 (global-set-key [f6] 'gdb)
+#+END_SRC
+* Bindings
+#+BEGIN_SRC emacs-lisp
+(use-package general
+  :ensure t
+  :config
+  (general-create-definer my/leader
+			  :states '(normal motion emacs)
+			  :keymaps 'global
+			  :prefix "SPC"
+			  :non-normal-prefix "M-SPC")
+  (general-create-definer my/leader-mode
+			  :states '(normal motion emacs)
+			  :prefix "SPC"
+			  :non-normal-prefix "M-SPC"))
+(my/leader
+ "fs" 'save-buffer
+ ;; "ll" 'linum-mode
+ "he" 'elisp-index-search
+ "an" 'peter/open-note-file
+ "qq" 'delete-frame
+ "qQ" 'save-buffers-kill-emacs
+ "wv" 'peter/split-horizontally
+ "ws" 'peter/split-vertically
+ "wd" 'delete-window
+ "fed" 'peter/edit-config-file
+ "cc" 'flycheck-mode
+ "r" 'dired-jump
+ "cl" 'evilnc-comment-or-uncomment-lines
+ "TAB" 'peter/switch-buffer
+ "1" 'select-window-1
+ "2" 'select-window-2
+ "3" 'select-window-3
+ "4" 'select-window-4
+ "5" 'select-window-5
+ "6" 'select-window-6
+ "7" 'select-window-7
+ "8" 'select-window-8
+ "9" 'select-window-9)
 #+END_SRC
 * Appearance
 ** Mode Line
@@ -193,7 +217,7 @@
   (setq my:theme (nth my:theme-index my:theme-list))
   (load-theme my:theme :no-confirm))
 
-(evil-leader/set-key "u" 'my:switch-theme)
+(my/leader "u" 'my:switch-theme)
 
 (setq my:theme (nth my:theme-index my:theme-list))
 (defvar my:theme-window-loaded nil)
@@ -292,35 +316,6 @@ popup window for better experience
   (diminish 'beacon-mode))
 #+END_SRC
 * Evil Mode
-** Evil Leader
-#+BEGIN_SRC emacs-lisp
-(use-package evil-leader
-  :ensure t
-  :config
-  (setq evil-leader/in-all-states t)
-  (setq evil-leader/no-prefix-mode-rx
-	'("elfeed-.*-mode"
-	  "paradox-.*-mode"
-	  "dired-mode"))
-  (global-evil-leader-mode 1)
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-    "bd" 'kill-this-buffer
-    "fs" 'save-buffer
-    "ll" 'linum-mode
-    "he" 'elisp-index-search
-    "an" 'peter/open-note-file
-    "qq" 'delete-frame
-    "qQ" 'save-buffers-kill-emacs
-    "wv" 'peter/split-horizontally
-    "ws" 'peter/split-vertically
-    "wd" 'delete-window
-    "fed" 'peter/edit-config-file
-    "cc" 'flycheck-mode
-    "r" 'dired-jump
-    "cl" 'evilnc-comment-or-uncomment-lines
-    "TAB" 'peter/switch-buffer))
-#+END_SRC
 ** Evil Setup
 #+BEGIN_SRC emacs-lisp
 (use-package evil
@@ -396,19 +391,6 @@ operator ~,,~ as comment
   :config
   (global-evil-surround-mode 1))
 #+END_SRC
-** Evil Window Numbering
-#+BEGIN_SRC emacs-lisp
-(evil-leader/set-key
-    "1" 'select-window-1
-    "2" 'select-window-2
-    "3" 'select-window-3
-    "4" 'select-window-4
-    "5" 'select-window-5
-    "6" 'select-window-6
-    "7" 'select-window-7
-    "8" 'select-window-8
-    "9" 'select-window-9)
-#+END_SRC
 ** Evil MC
 =grm= make all cursors
 =gru= remove all cursors
@@ -432,7 +414,7 @@ visual mode:
   :ensure t
   :bind (("C-x g" . magit-status))
   :config
-  (evil-leader/set-key
+  (my/leader
     "gs" 'magit-status))
 #+END_SRC
 *** Git Timemachine
@@ -440,7 +422,7 @@ visual mode:
 (use-package git-timemachine
   :ensure t
   :config
-  (evil-leader/set-key "gm" 'git-timemachine))
+  (my/leader "gm" 'git-timemachine))
 
 (eval-after-load 'git-timemachine
   '(progn
@@ -478,7 +460,7 @@ visual mode:
     ("s" org-narrow-to-subtree "org tree")
     ("d" peter/narrow-to-defun "defun"))
 
-(evil-leader/set-key
+(my/leader
     "n" 'hydra-nr/body)
 #+END_SRC
 *** Hydra Frame
@@ -487,7 +469,7 @@ visual mode:
     ("d" make-frame "new frame")
     ("z" delete-frame"delete frame")
     ("n" other-frame "switch frame"))
-(evil-leader/set-key
+(my/leader
     "z" 'hydra-frame/body)
 #+END_SRC
 *** Hydra Window Resize
@@ -498,7 +480,7 @@ visual mode:
     ("h" shrink-window-horizontally "left")
     ("l" enlarge-window-horizontally "right")
     ("=" balance-windows "balance"))
-(evil-leader/set-key
+(my/leader
     "wr" 'hydra-window-resize/body)
 #+END_SRC
 *** Hydra Artist Mode
@@ -532,7 +514,7 @@ visual mode:
   ("gg" flycheck-first-error                                      "First")
   ("G"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
   ("q"  nil))
-  (evil-leader/set-key
+  (my/leader
     "cf" 'hydra-flycheck/body)
 #+END_SRC
 ** Hide Show Comments
@@ -540,7 +522,7 @@ visual mode:
 (use-package hide-comnt
   :ensure t
   :config
-  (evil-leader/set-key "ch" 'hide/show-comments-toggle))
+  (my/leader "ch" 'hide/show-comments-toggle))
 #+END_SRC
 ** Chinese Support
 *** Youdao Dictionary
@@ -548,7 +530,7 @@ visual mode:
 (use-package youdao-dictionary
   :ensure t
   :config
-  (evil-leader/set-key
+  (my/leader
     "oo" 'youdao-dictionary-search-at-point+))
 #+END_SRC
 *** Fcitx
@@ -581,7 +563,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   (setq paradox-github-token t)
   (evil-set-initial-state 'paradox-menu-mode 'emacs)
-  (evil-leader/set-key
+  (my/leader
     "pr" 'paradox-list-packages
     "pu" 'paradox-upgrade-packages))
 #+END_SRC
@@ -605,7 +587,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :bind ("C-;" . avy-goto-char)
   :config
-  (evil-leader/set-key "SPC" 'avy-goto-char))
+  (my/leader "SPC" 'avy-goto-char))
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
@@ -637,7 +619,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (setq terminal-here-terminal-command '("urxvtc"))
-  (evil-leader/set-key
+  (my/leader
     "t" 'terminal-here))
 #+END_SRC
 ** Fasd
@@ -664,7 +646,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (global-fasd-mode 1)
-  (evil-leader/set-key
+  (my/leader
     "fd" 'counsel-fasd))
 #+END_SRC
 ** Dumb Jump
@@ -700,27 +682,6 @@ access yadm repo via tramp
   (find-alternate-file
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
-#+END_SRC
-** COMMENT Restart Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package restart-emacs
-  :ensure t)
-#+END_SRC
-** COMMENT Ibuffer Mode
-#+BEGIN_SRC emacs-lisp
-(defun peter/ibuffer-mode-hook ()
-  (hl-line-mode)
-  (define-key ibuffer-mode-map "h" 'ibuffer-visit-buffer-other-window-noselect)
-  (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
-  (define-key ibuffer-mode-map "k" 'ibuffer-backward-line)
-  (define-key ibuffer-mode-map (kbd "RET") 'ibuffer-visit-buffer-1-window)
-  )
-
-(add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
-;(global-set-key (kbd "M-`") 'ibuffer)
-
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
 #+END_SRC
 * Edit Enhancement
 ** Expand Region
@@ -840,119 +801,6 @@ access yadm repo via tramp
 
 (bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
 #+END_SRC
-*** COMMENT Smartparens Markdown Mode
-#+BEGIN_SRC emacs-lisp
-(sp-with-modes '(markdown-mode gfm-mode rst-mode)
-  (sp-local-pair "*" "*"
-                 :wrap "C-*"
-                 :unless '(sp--gfm-point-after-word-p sp-point-at-bol-p)
-                 :post-handlers '(("[d1]" "SPC"))
-                 :skip-match 'sp--gfm-skip-asterisk)
-  (sp-local-pair "**" "**")
-  (sp-local-pair "_" "_" :wrap "C-_" :unless '(sp-point-after-word-p)))
-
-(defun sp--gfm-point-after-word-p (id action context)
-  "Return t if point is after a word, nil otherwise.
-This predicate is only tested on \"insert\" action."
-  (when (eq action 'insert)
-    (sp--looking-back-p (concat "\\(\\sw\\)" (regexp-quote id)))))
-
-(defun sp--gfm-skip-asterisk (ms mb me)
-  (save-excursion
-    (goto-char mb)
-    (save-match-data (looking-at "^\\* "))))
-#+END_SRC
-*** COMMENT Smartparens Org Mode
-#+BEGIN_SRC emacs-lisp
-(sp-with-modes 'org-mode
-  (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
-  (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-  (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "«" "»"))
-
-(defun sp--org-skip-asterisk (ms mb me)
-  (or (and (= (line-beginning-position) mb)
-           (eq 32 (char-after (1+ mb))))
-      (and (= (1+ (line-beginning-position)) me)
-           (eq 32 (char-after me)))))
-#+END_SRC
-*** Smartparens Lisp Mode
-#+BEGIN_SRC emacs-lisp
-(sp-with-modes sp--lisp-modes
-  (sp-local-pair "(" nil
-                 :wrap "C-("
-                 :pre-handlers '(my-add-space-before-sexp-insertion)
-                 :post-handlers '(my-add-space-after-sexp-insertion)))
-
-
-
-(defun my-add-space-after-sexp-insertion (id action _context)
-  (when (eq action 'insert)
-    (save-excursion
-      (forward-char (sp-get-pair id :cl-l))
-      (when (or (eq (char-syntax (following-char)) ?w)
-                (looking-at (sp--get-opening-regexp)))
-        (insert " ")))))
-
-(defun my-add-space-before-sexp-insertion (id action _context)
-  (when (eq action 'insert)
-    (save-excursion
-      (backward-char (length id))
-      (when (or (eq (char-syntax (preceding-char)) ?w)
-                (and (looking-back (sp--get-closing-regexp))
-                     (not (eq (char-syntax (preceding-char)) ?'))))
-        (insert " ")))))
-#+END_SRC
-*** COMMENT Smartparens etc
-#+BEGIN_SRC emacs-lisp
-;; pair management
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-(bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
-
-;;; rst-mode
-(sp-with-modes 'rst-mode
-  (sp-local-pair "``" "``"))
-
-;;; tex-mode latex-mode
-(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
-  (sp-local-tag "i" "\"<" "\">"))
-
-;;; C++
-(sp-with-modes '(malabar-mode c++-mode)
-  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
-(sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
-
-;;; PHP
-(sp-with-modes '(php-mode)
-  (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
-                                             (my-php-handle-docstring "RET")))
-  (sp-local-pair "/*." ".*/" :post-handlers '(("| " "SPC")))
-  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
-  (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
-
-(defun my-php-handle-docstring (&rest _ignored)
-  (-when-let (line (save-excursion
-                     (forward-line)
-                     (thing-at-point 'line)))
-    (cond
-     ((string-match-p "function" line)
-      (save-excursion
-        (insert "\n")
-        (let ((args (save-excursion
-                      (forward-line)
-                      (my-php-get-function-args))))
-          (--each args
-            (insert (format "* @param %s\n" it)))))
-      (insert "* "))
-     ((string-match-p ".*class\\|interface" line)
-      (save-excursion (insert "\n*\n* @author\n"))
-      (insert "* ")))
-    (let ((o (sp--get-active-overlay)))
-      (indent-region (overlay-start o) (overlay-end o)))))
-
-#+END_SRC
 * Org Mode
 ** Org Mode Setup
 #+BEGIN_SRC emacs-lisp
@@ -965,7 +813,7 @@ This predicate is only tested on \"insert\" action."
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
 (setq org-imenu-depth 5)
-(evil-leader/set-key
+(my/leader
   ;; "op" 'org-mobile-push
   ;; "oP" 'org-mobile-pull
   "as" 'org-clock-goto
@@ -975,7 +823,7 @@ This predicate is only tested on \"insert\" action."
 ;; diminish org-indent-mode
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 
-(evil-leader/set-key-for-mode 'org-mode
+(my/leader-mode :keymaps 'org-mode
   "i" 'counsel-org-goto)
 
 ;; disable time dispaly for mode line compatibility
@@ -1209,7 +1057,7 @@ This predicate is only tested on \"insert\" action."
   (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
   :config
   ;; (org-brain-activate-cache-saving)
-  (evil-leader/set-key
+  (my/leader
     "oa" 'org-brain-visualize
     "oe" 'org-brain-deft)
   (define-key org-brain-visualize-mode-map "/" 'org-brain-deft))
@@ -1243,7 +1091,7 @@ This predicate is only tested on \"insert\" action."
   :config
   (evil-set-initial-state 'deft-mode 'emacs)
   (evil-set-initial-state 'artist-mode 'emacs)
-  (evil-leader/set-key
+  (my/leader
     "ae" 'deft)
   (setq deft-extensions '("org"))
   (setq deft-use-filename-as-title nil)
@@ -1255,89 +1103,6 @@ This predicate is only tested on \"insert\" action."
       '((noslash . "-")
         (nospace . "-")
         (case-fn . downcase))))
-#+END_SRC
-** COMMENT Org Download
-Drag and Drop Image to Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package org-download
-  :ensure t
-  :config)
-#+END_SRC
-** COMMENT Org Drill
-#+BEGIN_SRC emacs-lisp
-(require 'org-drill)
-(setq org-drill-save-buffers-after-drill-sessions-p t)
-
-(use-package org-drill-table
-  :ensure t
-  :config
-  (evil-define-key 'normal org-mode-map (kbd "gt") 'org-drill-table-generate))
-#+END_SRC
-** COMMENT Blog
-#+BEGIN_SRC emacs-lisp
-;; Org code block color html
-(use-package htmlize
-  :ensure t)
-;; ;; Org to Jekyll
-;; (use-package org2jekyll
-;;   :ensure t
-;;   :config)
-
-;; (custom-set-variables
-;;  '(org2jekyll-blog-author "Peterzky")
-;;  '(org2jekyll-source-directory (expand-file-name "~/org/"))
-;;  '(org2jekyll-jekyll-directory (expand-file-name "~/Projects/Blog/"))
-;;  '(org2jekyll-jekyll-drafts-dir "")
-;;  '(org2jekyll-jekyll-posts-dir "_posts/")
-;;  '(org-publish-project-alist
-;;    `(("default"
-;;       :base-directory ,(org2jekyll-input-directory)
-;;       :base-extension "org"
-;;       :publishing-directory ,(org2jekyll-output-directory)
-;;       :publishing-function org-html-publish-to-html
-;;       :headline-levels 4
-;;       :section-numbers nil
-;;       :with-toc nil
-;;       :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
-;;       :html-preamble t
-;;       :recursive t
-;;       :make-index t
-;;       :html-extension "html"
-;;       :body-only t)
-;;      ("post"
-;;       :base-directory ,(org2jekyll-input-directory)
-;;       :base-extension "org"
-;;       :publishing-directory ,(org2jekyll-output-directory org2jekyll-jekyll-posts-dir)
-;;       :publishing-function org-html-publish-to-html
-;;       :headline-levels 4
-;;       :section-numbers nil
-;;       :with-toc nil
-;;       :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
-;;       :html-preamble t
-;;       :recursive t
-;;       :make-index t
-;;       :html-extension "html"
-;;       :body-only t)
-;;      ("images"
-;;       :base-directory ,(org2jekyll-input-directory "img")
-;;       :base-extension "jpg\\|gif\\|png"
-;;       :publishing-directory ,(org2jekyll-output-directory "img")
-;;       :publishing-function org-publish-attachment
-;;       :recursive t)
-;;      ("js"
-;;       :base-directory ,(org2jekyll-input-directory "js")
-;;       :base-extension "js"
-;;       :publishing-directory ,(org2jekyll-output-directory "js")
-;;       :publishing-function org-publish-attachment
-;;       :recursive t)
-;;      ("css"
-;;       :base-directory ,(org2jekyll-input-directory "css")
-;;       :base-extension "css\\|el"
-;;       :publishing-directory ,(org2jekyll-output-directory "css")
-;;       :publishing-function org-publish-attachment
-;;       :recursive t)
-;;      ("web" :components ("images" "js" "css")))))
-
 #+END_SRC
 * Ivy
 #+BEGIN_SRC emacs-lisp
@@ -1380,7 +1145,7 @@ Drag and Drop Image to Emacs
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "C-c v") 'ivy-push-view)
 (global-set-key (kbd "C-c V") 'ivy-pop-view)
-(evil-leader/set-key
+(my/leader
   "ag" 'counsel-ag
   "`"  'ivy-switch-buffer
   "d"  'counsel-yank-pop
@@ -1392,7 +1157,9 @@ Drag and Drop Image to Emacs
   "i"  'counsel-imenu
   "fl" 'counsel-locate
   "gg" 'counsel-git-grep
-  "ff" 'counsel-find-file)
+  "ff" 'counsel-find-file
+  "vv"  'ivy-push-view
+  "vo" 'ivy-pop-view)
 
 (define-key ivy-mode-map (kbd "C-l") 'ivy-backward-delete-char)
 #+END_SRC
@@ -1426,7 +1193,7 @@ Drag and Drop Image to Emacs
   :ensure t
   :config
   (yas-global-mode 1)
-  (evil-leader/set-key
+  (my/leader
     "yn" 'yas-new-snippet
     "yv" 'yas-visit-snippet-file
     "yt" 'yas-describe-tables
@@ -1442,14 +1209,6 @@ slot 5 indicate version 5, which ycmd depend on.
   (setq  ycmd-server-command '("ycmd"))
   (setq ycmd-global-config
 	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
-#+END_SRC
-** Flycheck
-#+BEGIN_SRC emacs-lisp
-(use-package flycheck-pos-tip
-  :ensure t
-  :config
- (with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode)))
 #+END_SRC
 * Programming Language Supports
 ** C
@@ -1809,12 +1568,6 @@ cargo install rustfmt
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
-
-(defun eshell/clear ()
-  "Clear the eshell buffer."
-  (let ((inhibit-read-only t))
-    (erase-buffer)))
-
 ;;For editing systemd file
 (use-package systemd
   :ensure t)
@@ -1848,7 +1601,7 @@ cargo install rustfmt
 
 (require 'mu4e)
 
-(evil-leader/set-key
+(my/leader
   "0" 'mu4e)
 
 (add-to-list 'mu4e-view-actions
@@ -1908,158 +1661,4 @@ cargo install rustfmt
     (add-to-list 'load-path notmuchpath)))
 
 (require 'notmuch)
-#+END_SRC
-* COMMENT News
-#+BEGIN_SRC emacs-lisp
-(setq gnus-select-method '(nntp "news.gmane.org"))
-#+END_SRC
-* COMMENT Helm
-** Helm Config
-#+BEGIN_SRC emacs-lisp
-(use-package helm
-  :diminish helm-mode
-  :ensure t
-  :bind (("s-x" . helm-M-x)
-	 ("M-x" . helm-M-x))
-  :config
-  (require 'helm-config)
-  (helm-mode 1)
-  (setq helm-display-header-line nil)
-  (setq helm-display-source-at-screen-top nil)
-  (setq helm-autoresize-min-height 10)
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-split-window-in-side-p t)
-  (setq helm-completion-in-region-fuzzy-match t)
-  (helm-autoresize-mode 1)
-  ;;add bookmark to helm mini sources
-  (add-to-list 'helm-mini-default-sources 'helm-source-bookmark-files&dirs 'append)
-  (evil-leader/set-key
-    "s" 'helm-occur
-    "d" 'helm-show-kill-ring
-    ";" 'helm-mark-ring
-    "bb" 'helm-mini
-    "ff" 'helm-find-files
-    "fl" 'helm-locate
-    "i" 'helm-imenu
-    "`" 'helm-mini))
-#+END_SRC
-** Helm Workaround
-#+BEGIN_SRC emacs-lisp
-;; helm alway at bottom
-(add-to-list 'display-buffer-alist
-	     `(,(rx bos "*helm" (* not-newline) "*" eos)
-	       (display-buffer-in-side-window)
-	       (inhibit-same-window . t)
-	       (window-height . 0.4)))
-
-(defun *-popwin-help-mode-off ()
-  "Turn `popwin-mode' off for *Help* buffers."
-  (when (boundp 'popwin:special-display-config)
-    (customize-set-variable 'popwin:special-display-config
-			    (delq 'help-mode popwin:special-display-config))))
-
-(defun *-popwin-help-mode-on ()
-  "Turn `popwin-mode' on for *Help* buffers."
-  (when (boundp 'popwin:special-display-config)
-    (customize-set-variable 'popwin:special-display-config
-			    (add-to-list 'popwin:special-display-config 'help-mode nil #'eq))))
-
-(add-hook 'helm-minibuffer-set-up-hook #'*-popwin-help-mode-off)
-(add-hook 'helm-cleanup-hook #'*-popwin-help-mode-on)
-
-;;fix helm cursor
-(defun peter/hide-cursor-in-helm-buffer ()
-  "Hide the cursor in helm buffers."
-  (with-helm-buffer
-    (setq cursor-in-non-selected-windows nil)))
-
-(add-hook 'helm-after-initialize-hook 'peter/hide-cursor-in-helm-buffer)
-
-(defun peter/helm-toggle ()
-  "toggle helm-mini"
-  (interactive)
-  (if (helm-alive-p)
-      (helm-keyboard-quit)
-    (helm-mini)))
-
-(global-set-key (kbd "M-`") 'peter/helm-toggle)
-#+END_SRC
-** Helm Dash
-#+BEGIN_SRC emacs-lisp
-(use-package helm-dash
-  :ensure t
-  :bind (([f1] . helm-dash-at-point)))
-#+END_SRC
-** Helm Uitls
-*** Helm Ag
-the silverlight searcher
-#+BEGIN_SRC emacs-lisp
-(use-package helm-ag
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "ag" 'helm-ag
-    "ap" 'helm-ag-project-root))
-#+END_SRC
-
-*** Helm Systemd
-helm interface for systemd services
-#+BEGIN_SRC emacs-lisp
-(use-package helm-systemd
-  :ensure t
-  :config
-  (setq helm-systemd-list-not-loaded t)
-  (setq helm-systemd-list-all t)
-  (setq helm-systemd-buffer-name "*Systemd log*")
-  (evil-leader/set-key
-    "ad" 'helm-systemd))
-#+END_SRC
-
-*** Helm Projectile
-#+BEGIN_SRC emacs-lisp
-(use-package helm-projectile
-  :ensure t
-  :config
-  (helm-projectile-on)
-  (evil-leader/set-key
-    "pp" 'helm-projectile))
-#+END_SRC
-*** Helm Descbinds
-#+BEGIN_SRC emacs-lisp
-(use-package helm-descbinds
-  :ensure t
-  :config
-  (setq helm-descbinds-window-style 'same-window)
-  (helm-descbinds-mode))
-#+END_SRC
-*** Helm Flycheck
-#+BEGIN_SRC emacs-lisp
-(use-package helm-flycheck
-  :ensure t
-  :config
-  (evil-leader/set-key "cf" 'helm-flycheck))
-#+END_SRC
-* COMMENT Gnus
-#+BEGIN_SRC emacs-lisp
-(setq user-full-name "peterzky")
-(setq user-mail-address "peterzky@qq.com")
-
-;; NewsGroup
-(setq gnus-select-method '(nntp "news.newsfan.net"))
-
-(setq message-send-mail-function 'smtpmail-send-it
-      smtpmail-stream-type 'ssl
-      smtpmail-default-smtp-server "smtp.qq.com"
-      smtpmail-smtp-server "smtp.qq.com"
-      smtpmail-smtp-service 465)
-
-
-(setq mm-coding-system-priorities '(iso-8859-1 chinese-iso-8bit utf-8))
-(setq gnus-default-charset 'utf-8)
-(setq gnus-default-charset 'cn-gb-2312
-gnus-group-name-charset-group-alist '((".*" . cn-gb-2312))
-;; gnus-group-name-charset-method-alist '(((nntp "news.newsfan.net") . cn-gb-2312))
-gnus-summary-show-article-charset-alist '((1 . cn-gb-2312) (2 . big5))
-;;gnus-newsgroup-ignored-charsets '(unknown-8bit x-unknown iso-8859-1)
-)
 #+END_SRC
