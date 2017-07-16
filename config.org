@@ -1624,7 +1624,7 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
   "0" 'mu4e)
 
 (add-to-list 'mu4e-view-actions
-	     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+	     '("browser" . mu4e-action-view-in-browser) t)
 
 (setq mu4e-maildir "~/.mail")
 
