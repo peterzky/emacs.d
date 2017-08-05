@@ -1346,7 +1346,28 @@ gometalinter --install
   (flycheck-gometalinter-setup))
 #+END_SRC
 ** Haskell intero
-prerequisite: resolver 7.10
+nixos config
+~$HOME/.stack/config.yaml~
+#+BEGIN_SRC yaml
+nix:
+  enable: true
+#+END_SRC
+
+~$HOME/.stack/global-project/stack.yaml~
+#+BEGIN_SRC yaml
+flags: {}
+extra-package-dbs: []
+packages: []
+extra-deps: []
+resolver: lts-9.0
+nix:
+  packages:
+    - libcxx
+    - icu
+    - gcc
+    - ncurses
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
 (use-package intero
   :ensure t
