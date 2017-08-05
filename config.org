@@ -1331,6 +1331,7 @@ gometalinter --install
 (use-package go-mode
   :ensure t
   :config
+  (setq go-playground-basedir "~/golang/src/playground")
   (setq gofmt-command "goimports")
   (setq godoc-at-point-function 'godoc-gogetdoc)
   (add-hook 'go-mode-hook 'peter/go-mode-hook)
