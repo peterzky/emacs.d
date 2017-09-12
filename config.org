@@ -976,7 +976,7 @@ access yadm repo via tramp
 (add-to-list 'org-protocol-protocol-alist
 	     '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
 #+END_SRC
-** Org Htmlize
+** COMMENT Org Htmlize
 #+BEGIN_SRC emacs-lisp
 (use-package htmlize
   :ensure t)
