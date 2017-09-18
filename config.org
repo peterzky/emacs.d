@@ -37,7 +37,7 @@
 #+BEGIN_SRC emacs-lisp
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
-	  browse-url-generic-program "conkeror"))
+	  browse-url-generic-program "chromium"))
 #+END_SRC
 ** User Defined Functions
 #+BEGIN_SRC emacs-lisp
