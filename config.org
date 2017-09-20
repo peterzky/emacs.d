@@ -193,9 +193,9 @@
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr/34697306#34697306][follow up solution]]
 #+BEGIN_SRC emacs-lisp
-(if (file-exists-p "~/Nextcloud")
+(if (file-exists-p "~/Sync")
     (use-package doom-themes
-      :load-path "~/Nextcloud/site-lisp/doom-themes/")
+      :load-path "~/Sync/site-lisp/doom-themes/")
   (use-package doom-themes :ensure t))
 
 (setq my:theme-index 0)
@@ -843,15 +843,15 @@ access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
-(setq org-default-notes-file "~/Nextcloud/org/inbox.org")
+(setq org-default-notes-file "~/Sync/org/inbox.org")
 (setq org-agenda-files
-      (list "~/Nextcloud/org/inbox.org"
+      (list "~/Sync/org/inbox.org"
 	    "~/Nextcloud/org/project.org"
 	    "~/Nextcloud/org/someday.org"
 	    "~/Nextcloud/org/todo.org"))
-(setq org-directory "~/Nextcloud/org")
-;; (setq org-mobile-inbox-for-pull "~/Nextcloud/org/flagged.org")
-;; (setq org-mobile-directory "~/Nextcloud/MobileOrg")
+(setq org-directory "~/Sync/org")
+;; (setq org-mobile-inbox-for-pull "~/Sync/org/flagged.org")
+;; (setq org-mobile-directory "~/Sync/MobileOrg")
 (setq org-log-done 'time)
 (setq org-log-states-order-reversed nil)
 
@@ -890,7 +890,7 @@ access yadm repo via tramp
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      '(("i" "Inbox" entry (file+headline "~/Nextcloud/org/inbox.org" "Tasks")
+      '(("i" "Inbox" entry (file+headline "~/Sync/org/inbox.org" "Tasks")
 	 "* TODO %?\n %i\n %a")
 	("j" "Journal" entry (file+datetree "~/Nextcloud/org/journal.org")
 	 "* %?\nEntered on %U\n %i\n")
@@ -964,7 +964,7 @@ access yadm repo via tramp
    (my-vocabulary-format-result word)  nil
    my-vocabulary-path t))
 
-(defvar my-vocabulary-path "/home/peterzky/Nextcloud/org/vocabulary.org")
+(defvar my-vocabulary-path "/home/peterzky/Sync/org/vocabulary.org")
 
 (defun org-protocol-vocabulary (fname)
   (let* ((splitparts (org-protocol-parse-parameters fname t))
@@ -1055,8 +1055,8 @@ access yadm repo via tramp
 (use-package org-brain
   :ensure t
   :init
-  (when (file-exists-p "~/Nextcloud")
-    (setq org-brain-path "~/Nextcloud/org/brain"))
+  (when (file-exists-p "~/Sync")
+    (setq org-brain-path "~/Sync/org/brain"))
   (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
   :config
   ;; (org-brain-activate-cache-saving)
@@ -1132,7 +1132,7 @@ access yadm repo via tramp
   (setq deft-use-filter-string-for-filename t)
   ;; (setq deft-org-mode-title-prefix t)
   (setq deft-default-extension "org")
-  (setq deft-directory "~/Nextcloud/org/brain")
+  (setq deft-directory "~/Sync/org/brain")
   (setq deft-file-naming-rules
       '((noslash . "-")
         (nospace . "-")
@@ -1161,6 +1161,9 @@ access yadm repo via tramp
   (setq ivy-virtual-abbreviate 'full
 	ivy-rich-switch-buffer-align-virtual-buffer t)
   (setq ivy-rich-abbreviate-paths t))
+
+;; for edit in C-c C-o
+(use-package wgrep :ensure t)
 #+END_SRC
 ** Ivy Bindings
 #+BEGIN_SRC emacs-lisp
@@ -1393,7 +1396,7 @@ nix:
 #+END_SRC
 ** Nixos
 #+BEGIN_SRC emacs-lisp
-(when (file-exists-p "~/Nextcloud")
+(when (file-exists-p "~/Sync")
   (use-package nix-mode
 	   :load-path "~/Nextcloud/site-lisp/nix-mode"
 	   :ensure t
