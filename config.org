@@ -1132,7 +1132,7 @@ access yadm repo via tramp
   (setq deft-use-filter-string-for-filename t)
   ;; (setq deft-org-mode-title-prefix t)
   (setq deft-default-extension "org")
-  (setq deft-directory "~/Sync/org/brain")
+  (setq deft-directory "~/Sync/notes")
   (setq deft-file-naming-rules
       '((noslash . "-")
         (nospace . "-")
