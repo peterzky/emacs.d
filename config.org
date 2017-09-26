@@ -1350,6 +1350,7 @@ gometalinter --install
 #+END_SRC
 ** Haskell intero
 nixos config
+install intero in directory =~/.stack/global-project/=
 ~$HOME/.stack/config.yaml~
 #+BEGIN_SRC yaml
 nix:
