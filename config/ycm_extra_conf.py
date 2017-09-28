@@ -17,6 +17,21 @@
 
 import os
 import ycm_core
+import subprocess
+import re
+
+def LoadSystemIncludes():
+    regex = re.compile(r'(?:\#include \<...\> search starts here\:)(?P<list>.*?)(?:End of search list)', re.DOTALL);
+    process = subprocess.Popen(['gcc', '-v', '-E', '-x', 'c++', '-'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+    process_out, process_err = process.communicate('');
+    output = process_out + process_err;
+    includes = [];
+    for p in re.search(regex, str(output).encode('utf8').decode('unicode_escape')).group('list').split('\n'):
+        p = p.strip();
+        if len(p) > 0 and p.find('(framework directory)') < 0:
+            includes.append('-isystem');
+            includes.append(p);
+    return includes;
 
 # These are the compilation flags that will be used in case there's no
 # compilation database set (by default, one is not set).
@@ -33,22 +48,19 @@ flags = [
 # a "-std=<something>".
 # For a C project, you would set this to something like 'c99' instead of
 # 'c++11'.
-'-std=c99',
+'-std=c++11',
 # ...and the same thing goes for the magic -x option which specifies the
 # language that the files to be compiled are written in. This is mostly
 # relevant for c++ headers.
 # For a C project, you would set this to 'c' instead of 'c++'.
 '-x',
-'c',
-'-isystem',
-'/usr/include',
-'-isystem',
-'/usr/local/include',
-'-isystem',
-'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1',
-'-isystem',
-'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include',
+'c++',
+  '-I',
+  '.',
 ]
+
+systemIncludes = LoadSystemIncludes()
+flags = flags + systemIncludes
 
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
