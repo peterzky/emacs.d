@@ -1,19 +1,3 @@
-# Copyright (C) 2014 Google Inc.
-#
-# This file is part of ycmd.
-#
-# ycmd is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# ycmd is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with ycmd.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import ycm_core
@@ -22,7 +6,13 @@ import re
 
 def LoadSystemIncludes():
     regex = re.compile(r'(?:\#include \<...\> search starts here\:)(?P<list>.*?)(?:End of search list)', re.DOTALL);
-    process = subprocess.Popen(['gcc', '-v', '-E', '-x', 'c++', '-'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+    nix_shell = os.path.isfile("./shell.nix")
+
+    if nix_shell:
+      process = subprocess.Popen(['nix-shell','--run','gcc -v -E -x c++ -'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+    else:
+      process = subprocess.Popen(['gcc', '-v', '-E', '-x', 'c++', '-'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+
     process_out, process_err = process.communicate('');
     output = process_out + process_err;
     includes = [];

@@ -1246,6 +1246,19 @@ slot 5 indicate version 5, which ycmd depend on.
   (setq  ycmd-server-command '("ycmd"))
   (setq ycmd-global-config
 	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
+
+
+(defun ycmd-restart ()
+  (interactive)
+  (ycmd-close)
+  (ycmd-mode -1)
+  (ycmd-mode 1))
+
+(defun peter/ycmd-mode-hook ()
+  (local-set-key (kbd "C-c C-j") 'ycmd-goto))
+
+(add-hook 'ycmd-mode-hook 'peter/ycmd-mode-hook)
+
 #+END_SRC
 * Programming Language Supports
 ** C
