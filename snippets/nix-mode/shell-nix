@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: shell-nix
+# key: shell
+# --
+{pkgs ? import <nixpkgs> {} }:
+
+with pkgs;
+
+stdenv.mkDerivation {
+  name = "$1";
+
+  buildInputs = [$0];
+}
