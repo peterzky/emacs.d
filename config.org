@@ -32,6 +32,8 @@
 ;; start server if not started
 (require 'server)
 (unless (server-running-p) (server-start))
+
+(setq gc-cons-threshold 20000000)
 #+END_SRC
 ** External Application
 #+BEGIN_SRC emacs-lisp
