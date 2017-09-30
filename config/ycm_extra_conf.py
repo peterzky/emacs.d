@@ -5,13 +5,20 @@ import subprocess
 import re
 
 def LoadSystemIncludes():
-    regex = re.compile(r'(?:\#include \<...\> search starts here\:)(?P<list>.*?)(?:End of search list)', re.DOTALL);
+    regex = re.compile(r'(?:\#include \<...\> search starts here\:)(?P<list>.*?)(?:End of search list)',
+                       re.DOTALL);
     nix_shell = os.path.isfile("./shell.nix")
 
     if nix_shell:
-      process = subprocess.Popen(['nix-shell','--run','gcc -v -E -x c++ -'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+      process = subprocess.Popen(['nix-shell','--run','gcc -v -E -x c++ -'],
+                                 stdin=subprocess.PIPE,
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE);
     else:
-      process = subprocess.Popen(['gcc', '-v', '-E', '-x', 'c++', '-'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+      process = subprocess.Popen(['gcc', '-v', '-E', '-x', 'c++', '-'],
+                                 stdin=subprocess.PIPE,
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE);
 
     process_out, process_err = process.communicate('');
     output = process_out + process_err;
