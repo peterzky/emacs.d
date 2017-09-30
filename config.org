@@ -871,7 +871,7 @@ access yadm repo via tramp
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
-  (define-key org-agenda-mode-map "p" 'org-pomodoro)
+  (define-key org-agenda-mode-map "I" 'org-pomodoro)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
   (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
   (hl-line-mode))
