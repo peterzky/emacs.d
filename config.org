@@ -891,13 +891,15 @@ access yadm repo via tramp
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
+(add-hook 'org-capture-mode-hook 'delete-other-windows)
+
 (setq org-capture-templates
       '(("i" "Inbox" entry (file+headline "~/Sync/org/inbox.org" "Tasks")
 	 "* TODO %?\n %i\n %a")
 	("j" "Journal" entry (file+datetree "~/Nextcloud/org/journal.org")
 	 "* %?\nEntered on %U\n %i\n")
 	("x" "org-protocol" entry (file "~/Nextcloud/org/web.org")
-	 "* %^{Title}\nSource: [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
+	 "* [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
 	 :empty-line 1)
 	("L" "org-protocol-link" entry (file "~/Nextcloud/org/web.org")
 	 "* [[%:link][%:description]]\n"
