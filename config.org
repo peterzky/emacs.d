@@ -1260,10 +1260,12 @@ slot 5 indicate version 5, which ycmd depend on.
 (defun company-ycmd-complete ()
   (interactive)
   (let ((ycmd-force-semantic-completion t))
+     (company-cancel)
      (company-complete)))
 
 (defun peter/ycmd-mode-hook ()
-  (local-set-key (kbd "C-c C-j") 'ycmd-goto))
+  (local-set-key (kbd "C-c C-j") 'ycmd-goto)
+  (local-set-key (kbd "M-i") 'company-ycmd-complete))
 
 (add-hook 'ycmd-mode-hook 'peter/ycmd-mode-hook)
 
