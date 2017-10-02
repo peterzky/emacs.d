@@ -890,6 +890,7 @@ access yadm repo via tramp
 (require 'org-man)
 #+END_SRC
 ** Org Caputre
+[[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome and firefox extension facilitating org-capture in emacs]]
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
 
