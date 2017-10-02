@@ -848,9 +848,10 @@ access yadm repo via tramp
 (setq org-default-notes-file "~/Sync/org/inbox.org")
 (setq org-agenda-files
       (list "~/Sync/org/inbox.org"
-	    "~/Nextcloud/org/project.org"
-	    "~/Nextcloud/org/someday.org"
-	    "~/Nextcloud/org/todo.org"))
+	    "~/Sync/org/project.org"
+            "~/Sync/org/web.org"
+	    "~/Sync/org/someday.org"
+	    "~/Sync/org/todo.org"))
 (setq org-directory "~/Sync/org")
 ;; (setq org-mobile-inbox-for-pull "~/Sync/org/flagged.org")
 ;; (setq org-mobile-directory "~/Sync/MobileOrg")
@@ -896,16 +897,16 @@ access yadm repo via tramp
 
 (setq org-capture-templates
       '(("i" "Inbox" entry (file+headline "~/Sync/org/inbox.org" "Tasks")
-	 "* TODO %?\n %i\n %a")
-	("j" "Journal" entry (file+datetree "~/Nextcloud/org/journal.org")
+	 "* TODO %?\n %i\n")
+	("j" "Journal" entry (file+datetree "~/Sync/org/journal.org")
 	 "* %?\nEntered on %U\n %i\n")
-	("x" "org-protocol" entry (file "~/Nextcloud/org/web.org")
+	("x" "org-protocol" entry (file "~/Sync/org/web.org")
 	 "* [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
 	 :empty-line 1)
-	("L" "org-protocol-link" entry (file "~/Nextcloud/org/web.org")
+	("L" "org-protocol-link" entry (file "~/Sync/org/web.org")
 	 "* [[%:link][%:description]]\n"
 	 :empty-line 1)
-	("w" "vocabulary prompt" plain (file "~/Nextcloud/org/vocabulary.org")
+	("w" "vocabulary prompt" plain (file "~/Sync/org/vocabulary.org")
 	 "%(call-interactively #'my-vocabulary-format-result-prompt)")))
 
 (defun my-vocabulary-format-result (word)
