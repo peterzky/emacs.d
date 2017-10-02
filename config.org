@@ -1245,7 +1245,8 @@ slot 5 indicate version 5, which ycmd depend on.
 (use-package ycmd
   :ensure t
   :config
-  (setq  ycmd-server-command '("ycmd"))
+  (setq ycmd-server-command '("ycmd"))
+  (setq ycmd-force-semantic-completion t)
   (setq ycmd-global-config
 	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
 
