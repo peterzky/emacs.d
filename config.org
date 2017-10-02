@@ -899,6 +899,9 @@ access yadm repo via tramp
 	("x" "org-protocol" entry (file "~/Nextcloud/org/web.org")
 	 "* %^{Title}\nSource: [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
 	 :empty-line 1)
+	("L" "org-protocol-link" entry (file "~/Nextcloud/org/web.org")
+	 "* [[%:link][%:description]]\n"
+	 :empty-line 1)
 	("w" "vocabulary prompt" plain (file "~/Nextcloud/org/vocabulary.org")
 	 "%(call-interactively #'my-vocabulary-format-result-prompt)")))
 
