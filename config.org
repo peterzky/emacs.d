@@ -893,8 +893,6 @@ access yadm repo via tramp
 ** Org Caputre
 [[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome and firefox extension facilitating org-capture in emacs]]
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-capture-mode-hook 'delete-other-windows)
-
 (setq org-capture-templates
       '(("i" "Inbox" entry (file+headline "~/Sync/org/inbox.org" "Tasks")
 	 "* TODO %?\n %i\n")
@@ -965,6 +963,30 @@ access yadm repo via tramp
                 query phonetic basic-explains-str web-str)
       (format "** English\n%s\n*** Translation\n%s\n"
               query translation-str))))
+
+
+(defadvice org-capture-finalize
+    (after delete-capture-frame activate)
+  "Advise capture-finalize to close the frame"
+  (if (equal "org-agenda" (frame-parameter nil 'name))
+      (delete-frame)))
+
+(defadvice org-capture-destroy
+    (after delete-capture-frame activate)
+  "Advise capture-destroy to close the frame"
+  (if (equal "org-agenda" (frame-parameter nil 'name))
+      (delete-frame)))
+
+;; make the frame contain a single window. by default org-capture
+;; splits the window.
+(add-hook 'org-capture-mode-hook
+          'delete-other-windows)
+
+(defadvice org-switch-to-buffer-other-window
+  (after supress-window-splitting activate)
+  "Delete the extra window if we're in a capture frame"
+  (if (equal "org-agenda" (frame-parameter nil 'name))
+      (delete-other-windows)))
 #+END_SRC
 ** Org Protocol
 #+BEGIN_SRC emacs-lisp
