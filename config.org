@@ -200,9 +200,11 @@
       :load-path "~/Sync/site-lisp/doom-themes/")
   (use-package doom-themes :ensure t))
 
+(use-package solarized-theme :ensure t)
+
 (setq my:theme-index 0)
 (setq my:theme-list
-      '(doom-tomorrow-night adwaita))
+      '(doom-tomorrow-night adwaita solarized-light))
 
 (defun my:enabled-themes ()
       (delete 'smart-mode-line-respectful
