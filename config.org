@@ -898,7 +898,7 @@ access yadm repo via tramp
 	 "* TODO %?\n %i\n")
 	("j" "Journal" entry (file+datetree "~/Sync/org/journal.org")
 	 "* %?\nEntered on %U\n %i\n")
-	("x" "org-protocol" entry (file "~/Sync/org/web.org")
+	("p" "org-protocol" entry (file "~/Sync/org/web.org")
 	 "* [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
 	 :empty-line 1)
 	("L" "org-protocol-link" entry (file "~/Sync/org/web.org")
