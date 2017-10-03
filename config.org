@@ -907,6 +907,31 @@ access yadm repo via tramp
 	("w" "vocabulary prompt" plain (file "~/Sync/org/vocabulary.org")
 	 "%(call-interactively #'my-vocabulary-format-result-prompt)")))
 
+(defvar peter/org-refile-index 0
+  "Indicator for org-caputre-refile, if 0 delete frame if 1 no delete ")
+
+(advice-add 'org-capture-refile :before '(lambda () (setq peter/org-refile-index 1)))
+(advice-add 'org-capture-refile :after '(lambda ()
+					  (setq peter/org-refile-index 0)
+					  (peter/org-capture-delete-frame)))
+
+(defun peter/org-capture-window ()
+  (if (equal "org-agenda" (frame-parameter nil 'name))
+      (delete-other-windows)))
+
+(defun peter/org-capture-delete-frame ()
+  (if (and (equal peter/org-refile-index 0)
+	   (equal "org-agenda" (frame-parameter nil 'name)))
+      (delete-frame)))
+
+
+(add-hook 'org-capture-after-finalize-hook 'peter/org-capture-delete-frame)
+
+(add-hook 'org-capture-mode-hook 'peter/org-capture-window)
+
+#+END_SRC
+*** Dictionary
+#+BEGIN_SRC emacs-lisp
 (defun my-vocabulary-format-result (word)
   "Format request result of WORD."
   (let* ((json (youdao-dictionary--request word))
@@ -934,6 +959,8 @@ access yadm repo via tramp
                 query phonetic basic-explains-str web-str)
       (format "** English\n%s\n*** Translation\n%s\n"
               query translation-str))))
+
+
 
 (defun my-vocabulary-format-result-prompt ()
   "Format request result of WORD."
@@ -963,30 +990,6 @@ access yadm repo via tramp
                 query phonetic basic-explains-str web-str)
       (format "** English\n%s\n*** Translation\n%s\n"
               query translation-str))))
-
-
-(defadvice org-capture-finalize
-    (after delete-capture-frame activate)
-  "Advise capture-finalize to close the frame"
-  (if (equal "org-agenda" (frame-parameter nil 'name))
-      (delete-frame)))
-
-(defadvice org-capture-destroy
-    (after delete-capture-frame activate)
-  "Advise capture-destroy to close the frame"
-  (if (equal "org-agenda" (frame-parameter nil 'name))
-      (delete-frame)))
-
-;; make the frame contain a single window. by default org-capture
-;; splits the window.
-(add-hook 'org-capture-mode-hook
-          'delete-other-windows)
-
-(defadvice org-switch-to-buffer-other-window
-  (after supress-window-splitting activate)
-  "Delete the extra window if we're in a capture frame"
-  (if (equal "org-agenda" (frame-parameter nil 'name))
-      (delete-other-windows)))
 #+END_SRC
 ** Org Protocol
 #+BEGIN_SRC emacs-lisp
