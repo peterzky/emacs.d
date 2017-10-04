@@ -861,7 +861,16 @@ access yadm repo via tramp
 (setq org-log-states-order-reversed nil)
 
 ;; org refile
+(defun peter/org-buffer-files ()
+
+  "Return list of opened orgmode buffer files"
+
+  (mapcar (function buffer-file-name)
+
+          (org-buffer-list 'files)))
+
 (setq org-refile-targets '((nil :maxlevel . 2)
+			   (peter/org-buffer-files :maxlevel . 3)
 			   (org-agenda-files :maxlevel . 2)))
 ;; Refile in a single go
 (setq org-outline-path-complete-in-steps nil)
