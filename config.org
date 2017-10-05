@@ -855,8 +855,6 @@ access yadm repo via tramp
 	    "~/Sync/org/someday.org"
 	    "~/Sync/org/todo.org"))
 (setq org-directory "~/Sync/org")
-;; (setq org-mobile-inbox-for-pull "~/Sync/org/flagged.org")
-;; (setq org-mobile-directory "~/Sync/MobileOrg")
 (setq org-log-done 'time)
 (setq org-log-states-order-reversed nil)
 
@@ -890,6 +888,33 @@ access yadm repo via tramp
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
 #+END_SRC
+** Org Mobile
+#+BEGIN_SRC emacs-lisp
+(setq org-mobile-inbox-for-pull "~/Sync/org/inbox.org")
+(setq org-mobile-directory "~/Sync/MobileOrg")
+
+
+(defvar org-mobile-push-timer nil
+  "Timer that `org-mobile-push-timer' used to reschedule itself, or nil.")
+
+(defun org-mobile-push-with-delay (secs)
+  (when org-mobile-push-timer
+    (cancel-timer org-mobile-push-timer))
+  (setq org-mobile-push-timer
+        (run-with-idle-timer
+         (* 1 secs) nil 'org-mobile-push)))
+
+(add-hook 'after-save-hook
+ (lambda ()
+   (when (eq major-mode 'org-mode)
+     (dolist (file (org-mobile-files-alist))
+      (if (string= (file-truename (expand-file-name (car file)))
+		   (file-truename (buffer-file-name)))
+           (org-mobile-push-with-delay 30)))
+   )))
+
+(run-at-time "00:05" 86400 '(lambda () (org-mobile-push-with-delay 1))) ;; refreshes agenda file each day
+#+END_SRC
 ** Org Modules
 #+BEGIN_SRC emacs-lisp
 ;; org modules
@@ -905,7 +930,7 @@ access yadm repo via tramp
 [[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome and firefox extension facilitating org-capture in emacs]]
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      '(("i" "Inbox" entry (file+headline "~/Sync/org/inbox.org" "Tasks")
+      '(("i" "Inbox" entry (file "~/Sync/org/inbox.org")
 	 "* TODO %?\n %i\n")
 	("j" "Journal" entry (file+datetree "~/Sync/org/journal.org")
 	 "* %?\nEntered on %U\n %i\n")
@@ -1095,7 +1120,7 @@ access yadm repo via tramp
 
 (add-hook 'org-clock-out-hook #'org-pomodoro-kill)
 #+END_SRC
-** Org Brain
+** COMMENT Org Brain
 #+BEGIN_SRC emacs-lisp
 (use-package org-brain
   :ensure t
