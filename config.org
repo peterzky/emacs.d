@@ -410,6 +410,7 @@ visual mode:
 #+BEGIN_SRC emacs-lisp
 (use-package evil-mc
   :ensure t
+  :diminish evil-mc-mode
   :config
   (global-evil-mc-mode 1))
 #+END_SRC
