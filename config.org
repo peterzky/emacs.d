@@ -821,8 +821,8 @@ access yadm repo via tramp
 (setq org-hide-emphasis-markers t)
 (setq org-imenu-depth 5)
 (my/leader
-  ;; "op" 'org-mobile-push
-  ;; "oP" 'org-mobile-pull
+  "op" 'org-mobile-push
+  "of" 'org-mobile-pull
   "as" 'org-clock-goto
   "aw" 'org-agenda-list
   "aa" 'org-todo-list
@@ -892,28 +892,32 @@ access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (setq org-mobile-inbox-for-pull "~/Sync/org/inbox.org")
 (setq org-mobile-directory "~/Sync/MobileOrg")
+(add-hook 'org-capture-finalize-hook 'org-mobile-push)
+(add-hook 'org-after-todo-state-change-hook 'org-mobile-push)
 
 
-(defvar org-mobile-push-timer nil
-  "Timer that `org-mobile-push-timer' used to reschedule itself, or nil.")
 
-(defun org-mobile-push-with-delay (secs)
-  (when org-mobile-push-timer
-    (cancel-timer org-mobile-push-timer))
-  (setq org-mobile-push-timer
-        (run-with-idle-timer
-         (* 1 secs) nil 'org-mobile-push)))
 
-(add-hook 'after-save-hook
- (lambda ()
-   (when (eq major-mode 'org-mode)
-     (dolist (file (org-mobile-files-alist))
-      (if (string= (file-truename (expand-file-name (car file)))
-		   (file-truename (buffer-file-name)))
-           (org-mobile-push-with-delay 30)))
-   )))
+;; (defvar org-mobile-push-timer nil
+;;   "Timer that `org-mobile-push-timer' used to reschedule itself, or nil.")
 
-(run-at-time "00:05" 86400 '(lambda () (org-mobile-push-with-delay 1))) ;; refreshes agenda file each day
+;; (defun org-mobile-push-with-delay (secs)
+;;   (when org-mobile-push-timer
+;;     (cancel-timer org-mobile-push-timer))
+;;   (setq org-mobile-push-timer
+;;         (run-with-idle-timer
+;;          (* 1 secs) nil 'org-mobile-push)))
+
+;; (add-hook 'after-save-hook
+;;  (lambda ()
+;;    (when (eq major-mode 'org-mode)
+;;      (dolist (file (org-mobile-files-alist))
+;;       (if (string= (file-truename (expand-file-name (car file)))
+;; 		   (file-truename (buffer-file-name)))
+;;            (org-mobile-push-with-delay 30)))
+;;    )))
+
+;; (run-at-time "00:05" 86400 '(lambda () (org-mobile-push-with-delay 1))) ;; refreshes agenda file each day
 #+END_SRC
 ** Org Modules
 #+BEGIN_SRC emacs-lisp
