@@ -1213,6 +1213,13 @@ access yadm repo via tramp
         (nospace . "-")
         (case-fn . downcase))))
 #+END_SRC
+** Org Wiki
+#+BEGIN_SRC emacs-lisp
+(use-package org-wiki
+  :load-path "~/Sync/site-lisp/org-wiki"
+  :config
+  (setq org-wiki-location "~/Sync/wiki"))
+#+END_SRC
 * Ivy
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
@@ -1495,7 +1502,7 @@ nix:
 #+BEGIN_SRC emacs-lisp
 (when (file-exists-p "~/Sync")
   (use-package nix-mode
-	   :load-path "~/Nextcloud/site-lisp/nix-mode"
+	   :load-path "~/Sync/site-lisp/nix-mode"
 	   :ensure t
 	   :config
 	   (add-hook 'nix-mode-hook
