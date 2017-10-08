@@ -1136,7 +1136,8 @@ access yadm repo via tramp
   (my/leader "ki" 'org-wiki-index
 	     "ks" 'peter/org-wiki-search
 	     "kc" 'org-wiki-create
-	     "kj" 'org-wiki-insert))
+	     "kj" 'org-wiki-insert
+	     "ae" 'org-wiki-helm))
 
 (defun peter/org-wiki-search ()
   (interactive)
