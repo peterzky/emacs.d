@@ -657,7 +657,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (my/leader
     "fd" 'counsel-fasd))
 #+END_SRC
-** Dumb Jump
+** COMMENT Dumb Jump
 #+BEGIN_SRC emacs-lisp
 (use-package dumb-jump
   :ensure t
@@ -831,7 +831,7 @@ access yadm repo via tramp
 ;; diminish org-indent-mode
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 
-(my/leader-mode :keymaps 'org-mode
+(my/leader-mode :keymaps 'org-mode-map
   "i" 'counsel-org-goto)
 
 ;; disable time dispaly for mode line compatibility
@@ -1134,9 +1134,13 @@ access yadm repo via tramp
   :config
   (setq org-wiki-location "~/Sync/wiki")
   (my/leader "ki" 'org-wiki-index
-	     "ks" 'org-wiki-search
+	     "ks" 'peter/org-wiki-search
 	     "kc" 'org-wiki-create
 	     "kj" 'org-wiki-insert))
+
+(defun peter/org-wiki-search ()
+  (interactive)
+  (counsel-ag nil org-wiki-location nil "Wiki Search"))
 #+END_SRC
 ** COMMENT Org Htmlize
 #+BEGIN_SRC emacs-lisp
