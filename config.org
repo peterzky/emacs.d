@@ -696,7 +696,7 @@ access yadm repo via tramp
 (use-package pdf-tools
   :ensure t
   :config
-  )
+  (pdf-tools-install))
 #+END_SRC
 * Edit Enhancement
 ** Expand Region
