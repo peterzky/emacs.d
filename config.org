@@ -699,7 +699,12 @@ access yadm repo via tramp
   (pdf-tools-install)
   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
   (define-key pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page)
-  (define-key pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page))
+  (define-key pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
+  (general-define-key :states '(emacs)
+		      :keymaps 'pdf-view-mode-map
+		      :non-normal-prefix "SPC"
+		      "`" 'ivy-switch-buffer
+		      "TAB" 'peter/switch-buffer))
 #+END_SRC
 * Edit Enhancement
 ** Expand Region
@@ -1152,11 +1157,18 @@ access yadm repo via tramp
 	     "ks" 'peter/org-wiki-search
 	     "kc" 'org-wiki-create
 	     "kj" 'org-wiki-insert
+	     "kt" 'org-wiki-asset-open-terminal
 	     "ae" 'org-wiki-helm))
 
 (defun peter/org-wiki-search ()
   (interactive)
   (counsel-ag nil org-wiki-location nil "Wiki Search"))
+
+(defun org-wiki-asset-open-terminal ()
+  "Open asset directory of current page with terminal"
+  (interactive)
+  (org-wiki--assets-buffer-make-dir)
+  (terminal-here-launch-in-directory (expand-file-name (file-name-base (buffer-file-name)))))
 #+END_SRC
 ** COMMENT Org Htmlize
 #+BEGIN_SRC emacs-lisp
