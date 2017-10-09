@@ -691,6 +691,13 @@ access yadm repo via tramp
    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
 
 #+END_SRC
+** Pdf-tools
+#+BEGIN_SRC emacs-lisp
+(use-package pdf-tools
+  :ensure t
+  :config
+  )
+#+END_SRC
 * Edit Enhancement
 ** Expand Region
 #+BEGIN_SRC emacs-lisp
