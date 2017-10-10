@@ -1641,9 +1641,17 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
   (local-set-key "\C-c\C-d" 'ghc-browse-document)
   (set (make-local-variable 'company-backends) '(company-ghc company-files)))
   #+END_SRC
-** COMMENT Octave
+** Octave
 #+BEGIN_SRC emacs-lisp
 (evil-set-initial-state 'inferior-octave-mode 'emacs)
+(setq inferior-octave-program "octave-cli")
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+
+(defun peter/octave-mode-hook ()
+  (local-set-key (kbd "C-c C-d") 'octave-help)
+  (local-set-key (kbd "C-c C-c") 'octave-send-buffer))
+
+(add-hook 'octave-mode-hook 'peter/octave-mode-hook)
 #+END_SRC
 ** COMMENT Javascript
 #+BEGIN_SRC emacs-lisp
