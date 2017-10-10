@@ -1300,6 +1300,7 @@ access yadm repo via tramp
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "C-c v") 'ivy-push-view)
 (global-set-key (kbd "C-c V") 'ivy-pop-view)
+(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
 (my/leader
   "ag" 'counsel-ag
   "`"  'ivy-switch-buffer
