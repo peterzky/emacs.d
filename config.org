@@ -1307,7 +1307,7 @@ access yadm repo via tramp
   "d"  'counsel-yank-pop
   "m"  'counsel-mark-ring
   "s"  'swiper
-  "bb" 'ivy-switch-buffer
+  "bb" 'ibuffer
   "pp" 'projectile-switch-project
   "pf" 'projectile-find-file-dwim
   "i"  'counsel-imenu
@@ -1461,6 +1461,8 @@ gometalinter --install
   (setq-local helm-dash-docsets '("Go"))
   (local-set-key (kbd "C-c C-d") 'godoc-at-point)
   (local-set-key (kbd "C-c r") 'go-rename)
+  (local-set-key (kbd "C-c g") 'go-playground)
+  (local-set-key (kbd "C-c C-k") 'go-playground-rm)
   (local-set-key [f5] 'peter/go-install-or-run))
 
 (defun peter/go-install-or-run ()
@@ -1649,7 +1651,10 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
 
 (defun peter/octave-mode-hook ()
   (local-set-key (kbd "C-c C-d") 'octave-help)
-  (local-set-key (kbd "C-c C-c") 'octave-send-buffer))
+  (local-set-key (kbd "C-c C-c") 'octave-send-buffer)
+  (local-set-key (kbd "C-c C-q") 'octave-hide-process-buffer)
+  (local-set-key (kbd "C-c C-z") 'octave-show-process-buffer)
+  (local-set-key (kbd "C-c C-k") 'octave-kill-process))
 
 (add-hook 'octave-mode-hook 'peter/octave-mode-hook)
 #+END_SRC
