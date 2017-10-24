@@ -1097,14 +1097,19 @@ access yadm repo via tramp
 #+END_SRC
 ** Org Babel
 #+BEGIN_SRC emacs-lisp
-(setq org-src-fontify-natively t)
 (setq org-src-window-setup 'current-window)
 (setq org-src-preserve-indentation t)
+(setq org-edit-src-content-indentation 0
+      org-src-tab-acts-natively t
+      org-src-fontify-natively t
+      org-confirm-babel-evaluate nil
+      org-support-shift-select 'always)
+
 (org-babel-do-load-languages 'org-babel-load-languages
-    '((shell . t)
-    (gnuplot . t)
-    )
-)
+			     '((sh . t)
+			       (gnuplot . t)
+			       (octave . t)
+                               (dot . t)))
 #+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
