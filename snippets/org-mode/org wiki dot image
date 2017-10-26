@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: org wiki dot image
+# name: wikidot
 # key: wikidot
 # --
 #+BEGIN_SRC dot :file (concat (file-name-base (buffer-file-name)) "/$1.png")

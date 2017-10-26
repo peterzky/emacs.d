@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: wikioc
+# key: wikioc
+# --
+#+BEGIN_SRC octave :results file
+figure( 1, "visible", "off" );
+$0
+print -dpng "`(concat (file-name-base (buffer-file-name)) "/" (read-string "filename:") ".png")`" ;
+ans = "`(concat (file-name-base (buffer-file-name)) "/" (read-string "filename:") ".png")`";
+#+END_SRC
