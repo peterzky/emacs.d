@@ -5,6 +5,6 @@
 #+BEGIN_SRC octave :results file
 figure( 1, "visible", "off" );
 $0
-print -dpng "`(concat (file-name-base (buffer-file-name)) "/" (read-string "filename:") ".png")`" ;
-ans = "`(concat (file-name-base (buffer-file-name)) "/" (read-string "filename:") ".png")`";
+print -dpng "${1:`(concat (file-name-base (buffer-file-name)) "/" (read-string "filename:") ".png")`}" ;
+ans = "$1";
 #+END_SRC
