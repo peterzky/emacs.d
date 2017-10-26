@@ -871,6 +871,9 @@ access yadm repo via tramp
 ;; narrow to subtree after selecting entry in org agenda
 (add-hook 'org-clock-goto-hook 'org-narrow-to-subtree)
 (advice-add 'org-agenda-switch-to :after #'org-narrow-to-subtree)
+
+;; refresh inline image after evaluate code block
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
