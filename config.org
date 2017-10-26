@@ -846,7 +846,7 @@ access yadm repo via tramp
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
 (setq org-imenu-depth 5)
-(setq org-image-actual-width 600)
+(setq org-image-actual-width (/ (display-pixel-height) 2))
 (setq org-link-frame-setup
       '((file . find-file)
 	(vm . vm-visit-folder)))
