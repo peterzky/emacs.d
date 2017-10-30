@@ -1835,7 +1835,7 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
 ** Octave
 #+BEGIN_SRC emacs-lisp
 (evil-set-initial-state 'inferior-octave-mode 'emacs)
-(setq inferior-octave-program "octave")
+(setq inferior-octave-program "octave-cli")
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 (defun peter/octave-mode-hook ()
