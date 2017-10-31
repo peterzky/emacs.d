@@ -127,6 +127,7 @@
 (my/leader
  "fs" 'save-buffer
  ;; "ll" 'linum-mode
+ "fa" 'add-file-local-variable-prop-line
  "he" 'elisp-index-search
  ;; "an" 'peter/open-note-file
  "qq" 'delete-frame
@@ -636,7 +637,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (use-package terminal-here
   :ensure t
   :config
-  (setq terminal-here-terminal-command '("urxvtc"))
+  (setq terminal-here-terminal-command '("urxvt"))
   (my/leader
     "t" 'terminal-here))
 #+END_SRC
