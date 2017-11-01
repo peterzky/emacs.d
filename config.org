@@ -1450,7 +1450,7 @@ boundaries."
 #+END_SRC
 * Ivy
 #+BEGIN_SRC emacs-lisp
-;(use-package flx :ensure t)
+(use-package flx :ensure t)
 
 (use-package counsel
   :ensure t
