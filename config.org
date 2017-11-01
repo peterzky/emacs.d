@@ -1450,13 +1450,18 @@ boundaries."
 #+END_SRC
 * Ivy
 #+BEGIN_SRC emacs-lisp
+;(use-package flx :ensure t)
+
 (use-package counsel
   :ensure t
   :diminish ivy-mode ivy-minor-mode
   :config
   (ivy-mode 1)
+  ;; (setq ivy-re-builders-alist
+  ;; 	'((t . ivy--regex-fuzzy)))
   (setq ivy-use-virtual-buffers t
 	enable-recursive-minibuffers t
+	ivy-initial-inputs-alist nil
 	ivy-count-format "%d/%d "))
 
 (defun ivy-open-other-window (x)
