@@ -101,6 +101,12 @@
   (or (looking-at "[0-9]+")
       (error "No number at point"))
   (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+(defun peter/align-whitespace (start end)
+  "Align columns by whitespace"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)\\s-" 1 0 t))
 #+END_SRC
 ** User Defined Bindings
 #+BEGIN_SRC emacs-lisp
@@ -930,8 +936,8 @@ access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (setq org-mobile-inbox-for-pull "~/Sync/org/inbox.org")
 (setq org-mobile-directory "~/Sync/MobileOrg")
-(add-hook 'org-capture-finalize-hook 'org-mobile-push)
-(add-hook 'org-after-todo-state-change-hook 'org-mobile-push)
+;; (add-hook 'org-capture-finalize-hook 'org-mobile-push)
+;; (add-hook 'org-after-todo-state-change-hook 'org-mobile-push)
 
 
 
