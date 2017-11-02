@@ -34,6 +34,8 @@
 (unless (server-running-p) (server-start))
 
 (setq gc-cons-threshold 20000000)
+
+(add-to-list 'safe-local-eval-forms '(reopen-as-yadm))
 #+END_SRC
 ** External Application
 #+BEGIN_SRC emacs-lisp
@@ -704,8 +706,8 @@ access yadm repo via tramp
 
 (defun reopen-as-yadm ()
   (interactive)
-  (find-alternate-file
-   (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name)))
+  (unless (file-remote-p (buffer-file-name)) (find-alternate-file
+	    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name))))
 
 #+END_SRC
 ** Pdf-tools
