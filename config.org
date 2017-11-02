@@ -624,6 +624,12 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
     :ensure t
     :config
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
+(use-package ranger
+  :ensure t
+  :config
+  (ranger-override-dired-mode t)
+  (setq ranger-deer-show-details nil))
 #+END_SRC
 ** IBuffer
 #+BEGIN_SRC emacs-lisp
