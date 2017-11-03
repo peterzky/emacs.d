@@ -608,30 +608,34 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
-  (defun peter/dired-mode-hook ()
-    (hl-line-mode)
-    (define-key dired-mode-map "l" 'dired-find-file)
-    (define-key dired-mode-map "h" 'dired-up-directory)
-    (define-key dired-mode-map "j" 'dired-next-line)
-    (define-key dired-mode-map "k" 'dired-previous-line))
+(defun peter/dired-mode-hook ()
+  (hl-line-mode)
+  (define-key dired-mode-map "l" 'dired-find-file)
+  (define-key dired-mode-map "h" 'dired-up-directory)
+  (define-key dired-mode-map "j" 'dired-next-line)
+  (define-key dired-mode-map "k" 'dired-previous-line))
 
-  (add-hook 'dired-mode-hook 'peter/dired-mode-hook)
-  (add-hook 'dired-mode-hook 'auto-revert-mode)
+(add-hook 'dired-mode-hook 'peter/dired-mode-hook)
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+
+(defun peter/ranger-mode-hook ()
+  (define-key ranger-mode-map "+" 'dired-create-directory))
 
 
-  (use-package all-the-icons-dired
-    :ensure t
-    :diminish all-the-icons-dired-mode
-    :config
-    ;(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-    (add-hook 'ranger-mode-hook 'all-the-icons-dired-mode))
+(use-package all-the-icons-dired
+  :ensure t
+  :diminish all-the-icons-dired-mode
+  :config
+  (add-hook 'ranger-mode-hook 'all-the-icons-dired-mode))
 
 (use-package ranger
   :ensure t
   :config
   (ranger-override-dired-mode t)
   (setq ranger-deer-show-details t
-	ranger-show-hidden nil))
+	ranger-show-hidden nil
+	ranger-cleanup-eagerly t)
+  (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook))
 #+END_SRC
 ** IBuffer
 #+BEGIN_SRC emacs-lisp
