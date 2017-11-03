@@ -606,7 +606,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   (my/leader "SPC" 'avy-goto-char))
 #+END_SRC
-** Dired
+** Direds/Ranger
 #+BEGIN_SRC emacs-lisp
 (defun peter/dired-mode-hook ()
   (hl-line-mode)
@@ -619,7 +619,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
 (defun peter/ranger-mode-hook ()
-  (define-key ranger-mode-map "+" 'dired-create-directory))
+  (define-key ranger-mode-map "+" 'dired-create-directory)
+  )
 
 
 (use-package all-the-icons-dired
