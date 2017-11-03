@@ -608,7 +608,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
-  (defun peter/dired-mode-hook ()
+=  (defun peter/dired-mode-hook ()
     (hl-line-mode)
     (define-key dired-mode-map "l" 'dired-find-file)
     (define-key dired-mode-map "h" 'dired-up-directory)
@@ -629,7 +629,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (ranger-override-dired-mode t)
-  (setq ranger-deer-show-details nil
+  (setq ranger-deer-show-details t
 	ranger-show-hidden nil))
 #+END_SRC
 ** IBuffer
