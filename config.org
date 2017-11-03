@@ -1534,7 +1534,7 @@ boundaries."
   "vv"  'ivy-push-view
   "vo" 'ivy-pop-view)
 
-(define-key ivy-mode-map (kbd "C-l") 'ivy-backward-delete-char)
+(define-key ivy-minibuffer-map (kbd "C-l") 'ivy-backward-delete-char)
 #+END_SRC
 ** Packages Compatibility
 #+BEGIN_SRC emacs-lisp
