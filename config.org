@@ -145,7 +145,7 @@
  "wd" 'delete-window
  "fed" 'peter/edit-config-file
  "cc" 'flycheck-mode
- "r" 'dired-jump
+ "r" 'deer
  "cl" 'evilnc-comment-or-uncomment-lines
  "TAB" 'peter/switch-buffer
  "1" 'select-window-1
@@ -613,8 +613,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
     (define-key dired-mode-map "l" 'dired-find-file)
     (define-key dired-mode-map "h" 'dired-up-directory)
     (define-key dired-mode-map "j" 'dired-next-line)
-    (define-key dired-mode-map "k" 'dired-previous-line)
-    )
+    (define-key dired-mode-map "k" 'dired-previous-line))
 
   (add-hook 'dired-mode-hook 'peter/dired-mode-hook)
   (add-hook 'dired-mode-hook 'auto-revert-mode)
@@ -622,8 +621,10 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
   (use-package all-the-icons-dired
     :ensure t
+    :diminish all-the-icons-dired-mode
     :config
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+    ;(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    (add-hook 'ranger-mode-hook 'all-the-icons-dired-mode))
 
 (use-package ranger
   :ensure t
