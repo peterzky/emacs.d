@@ -629,7 +629,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :ensure t
   :config
   (ranger-override-dired-mode t)
-  (setq ranger-deer-show-details nil))
+  (setq ranger-deer-show-details nil
+	ranger-show-hidden nil))
 #+END_SRC
 ** IBuffer
 #+BEGIN_SRC emacs-lisp
