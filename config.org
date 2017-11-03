@@ -362,7 +362,8 @@ popup window for better experience
 
 (defvar peter/emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
-		intero-repl-mode org-wiki-panel-minor-mode ))
+		intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
+		elfeed-show-mode finder-mode))
 
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
@@ -2111,4 +2112,12 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
 
 (add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
 
+#+END_SRC
+* ElFeed
+#+BEGIN_SRC emacs-lisp
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds
+	'("http://planet.emacsen.org/atom.xml")))
 #+END_SRC
