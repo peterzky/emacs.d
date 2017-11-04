@@ -1605,7 +1605,7 @@ slot 5 indicate version 5, which ycmd depend on.
 
 #+END_SRC
 * Programming Language Supports
-** C
+** C/C++
 #+BEGIN_SRC emacs-lisp
 (use-package google-c-style
   :ensure t)
@@ -1754,16 +1754,15 @@ nix:
 (defun peter/emacs-mode-hook ()
   (local-set-key (kbd "C-j") 'eval-print-last-sexp))
 #+END_SRC
-** Nixos
+** Nix
 #+BEGIN_SRC emacs-lisp
-(when (file-exists-p "~/Sync")
-  (use-package nix-mode
-	   :load-path "~/Sync/site-lisp/nix-mode"
-	   :ensure t
-	   :config
-	   (add-hook 'nix-mode-hook
-		     (lambda ()
-		       (set (make-local-variable 'company-backends) '(company-nixos-options company-files))))))
+(use-package nix-mode
+  :ensure t
+  :config
+  (add-hook 'nix-mode-hook
+	    (lambda ()
+	      (set (make-local-variable 'company-backends)
+		   '(company-nixos-options company-files)))))
 
 (use-package company-nixos-options
   :ensure t)
@@ -1818,6 +1817,21 @@ cargo install rustfmt
   (setq slime-contribs '(slime-fancy))
   (slime-setup '(slime-fancy slime-company)))
 #+END_SRC
+** Octave
+#+BEGIN_SRC emacs-lisp
+(evil-set-initial-state 'inferior-octave-mode 'emacs)
+(setq inferior-octave-program "octave")
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+
+(defun peter/octave-mode-hook ()
+  (local-set-key (kbd "C-c C-d") 'octave-help)
+  (local-set-key (kbd "C-c C-c") 'octave-send-buffer)
+  (local-set-key (kbd "C-c C-q") 'octave-hide-process-buffer)
+  (local-set-key (kbd "C-c C-z") 'octave-show-process-buffer)
+  (local-set-key (kbd "C-c C-k") 'octave-kill-process))
+
+(add-hook 'octave-mode-hook 'peter/octave-mode-hook)
+#+END_SRC
 ** COMMENT Haskell haskell-mode
 [[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod][Haskell Mode Tutorail]]
 Haskell dependencies
@@ -1860,21 +1874,6 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
   (local-set-key "\C-c\C-d" 'ghc-browse-document)
   (set (make-local-variable 'company-backends) '(company-ghc company-files)))
   #+END_SRC
-** Octave
-#+BEGIN_SRC emacs-lisp
-(evil-set-initial-state 'inferior-octave-mode 'emacs)
-(setq inferior-octave-program "octave")
-(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
-
-(defun peter/octave-mode-hook ()
-  (local-set-key (kbd "C-c C-d") 'octave-help)
-  (local-set-key (kbd "C-c C-c") 'octave-send-buffer)
-  (local-set-key (kbd "C-c C-q") 'octave-hide-process-buffer)
-  (local-set-key (kbd "C-c C-z") 'octave-show-process-buffer)
-  (local-set-key (kbd "C-c C-k") 'octave-kill-process))
-
-(add-hook 'octave-mode-hook 'peter/octave-mode-hook)
-#+END_SRC
 ** COMMENT Javascript
 #+BEGIN_SRC emacs-lisp
 (defun peter/js-comint-kbd ()
