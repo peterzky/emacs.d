@@ -1212,7 +1212,7 @@ access yadm repo via tramp
 (use-package org-pomodoro
   :ensure t
   :config
-  (setq org-pomodoro-keep-killed-pomodoro-time t)
+  ;(setq org-pomodoro-keep-killed-pomodoro-time t)
   ;(setq org-clock-continuously nil)
   (global-set-key [f2] 'org-pomodoro)
   (global-set-key (kbd "C-x t") 'org-pomodoro))
