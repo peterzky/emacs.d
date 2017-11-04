@@ -363,7 +363,7 @@ popup window for better experience
 (defvar peter/emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
 		intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-		elfeed-show-mode finder-mode))
+		elfeed-show-mode finder-mode image-mode))
 
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
@@ -637,7 +637,66 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (setq ranger-deer-show-details t
 	ranger-show-hidden nil
 	ranger-cleanup-eagerly t)
-  (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook))
+  (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook)
+  (defun ranger-go (path)
+    "Go subroutine"
+    (interactive
+     (list
+      (read-char-choice
+       "e   : /etc
+d   : Desktop
+p   : Playground
+o   : Org Directory
+s   : Sync Directory
+n   : Nixos
+G   : Golang Src Directory
+u   : /usr
+r,/ : /
+v   : /var
+m   : /media
+h   : ~/
+M   : /mnt
+> "
+       '(?q ?e ?u ?d ?l ?L ?o ?v ?m ?M ?s ?r ?G ?p ?/ ?h ?g ?D ?j ?k ?T ?t ?n ?c))))
+    (message nil)
+    (let* ((c (char-to-string path))
+	   (new-path
+	    (cl-case (intern c)
+	      ('e "/etc")
+	      ('u "/usr")
+	      ('d "~/Desktop")
+	      ('l (file-truename default-directory))
+	      ('L (file-truename (dired-get-filename)))
+	      ('o "~/Sync/org")
+	      ('p "~/Playground")
+	      ('v "/var")
+	      ('m "/media")
+	      ('M "/mnt")
+	      ('s "~/Sync")
+	      ('n "~/Nixos")
+	      ('c "~/.config")
+	      ('r "/")
+	      ('G "~/golang/src")
+	      ('h  "~/")
+	      ('/ "/")))
+	   (alt-option
+	    (cl-case (intern c)
+	      ;; Subdir Handlng
+	      ('j 'ranger-next-subdir)
+	      ('k 'ranger-prev-subdir)
+	      ;; Tab Handling
+	      ('T 'ranger-prev-tab)
+	      ('t 'ranger-next-tab)
+	      ('g 'ranger-goto-top))))
+      (when (string-equal c "q")
+	(keyboard-quit))
+      (when (and new-path (file-directory-p new-path))
+	(ranger-find-file new-path))
+      (when (eq system-type 'windows-nt)
+	(when (string-equal c "D")
+	  (ranger-show-drives)))
+      (when alt-option
+	(call-interactively alt-option)))))
 #+END_SRC
 ** IBuffer
 #+BEGIN_SRC emacs-lisp
@@ -1154,11 +1213,11 @@ access yadm repo via tramp
   :ensure t
   :config
   (setq org-pomodoro-keep-killed-pomodoro-time t)
-  (setq org-clock-continuously t)
+  ;(setq org-clock-continuously nil)
   (global-set-key [f2] 'org-pomodoro)
   (global-set-key (kbd "C-x t") 'org-pomodoro))
 
-(add-hook 'org-clock-out-hook #'org-pomodoro-kill)
+;(add-hook 'org-clock-out-hook #'org-pomodoro-kill)
 #+END_SRC
 ** Org Latex
 #+BEGIN_SRC emacs-lisp
@@ -1193,8 +1252,6 @@ access yadm repo via tramp
 #+END_SRC
 ** Org Wiki
 #+BEGIN_SRC emacs-lisp
-(use-package helm-core :ensure t)
-
 (use-package org-wiki
   :load-path "~/Sync/site-lisp/org-wiki"
   :config
