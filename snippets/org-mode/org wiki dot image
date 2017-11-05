@@ -2,6 +2,9 @@
 # name: wikidot
 # key: wikidot
 # --
-#+BEGIN_SRC dot :file (concat (file-name-base (buffer-file-name)) "/$1.png")
-$0
+#+BEGIN_SRC dot :file `(file-name-base (buffer-file-name))`/$0.png
+digraph {
+
+}
+
 #+END_SRC

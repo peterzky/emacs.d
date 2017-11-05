@@ -329,6 +329,13 @@ popup window for better experience
   (beacon-mode 1)
   (diminish 'beacon-mode))
 #+END_SRC
+*** Which Key
+#+BEGIN_SRC emacs-lisp
+(use-package whick-key
+  :ensure t
+  :config
+  (which-key-mode))
+#+END_SRC
 * Evil Mode
 ** Evil Setup
 #+BEGIN_SRC emacs-lisp
