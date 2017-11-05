@@ -469,11 +469,13 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package eyebrowse
   :ensure t
+  :init
+  (setq eyebrowse-keymap-prefix (kbd "C-c C-b"))
   :config
   (eyebrowse-mode t)
-  (setq eyebrowse-keymap-prefix (kbd "C-c C-b"))
   (global-set-key (kbd "M-p") 'eyebrowse-prev-window-config)
   (global-set-key (kbd "M-n") 'eyebrowse-next-window-config)
+  (global-set-key (kbd "<M-tab>") 'eyebrowse-last-window-config)
   (global-set-key (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
   (global-set-key (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
   (global-set-key (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
@@ -634,6 +636,15 @@ popup window for better experience
   (setq ranger-deer-show-details t
 	ranger-show-hidden nil
 	ranger-cleanup-eagerly t)
+  (define-key ranger-mode-map (kbd "M-1") nil)
+  (define-key ranger-mode-map (kbd "M-2") nil)
+  (define-key ranger-mode-map (kbd "M-3") nil)
+  (define-key ranger-mode-map (kbd "M-4") nil)
+  (define-key ranger-mode-map (kbd "M-5") nil)
+  (define-key ranger-mode-map (kbd "M-6") nil)
+  (define-key ranger-mode-map (kbd "M-7") nil)
+  (define-key ranger-mode-map (kbd "M-8") nil)
+  (define-key ranger-mode-map (kbd "M-9") nil)
   (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook)
   (defun ranger-go (path)
     "Go subroutine"
