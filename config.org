@@ -219,9 +219,7 @@ visual mode:
   :ensure t
   :diminish evil-mc-mode
   :config
-  (global-evil-mc-mode 1)
-  (define-key evil-mc-key-map (kbd "C-n") nil)
-  (define-key evil-mc-key-map (kbd "C-p") nil))
+  (global-evil-mc-mode 1))
 #+END_SRC
 * Looks/Feels
 ** Mode Line
@@ -782,6 +780,7 @@ M   : /mnt
   (global-set-key (kbd "<f1> f") 'helpful-function)
   (global-set-key (kbd "<f1> c") 'helpful-command)
   (global-set-key (kbd "<f1> v") 'helpful-variable)
+  (global-set-key (kbd "<f1> k") 'helpful-key)
   )
 #+END_SRC
 *** Rainbow Mode
