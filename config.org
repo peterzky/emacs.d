@@ -423,16 +423,6 @@ visual mode:
     "yi" 'yas-insert-snippet))
 #+END_SRC
 ** Window Control
-*** COMMENT Window Numbering
-Use Alt + 1 2 3 to switch window
-#+BEGIN_SRC emacs-lisp
-(use-package window-numbering
-  :ensure t
-  :config
-  (defun window-numbering-install-mode-line (&optional position)
-    "Do nothing.")
-  (window-numbering-mode))
-#+END_SRC
 *** Popwin
 popup window for better experience
 #+BEGIN_SRC emacs-lisp
@@ -1813,7 +1803,8 @@ access yadm repo via tramp
 (use-package terminal-here
   :ensure t
   :config
-  (setq terminal-here-terminal-command '("urxvt"))
+  (when (string= system-type "gnu/linux")
+    (setq terminal-here-terminal-command '("urxvt")))
   (my/leader
     "t" 'terminal-here))
 #+END_SRC
