@@ -553,19 +553,6 @@ popup window for better experience
 (bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
 (bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
 
-(bind-key "C-M-s"
-          (defhydra smartparens-hydra ()
-            "Smartparens"
-            ("d" sp-down-sexp "Down")
-            ("e" sp-up-sexp "Up")
-            ("u" sp-backward-up-sexp "Up")
-            ("a" sp-backward-down-sexp "Down")
-            ("f" sp-forward-sexp "Forward")
-            ("b" sp-backward-sexp "Backward")
-            ("k" sp-kill-sexp "Kill" :color blue)
-            ("q" nil "Quit" :color blue))
-            smartparens-mode-map)
-
 (bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map)
 (bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map)
 (bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map)
