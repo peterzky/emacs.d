@@ -1,17 +1,15 @@
 #+TITLE:My Emacs Config
 
 ~C-c ;~ to comment out unwanted section
-* Vanilla Emacs
-** GUI
+* Settings
+** Defaults
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t)
 (line-number-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-#+END_SRC
-** Default Behavior
-#+BEGIN_SRC emacs-lisp
+
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq help-window-select t)
 (setq vc-follow-symlinks "Follow link")
@@ -36,12 +34,11 @@
 (setq gc-cons-threshold 20000000)
 
 (add-to-list 'safe-local-eval-forms '(reopen-as-yadm))
-#+END_SRC
-** External Application
-#+BEGIN_SRC emacs-lisp
+
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
 	  browse-url-generic-program "chromium"))
+
 #+END_SRC
 ** User Defined Functions
 #+BEGIN_SRC emacs-lisp
@@ -84,41 +81,14 @@
 
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
-(defun peter/narrow-to-defun ()
-  "narrow function depanding on mode"
-  (interactive)
-  (let ((current-mode (message "%s" major-mode)))
-    (cond
-     ((or (equal current-mode "emacs-lisp-mode")
-	  (equal current-mode "lisp-interaction-mode"))
-      ( narrow-to-defun ))
-     ((or (equal current-mode "js2-mode")
-	  (equal current-mode "js2-jsx-mode")
-	  )
-      ( js2-narrow-to-defun )))))
-
-(defun increment-number-at-point ()
-  (interactive)
-  (skip-chars-backward "0-9")
-  (or (looking-at "[0-9]+")
-      (error "No number at point"))
-  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
-
 (defun peter/align-whitespace (start end)
   "Align columns by whitespace"
   (interactive "r")
   (align-regexp start end
                 "\\(\\s-*\\)\\s-" 1 0 t))
 #+END_SRC
-** User Defined Bindings
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-h C-f") 'describe-face)
-;; Compile
-(global-set-key [f5] 'compile)
-;; GDB
-(global-set-key [f6] 'gdb)
-#+END_SRC
 * Bindings
+** General
 #+BEGIN_SRC emacs-lisp
 (use-package general
   :ensure t
@@ -134,10 +104,8 @@
 			  :non-normal-prefix "M-SPC"))
 (my/leader
  "fs" 'save-buffer
- ;; "ll" 'linum-mode
  "fa" 'add-file-local-variable-prop-line
  "he" 'elisp-index-search
- ;; "an" 'peter/open-note-file
  "qq" 'delete-frame
  "qQ" 'save-buffers-kill-emacs
  "wv" 'peter/split-horizontally
@@ -158,7 +126,102 @@
  "8" 'select-window-8
  "9" 'select-window-9)
 #+END_SRC
-* Appearance
+** Evil Mode
+*** Evil General
+#+BEGIN_SRC emacs-lisp
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1)
+  (setq evil-insert-state-map (make-sparse-keymap))
+  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
+  (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
+  (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button))
+
+
+(setq evil-normal-state-tag "N"
+      evil-insert-state-tag "I"
+      evil-motion-state-tag "M"
+      evil-emacs-state-tag  "E"
+      evil-visual-state-tag "V"
+      evil-motion-state-cursor	'(box "#663399")
+      evil-normal-state-cursor	'(box "YellowGreen")
+      evil-insert-state-cursor	'(bar "#F86155")
+      evil-emacs-state-cursor	'(bar "SkyBlue2")
+      evil-visual-state-cursor	'(box "gray"))
+#+END_SRC
+*** Evil State
+[[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
+#+BEGIN_SRC emacs-lisp
+(defvar peter/motion-state-modes
+  '(special-mode go-guru-output-mode racer-help-mode helpful-mode
+		 intero-help-mode))
+
+(defvar peter/emacs-state-modes
+  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
+		intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
+		elfeed-show-mode finder-mode image-mode))
+
+(defvar peter/emacs-state-minor-modes
+  '(edebug-mode))
+
+(cl-loop for mode in peter/motion-state-modes
+	 do (add-to-list 'evil-motion-state-modes mode))
+
+(cl-loop for mode in peter/emacs-state-modes
+	 do (add-to-list 'evil-emacs-state-modes mode))
+
+(cl-loop for mode in peter/emacs-state-modes
+	 do (add-to-list 'evil-emacs-state-modes mode))
+
+(cl-loop for mode in peter/emacs-state-minor-modes
+	 do (let ((hook (concat (symbol-name mode) "-hook")))
+	      (add-hook (intern hook) `(lambda ()
+					 (if ,mode
+					     (evil-emacs-state)
+					   (evil-normal-state))))))
+#+END_SRC
+*** Evil Magit
+#+BEGIN_SRC emacs-lisp
+(use-package evil-magit
+  :ensure t
+  :config
+  ;; Open commit message with insert state
+  (add-hook 'git-commit-mode-hook 'evil-insert-state))
+#+END_SRC
+*** Evil Nerd Commenter
+text object ~c~ as comment
+operator ~,,~ as comment
+#+BEGIN_SRC emacs-lisp
+(use-package evil-nerd-commenter
+  :ensure t
+  :config
+  (evilnc-default-hotkeys))
+#+END_SRC
+*** Evil Surround
+#+BEGIN_SRC emacs-lisp
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+#+END_SRC
+*** Evil MC
+=grm= make all cursors
+=gru= remove all cursors
+=grj= next match
+=grk= previous match
+visual mode:
+=C-n= next match
+=C-p= previous match
+=C-t= skip match
+#+BEGIN_SRC emacs-lisp
+(use-package evil-mc
+  :ensure t
+  :diminish evil-mc-mode
+  :config
+  (global-evil-mc-mode 1))
+#+END_SRC
+* Looks/Feels
 ** Mode Line
 *** Smart Mode Line
 #+BEGIN_SRC emacs-lisp
@@ -257,6 +320,115 @@
 	(setq my:theme-window-loaded t)
       (setq my:theme-terminal-loaded t))))
 #+END_SRC
+* Interface
+** Completion Framework
+*** Ivy
+#+BEGIN_SRC emacs-lisp
+(use-package flx :ensure t)
+
+(use-package counsel
+  :ensure t
+  :diminish ivy-mode ivy-minor-mode
+  :config
+  (ivy-mode 1)
+  ;; (setq ivy-re-builders-alist
+  ;; 	'((t . ivy--regex-fuzzy)))
+  (setq ivy-use-virtual-buffers t
+	enable-recursive-minibuffers t
+	ivy-initial-inputs-alist nil
+	ivy-count-format "%d/%d "))
+
+(defun ivy-open-other-window (x)
+  (find-file-other-window x))
+
+(ivy-set-actions t '(("i" ivy-open-other-window "open other window")))
+
+(use-package ivy-rich
+  :ensure t
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+  (setq ivy-virtual-abbreviate 'full
+	ivy-rich-switch-buffer-align-virtual-buffer t)
+  (setq ivy-rich-abbreviate-paths t))
+
+;; for edit in C-c C-o
+(use-package wgrep :ensure t)
+
+;; (use-package all-the-icons-ivy :ensure t
+;;   :config
+;;   (all-the-icons-ivy-setup))
+#+END_SRC
+**** Ivy Bindings
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "s-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> c") 'helpful-command)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f1> b") 'counsel-descbinds)
+(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "C-c v") 'ivy-push-view)
+(global-set-key (kbd "C-c V") 'ivy-pop-view)
+(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+(my/leader
+  "ag" 'counsel-ag
+  "`"  'ivy-switch-buffer
+  "d"  'counsel-yank-pop
+  "m"  'counsel-mark-ring
+  "s"  'swiper
+  "bb" 'ibuffer
+  "pp" 'projectile-switch-project
+  "pf" 'projectile-find-file-dwim
+  "i"  'counsel-imenu
+  "fl" 'counsel-locate
+  "gg" 'counsel-git-grep
+  "ff" 'counsel-find-file
+  "vv"  'ivy-push-view
+  "vo" 'ivy-pop-view)
+
+(define-key ivy-minibuffer-map (kbd "C-l") 'ivy-backward-delete-char)
+#+END_SRC
+**** Packages Compatibility
+#+BEGIN_SRC emacs-lisp
+(setq magit-completing-read-function 'ivy-completing-read)
+(setq projectile-completion-system 'ivy)
+#+END_SRC
+*** Company Mode
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :diminish company-mode
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
+  (define-key company-active-map (kbd "C-h") #'company-quickhelp-manual-begin))
+
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (company-quickhelp-mode 1)
+  (setq company-quickhelp-delay nil))
+#+END_SRC
+*** Yasnippet
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :ensure t
+  :config
+  (yas-global-mode 1)
+  (my/leader
+    "yn" 'yas-new-snippet
+    "yv" 'yas-visit-snippet-file
+    "yt" 'yas-describe-tables
+    "yi" 'yas-insert-snippet))
+#+END_SRC
 ** Window Control
 *** Window Numbering
 Use Alt + 1 2 3 to switch window
@@ -300,313 +472,130 @@ popup window for better experience
 (cl-loop for conf in my:popup-config
 	 do (push conf popwin:special-display-config))
 #+END_SRC
-** Interface Enhancement
-*** Helpful
+** Editing
+*** ISpell
 #+BEGIN_SRC emacs-lisp
-(use-package helpful
+;; spell check world
+(global-set-key (kbd "C-\\") 'ispell-word)
+#+END_SRC
+*** Expand Region
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
   :ensure t
-  :config)
+  :bind ("C-=" . er/expand-region))
 #+END_SRC
-*** Rainbow Mode
+*** Paredit
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-mode
-  :diminish rainbow-mode
-  :ensure t
-  :config
-  (add-hook 'prog-mode-hook #'rainbow-mode)
-  (add-hook 'conf-xdefaults-mode-hook #'rainbow-mode))
-#+END_SRC
-*** Undo Tree
-#+BEGIN_SRC emacs-lisp
-(use-package undo-tree
-  :diminish undo-tree-mode)
-#+END_SRC
-*** Beacon Mode
-#+BEGIN_SRC emacs-lisp
-(use-package beacon
+(use-package paredit
   :ensure t
   :config
-  (beacon-mode 1)
-  (diminish 'beacon-mode))
-#+END_SRC
-*** Which Key
-#+BEGIN_SRC emacs-lisp
-(use-package whick-key
-  :ensure t
-  :config
-  (which-key-mode))
-#+END_SRC
-* Evil Mode
-** Evil Setup
-#+BEGIN_SRC emacs-lisp
-(use-package evil
-  :ensure t
-  :config
-  (evil-mode 1)
-  (setq evil-insert-state-map (make-sparse-keymap))
-  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
-  (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
-  (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button))
+  (define-key paredit-mode-map (kbd "C-j") 'eval-print-last-sexp))
 
+(defvar peter/paredit-modes
+  '(emacs-lisp-mode
+    eval-expression-minibuffer-setup
+    ielm-mode
+    lisp-mode
+    lisp-interaction-mode
+    scheme-mode
+    slime-repl-mode))
 
-(setq evil-normal-state-tag "N"
-      evil-insert-state-tag "I"
-      evil-motion-state-tag "M"
-      evil-emacs-state-tag  "E"
-      evil-visual-state-tag "V"
-      evil-motion-state-cursor	'(box "#663399")
-      evil-normal-state-cursor	'(box "YellowGreen")
-      evil-insert-state-cursor	'(bar "#F86155")
-      evil-emacs-state-cursor	'(bar "SkyBlue2")
-      evil-visual-state-cursor	'(box "gray"))
-#+END_SRC
-** Evil Initial Mode
-[[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
-#+BEGIN_SRC emacs-lisp
-(defvar peter/motion-state-modes
-  '(special-mode go-guru-output-mode racer-help-mode helpful-mode
-		 intero-help-mode))
-
-(defvar peter/emacs-state-modes
-  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
-		intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-		elfeed-show-mode finder-mode image-mode))
-
-(defvar peter/emacs-state-minor-modes
-  '(edebug-mode))
-
-(cl-loop for mode in peter/motion-state-modes
-	 do (add-to-list 'evil-motion-state-modes mode))
-
-(cl-loop for mode in peter/emacs-state-modes
-	 do (add-to-list 'evil-emacs-state-modes mode))
-
-(cl-loop for mode in peter/emacs-state-modes
-	 do (add-to-list 'evil-emacs-state-modes mode))
-
-(cl-loop for mode in peter/emacs-state-minor-modes
+(cl-loop for mode in peter/paredit-modes
 	 do (let ((hook (concat (symbol-name mode) "-hook")))
-	      (add-hook (intern hook) `(lambda ()
-					 (if ,mode
-					     (evil-emacs-state)
-					   (evil-normal-state))))))
+	      (add-hook (intern hook) #'paredit-mode)))
 #+END_SRC
-** Evil Magit
+*** Smartparens
 #+BEGIN_SRC emacs-lisp
-(use-package evil-magit
+(use-package smartparens
+  :diminish smartparens-mode
   :ensure t
   :config
-  ;; Open commit message with insert state
-  (add-hook 'git-commit-mode-hook 'evil-insert-state))
+  (smartparens-global-mode t)
+  (require 'smartparens-config))
 #+END_SRC
-** Evil Nerd Commenter
-text object ~c~ as comment
-operator ~,,~ as comment
+**** Smartparens Keybinding
 #+BEGIN_SRC emacs-lisp
-(use-package evil-nerd-commenter
-  :ensure t
-  :config
-  (evilnc-default-hotkeys))
-#+END_SRC
-** Evil Surround
-#+BEGIN_SRC emacs-lisp
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-#+END_SRC
-** Evil MC
-=grm= make all cursors
-=gru= remove all cursors
-=grj= next match
-=grk= previous match
-visual mode:
-=C-n= next match
-=C-p= previous match
-=C-t= skip match
-#+BEGIN_SRC emacs-lisp
-(use-package evil-mc
-  :ensure t
-  :diminish evil-mc-mode
-  :config
-  (global-evil-mc-mode 1))
-#+END_SRC
-* Utility
-** Git
-*** Magit
-#+BEGIN_SRC emacs-lisp
-(use-package magit
-  :ensure t
-  :bind (("C-x g" . magit-status))
-  :config
-  (my/leader
-    "gs" 'magit-status))
-#+END_SRC
-*** Git Timemachine
-#+BEGIN_SRC emacs-lisp
-(use-package git-timemachine
-  :ensure t
-  :config
-  (my/leader "gm" 'git-timemachine))
+(define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
+(define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
 
-(eval-after-load 'git-timemachine
-  '(progn
-     (evil-make-overriding-map git-timemachine-mode-map 'normal)
-     ;; force update evil keymaps after git-timemachine-mode loaded
-     (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps)))
-#+END_SRC
-*** Git Gutter
-#+BEGIN_SRC emacs-lisp
-(use-package git-gutter
-  :ensure t
-  :diminish git-gutter-mode
-  :config
-  (global-git-gutter-mode +1)
-  ;(evil-leader/set-key "gg" 'git-gutter:popup-hunk)
-  )
-#+END_SRC
-*** Git Auto Commit Mode
-#+BEGIN_SRC emacs-lisp
-(use-package git-auto-commit-mode
-  :ensure t)
-#+END_SRC
-** Hydra
-#+BEGIN_SRC emacs-lisp
-(use-package hydra
-    :ensure t)
-#+END_SRC
-*** Hydra Narrow
-#+BEGIN_SRC emacs-lisp
-(defhydra hydra-nr (:exit t)
-    "narrow state"
-    ("r" narrow-to-region "region")
-    ("n" narrow-to-region "region")
-    ("w" peter/widen "widen")
-    ("s" org-narrow-to-subtree "org tree")
-    ("d" peter/narrow-to-defun "defun"))
+(define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
+;; (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
+(define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
+(define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
 
-(my/leader
-    "n" 'hydra-nr/body)
-#+END_SRC
-*** Hydra Frame
-#+BEGIN_SRC emacs-lisp
-(defhydra hydra-frame ()
-    ("d" make-frame "new frame")
-    ("z" delete-frame"delete frame")
-    ("n" other-frame "switch frame"))
-(my/leader
-    "z" 'hydra-frame/body)
-#+END_SRC
-*** Hydra Window Resize
-#+BEGIN_SRC emacs-lisp
-(defhydra hydra-window-resize ()
-    ("j" shrink-window "down")
-    ("k" enlarge-window "up")
-    ("h" shrink-window-horizontally "left")
-    ("l" enlarge-window-horizontally "right")
-    ("=" balance-windows "balance"))
-(my/leader
-    "wr" 'hydra-window-resize/body)
-#+END_SRC
-*** COMMENT Hydra Artist Mode
-#+BEGIN_SRC emacs-lisp
-  ;; hydra mode that not exit after other activites
-  (defhydra hydra-artist-mode (:foreign-keys run)
-    ("s" artist-select-op-straight-line "line" )
-    ("r" artist-select-op-rectangle "rectangle")
-    ("R" artist-select-op-square "squares")
-    ("a" artist-select-op-poly-line "poly-lines")
-    ("S" artist-select-op-straight-poly-line "straight poly-lines")
-    ("e" artist-select-op-ellipse "drawing ellipses")
-    ("c" artist-select-op-circle "drawing circles")
-    ("y" artist-select-op-cut-rectangle "cutting rectangles")
-    ("p" artist-select-op-copy-rectangle "copying rectangles")
-    ("q" nil "quit"))
-  (add-hook 'artist-mode-hook
-	    (lambda ()
-	      (local-set-key (kbd "C-c C-s") 'hydra-artist-mode/body)))
-#+END_SRC
-*** Hydra Flycheck
-#+BEGIN_SRC emacs-lisp
-(defhydra hydra-flycheck
-  (:pre (progn (setq hydra-lv t) (flycheck-list-errors))
-   :post (progn (setq hydra-lv nil) (quit-windows-on "*Flycheck errors*"))
-   :hint nil)
-  "Errors"
-  ("f"  flycheck-error-list-set-filter                            "Filter")
-  ("j"  flycheck-next-error                                       "Next")
-  ("k"  flycheck-previous-error                                   "Previous")
-  ("gg" flycheck-first-error                                      "First")
-  ("G"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
-  ("q"  nil))
-  (my/leader
-    "cf" 'hydra-flycheck/body)
-#+END_SRC
-** Hide Show Comments
-#+BEGIN_SRC emacs-lisp
-(use-package hide-comnt
-  :ensure t
-  :config
-  (my/leader "ch" 'hide/show-comments-toggle))
-#+END_SRC
-** Chinese Support
-*** Youdao Dictionary
-#+BEGIN_SRC emacs-lisp
-(use-package youdao-dictionary
-  :ensure t
-  :config
-  (my/leader
-    "oo" 'youdao-dictionary-search-at-point+))
-#+END_SRC
-*** Fcitx
-#+BEGIN_SRC emacs-lisp
-(when (string= system-type "gnu/linux")
-  (use-package fcitx
-	   :ensure t
-	   :config
-	   (setq fcitx-use-dbus t)
-	   (setq fcitx-active-evil-states '(insert emacs hydrid))
-	   (fcitx-org-speed-command-turn-on)
-	   (fcitx-aggressive-minibuffer-turn-off)
-	   (fcitx-aggressive-setup)))
-#+END_SRC
-** Crux
-Open file with sudo if needed
-#+BEGIN_SRC emacs-lisp
-(use-package crux
-  :diminish t
-  :ensure t
-  :config
-  (crux-reopen-as-root-mode))
-#+END_SRC
+;; (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
+(define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
+(define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
 
-** Paradox
-package.el wrapper with upgrade package bind to ~<Leader> p u~
-#+BEGIN_SRC emacs-lisp
-(use-package paradox
-  :ensure t
-  :config
-  (setq paradox-github-token t)
-  (evil-set-initial-state 'paradox-menu-mode 'emacs)
-  (my/leader
-    "pr" 'paradox-list-packages
-    "pu" 'paradox-upgrade-packages))
-#+END_SRC
-** Projectile
-#+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-global-mode)
-  ;; (setq projectile-switch-project-action 'projectile-dired)
-  ;; Mode line
-  ;; (setq projectile-mode-line
-  ;; 	'(:eval (format " Proj[%s]" (projectile-project-name))))
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (add-to-list 'projectile-globally-ignored-files ".tern-port"))
+(define-key smartparens-mode-map (kbd "C-M-n") 'sp-next-sexp)
+(define-key smartparens-mode-map (kbd "C-M-p") 'sp-previous-sexp)
 
+(define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
+(define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
+
+(define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp)
+(define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
+
+(define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp)
+(define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
+(define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
+(define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
+(define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
+(define-key smartparens-mode-map (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
+
+(define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
+(define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing)
+(define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
+
+(define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
+(define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
+
+(bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
+(bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
+
+(bind-key "C-M-s"
+          (defhydra smartparens-hydra ()
+            "Smartparens"
+            ("d" sp-down-sexp "Down")
+            ("e" sp-up-sexp "Up")
+            ("u" sp-backward-up-sexp "Up")
+            ("a" sp-backward-down-sexp "Down")
+            ("f" sp-forward-sexp "Forward")
+            ("b" sp-backward-sexp "Backward")
+            ("k" sp-kill-sexp "Kill" :color blue)
+            ("q" nil "Quit" :color blue))
+            smartparens-mode-map)
+
+(bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map)
+(bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map)
+(bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map)
+(bind-key "H-h" 'sp-highlight-current-sexp smartparens-mode-map)
+(bind-key "H-e" 'sp-prefix-save-excursion smartparens-mode-map)
+(bind-key "H-s c" 'sp-convolute-sexp smartparens-mode-map)
+(bind-key "H-s a" 'sp-absorb-sexp smartparens-mode-map)
+(bind-key "H-s e" 'sp-emit-sexp smartparens-mode-map)
+(bind-key "H-s p" 'sp-add-to-previous-sexp smartparens-mode-map)
+(bind-key "H-s n" 'sp-add-to-next-sexp smartparens-mode-map)
+(bind-key "H-s j" 'sp-join-sexp smartparens-mode-map)
+(bind-key "H-s s" 'sp-split-sexp smartparens-mode-map)
+(bind-key "H-s r" 'sp-rewrap-sexp smartparens-mode-map)
+(defvar hyp-s-x-map)
+(define-prefix-command 'hyp-s-x-map)
+(bind-key "H-s x" hyp-s-x-map smartparens-mode-map)
+(bind-key "H-s x x" 'sp-extract-before-sexp smartparens-mode-map)
+(bind-key "H-s x a" 'sp-extract-after-sexp smartparens-mode-map)
+(bind-key "H-s x s" 'sp-swap-enclosing-sexp smartparens-mode-map)
+
+(bind-key "C-x C-t" 'sp-transpose-hybrid-sexp smartparens-mode-map)
+
+(bind-key ";" 'sp-comment emacs-lisp-mode-map)
+
+(bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
 #+END_SRC
-** Avy
+*** Avy
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
@@ -614,7 +603,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   (my/leader "SPC" 'avy-goto-char))
 #+END_SRC
-** Direds/Ranger
+** File/Directory
+*** Direds/Ranger
 #+BEGIN_SRC emacs-lisp
 (defun peter/dired-mode-hook ()
   (hl-line-mode)
@@ -705,31 +695,21 @@ M   : /mnt
       (when alt-option
 	(call-interactively alt-option)))))
 #+END_SRC
-** IBuffer
+*** Projectile
 #+BEGIN_SRC emacs-lisp
-  (defun peter/ibuffer-mode-hook ()
-    (hl-line-mode)
-    (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
-    (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
-
-(add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
-
-#+END_SRC
-** ISpell
-#+BEGIN_SRC emacs-lisp
-;; spell check world
-(global-set-key (kbd "C-\\") 'ispell-word)
-#+END_SRC
-** Terminal Here
-#+BEGIN_SRC emacs-lisp
-(use-package terminal-here
+(use-package projectile
   :ensure t
   :config
-  (setq terminal-here-terminal-command '("urxvt"))
-  (my/leader
-    "t" 'terminal-here))
+  (projectile-global-mode)
+  ;; (setq projectile-switch-project-action 'projectile-dired)
+  ;; Mode line
+  ;; (setq projectile-mode-line
+  ;; 	'(:eval (format " Proj[%s]" (projectile-project-name))))
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-globally-ignored-files ".tern-port"))
+
 #+END_SRC
-** Fasd
+*** Fasd
 #+BEGIN_SRC emacs-lisp
 (defun counsel-fasd-function (str)
   (process-lines "fasd" "-l" str))
@@ -756,176 +736,126 @@ M   : /mnt
   (my/leader
     "fd" 'counsel-fasd))
 #+END_SRC
-** COMMENT Dumb Jump
+** Version Control
+*** Magit
 #+BEGIN_SRC emacs-lisp
-(use-package dumb-jump
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status))
+  :config
+  (my/leader
+    "gs" 'magit-status))
+#+END_SRC
+*** Git Timemachine
+#+BEGIN_SRC emacs-lisp
+(use-package git-timemachine
   :ensure t
   :config
- (define-key evil-normal-state-map "gd" 'dumb-jump-go)
- (define-key evil-normal-state-map "gb" 'dumb-jump-back)
- (define-key evil-normal-state-map "gq" 'dumb-jump-quick-look))
+  (my/leader "gm" 'git-timemachine))
+
+(eval-after-load 'git-timemachine
+  '(progn
+     (evil-make-overriding-map git-timemachine-mode-map 'normal)
+     ;; force update evil keymaps after git-timemachine-mode loaded
+     (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps)))
 #+END_SRC
-** Yadm
-Prerequisite: yadm version >= 1.0.8
-access yadm repo via tramp
+*** Git Gutter
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'tramp-methods
-	     '("yadm"
-	       (tramp-login-program "yadm")
-	       (tramp-login-args (("enter")))
-	       (tramp-login-env
-		(("SHELL")
-		 ("/bin/sh")))
-	       (tramp-remote-shell "/bin/sh")
-	       (tramp-remote-shell-login
-		("-l"))
-	       (tramp-remote-shell-args
-		("-c"))
-	       (tramp-connection-timeout 10)))
-
-
-(defun reopen-as-yadm ()
-  (interactive)
-  (unless (file-remote-p (buffer-file-name)) (find-alternate-file
-	    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name))))
-
+(use-package git-gutter
+  :ensure t
+  :diminish git-gutter-mode
+  :config
+  (global-git-gutter-mode +1)
+  ;(evil-leader/set-key "gg" 'git-gutter:popup-hunk)
+  )
 #+END_SRC
-** Pdf-tools
+*** Git Auto Commit Mode
 #+BEGIN_SRC emacs-lisp
-(use-package pdf-tools
+(use-package git-auto-commit-mode
+  :ensure t)
+#+END_SRC
+** Interface Enhancement
+*** Helpful
+#+BEGIN_SRC emacs-lisp
+(use-package helpful
+  :ensure t
+  :config)
+#+END_SRC
+*** Rainbow Mode
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode
+  :diminish rainbow-mode
   :ensure t
   :config
-  (pdf-tools-install)
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-  (define-key pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page)
-  (define-key pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
-  (general-define-key :states '(emacs)
-		      :keymaps 'pdf-view-mode-map
-		      :non-normal-prefix "SPC"
-		      "`" 'ivy-switch-buffer
-		      "TAB" 'peter/switch-buffer))
+  (add-hook 'prog-mode-hook #'rainbow-mode)
+  (add-hook 'conf-xdefaults-mode-hook #'rainbow-mode))
 #+END_SRC
-* Edit Enhancement
-** Expand Region
+*** Undo Tree
 #+BEGIN_SRC emacs-lisp
-(use-package expand-region
-  :ensure t
-  :bind ("C-=" . er/expand-region))
+(use-package undo-tree
+  :diminish undo-tree-mode)
 #+END_SRC
-** Paredit
+*** Beacon Mode
 #+BEGIN_SRC emacs-lisp
-(use-package paredit
+(use-package beacon
   :ensure t
   :config
-  (define-key paredit-mode-map (kbd "C-j") 'eval-print-last-sexp))
-
-(defvar peter/paredit-modes
-  '(emacs-lisp-mode
-    eval-expression-minibuffer-setup
-    ielm-mode
-    lisp-mode
-    lisp-interaction-mode
-    scheme-mode
-    slime-repl-mode))
-
-(cl-loop for mode in peter/paredit-modes
-	 do (let ((hook (concat (symbol-name mode) "-hook")))
-	      (add-hook (intern hook) #'paredit-mode)))
+  (beacon-mode 1)
+  (diminish 'beacon-mode))
 #+END_SRC
-** Smartparens
+*** Which Key
 #+BEGIN_SRC emacs-lisp
-(use-package smartparens
-  :diminish smartparens-mode
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :config
+  (which-key-mode))
+#+END_SRC
+*** Crux
+Open file with sudo if needed
+#+BEGIN_SRC emacs-lisp
+(use-package crux
+  :diminish t
   :ensure t
   :config
-  (smartparens-global-mode t)
-  (require 'smartparens-config))
+  (crux-reopen-as-root-mode))
 #+END_SRC
-*** Smartparens Keybinding
+*** Paradox
+package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
-(define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
-(define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
-;; (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
-(define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
-(define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
-
-;; (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
-(define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
-(define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-n") 'sp-next-sexp)
-(define-key smartparens-mode-map (kbd "C-M-p") 'sp-previous-sexp)
-
-(define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
-(define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
-
-(define-key smartparens-mode-map (kbd "M-<delete>") 'sp-unwrap-sexp)
-(define-key smartparens-mode-map (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
-
-(define-key smartparens-mode-map (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-<left>") 'sp-forward-barf-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-backward-barf-sexp)
-
-(define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
-(define-key smartparens-mode-map (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
-(define-key smartparens-mode-map (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
-(define-key smartparens-mode-map (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
-
-(define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
-(define-key smartparens-mode-map (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-(define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
-
-(define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
-(define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
-
-(bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
-(bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
-
-(bind-key "C-M-s"
-          (defhydra smartparens-hydra ()
-            "Smartparens"
-            ("d" sp-down-sexp "Down")
-            ("e" sp-up-sexp "Up")
-            ("u" sp-backward-up-sexp "Up")
-            ("a" sp-backward-down-sexp "Down")
-            ("f" sp-forward-sexp "Forward")
-            ("b" sp-backward-sexp "Backward")
-            ("k" sp-kill-sexp "Kill" :color blue)
-            ("q" nil "Quit" :color blue))
-            smartparens-mode-map)
-
-(bind-key "H-t" 'sp-prefix-tag-object smartparens-mode-map)
-(bind-key "H-p" 'sp-prefix-pair-object smartparens-mode-map)
-(bind-key "H-y" 'sp-prefix-symbol-object smartparens-mode-map)
-(bind-key "H-h" 'sp-highlight-current-sexp smartparens-mode-map)
-(bind-key "H-e" 'sp-prefix-save-excursion smartparens-mode-map)
-(bind-key "H-s c" 'sp-convolute-sexp smartparens-mode-map)
-(bind-key "H-s a" 'sp-absorb-sexp smartparens-mode-map)
-(bind-key "H-s e" 'sp-emit-sexp smartparens-mode-map)
-(bind-key "H-s p" 'sp-add-to-previous-sexp smartparens-mode-map)
-(bind-key "H-s n" 'sp-add-to-next-sexp smartparens-mode-map)
-(bind-key "H-s j" 'sp-join-sexp smartparens-mode-map)
-(bind-key "H-s s" 'sp-split-sexp smartparens-mode-map)
-(bind-key "H-s r" 'sp-rewrap-sexp smartparens-mode-map)
-(defvar hyp-s-x-map)
-(define-prefix-command 'hyp-s-x-map)
-(bind-key "H-s x" hyp-s-x-map smartparens-mode-map)
-(bind-key "H-s x x" 'sp-extract-before-sexp smartparens-mode-map)
-(bind-key "H-s x a" 'sp-extract-after-sexp smartparens-mode-map)
-(bind-key "H-s x s" 'sp-swap-enclosing-sexp smartparens-mode-map)
-
-(bind-key "C-x C-t" 'sp-transpose-hybrid-sexp smartparens-mode-map)
-
-(bind-key ";" 'sp-comment emacs-lisp-mode-map)
-
-(bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
+(use-package paradox
+  :ensure t
+  :config
+  (setq paradox-github-token t)
+  (evil-set-initial-state 'paradox-menu-mode 'emacs)
+  (my/leader
+    "pr" 'paradox-list-packages
+    "pu" 'paradox-upgrade-packages))
+#+END_SRC
+*** Hide Show Comments
+#+BEGIN_SRC emacs-lisp
+(use-package hide-comnt
+  :ensure t
+  :config
+  (my/leader "ch" 'hide/show-comments-toggle))
+#+END_SRC
+*** IBuffer
+#+BEGIN_SRC emacs-lisp
+  (defun peter/ibuffer-mode-hook ()
+    (hl-line-mode)
+    (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
+    (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
+(add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
 #+END_SRC
 * Org Mode
-** Org Mode Setup
+** Org Mode General
 #+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-bullets-bullet-list '("●" "◆" "◇" "✚" "✜" "☯" "◉" )))
+
 (global-set-key (kbd "\C-cc") 'org-capture)
 (global-set-key (kbd "\C-ca") 'org-agenda)
 (global-set-key (kbd "\C-cl") 'org-store-link)
@@ -954,6 +884,16 @@ access yadm repo via tramp
 (my/leader-mode :keymaps 'org-mode-map
   "i" 'counsel-org-goto)
 
+;; org modules
+(add-to-list 'org-modules 'org-habit)
+(add-to-list 'org-modules 'org-protocol)
+(add-to-list 'org-modules 'org-man)
+
+;; load modules
+(require 'org-habit)
+(require 'org-protocol)
+(require 'org-man)
+
 ;; disable time dispaly for mode line compatibility
 (setq org-timer-display nil)
 
@@ -966,6 +906,29 @@ access yadm repo via tramp
 
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+
+;; Enter insert state when opening log buffer
+(add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
+;; Org capture initial state insert
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
+;; Org src initial insert state
+(add-hook 'org-src-mode-hook 'evil-insert-state)
+
+;; Org Babel
+(setq org-src-window-setup 'current-window)
+(setq org-src-preserve-indentation t)
+(setq org-edit-src-content-indentation 0
+      org-src-tab-acts-natively t
+      org-src-fontify-natively t
+      org-confirm-babel-evaluate nil
+      org-support-shift-select 'always)
+
+(org-babel-do-load-languages 'org-babel-load-languages
+			     '((sh . t)
+			       (gnuplot . t)
+			       (octave . t)
+                               (dot . t)))
+
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
@@ -1018,43 +981,6 @@ access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (setq org-mobile-inbox-for-pull "~/Sync/org/inbox.org")
 (setq org-mobile-directory "~/Sync/MobileOrg")
-;; (add-hook 'org-capture-finalize-hook 'org-mobile-push)
-;; (add-hook 'org-after-todo-state-change-hook 'org-mobile-push)
-
-
-
-
-;; (defvar org-mobile-push-timer nil
-;;   "Timer that `org-mobile-push-timer' used to reschedule itself, or nil.")
-
-;; (defun org-mobile-push-with-delay (secs)
-;;   (when org-mobile-push-timer
-;;     (cancel-timer org-mobile-push-timer))
-;;   (setq org-mobile-push-timer
-;;         (run-with-idle-timer
-;;          (* 1 secs) nil 'org-mobile-push)))
-
-;; (add-hook 'after-save-hook
-;;  (lambda ()
-;;    (when (eq major-mode 'org-mode)
-;;      (dolist (file (org-mobile-files-alist))
-;;       (if (string= (file-truename (expand-file-name (car file)))
-;; 		   (file-truename (buffer-file-name)))
-;;            (org-mobile-push-with-delay 30)))
-;;    )))
-
-;; (run-at-time "00:05" 86400 '(lambda () (org-mobile-push-with-delay 1))) ;; refreshes agenda file each day
-#+END_SRC
-** Org Modules
-#+BEGIN_SRC emacs-lisp
-;; org modules
-(add-to-list 'org-modules 'org-habit)
-(add-to-list 'org-modules 'org-protocol)
-(add-to-list 'org-modules 'org-man)
-;; load modules
-(require 'org-habit)
-(require 'org-protocol)
-(require 'org-man)
 #+END_SRC
 ** Org Caputre
 [[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome and firefox extension facilitating org-capture in emacs]]
@@ -1175,44 +1101,6 @@ access yadm repo via tramp
 
 (add-to-list 'org-protocol-protocol-alist
 	     '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
-#+END_SRC
-** Org Evil Management
-#+BEGIN_SRC emacs-lisp
-;; Enter insert state when opening log buffer
-(add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
-;; Org capture initial state insert
-(add-hook 'org-capture-mode-hook 'evil-insert-state)
-;; Org src initial insert state
-(add-hook 'org-src-mode-hook 'evil-insert-state)
-#+END_SRC
-** Org Plot
-#+BEGIN_SRC emacs-lisp
-(use-package gnuplot-mode
-  :ensure t)
-#+END_SRC
-** Org Babel
-#+BEGIN_SRC emacs-lisp
-(setq org-src-window-setup 'current-window)
-(setq org-src-preserve-indentation t)
-(setq org-edit-src-content-indentation 0
-      org-src-tab-acts-natively t
-      org-src-fontify-natively t
-      org-confirm-babel-evaluate nil
-      org-support-shift-select 'always)
-
-(org-babel-do-load-languages 'org-babel-load-languages
-			     '((sh . t)
-			       (gnuplot . t)
-			       (octave . t)
-                               (dot . t)))
-#+END_SRC
-** Org Bullets
-#+BEGIN_SRC emacs-lisp
-(use-package org-bullets
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-bullets-bullet-list '("●" "◆" "◇" "✚" "✜" "☯" "◉" )))
 #+END_SRC
 ** Org Pomodoro
 #+BEGIN_SRC emacs-lisp
@@ -1528,115 +1416,29 @@ boundaries."
 
 (setq imagemagick-types-inhibit (remove 'PDF imagemagick-types-inhibit))
 #+END_SRC
-* Ivy
+* Programming Languages
+** C/C++
 #+BEGIN_SRC emacs-lisp
-(use-package flx :ensure t)
+(use-package google-c-style
+  :ensure t)
 
-(use-package counsel
-  :ensure t
-  :diminish ivy-mode ivy-minor-mode
-  :config
-  (ivy-mode 1)
-  ;; (setq ivy-re-builders-alist
-  ;; 	'((t . ivy--regex-fuzzy)))
-  (setq ivy-use-virtual-buffers t
-	enable-recursive-minibuffers t
-	ivy-initial-inputs-alist nil
-	ivy-count-format "%d/%d "))
+(use-package company-ycmd
+  :ensure t)
 
-(defun ivy-open-other-window (x)
-  (find-file-other-window x))
+(defun peter/c-mode-hook ()
+  (google-set-c-style)
+  (google-make-newline-indent)
+  (ycmd-mode)
+  (setq-local helm-dash-docsets '("C"))
+  (set (make-local-variable 'company-backends) nil)
+  (company-ycmd-setup)
+  (local-set-key (kbd "C-c C-j") 'ycmd-goto)
+  (local-set-key (kbd "C-c C-d") 'ycmd-show-documentation)
+  (local-set-key (kbd "C-c C-h") 'woman))
 
-(ivy-set-actions t '(("i" ivy-open-other-window "open other window")))
-
-(use-package ivy-rich
-  :ensure t
-  :config
-  (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
-  (setq ivy-virtual-abbreviate 'full
-	ivy-rich-switch-buffer-align-virtual-buffer t)
-  (setq ivy-rich-abbreviate-paths t))
-
-;; for edit in C-c C-o
-(use-package wgrep :ensure t)
-
-;; (use-package all-the-icons-ivy :ensure t
-;;   :config
-;;   (all-the-icons-ivy-setup))
+(add-hook 'c-mode-common-hook 'peter/c-mode-hook)
 #+END_SRC
-** Ivy Bindings
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "s-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> c") 'helpful-command)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f1> b") 'counsel-descbinds)
-(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "C-c v") 'ivy-push-view)
-(global-set-key (kbd "C-c V") 'ivy-pop-view)
-(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-(my/leader
-  "ag" 'counsel-ag
-  "`"  'ivy-switch-buffer
-  "d"  'counsel-yank-pop
-  "m"  'counsel-mark-ring
-  "s"  'swiper
-  "bb" 'ibuffer
-  "pp" 'projectile-switch-project
-  "pf" 'projectile-find-file-dwim
-  "i"  'counsel-imenu
-  "fl" 'counsel-locate
-  "gg" 'counsel-git-grep
-  "ff" 'counsel-find-file
-  "vv"  'ivy-push-view
-  "vo" 'ivy-pop-view)
-
-(define-key ivy-minibuffer-map (kbd "C-l") 'ivy-backward-delete-char)
-#+END_SRC
-** Packages Compatibility
-#+BEGIN_SRC emacs-lisp
-(setq magit-completing-read-function 'ivy-completing-read)
-(setq projectile-completion-system 'ivy)
-#+END_SRC
-* Completion and Error Checking
-** Company Mode
-#+BEGIN_SRC emacs-lisp
-(use-package company
-  :diminish company-mode
-  :ensure t
-  :config
-  (add-hook 'after-init-hook 'global-company-mode)
-  (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
-  (define-key company-active-map (kbd "C-h") #'company-quickhelp-manual-begin))
-
-(use-package company-quickhelp
-  :ensure t
-  :config
-  (company-quickhelp-mode 1)
-  (setq company-quickhelp-delay nil))
-#+END_SRC
-** Yasnippet
-#+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :ensure t
-  :config
-  (yas-global-mode 1)
-  (my/leader
-    "yn" 'yas-new-snippet
-    "yv" 'yas-visit-snippet-file
-    "yt" 'yas-describe-tables
-    "yi" 'yas-insert-snippet))
-#+END_SRC
-** Ycmd
+*** Ycmd
 In Gentoo you need to install ~sys-libs/ncurses:5~ with *tinfo* use flag
 slot 5 indicate version 5, which ycmd depend on.
 #+BEGIN_SRC emacs-lisp
@@ -1668,44 +1470,7 @@ slot 5 indicate version 5, which ycmd depend on.
 (add-hook 'ycmd-mode-hook 'peter/ycmd-mode-hook)
 
 #+END_SRC
-* Programming Language Supports
-** C/C++
-#+BEGIN_SRC emacs-lisp
-(use-package google-c-style
-  :ensure t)
-
-(use-package company-ycmd
-  :ensure t)
-
-(defun peter/c-mode-hook ()
-  (google-set-c-style)
-  (google-make-newline-indent)
-  (ycmd-mode)
-  (setq-local helm-dash-docsets '("C"))
-  (set (make-local-variable 'company-backends) nil)
-  (company-ycmd-setup)
-  (local-set-key (kbd "C-c C-j") 'ycmd-goto)
-  (local-set-key (kbd "C-c C-d") 'ycmd-show-documentation)
-  (local-set-key (kbd "C-c C-h") 'woman))
-
-(add-hook 'c-mode-common-hook 'peter/c-mode-hook)
-#+END_SRC
 ** Go
-Go-mode dependencies
-#+BEGIN_SRC sh :result no
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/nsf/gocode
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/rogpeppe/godef
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/goimports
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/motemen/gore
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/alecthomas/gometalinter
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u github.com/zmb3/gogetdoc
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/guru
-http_proxy="http://localhost:8123" https_proxy="http://localhost:8123" go get -u golang.org/x/tools/cmd/gorename
-gometalinter --install
-#+END_SRC
-
-#+RESULTS:
-
 #+BEGIN_SRC emacs-lisp
 (use-package gorepl-mode
   :ensure t
@@ -1771,6 +1536,86 @@ gometalinter --install
   :config
   (flycheck-gometalinter-setup))
 #+END_SRC
+** Emacs Lisp
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :diminish rainbow-delimiters-mode
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook 'peter/emacs-mode-hook))
+
+(defun peter/emacs-mode-hook ()
+  (local-set-key (kbd "C-j") 'eval-print-last-sexp))
+#+END_SRC
+** Nix
+#+BEGIN_SRC emacs-lisp
+(use-package nix-mode
+  :ensure t
+  :config
+  (add-hook 'nix-mode-hook
+	    (lambda ()
+	      (set (make-local-variable 'company-backends)
+		   '(company-nixos-options company-files)))))
+#+END_SRC
+** Rust
+Rust-mode dependencies
+#+BEGIN_SRC sh :result no
+cargo install racer
+cargo install rustfmt
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode
+  :ensure t
+  :config
+  (setq rust-format-on-save t)
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+  (define-key rust-mode-map (kbd "C-c C-j") #'racer-find-definition)
+  (define-key rust-mode-map (kbd "C-c C-d") #'racer-describe)
+  (setq company-tooltip-align-annotations t))
+
+(use-package racer
+  :ensure t
+  :config
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode))
+
+(use-package cargo
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
+(use-package toml-mode
+  :ensure t)
+#+END_SRC
+** Common Lisp
+#+BEGIN_SRC emacs-lisp
+(use-package slime-company
+  :ensure t)
+
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "sbcl")
+  (setq slime-contribs '(slime-fancy))
+  (slime-setup '(slime-fancy slime-company)))
+#+END_SRC
+** Octave
+#+BEGIN_SRC emacs-lisp
+(evil-set-initial-state 'inferior-octave-mode 'emacs)
+(setq inferior-octave-program "octave")
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+
+(defun peter/octave-mode-hook ()
+  (local-set-key (kbd "C-c C-d") 'octave-help)
+  (local-set-key (kbd "C-c C-c") 'octave-send-buffer)
+  (local-set-key (kbd "C-c C-q") 'octave-hide-process-buffer)
+  (local-set-key (kbd "C-c C-z") 'octave-show-process-buffer)
+  (local-set-key (kbd "C-c C-k") 'octave-kill-process))
+
+(add-hook 'octave-mode-hook 'peter/octave-mode-hook)
+#+END_SRC
 ** Haskell intero
 nixos config
 install intero in directory =~/.stack/global-project/=
@@ -1806,283 +1651,24 @@ nix:
 		      "C-d" 'intero-info
 		      "C-j" 'intero-goto-definition))
 #+END_SRC
-** Emacs Lisp
+* Utilities
+** PDF Tools
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :diminish rainbow-delimiters-mode
+(use-package pdf-tools
   :ensure t
   :config
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook 'peter/emacs-mode-hook))
-
-(defun peter/emacs-mode-hook ()
-  (local-set-key (kbd "C-j") 'eval-print-last-sexp))
+  (pdf-tools-install)
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+  (define-key pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page)
+  (define-key pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
+  (general-define-key :states '(emacs)
+		      :keymaps 'pdf-view-mode-map
+		      :non-normal-prefix "SPC"
+		      "`" 'ivy-switch-buffer
+		      "TAB" 'peter/switch-buffer))
 #+END_SRC
-** Nix
-#+BEGIN_SRC emacs-lisp
-(use-package nix-mode
-  :ensure t
-  :config
-  (add-hook 'nix-mode-hook
-	    (lambda ()
-	      (set (make-local-variable 'company-backends)
-		   '(company-nixos-options company-files)))))
-
-(use-package company-nixos-options
-  :ensure t)
-#+END_SRC
-** Rust
-Rust-mode dependencies
-#+BEGIN_SRC sh :result no
-cargo install racer
-cargo install rustfmt
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-(use-package rust-mode
-  :ensure t
-  :config
-  (setq rust-format-on-save t)
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
-  (define-key rust-mode-map (kbd "C-c C-j") #'racer-find-definition)
-  (define-key rust-mode-map (kbd "C-c C-d") #'racer-describe)
-  (setq company-tooltip-align-annotations t))
-
-(use-package racer
-  :ensure t
-  :config
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'racer-mode-hook #'company-mode))
-
-(use-package cargo
-  :ensure t
-  :config
-  (add-hook 'rust-mode-hook 'cargo-minor-mode))
-
-(use-package toml-mode
-  :ensure t)
-#+END_SRC
-** Python
-#+BEGIN_SRC emacs-lisp
-(use-package elpy
-  :ensure t
-  :config
-  (elpy-enable))
-#+END_SRC
-** Common Lisp
-#+BEGIN_SRC emacs-lisp
-(use-package slime-company
-  :ensure t)
-
-(use-package slime
-  :ensure t
-  :config
-  (setq inferior-lisp-program "sbcl")
-  (setq slime-contribs '(slime-fancy))
-  (slime-setup '(slime-fancy slime-company)))
-#+END_SRC
-** Octave
-#+BEGIN_SRC emacs-lisp
-(evil-set-initial-state 'inferior-octave-mode 'emacs)
-(setq inferior-octave-program "octave")
-(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
-
-(defun peter/octave-mode-hook ()
-  (local-set-key (kbd "C-c C-d") 'octave-help)
-  (local-set-key (kbd "C-c C-c") 'octave-send-buffer)
-  (local-set-key (kbd "C-c C-q") 'octave-hide-process-buffer)
-  (local-set-key (kbd "C-c C-z") 'octave-show-process-buffer)
-  (local-set-key (kbd "C-c C-k") 'octave-kill-process))
-
-(add-hook 'octave-mode-hook 'peter/octave-mode-hook)
-#+END_SRC
-** COMMENT Haskell haskell-mode
-[[https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#ghc-mod][Haskell Mode Tutorail]]
-Haskell dependencies
-#+BEGIN_SRC sh
-stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskell
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package hindent
-  :ensure t
-  :config
-  (add-hook 'haskell-mode-hook #'hindent-mode))
-
-(use-package ghc
-  :ensure t
-  :config
-  (add-hook 'haskell-mode-hook (lambda () (ghc-init))))
-
-(use-package company-ghc
-  :ensure t)
-
-;; (use-package shm
-;;   :ensure t
-;;   :config
-;;   (add-hook 'haskell-mode-hook 'structured-haskell-mode))
-
-(use-package haskell-mode
-  :ensure t
-  :config
-  (setq haskell-stylish-on-save t)
-  (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
-
-(use-package scion
-  :ensure t
-  :config)
-
-(defun my-haskell-mode-hook ()
-  (smartparens-mode -1)
-  (local-set-key "\C-c\C-d" 'ghc-browse-document)
-  (set (make-local-variable 'company-backends) '(company-ghc company-files)))
-  #+END_SRC
-** COMMENT Javascript
-#+BEGIN_SRC emacs-lisp
-(defun peter/js-comint-kbd ()
-  (local-set-key "\C-x\C-e" 'js-send-last-sexp)
-  (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
-  (local-set-key "\C-cb" 'js-send-buffer)
-  (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
-  (local-set-key "\C-cl" 'js-load-file-and-go))
-
-(use-package company-tern
-  :diminish tern-mode
-  :ensure t)
-
-(add-to-list 'company-backends 'company-tern)
-
-(use-package js-comint
-    :ensure t
-    :config
-    (add-hook 'js2-mode-hook 'peter/js-comint-kbd)
-    )
-
-(use-package json-mode
-    :ensure t
-    :config)
-
-(use-package web-beautify
-  :ensure t
-  :config)
-
-
-(use-package tern
-  :ensure t)
-
-(use-package js2-mode
-  :ensure t
-  :interpreter "node"
-  :config
-  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-  )
-
-(use-package emmet-mode
-  :ensure t)
-
-(global-set-key [C-tab] 'emmet-expand-yas)
-
-;; (add-hook 'js2-mode-hook #'smartparens-mode)
-(add-hook 'html-mode 'emmet-mode)
-(add-hook 'js2-jsx-mode 'emmet-mode)
-(add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert nil)))
-
-;;jsx mode
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
-(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
-
-(evil-define-key 'normal js2-mode-map (kbd "gd") 'tern-find-definition)
-(evil-define-key 'normal js2-mode-map (kbd "g=") 'web-beautify-js)
-(evil-define-key 'normal js2-mode-map (kbd "gp") 'run-js)
-
-
-;;fix smartparens curly braces issue
-(sp-local-pair 'js2-mode "{" "}" :actions '(:rem insert))
-#+END_SRC
-** COMMENT ReactJS
-#+BEGIN_SRC emacs-lisp
-(use-package evil-matchit
-  :ensure t)
-
-(defun react/post-init-evil-matchit()
-  (with-eval-after-load 'evil-matchit
-    (plist-put evilmi-plugins 'react-mode '((evilmi-simple-get-tag evilmi simple-jump)
-					    (evilmi-javascript-get-tag evilmi-javascript-jump)
-					    (evilmi-html-get-tag evilmi-html-jump)))))
-
-
-(use-package flycheck
-  :ensure t
-  :config
-  (progn
-      (flycheck-add-mode 'javascript-eslint 'react-mode)
-      (defun react/disable-jshint ()
-	(push 'javascript-jshint flycheck-disabled-checkers))
-      (add-hook 'react-mode-hook #'react/disable-jshint)))
-
-
-
-(defun react/post-init-js2-mode ()
-  (add-hook 'react-mode-hook 'js2-minor-mode))
-
-(defun react/post-init-web-mode ()
-  (define-derived-mode react-mode web-mode "react")
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . react-mode))
-  (add-to-list 'auto-mode-alist '("\\.react.js\\'" . react-mode))
-  (add-to-list 'auto-mode-alist '("\\index.android.js\\'" . react-mode))
-  (add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . react-mode))
-  (add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . react-mode))
-  (defun react/setup-react-mode ()
-    "Adjust web-mode to accommodate react-mode"
-    (emmet-mode 0)
-    ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-    (setq-local emmet-expand-jsx-className? t)
-    ;; Enable js-mode snippets
-    (yas-activate-extra-mode 'js-mode)
-    ;; Force jsx content type
-    (web-mode-set-content-type "jsx")
-    ;; Don't auto-quote attribute values
-    (setq-local web-mode-enable-auto-quoting nil)
-    ;; Why do we do this ?
-    (defadvice web-mode-highlight-part (around tweak-jsx activate)
-      (let ((web-mode-enable-part-face nil))
-        ad-do-it)))
-(add-hook 'react-mode-hook 'react/setup-react-mode))
-#+END_SRC
-** COMMENT Sml
-#+BEGIN_SRC emacs-lisp
-(use-package sml-mode
-    :ensure t
-    :config
-    )
-
-(setenv "PATH" (concat (getenv "PATH") ":/home/peterzky/playground/smlnj/bin"))
-(setq exec-path (append exec-path '("/home/peterzky/playground/smlnj/bin")))
-#+END_SRC
-* Other Modes
-#+BEGIN_SRC emacs-lisp
-(diminish 'auto-revert-mode)
-
-(use-package abbrev
-  :diminish abbrev-mode)
-
-(use-package auto-compile
-  :ensure t
-  :config
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
-;;For editing systemd file
-(use-package systemd
-  :ensure t)
-
-(use-package yaml-mode
-  :ensure t)
-#+END_SRC
-* Mail
-** Send Mail
+** Mail
+*** Send Mail
 #+BEGIN_SRC emacs-lisp
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
 (setq sendmail-program "msmtp")
@@ -2110,7 +1696,7 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
 #+END_SRC
-** Mu4e
+*** Mu4e
 #+BEGIN_SRC emacs-lisp
 ;; nixos add to load path
 (let ((mu4epath
@@ -2176,11 +1762,85 @@ stack --nix install ghc-mod structured-haskell-mode happy hindent stylish-haskel
 (add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
 
 #+END_SRC
-* ElFeed
+** ElFeed
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
   :ensure t
   :config
   (setq elfeed-feeds
 	'("http://planet.emacsen.org/atom.xml")))
+#+END_SRC
+** Yadm
+Prerequisite: yadm version >= 1.0.8
+access yadm repo via tramp
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'tramp-methods
+	     '("yadm"
+	       (tramp-login-program "yadm")
+	       (tramp-login-args (("enter")))
+	       (tramp-login-env
+		(("SHELL")
+		 ("/bin/sh")))
+	       (tramp-remote-shell "/bin/sh")
+	       (tramp-remote-shell-login
+		("-l"))
+	       (tramp-remote-shell-args
+		("-c"))
+	       (tramp-connection-timeout 10)))
+
+
+(defun reopen-as-yadm ()
+  (interactive)
+  (unless (file-remote-p (buffer-file-name)) (find-alternate-file
+	    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name))))
+
+#+END_SRC
+** Terminal Here
+#+BEGIN_SRC emacs-lisp
+(use-package terminal-here
+  :ensure t
+  :config
+  (setq terminal-here-terminal-command '("urxvt"))
+  (my/leader
+    "t" 'terminal-here))
+#+END_SRC
+** Chinese Support
+*** Youdao Dictionary
+#+BEGIN_SRC emacs-lisp
+(use-package youdao-dictionary
+  :ensure t
+  :config
+  (my/leader
+    "oo" 'youdao-dictionary-search-at-point+))
+#+END_SRC
+*** Fcitx
+#+BEGIN_SRC emacs-lisp
+(when (string= system-type "gnu/linux")
+  (use-package fcitx
+	   :ensure t
+	   :config
+	   (setq fcitx-use-dbus t)
+	   (setq fcitx-active-evil-states '(insert emacs hydrid))
+	   (fcitx-org-speed-command-turn-on)
+	   (fcitx-aggressive-minibuffer-turn-off)
+	   (fcitx-aggressive-setup)))
+#+END_SRC
+* Misc
+#+BEGIN_SRC emacs-lisp
+(diminish 'auto-revert-mode)
+
+(use-package abbrev
+  :diminish abbrev-mode)
+
+(use-package auto-compile
+  :ensure t
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+;;For editing systemd file
+(use-package systemd
+  :ensure t)
+
+(use-package yaml-mode
+  :ensure t)
 #+END_SRC
