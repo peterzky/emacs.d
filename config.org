@@ -1553,10 +1553,7 @@ slot 5 indicate version 5, which ycmd depend on.
 (use-package nix-mode
   :ensure t
   :config
-  (add-hook 'nix-mode-hook
-	    (lambda ()
-	      (set (make-local-variable 'company-backends)
-		   '(company-nixos-options company-files)))))
+  )
 #+END_SRC
 ** Rust
 Rust-mode dependencies
