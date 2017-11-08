@@ -1442,6 +1442,7 @@ boundaries."
   (google-set-c-style)
   (google-make-newline-indent)
   (ycmd-mode)
+  (rainbow-mode -1)
   (setq-local helm-dash-docsets '("C"))
   (set (make-local-variable 'company-backends) nil)
   (company-ycmd-setup)
@@ -1451,6 +1452,10 @@ boundaries."
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
 #+END_SRC
+
+#+RESULTS:
+| peter/c-mode-hook |
+
 *** Ycmd
 In Gentoo you need to install ~sys-libs/ncurses:5~ with *tinfo* use flag
 slot 5 indicate version 5, which ycmd depend on.
