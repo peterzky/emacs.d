@@ -1482,6 +1482,7 @@ slot 5 indicate version 5, which ycmd depend on.
      (company-complete)))
 
 (defun peter/ycmd-mode-hook ()
+  (ycmd-eldoc-mode 1)
   (local-set-key (kbd "C-c C-j") 'ycmd-goto)
   (local-set-key (kbd "M-i") 'company-ycmd-complete))
 

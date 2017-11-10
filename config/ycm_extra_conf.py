@@ -1,4 +1,3 @@
-
 import os
 import ycm_core
 import subprocess
