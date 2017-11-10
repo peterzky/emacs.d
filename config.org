@@ -814,6 +814,8 @@ M   : /mnt
 (use-package which-key
   :ensure t
   :diminish which-key-mode
+  :init
+  (setq which-key-idle-delay 2.5)
   :config
   (which-key-mode))
 #+END_SRC
