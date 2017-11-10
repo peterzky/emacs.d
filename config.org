@@ -1453,9 +1453,6 @@ boundaries."
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
 #+END_SRC
 
-#+RESULTS:
-| peter/c-mode-hook |
-
 *** Ycmd
 In Gentoo you need to install ~sys-libs/ncurses:5~ with *tinfo* use flag
 slot 5 indicate version 5, which ycmd depend on.
@@ -1466,7 +1463,7 @@ slot 5 indicate version 5, which ycmd depend on.
   (setq ycmd-server-command '("ycmd"))
   ;; (setq ycmd-force-semantic-completion t)
   (setq ycmd-global-config
-	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
+  	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
 
 
 (defun ycmd-restart ()
@@ -1487,8 +1484,8 @@ slot 5 indicate version 5, which ycmd depend on.
   (local-set-key (kbd "M-i") 'company-ycmd-complete))
 
 (add-hook 'ycmd-mode-hook 'peter/ycmd-mode-hook)
-
 #+END_SRC
+
 ** Go
 #+BEGIN_SRC emacs-lisp
 (use-package gorepl-mode
