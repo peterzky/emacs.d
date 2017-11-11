@@ -1437,57 +1437,38 @@ boundaries."
 (use-package google-c-style
   :ensure t)
 
-(use-package company-ycmd
-  :ensure t)
-
 (defun peter/c-mode-hook ()
   (google-set-c-style)
   (google-make-newline-indent)
-  (ycmd-mode)
   (rainbow-mode -1)
-  (setq-local helm-dash-docsets '("C"))
-  (set (make-local-variable 'company-backends) nil)
-  (company-ycmd-setup)
-  (local-set-key (kbd "C-c C-j") 'ycmd-goto)
-  (local-set-key (kbd "C-c C-d") 'ycmd-show-documentation)
-  (local-set-key (kbd "C-c C-h") 'woman))
+  (setq company-clang-executable
+	(nix-executable-find (nix-current-sandbox) "clang"))
+  (nix-shell-load-env (nix-current-sandbox))
+  (set (make-local-variable 'company-backends)
+       '(company-clang company-files)))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
+
+(defun nix-shell-load-env (nix-file)
+  "Loads the environment defined by NIX-FILE. Runs nix-shell to get the
+environment and makes process-environment buffer local"
+  (interactive "fnix-file")
+  (let ((environment
+         (with-temp-buffer
+           (let* ((nix-file-shell-safe (shell-quote-argument nix-file))
+                  (command (format "nix-shell %s --command 'printenv -0' 2>/dev/null"
+                                   nix-file-shell-safe))
+                  (status (call-process-shell-command command nil t)))
+             (when (> status 0)
+               (message "'nix-shell %s' failed with %d" nix-file-shell-safe status)
+               (return nil))
+             (split-string (buffer-string) "\0")))))
+
+    (when environment
+      (set (make-local-variable 'process-environment)
+           environment))
+    ))
 #+END_SRC
-
-*** Ycmd
-In Gentoo you need to install ~sys-libs/ncurses:5~ with *tinfo* use flag
-slot 5 indicate version 5, which ycmd depend on.
-#+BEGIN_SRC emacs-lisp
-(use-package ycmd
-  :ensure t
-  :config
-  (setq ycmd-server-command '("ycmd"))
-  ;; (setq ycmd-force-semantic-completion t)
-  (setq ycmd-global-config
-  	(file-truename "~/.emacs.d/config/ycm_extra_conf.py")))
-
-
-(defun ycmd-restart ()
-  (interactive)
-  (ycmd-close)
-  (ycmd-mode -1)
-  (ycmd-mode 1))
-
-(defun company-ycmd-complete ()
-  (interactive)
-  (let ((ycmd-force-semantic-completion t))
-     (company-cancel)
-     (company-complete)))
-
-(defun peter/ycmd-mode-hook ()
-  (ycmd-eldoc-mode 1)
-  (local-set-key (kbd "C-c C-j") 'ycmd-goto)
-  (local-set-key (kbd "M-i") 'company-ycmd-complete))
-
-(add-hook 'ycmd-mode-hook 'peter/ycmd-mode-hook)
-#+END_SRC
-
 ** Go
 #+BEGIN_SRC emacs-lisp
 (use-package gorepl-mode
@@ -1568,6 +1549,7 @@ slot 5 indicate version 5, which ycmd depend on.
 #+END_SRC
 ** Nix
 #+BEGIN_SRC emacs-lisp
+
 (use-package nix-mode
   :ensure t
   :config

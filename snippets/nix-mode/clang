@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: clang
+# key: clang
+# --
+{pkgs ? import <nixpkgs> {} }:
+
+with pkgs;
+
+clangStdenv.mkDerivation {
+  name = "$0";
+
+buildInputs = [ cmake llvm];
+}

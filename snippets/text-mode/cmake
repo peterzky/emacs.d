@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: cmake
+# key: cmake
+# --
+cmake_minimum_required(VERSION 2.8)
+set(EXECUTABLE_OUTPUT_PATH "build")
+set(CMAKE_C_COMPILER "clang")
+set(CMAKE_CXX_COMPILER "clang++")
+project($1)
+find_package( OpenCV REQUIRED )
+add_executable( DisplayImage DisplayImage.cpp)
+target_link_libraries(DisplayImage ${OpenCV_LIBS})
