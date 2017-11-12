@@ -1434,6 +1434,9 @@ boundaries."
 * Programming Languages
 ** C/C++
 #+BEGIN_SRC emacs-lisp
+(use-package rtags :ensure t)
+(use-package irony :ensure t)
+
 (use-package google-c-style
   :ensure t)
 
@@ -1441,33 +1444,19 @@ boundaries."
   (google-set-c-style)
   (google-make-newline-indent)
   (rainbow-mode -1)
-  (setq company-clang-executable
-	(nix-executable-find (nix-current-sandbox) "clang"))
-  (nix-shell-load-env (nix-current-sandbox))
+  (irony-mode)
+  (rtags-start-process-unless-running)
   (set (make-local-variable 'company-backends)
-       '(company-clang company-files)))
+       '(company-irony company-files))
+  (local-set-key (kbd "C-c C-j") 'rtags-find-symbol-at-point)
+  (local-set-key (kbd "C-c C-a") 'rtags-include-file)
+  (local-set-key (kbd "C-c r") 'rtags-rename-symbol))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
 
-(defun nix-shell-load-env (nix-file)
-  "Loads the environment defined by NIX-FILE. Runs nix-shell to get the
-environment and makes process-environment buffer local"
-  (interactive "fnix-file")
-  (let ((environment
-         (with-temp-buffer
-           (let* ((nix-file-shell-safe (shell-quote-argument nix-file))
-                  (command (format "nix-shell %s --command 'printenv -0' 2>/dev/null"
-                                   nix-file-shell-safe))
-                  (status (call-process-shell-command command nil t)))
-             (when (> status 0)
-               (message "'nix-shell %s' failed with %d" nix-file-shell-safe status)
-               (return nil))
-             (split-string (buffer-string) "\0")))))
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
-    (when environment
-      (set (make-local-variable 'process-environment)
-           environment))
-    ))
+
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
