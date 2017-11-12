@@ -477,6 +477,13 @@ popup window for better experience
   (global-set-key (kbd "M-9") 'eyebrowse-switch-to-window-config-9)
   )
 #+END_SRC
+*** Ace Window
+#+BEGIN_SRC emacs-lisp
+(use-package ace-window
+  :ensure t
+  :config
+  (global-set-key (kbd "M-`") 'ace-window))
+#+END_SRC
 ** Editing
 *** ISpell
 #+BEGIN_SRC emacs-lisp
@@ -1435,7 +1442,23 @@ boundaries."
 ** C/C++
 #+BEGIN_SRC emacs-lisp
 (use-package rtags :ensure t)
+
 (use-package irony :ensure t)
+
+(defun rtags-nixos-include-path()
+  (replace-regexp-in-string "\n" " "
+			    (replace-regexp-in-string "-isystem" "-s"
+			     (nix-shell
+			      (nix-current-sandbox)
+			      "printenv NIX_CFLAGS_COMPILE NIX_CXXSTDLIB_COMPILE"))))
+
+(defun rtags-command ()
+  "Shell command used to start the `rtags-server' process."
+  (format "%s %s %s"
+	  (rtags-executable-find "rdm")
+	  (rtags-rdm-includes)
+	  (rtags-nixos-include-path)
+	  rtags-process-flags))
 
 (use-package google-c-style
   :ensure t)
@@ -1444,19 +1467,18 @@ boundaries."
   (google-set-c-style)
   (google-make-newline-indent)
   (rainbow-mode -1)
-  (irony-mode)
-  (rtags-start-process-unless-running)
   (set (make-local-variable 'company-backends)
        '(company-irony company-files))
   (local-set-key (kbd "C-c C-j") 'rtags-find-symbol-at-point)
   (local-set-key (kbd "C-c C-a") 'rtags-include-file)
-  (local-set-key (kbd "C-c r") 'rtags-rename-symbol))
+  (local-set-key (kbd "C-c r") 'rtags-rename-symbol)
+  (local-set-key (kbd "C-c C-l") 'rtags-start-process-unless-running)
+  (local-set-key (kbd "C-c C-i") 'irony-cdb-autosetup-compile-options)
+  (irony-mode))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
 
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
-
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -1538,6 +1560,7 @@ boundaries."
 #+END_SRC
 ** Nix
 #+BEGIN_SRC emacs-lisp
+(use-package nix-sandbox :ensure t)
 
 (use-package nix-mode
   :ensure t
