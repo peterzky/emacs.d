@@ -1,4 +1,5 @@
 #+TITLE:My Emacs Config
+#+PROPERTY: header-args :tangle yes
 
 ~C-c ;~ to comment out unwanted section
 * Settings
@@ -1168,7 +1169,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 	))
 #+END_SRC
 ** Org Wiki
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
 (use-package org-wiki
   :load-path "~/Sync/site-lisp/org-wiki"
   :config
@@ -1711,27 +1712,27 @@ nix:
 
 #+END_SRC
 *** Mu4e
-#+BEGIN_SRC emacs-lisp
+nixos workaround
+#+BEGIN_SRC emacs-lisp :tangle (if (executable-find "nix-env") "yes" "no")
 ;; nixos add to load path
 (let ((mu4epath
        (concat
-        (f-dirname
-         (file-truename
-          (executable-find "mu")))
-        "/../share/emacs/site-lisp/mu4e")))
+	(f-dirname
+	 (file-truename
+	  (executable-find "mu")))
+	"/../share/emacs/site-lisp/mu4e")))
   (when (and
-         (string-prefix-p "/nix/store/" mu4epath)
-         (file-directory-p mu4epath))
+	 (string-prefix-p "/nix/store/" mu4epath)
+	 (file-directory-p mu4epath))
     (add-to-list 'load-path mu4epath)))
+#+END_SRC
 
-
-(use-package evil-mu4e
-  :ensure t)
+#+BEGIN_SRC emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
+(use-package evil-mu4e :ensure t)
 
 (require 'mu4e)
 
-(my/leader
-  "0" 'mu4e)
+(my/leader "0" 'mu4e)
 
 (add-to-list 'mu4e-view-actions
 	     '("browser" . mu4e-action-view-in-browser) t)
@@ -1829,17 +1830,15 @@ access yadm repo via tramp
     "oo" 'youdao-dictionary-search-at-point+))
 #+END_SRC
 *** Fcitx
-#+BEGIN_SRC emacs-lisp
-(when (and (string= system-type "gnu/linux")
-	   (executable-find "fcitx-remote"))
-  (use-package fcitx
-	   :ensure t
-	   :config
-	   (setq fcitx-use-dbus t)
-	   (setq fcitx-active-evil-states '(insert emacs hydrid))
-	   (fcitx-org-speed-command-turn-on)
-	   (fcitx-aggressive-minibuffer-turn-off)
-	   (fcitx-aggressive-setup)))
+#+BEGIN_SRC emacs-lisp :tangle (if (executable-find "fcitx-remote") "yes" "no")
+(use-package fcitx
+  :ensure t
+  :config
+  (setq fcitx-use-dbus t)
+  (setq fcitx-active-evil-states '(insert emacs hydrid))
+  (fcitx-org-speed-command-turn-on)
+  (fcitx-aggressive-minibuffer-turn-off)
+  (fcitx-aggressive-setup))
 #+END_SRC
 * Misc
 #+BEGIN_SRC emacs-lisp
