@@ -1455,6 +1455,9 @@ NixOS Caveat:
 (use-package rtags :ensure t)
 
 (use-package irony :ensure t)
+
+(use-package company-irony :ensure t)
+
 (defun rtags-nixos-include-path()
   (replace-regexp-in-string "\n" " "
 			    (replace-regexp-in-string "-isystem" "-s"
