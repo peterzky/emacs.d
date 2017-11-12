@@ -1472,8 +1472,9 @@ boundaries."
   (local-set-key (kbd "C-c C-j") 'rtags-find-symbol-at-point)
   (local-set-key (kbd "C-c C-a") 'rtags-include-file)
   (local-set-key (kbd "C-c r") 'rtags-rename-symbol)
-  (local-set-key (kbd "C-c C-l") 'rtags-start-process-unless-running)
+  (local-set-key (kbd "C-c C-r") 'rtags-restart-process)
   (local-set-key (kbd "C-c C-i") 'irony-cdb-autosetup-compile-options)
+  (rtags-start-process-unless-running)
   (irony-mode))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
