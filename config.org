@@ -2,6 +2,16 @@
 #+PROPERTY: header-args :tangle yes
 
 ~C-c ;~ to comment out unwanted section
+
+* Library
+** Dash
+#+BEGIN_SRC emacs-lisp
+(use-package dash :ensure t)
+(use-package dash-functional :ensure t)
+
+(require 'dash)
+(require 'dash-functional)
+#+END_SRC
 * Settings
 ** Defaults
 #+BEGIN_SRC emacs-lisp
@@ -38,7 +48,7 @@
 
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
-	  browse-url-generic-program "chromium"))
+          browse-url-generic-program "chromium"))
 
 #+END_SRC
 ** User Defined Functions
@@ -95,14 +105,14 @@
   :ensure t
   :config
   (general-create-definer my/leader
-			  :states '(normal motion emacs)
-			  :keymaps 'global
-			  :prefix "SPC"
-			  :non-normal-prefix "M-SPC")
+                          :states '(normal motion emacs)
+                          :keymaps 'global
+                          :prefix "SPC"
+                          :non-normal-prefix "M-SPC")
   (general-create-definer my/leader-mode
-			  :states '(normal motion emacs)
-			  :prefix "SPC"
-			  :non-normal-prefix "M-SPC"))
+                          :states '(normal motion emacs)
+                          :prefix "SPC"
+                          :non-normal-prefix "M-SPC"))
 (my/leader
  "fs" 'save-buffer
  "fa" 'add-file-local-variable-prop-line
@@ -151,31 +161,31 @@
 #+BEGIN_SRC emacs-lisp
 (defvar peter/motion-state-modes
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode
-		 intero-help-mode))
+                 intero-help-mode))
 
 (defvar peter/emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
-		intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-		elfeed-show-mode finder-mode image-mode))
+                intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
+                elfeed-show-mode finder-mode image-mode))
 
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
 
 (cl-loop for mode in peter/motion-state-modes
-	 do (add-to-list 'evil-motion-state-modes mode))
+         do (add-to-list 'evil-motion-state-modes mode))
 
 (cl-loop for mode in peter/emacs-state-modes
-	 do (add-to-list 'evil-emacs-state-modes mode))
+         do (add-to-list 'evil-emacs-state-modes mode))
 
 (cl-loop for mode in peter/emacs-state-modes
-	 do (add-to-list 'evil-emacs-state-modes mode))
+         do (add-to-list 'evil-emacs-state-modes mode))
 
 (cl-loop for mode in peter/emacs-state-minor-modes
-	 do (let ((hook (concat (symbol-name mode) "-hook")))
-	      (add-hook (intern hook) `(lambda ()
-					 (if ,mode
-					     (evil-emacs-state)
-					   (evil-normal-state))))))
+         do (let ((hook (concat (symbol-name mode) "-hook")))
+              (add-hook (intern hook) `(lambda ()
+                                         (if ,mode
+                                             (evil-emacs-state)
+                                           (evil-normal-state))))))
 #+END_SRC
 *** Evil Magit
 #+BEGIN_SRC emacs-lisp
@@ -225,40 +235,40 @@ visual mode:
   :ensure t
   :init
   (setq sml/no-confirm-load-theme t
-	sml/theme 'respectful
-	sml/mode-width 'full
-	sml/vc-mode-show-backend t
-	projectile-mode-line nil
-	)
+        sml/theme 'respectful
+        sml/mode-width 'full
+        sml/vc-mode-show-backend t
+        projectile-mode-line nil
+        )
   :config
   (sml/setup))
 
 (setq evil-mode-line-format '(before . mode-line-front-space))
 
 (setq-default mode-line-format
-	      '("%e"
-		mode-line-front-space
-		" "
-		(:eval (eyebrowse-mode-line-indicator))
-		;mode-line-mule-info
-		mode-line-client
-		mode-line-modified
-		mode-line-auto-compile
-		mode-line-remote
-		mode-line-frame-identification
-		" "
-		mode-line-buffer-identification
-		sml/pos-id-separator
-		" "
-		(vc-mode vc-mode)
-          " "
-		mode-line-modes
-		;mode-line-misc-info
-		sml/pre-modes-separator
-		mode-line-position
-		"(%l:%c)"
-		mode-line-end-spaces
-		))
+              '("%e"
+                mode-line-front-space
+                " "
+                (:eval (eyebrowse-mode-line-indicator))
+                                        ;mode-line-mule-info
+                mode-line-client
+                mode-line-modified
+                mode-line-auto-compile
+                mode-line-remote
+                mode-line-frame-identification
+                " "
+                mode-line-buffer-identification
+                sml/pos-id-separator
+                " "
+                (vc-mode vc-mode)
+                " "
+                mode-line-modes
+                                        ;mode-line-misc-info
+                sml/pre-modes-separator
+                mode-line-position
+                "(%l:%c)"
+                mode-line-end-spaces
+                ))
 #+END_SRC
 ** Themes
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
@@ -276,8 +286,8 @@ visual mode:
       '(doom-tomorrow-night adwaita solarized-light))
 
 (defun my:enabled-themes ()
-      (delete 'smart-mode-line-respectful
-	      custom-enabled-themes))
+  (delete 'smart-mode-line-respectful
+	  custom-enabled-themes))
 
 (defun my:clear-theme ()
   (interactive)
@@ -297,19 +307,20 @@ visual mode:
 (defvar my:theme-terminal-loaded nil)
 
 (if (daemonp)
-    (add-hook 'after-make-frame-functions(lambda (frame)
-					   (select-frame frame)
-					   (if (window-system frame)
-					       (unless my:theme-window-loaded
-						 (if my:theme-terminal-loaded
-						     (enable-theme my:theme)
-						   (load-theme my:theme t))
-						 (setq my:theme-window-loaded t))
-					     (unless my:theme-terminal-loaded
-					       (if my:theme-window-loaded
-						   (enable-theme my:theme)
-						 (load-theme my:theme t))
-					       (setq my:theme-terminal-loaded t)))))
+    (add-hook 'after-make-frame-functions
+	      (lambda (frame)
+		(select-frame frame)
+		(if (window-system frame)
+		    (unless my:theme-window-loaded
+		      (if my:theme-terminal-loaded
+			  (enable-theme my:theme)
+			(load-theme my:theme t))
+		      (setq my:theme-window-loaded t))
+		  (unless my:theme-terminal-loaded
+		    (if my:theme-window-loaded
+			(enable-theme my:theme)
+		      (load-theme my:theme t))
+		    (setq my:theme-terminal-loaded t)))))
 
   (progn
     (load-theme my:theme t)
@@ -331,9 +342,9 @@ visual mode:
   ;; (setq ivy-re-builders-alist
   ;; 	'((t . ivy--regex-fuzzy)))
   (setq ivy-use-virtual-buffers t
-	enable-recursive-minibuffers t
-	ivy-initial-inputs-alist nil
-	ivy-count-format "%d/%d "))
+        enable-recursive-minibuffers t
+        ivy-initial-inputs-alist nil
+        ivy-count-format "%d/%d "))
 
 (defun ivy-open-other-window (x)
   (find-file-other-window x))
@@ -345,7 +356,7 @@ visual mode:
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
   (setq ivy-virtual-abbreviate 'full
-	ivy-rich-switch-buffer-align-virtual-buffer t)
+        ivy-rich-switch-buffer-align-virtual-buffer t)
   (setq ivy-rich-abbreviate-paths t))
 
 ;; for edit in C-c C-o
@@ -371,20 +382,20 @@ visual mode:
 (global-set-key (kbd "C-c V") 'ivy-pop-view)
 (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
 (my/leader
-  "ag" 'counsel-ag
-  "`"  'ivy-switch-buffer
-  "d"  'counsel-yank-pop
-  "m"  'counsel-mark-ring
-  "s"  'swiper
-  "bb" 'ibuffer
-  "pp" 'projectile-switch-project
-  "pf" 'projectile-find-file-dwim
-  "i"  'ivy-imenu-anywhere
-  "fl" 'imenu-anywhere
-  "gg" 'counsel-git-grep
-  "ff" 'counsel-find-file
-  "vv"  'ivy-push-view
-  "vo" 'ivy-pop-view)
+ "ag" 'counsel-ag
+ "`"  'ivy-switch-buffer
+ "d"  'counsel-yank-pop
+ "m"  'counsel-mark-ring
+ "s"  'swiper
+ "bb" 'ibuffer
+ "pp" 'projectile-switch-project
+ "pf" 'projectile-find-file-dwim
+ "i"  'ivy-imenu-anywhere
+ "fl" 'imenu-anywhere
+ "gg" 'counsel-git-grep
+ "ff" 'counsel-find-file
+ "vv"  'ivy-push-view
+ "vo" 'ivy-pop-view)
 
 (define-key ivy-minibuffer-map (kbd "C-l") 'ivy-backward-delete-char)
 #+END_SRC
@@ -418,10 +429,10 @@ visual mode:
   :config
   (yas-global-mode 1)
   (my/leader
-    "yn" 'yas-new-snippet
-    "yv" 'yas-visit-snippet-file
-    "yt" 'yas-describe-tables
-    "yi" 'yas-insert-snippet))
+   "yn" 'yas-new-snippet
+   "yv" 'yas-visit-snippet-file
+   "yt" 'yas-describe-tables
+   "yi" 'yas-insert-snippet))
 #+END_SRC
 ** Window Control
 *** Popwin
@@ -454,7 +465,7 @@ popup window for better experience
     (helpful-mode :noselect nil)))
 
 (cl-loop for conf in my:popup-config
-	 do (push conf popwin:special-display-config))
+         do (push conf popwin:special-display-config))
 #+END_SRC
 *** Eyebrowse
 #+BEGIN_SRC emacs-lisp
@@ -514,8 +525,8 @@ popup window for better experience
     slime-repl-mode))
 
 (cl-loop for mode in peter/paredit-modes
-	 do (let ((hook (concat (symbol-name mode) "-hook")))
-	      (add-hook (intern hook) #'paredit-mode)))
+         do (let ((hook (concat (symbol-name mode) "-hook")))
+              (add-hook (intern hook) #'paredit-mode)))
 #+END_SRC
 *** Smartparens
 #+BEGIN_SRC emacs-lisp
@@ -632,8 +643,8 @@ popup window for better experience
   :config
   (ranger-override-dired-mode t)
   (setq ranger-deer-show-details t
-	ranger-show-hidden nil
-	ranger-cleanup-eagerly t)
+        ranger-show-hidden nil
+        ranger-cleanup-eagerly t)
   (define-key ranger-mode-map (kbd "M-1") nil)
   (define-key ranger-mode-map (kbd "M-2") nil)
   (define-key ranger-mode-map (kbd "M-3") nil)
@@ -666,43 +677,43 @@ M   : /mnt
        '(?q ?e ?u ?d ?l ?L ?o ?v ?m ?M ?s ?r ?G ?p ?/ ?h ?g ?D ?j ?k ?T ?t ?n ?c))))
     (message nil)
     (let* ((c (char-to-string path))
-	   (new-path
-	    (cl-case (intern c)
-	      ('e "/etc")
-	      ('u "/usr")
-	      ('d "~/Desktop")
-	      ('l (file-truename default-directory))
-	      ('L (file-truename (dired-get-filename)))
-	      ('o "~/Sync/org")
-	      ('p "~/Playground")
-	      ('v "/var")
-	      ('m "/media")
-	      ('M "/mnt")
-	      ('s "~/Sync")
-	      ('n "~/Nixos")
-	      ('c "~/.config")
-	      ('r "/")
-	      ('G "~/golang/src")
-	      ('h  "~/")
-	      ('/ "/")))
-	   (alt-option
-	    (cl-case (intern c)
-	      ;; Subdir Handlng
-	      ('j 'ranger-next-subdir)
-	      ('k 'ranger-prev-subdir)
-	      ;; Tab Handling
-	      ('T 'ranger-prev-tab)
-	      ('t 'ranger-next-tab)
-	      ('g 'ranger-goto-top))))
+           (new-path
+            (cl-case (intern c)
+              ('e "/etc")
+              ('u "/usr")
+              ('d "~/Desktop")
+              ('l (file-truename default-directory))
+              ('L (file-truename (dired-get-filename)))
+              ('o "~/Sync/org")
+              ('p "~/Playground")
+              ('v "/var")
+              ('m "/media")
+              ('M "/mnt")
+              ('s "~/Sync")
+              ('n "~/Nixos")
+              ('c "~/.config")
+              ('r "/")
+              ('G "~/golang/src")
+              ('h  "~/")
+              ('/ "/")))
+           (alt-option
+            (cl-case (intern c)
+              ;; Subdir Handlng
+              ('j 'ranger-next-subdir)
+              ('k 'ranger-prev-subdir)
+              ;; Tab Handling
+              ('T 'ranger-prev-tab)
+              ('t 'ranger-next-tab)
+              ('g 'ranger-goto-top))))
       (when (string-equal c "q")
-	(keyboard-quit))
+        (keyboard-quit))
       (when (and new-path (file-directory-p new-path))
-	(ranger-find-file new-path))
+        (ranger-find-file new-path))
       (when (eq system-type 'windows-nt)
-	(when (string-equal c "D")
-	  (ranger-show-drives)))
+        (when (string-equal c "D")
+          (ranger-show-drives)))
       (when alt-option
-	(call-interactively alt-option)))))
+        (call-interactively alt-option)))))
 #+END_SRC
 *** Projectile
 #+BEGIN_SRC emacs-lisp
@@ -727,23 +738,23 @@ M   : /mnt
   "fasd counsel interface"
   (interactive)
   (ivy-read "fasd: " #'counsel-fasd-function
-	    :initial-input initial-input
-	    :dynamic-collection t
-	    :require-match t
-	    :sort t
-	    :history 'counsel-fasd
-	    :action (lambda (str)
-		      (if (directory-name-p str)
-			  (dired str)
-			(find-file str)))
-	    :caller 'counsel-fasd))
+            :initial-input initial-input
+            :dynamic-collection t
+            :require-match t
+            :sort t
+            :history 'counsel-fasd
+            :action (lambda (str)
+                      (if (directory-name-p str)
+                          (dired str)
+                        (find-file str)))
+            :caller 'counsel-fasd))
 
 (use-package fasd
   :ensure t
   :config
   (global-fasd-mode 1)
   (my/leader
-    "fd" 'counsel-fasd))
+   "fd" 'counsel-fasd))
 #+END_SRC
 ** Version Control
 *** Magit
@@ -753,7 +764,7 @@ M   : /mnt
   :bind (("C-x g" . magit-status))
   :config
   (my/leader
-    "gs" 'magit-status))
+   "gs" 'magit-status))
 #+END_SRC
 *** Git Timemachine
 #+BEGIN_SRC emacs-lisp
@@ -774,14 +785,11 @@ M   : /mnt
   :ensure t
   :diminish git-gutter-mode
   :config
-  (global-git-gutter-mode +1)
-  ;(evil-leader/set-key "gg" 'git-gutter:popup-hunk)
-  )
+  (global-git-gutter-mode +1))
 #+END_SRC
 *** Git Auto Commit Mode
 #+BEGIN_SRC emacs-lisp
-(use-package git-auto-commit-mode
-  :ensure t)
+(use-package git-auto-commit-mode :ensure t)
 #+END_SRC
 ** Interface Enhancement
 *** Helpful
@@ -798,24 +806,23 @@ M   : /mnt
 *** Rainbow Mode
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
-  :diminish rainbow-mode
   :ensure t
+  :diminish rainbow-mode
   :config
   (add-hook 'prog-mode-hook #'rainbow-mode)
   (add-hook 'conf-xdefaults-mode-hook #'rainbow-mode))
 #+END_SRC
 *** Undo Tree
 #+BEGIN_SRC emacs-lisp
-(use-package undo-tree
-  :diminish undo-tree-mode)
+(use-package undo-tree :diminish undo-tree-mode)
 #+END_SRC
 *** Beacon Mode
 #+BEGIN_SRC emacs-lisp
 (use-package beacon
   :ensure t
+  :diminish beacon-mode
   :config
-  (beacon-mode 1)
-  (diminish 'beacon-mode))
+  (beacon-mode 1))
 #+END_SRC
 *** Which Key
 #+BEGIN_SRC emacs-lisp
@@ -845,8 +852,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (setq paradox-github-token t)
   (evil-set-initial-state 'paradox-menu-mode 'emacs)
   (my/leader
-    "pr" 'paradox-list-packages
-    "pu" 'paradox-upgrade-packages))
+   "pr" 'paradox-list-packages
+   "pu" 'paradox-upgrade-packages))
 #+END_SRC
 *** Hide Show Comments
 #+BEGIN_SRC emacs-lisp
@@ -857,18 +864,15 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+END_SRC
 *** IBuffer
 #+BEGIN_SRC emacs-lisp
-  (defun peter/ibuffer-mode-hook ()
-    (hl-line-mode)
-    (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
-    (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
+(defun peter/ibuffer-mode-hook ()
+  (hl-line-mode)
+  (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
+  (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
 (add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
 #+END_SRC
 *** IMenu Anywhere
 #+BEGIN_SRC emacs-lisp
-(use-package imenu-anywhere
-  :ensure t
-  :config
-  )
+(use-package imenu-anywhere :ensure t)
 #+END_SRC
 * Org Mode
 ** Org Mode General
@@ -893,19 +897,19 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (setq org-image-actual-width 600))
 (setq org-link-frame-setup
       '((file . find-file)
-	(vm . vm-visit-folder)))
+        (vm . vm-visit-folder)))
 (my/leader
-  "op" 'org-mobile-push
-  "of" 'org-mobile-pull
-  "as" 'org-clock-goto
-  "aw" 'org-agenda-list
-  "aa" 'org-todo-list
-  "ac" 'org-capture)
+ "op" 'org-mobile-push
+ "of" 'org-mobile-pull
+ "as" 'org-clock-goto
+ "aw" 'org-agenda-list
+ "aa" 'org-todo-list
+ "ac" 'org-capture)
 ;; diminish org-indent-mode
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 
 (my/leader-mode :keymaps 'org-mode-map
-  "i" 'counsel-org-goto)
+                "i" 'counsel-org-goto)
 
 ;; org modules
 (add-to-list 'org-modules 'org-habit)
@@ -947,9 +951,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
       org-support-shift-select 'always)
 
 (org-babel-do-load-languages 'org-babel-load-languages
-			     '((sh . t)
-			       (gnuplot . t)
-			       (octave . t)
+                             '((sh . t)
+                               (gnuplot . t)
+                               (octave . t)
                                (dot . t)))
 
 #+END_SRC
@@ -960,10 +964,10 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-default-notes-file "~/Sync/org/inbox.org")
 (setq org-agenda-files
       (list "~/Sync/org/inbox.org"
-	    "~/Sync/org/project.org"
+            "~/Sync/org/project.org"
             "~/Sync/org/web.org"
-	    "~/Sync/org/someday.org"
-	    "~/Sync/org/todo.org"))
+            "~/Sync/org/someday.org"
+            "~/Sync/org/todo.org"))
 (setq org-directory "~/Sync/org")
 (setq org-log-done 'time)
 (setq org-log-states-order-reversed nil)
@@ -978,8 +982,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
           (org-buffer-list 'files)))
 
 (setq org-refile-targets '((nil :maxlevel . 2)
-			   (peter/org-buffer-files :maxlevel . 3)
-			   (org-agenda-files :maxlevel . 2)))
+                           (peter/org-buffer-files :maxlevel . 3)
+                           (org-agenda-files :maxlevel . 2)))
 ;; Refile in a single go
 (setq org-outline-path-complete-in-steps nil)
 ;; Show full paths for refiling
@@ -1010,25 +1014,25 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
       '(("i" "Inbox" entry (file "~/Sync/org/inbox.org")
-	 "* TODO %?\n %i\n")
-	("j" "Journal" entry (file+datetree "~/Sync/org/journal.org")
-	 "* %?\nEntered on %U\n %i\n")
-	("p" "org-protocol" entry (file "~/Sync/org/web.org")
-	 "* [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
-	 :empty-line 1)
-	("L" "org-protocol-link" entry (file "~/Sync/org/web.org")
-	 "* [[%:link][%:description]]\n"
-	 :empty-line 1)
-	("w" "vocabulary prompt" plain (file "~/Sync/org/vocabulary.org")
-	 "%(call-interactively #'my-vocabulary-format-result-prompt)")))
+         "* TODO %?\n %i\n")
+        ("j" "Journal" entry (file+datetree "~/Sync/org/journal.org")
+         "* %?\nEntered on %U\n %i\n")
+        ("p" "org-protocol" entry (file "~/Sync/org/web.org")
+         "* [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
+         :empty-line 1)
+        ("L" "org-protocol-link" entry (file "~/Sync/org/web.org")
+         "* [[%:link][%:description]]\n"
+         :empty-line 1)
+        ("w" "vocabulary prompt" plain (file "~/Sync/org/vocabulary.org")
+         "%(call-interactively #'my-vocabulary-format-result-prompt)")))
 
 (defvar peter/org-refile-index 0
   "Indicator for org-caputre-refile, if 0 delete frame if 1 no delete ")
 
 (advice-add 'org-capture-refile :before '(lambda () (setq peter/org-refile-index 1)))
 (advice-add 'org-capture-refile :after '(lambda ()
-					  (setq peter/org-refile-index 0)
-					  (peter/org-capture-delete-frame)))
+                                          (setq peter/org-refile-index 0)
+                                          (peter/org-capture-delete-frame)))
 
 (defun peter/org-capture-window ()
   (if (equal "org-agenda" (frame-parameter nil 'name))
@@ -1036,7 +1040,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (defun peter/org-capture-delete-frame ()
   (if (and (equal peter/org-refile-index 0)
-	   (equal "org-agenda" (frame-parameter nil 'name)))
+           (equal "org-agenda" (frame-parameter nil 'name)))
       (delete-frame)))
 
 
@@ -1119,11 +1123,11 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (let* ((splitparts (org-protocol-parse-parameters fname t))
          (w (plist-get splitparts :word)))
     (my-vocabulary-write w)
-(message "word saved %s" w))
+    (message "word saved %s" w))
   nil)
 
 (add-to-list 'org-protocol-protocol-alist
-	     '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
+             '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
 #+END_SRC
 ** Org Pomodoro
 #+BEGIN_SRC emacs-lisp
@@ -1134,8 +1138,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   ;(setq org-clock-continuously nil)
   (global-set-key [f2] 'org-pomodoro)
   (global-set-key (kbd "C-x t") 'org-pomodoro))
-
-;(add-hook 'org-clock-out-hook #'org-pomodoro-kill)
 #+END_SRC
 ** Org Latex
 #+BEGIN_SRC emacs-lisp
@@ -1148,7 +1150,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq-default TeX-engine 'xelatex)
 (setq org-latex-classes
       '(("article"
-	 "
+         "
 \\documentclass{ctexart}
 \\usepackage{hyperref}
 \\hypersetup{
@@ -1159,14 +1161,14 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   urlcolor=[rgb]{0,0.37,0.53},
   pagebackref=true,
   linktoc=all,}
-	 "
+         "
 
-	 ("\\section{%s}" . "\\section*{%s}")
-	 ("\\subsection{%s}" . "\\subsection*{%s}")
-	 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-	 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-	 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-	))
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+         ("\\paragraph{%s}" . "\\paragraph*{%s}")
+         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+        ))
 #+END_SRC
 ** Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
@@ -1175,11 +1177,11 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   (setq org-wiki-location "~/Sync/wiki")
   (my/leader "ki" 'org-wiki-index
-	     "ks" 'peter/org-wiki-search
-	     "kc" 'org-wiki-create
-	     "kj" 'org-wiki-insert
-	     "kt" 'org-wiki-asset-open-terminal
-	     "ae" 'org-wiki-helm))
+             "ks" 'peter/org-wiki-search
+             "kc" 'org-wiki-create
+             "kj" 'org-wiki-insert
+             "kt" 'org-wiki-asset-open-terminal
+             "ae" 'org-wiki-helm))
 
 (defun peter/org-wiki-search ()
   (interactive)
@@ -1231,16 +1233,16 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :config
   ;; (org-brain-activate-cache-saving)
   (my/leader
-    "oa" 'org-brain-visualize
-    "oe" 'org-brain-deft)
+   "oa" 'org-brain-visualize
+   "oe" 'org-brain-deft)
   (define-key org-brain-visualize-mode-map "/" 'org-brain-deft))
 
 (defun org-brain-deft ()
   "Use `deft' for files in `org-brain-path'."
   (interactive)
   (let ((deft-directory org-brain-path)
-	(deft-recursive t)
-	(deft-extensions '("org")))
+        (deft-recursive t)
+        (deft-extensions '("org")))
     (deft)))
 
 
@@ -1265,7 +1267,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (evil-set-initial-state 'deft-mode 'emacs)
   (evil-set-initial-state 'artist-mode 'emacs)
   (my/leader
-    "ae" 'deft)
+   "ae" 'deft)
   (setq deft-extensions '("org"))
   (setq deft-use-filename-as-title nil)
   (setq deft-use-filter-string-for-filename t)
@@ -1273,9 +1275,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (setq deft-default-extension "org")
   (setq deft-directory "~/Sync/notes")
   (setq deft-file-naming-rules
-      '((noslash . "-")
-        (nospace . "-")
-        (case-fn . downcase))))
+        '((noslash . "-")
+          (nospace . "-")
+          (case-fn . downcase))))
 #+END_SRC
 ** Org Inline Image Workaround
 #+BEGIN_SRC emacs-lisp
@@ -1297,23 +1299,23 @@ xN to set the height, keeping the aspect ratio constant.
 NxM! to set the width and height, ignoring the aspect ratio.
 See http://www.imagemagick.org/Usage/resize/#resize for more options."
   (let* ((md5-hash (with-temp-buffer (insert-file-contents fname)
-				     (insert (format "%s" resize-options))
-				     (md5 (buffer-string))))
-	 (resized-fname (concat (expand-file-name
-				 md5-hash
-				 temporary-file-directory)
-				"."
-				(file-name-extension fname)))
-	 (cmd (format "mogrify -resize %s %s"
-		      resize-options
-		      resized-fname)))
+                                     (insert (format "%s" resize-options))
+                                     (md5 (buffer-string))))
+         (resized-fname (concat (expand-file-name
+                                 md5-hash
+                                 temporary-file-directory)
+                                "."
+                                (file-name-extension fname)))
+         (cmd (format "mogrify -resize %s %s"
+                      resize-options
+                      resized-fname)))
     (if (not (executable-find "mogrify"))
-	(progn
-	  (message "No mogrify executable found. To eliminate this message, set  `org-inline-image-resize-function' to nil or install imagemagick from http://www.imagemagick.org/script/binary-releases.php")
-	  fname)
+        (progn
+          (message "No mogrify executable found. To eliminate this message, set  `org-inline-image-resize-function' to nil or install imagemagick from http://www.imagemagick.org/script/binary-releases.php")
+          fname)
       (unless (file-exists-p resized-fname)
-	(copy-file fname resized-fname)
-	(shell-command cmd))
+        (copy-file fname resized-fname)
+        (shell-command cmd))
       resized-fname)))
 
 
@@ -1342,90 +1344,90 @@ boundaries."
     (org-with-wide-buffer
      (goto-char (or beg (point-min)))
      (let ((case-fold-search t)
-	   (file-extension-re (image-file-name-regexp)))
+           (file-extension-re (image-file-name-regexp)))
        (while (re-search-forward "[][]\\[\\(?:file\\|[./~]\\)" end t)
-	 (let ((link (save-match-data (org-element-context))))
-	   ;; Check if we're at an inline image.
-	   (when (and (equal (org-element-property :type link) "file")
-		      (or include-linked
-			  (not (org-element-property :contents-begin link)))
-		      (let ((parent (org-element-property :parent link)))
-			(or (not (eq (org-element-type parent) 'link))
-			    (not (cdr (org-element-contents parent)))))
-		      (org-string-match-p file-extension-re
-					  (org-element-property :path link)))
-	     (let ((file (expand-file-name
-			  (org-link-unescape
-			   (org-element-property :path link)))))
-	       (when (file-exists-p file)
-		 (let ((width
-			;; Apply `org-image-actual-width' specifications.
-			(cond
-			 ((and (not (image-type-available-p 'imagemagick))
-			       (not org-inline-image-resize-function))
-			  nil)
-			 ((eq org-image-actual-width t) nil)
-			 ((listp org-image-actual-width)
-			  (or
-			   ;; First try to find a width among
-			   ;; attributes associated to the paragraph
-			   ;; containing link.
-			   (let* ((paragraph
-				   (let ((e link))
-				     (while (and (setq e (org-element-property
-							  :parent e))
-						 (not (eq (org-element-type e)
-							  'paragraph))))
-				     e))
-				  (attr_org (org-element-property :attr_org paragraph)))
-			     (when attr_org
-			       (plist-get
-				(org-export-read-attribute :attr_org  paragraph) :width)))
-			   ;; Otherwise, fall-back to provided number.
-			   (car org-image-actual-width)))
-			 ((numberp org-image-actual-width)
-			  org-image-actual-width)))
-		       (old (get-char-property-and-overlay
-			     (org-element-property :begin link)
-			     'org-image-overlay)))
-		   (if (and (car-safe old) refresh)
-		       (image-refresh (overlay-get (cdr old) 'display))
+         (let ((link (save-match-data (org-element-context))))
+           ;; Check if we're at an inline image.
+           (when (and (equal (org-element-property :type link) "file")
+                      (or include-linked
+                          (not (org-element-property :contents-begin link)))
+                      (let ((parent (org-element-property :parent link)))
+                        (or (not (eq (org-element-type parent) 'link))
+                            (not (cdr (org-element-contents parent)))))
+                      (org-string-match-p file-extension-re
+                                          (org-element-property :path link)))
+             (let ((file (expand-file-name
+                          (org-link-unescape
+                           (org-element-property :path link)))))
+               (when (file-exists-p file)
+                 (let ((width
+                        ;; Apply `org-image-actual-width' specifications.
+                        (cond
+                         ((and (not (image-type-available-p 'imagemagick))
+                               (not org-inline-image-resize-function))
+                          nil)
+                         ((eq org-image-actual-width t) nil)
+                         ((listp org-image-actual-width)
+                          (or
+                           ;; First try to find a width among
+                           ;; attributes associated to the paragraph
+                           ;; containing link.
+                           (let* ((paragraph
+                                   (let ((e link))
+                                     (while (and (setq e (org-element-property
+                                                          :parent e))
+                                                 (not (eq (org-element-type e)
+                                                          'paragraph))))
+                                     e))
+                                  (attr_org (org-element-property :attr_org paragraph)))
+                             (when attr_org
+                               (plist-get
+                                (org-export-read-attribute :attr_org  paragraph) :width)))
+                           ;; Otherwise, fall-back to provided number.
+                           (car org-image-actual-width)))
+                         ((numberp org-image-actual-width)
+                          org-image-actual-width)))
+                       (old (get-char-property-and-overlay
+                             (org-element-property :begin link)
+                             'org-image-overlay)))
+                   (if (and (car-safe old) refresh)
+                       (image-refresh (overlay-get (cdr old) 'display))
 
-		     (when (and width org-inline-image-resize-function)
-		       (setq file (funcall  org-inline-image-resize-function file width)
-			     width nil))
-		     (let ((image (create-image file
-						(cond
-						 ((image-type-available-p 'imagemagick)
-						  (and width 'imagemagick))
-						 (t nil))
-						nil
-						:width width)))
-		       (when image
-			 (let* ((link
-				 ;; If inline image is the description
-				 ;; of another link, be sure to
-				 ;; consider the latter as the one to
-				 ;; apply the overlay on.
-				 (let ((parent
-					(org-element-property :parent link)))
-				   (if (eq (org-element-type parent) 'link)
-				       parent
-				     link)))
-				(ov (make-overlay
-				     (org-element-property :begin link)
-				     (progn
-				       (goto-char
-					(org-element-property :end link))
-				       (skip-chars-backward " \t")
-				       (point)))))
-			   (overlay-put ov 'display image)
-			   (overlay-put ov 'face 'default)
-			   (overlay-put ov 'org-image-overlay t)
-			   (overlay-put
-			    ov 'modification-hooks
-			    (list 'org-display-inline-remove-overlay))
-			   (push ov org-inline-image-overlays)))))))))))))))
+                     (when (and width org-inline-image-resize-function)
+                       (setq file (funcall  org-inline-image-resize-function file width)
+                             width nil))
+                     (let ((image (create-image file
+                                                (cond
+                                                 ((image-type-available-p 'imagemagick)
+                                                  (and width 'imagemagick))
+                                                 (t nil))
+                                                nil
+                                                :width width)))
+                       (when image
+                         (let* ((link
+                                 ;; If inline image is the description
+                                 ;; of another link, be sure to
+                                 ;; consider the latter as the one to
+                                 ;; apply the overlay on.
+                                 (let ((parent
+                                        (org-element-property :parent link)))
+                                   (if (eq (org-element-type parent) 'link)
+                                       parent
+                                     link)))
+                                (ov (make-overlay
+                                     (org-element-property :begin link)
+                                     (progn
+                                       (goto-char
+                                        (org-element-property :end link))
+                                       (skip-chars-backward " \t")
+                                       (point)))))
+                           (overlay-put ov 'display image)
+                           (overlay-put ov 'face 'default)
+                           (overlay-put ov 'org-image-overlay t)
+                           (overlay-put
+                            ov 'modification-hooks
+                            (list 'org-display-inline-remove-overlay))
+                           (push ov org-inline-image-overlays)))))))))))))))
 
 ;; * Enable pdf and eps images in org-mode
 ;; Suggested on the org-mode maillist by Julian Burgos
@@ -1443,9 +1445,7 @@ boundaries."
 ** Nix
 #+BEGIN_SRC emacs-lisp
 (use-package nix-sandbox :ensure t)
-
-(use-package nix-mode :ensure t
-  )
+(use-package nix-mode :ensure t)
 #+END_SRC
 ** C/C++
 NixOS Caveat:
@@ -1460,19 +1460,21 @@ NixOS Caveat:
 (use-package company-irony :ensure t)
 
 (defun rtags-nixos-include-path()
-  (replace-regexp-in-string "\n" " "
-			    (replace-regexp-in-string "-isystem" "-s"
-						      (nix-shell
-						       (nix-current-sandbox)
-						       "printenv NIX_CFLAGS_COMPILE NIX_CXXSTDLIB_COMPILE"))))
+  "find include path in current nix sandbox"
+  (funcall (-compose
+	    (-partial 'replace-regexp-in-string "\n" "")
+	    (-partial 'replace-regexp-in-string "-isystem" "-s")
+	    (lambda () (nix-shell (nix-current-sandbox)
+				  "printenv NIX_CFLAGS_COMPILE NIX_CXXSTDLIB_COMPILE")))))
+
+(defun rtags-command-advise (orig-fun &rest args)
+  "append nixos include to rtags command"
+  (let ((res (apply orig-fun args)))
+    (format "%s %s" res (rtags-nixos-include-path))))
+
+;; advice rdm to add include path if NixOS
 (when (executable-find "nix-env")
-  (defun rtags-command ()
-    "Shell command used to start the `rtags-server' process."
-    (format "%s %s %s"
-	    (rtags-executable-find "rdm")
-	    (rtags-rdm-includes)
-	    (rtags-nixos-include-path)
-	    rtags-process-flags)))
+  (advice-add 'rtags-command :around #'rtags-command-advise))
 
 (use-package google-c-style
   :ensure t)
@@ -1485,9 +1487,9 @@ NixOS Caveat:
        '(company-irony company-files))
   (local-set-key (kbd "C-c C-j") 'rtags-find-symbol-at-point)
   (local-set-key (kbd "C-c C-a") 'rtags-include-file)
-  (local-set-key (kbd "C-c r") 'rtags-rename-symbol)
   (local-set-key (kbd "C-c C-r") 'rtags-restart-process)
   (local-set-key (kbd "C-c C-i") 'irony-cdb-autosetup-compile-options)
+  (local-set-key (kbd "C-c r") 'rtags-rename-symbol)
   (rtags-start-process-unless-running)
   (irony-mode))
 
@@ -1539,10 +1541,10 @@ NixOS Caveat:
 (defun peter/go-install-or-run ()
   (interactive)
   (cond ((bound-and-true-p go-playground-mode)
-	 (go-playground-exec))
-	((string= (buffer-substring-no-properties 1 13) "package main")
-	 (go-run))
-	(t (compile "go install"))))
+         (go-playground-exec))
+        ((string= (buffer-substring-no-properties 1 13) "package main")
+         (go-run))
+        (t (compile "go install"))))
 
 (use-package go-mode
   :ensure t
@@ -1553,8 +1555,8 @@ NixOS Caveat:
   (add-hook 'go-mode-hook 'peter/go-mode-hook)
   (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook (lambda ()
-			    (set (make-local-variable 'company-backends) '(company-go company-files))
-			    (company-mode))))
+                            (set (make-local-variable 'company-backends) '(company-go company-files))
+                            (company-mode))))
 
 (use-package flycheck-gometalinter
   :ensure t
@@ -1606,8 +1608,7 @@ cargo install rustfmt
 #+END_SRC
 ** Common Lisp
 #+BEGIN_SRC emacs-lisp
-(use-package slime-company
-  :ensure t)
+(use-package slime-company :ensure t)
 
 (use-package slime
   :ensure t
@@ -1636,8 +1637,8 @@ nixos config
 install intero in directory =~/.stack/global-project/=
 ~$HOME/.stack/config.yaml~
 #+BEGIN_SRC yaml
-nix:
-  enable: true
+  nix:
+    enable: true
 #+END_SRC
 
 ~$HOME/.stack/global-project/stack.yaml~
@@ -1661,10 +1662,10 @@ nix:
   :config
   (intero-global-mode 1)
   (general-define-key :states '(normal emacs)
-		      :keymaps 'intero-mode-map
-		      :prefix "C-c"
-		      "C-d" 'intero-info
-		      "C-j" 'intero-goto-definition))
+                      :keymaps 'intero-mode-map
+                      :prefix "C-c"
+                      "C-d" 'intero-info
+                      "C-j" 'intero-goto-definition))
 #+END_SRC
 * Utilities
 ** PDF Tools
@@ -1677,25 +1678,21 @@ nix:
   (define-key pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page)
   (define-key pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
   (general-define-key :states '(emacs)
-		      :keymaps 'pdf-view-mode-map
-		      :non-normal-prefix "SPC"
-		      "`" 'ivy-switch-buffer
-		      "TAB" 'peter/switch-buffer))
+                      :keymaps 'pdf-view-mode-map
+                      :non-normal-prefix "SPC"
+                      "`" 'ivy-switch-buffer
+                      "TAB" 'peter/switch-buffer))
 #+END_SRC
 ** Mail
 *** Send Mail
 #+BEGIN_SRC emacs-lisp
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
 (setq sendmail-program "msmtp")
-; tell msmtp to choose the SMTP server according to the from field in the outgoing email
 (setq message-sendmail-extra-arguments '("--read-envelope-from"))
 (setq message-sendmail-f-is-evil 't)
 
-; add attachment with dired
-; Then, mark the file(s) in dired you would like to attach and press C-c RET C-a, and you’ll be asked whether to attach them to an existing message, or create a new one.
 (require 'gnus-dired)
-;; make the `gnus-dired-mail-buffers' function also work on
-;; message-mode derived modes, such as mu4e-compose-mode
+
 (defun gnus-dired-mail-buffers ()
   "Return a list of active message buffers."
   (let (buffers)
@@ -1703,13 +1700,12 @@ nix:
       (dolist (buffer (buffer-list t))
         (set-buffer buffer)
         (when (and (derived-mode-p 'message-mode)
-                (null message-sent-message-via))
+                   (null message-sent-message-via))
           (push (buffer-name buffer) buffers))))
     (nreverse buffers)))
 
 (setq gnus-dired-mail-mode 'mu4e-user-agent)
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
-
 #+END_SRC
 *** Mu4e
 nixos workaround
@@ -1717,13 +1713,13 @@ nixos workaround
 ;; nixos add to load path
 (let ((mu4epath
        (concat
-	(f-dirname
-	 (file-truename
-	  (executable-find "mu")))
-	"/../share/emacs/site-lisp/mu4e")))
+        (f-dirname
+         (file-truename
+          (executable-find "mu")))
+        "/../share/emacs/site-lisp/mu4e")))
   (when (and
-	 (string-prefix-p "/nix/store/" mu4epath)
-	 (file-directory-p mu4epath))
+         (string-prefix-p "/nix/store/" mu4epath)
+         (file-directory-p mu4epath))
     (add-to-list 'load-path mu4epath)))
 #+END_SRC
 
@@ -1735,7 +1731,7 @@ nixos workaround
 (my/leader "0" 'mu4e)
 
 (add-to-list 'mu4e-view-actions
-	     '("browser" . mu4e-action-view-in-browser) t)
+             '("browser" . mu4e-action-view-in-browser) t)
 
 (setq mu4e-maildir "~/.mail")
 
@@ -1743,8 +1739,8 @@ nixos workaround
 
 (setq mu4e-maildir-shortcuts
       '( ("/sina/Inbox"            . ?a)
-	 ("/qq/Inbox"              . ?q)
-	 ("/icloud/Inbox"         . ?c)))
+         ("/qq/Inbox"              . ?q)
+         ("/icloud/Inbox"         . ?c)))
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "mbsync -a")
@@ -1761,8 +1757,6 @@ nixos workaround
 (setq mu4e-view-show-images t)
 (setq mu4e-html2text-command "w3m -T text/html")
 
-
-
 (setq mu4e-use-fancy-chars t)
 (setq mu4e-change-filenames-when-moving t)
 (setq mu4e-headers-skip-duplicates t)
@@ -1775,15 +1769,14 @@ nixos workaround
   (kbd "%") 'mu4e-headers-mark-pattern)
 
 (add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
-
 #+END_SRC
-** ElFeed
+** COMMENT ElFeed
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
   :ensure t
   :config
   (setq elfeed-feeds
-	'("http://planet.emacsen.org/atom.xml")))
+        '("http://planet.emacsen.org/atom.xml")))
 #+END_SRC
 ** Yadm
 Prerequisite: yadm version >= 1.0.8
@@ -1806,9 +1799,9 @@ access yadm repo via tramp
 
 (defun reopen-as-yadm ()
   (interactive)
-  (unless (file-remote-p (buffer-file-name)) (find-alternate-file
-	    (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name))))
-
+  (unless (file-remote-p (buffer-file-name))
+    (find-alternate-file
+     (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name))))
 #+END_SRC
 ** Terminal Here
 #+BEGIN_SRC emacs-lisp
@@ -1818,7 +1811,7 @@ access yadm repo via tramp
   (when (string= system-type "gnu/linux")
     (setq terminal-here-terminal-command '("urxvt")))
   (my/leader
-    "t" 'terminal-here))
+   "t" 'terminal-here))
 #+END_SRC
 ** Chinese Support
 *** Youdao Dictionary
@@ -1827,7 +1820,7 @@ access yadm repo via tramp
   :ensure t
   :config
   (my/leader
-    "oo" 'youdao-dictionary-search-at-point+))
+   "oo" 'youdao-dictionary-search-at-point+))
 #+END_SRC
 *** Fcitx
 #+BEGIN_SRC emacs-lisp :tangle (if (executable-find "fcitx-remote") "yes" "no")
@@ -1853,9 +1846,7 @@ access yadm repo via tramp
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 ;;For editing systemd file
-(use-package systemd
-  :ensure t)
+(use-package systemd :ensure t)
 
-(use-package yaml-mode
-  :ensure t)
+(use-package yaml-mode :ensure t)
 #+END_SRC
