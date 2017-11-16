@@ -1,0 +1,43 @@
+* Imported Feeds            :elfeed:
+** [[http://planet.haskell.org/rss20.xml][Planet Haskell]]
+** [[http://planet.nixos.org/atom.xml][NixOS Planet]]
+** [[https://www.freelists.org/feed/conkeror][conkeror]]
+** github
+*** [[https://github.com/wangyu-/udp2raw-tunnel/releases.atom][udp2raw]]
+*** [[https://github.com/xtaci/kcptun/releases.atom][kcptun]]
+** Emacs
+*** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
+** Web Dev
+*** [[https://scotch.io/feed][Scotch]]
+*** [[http://www.onextrapixel.com/feed/][Onextrapixel - Web Design and Development Online Magazine]]
+*** [[http://feeds.feedburner.com/paul-irish][Paul Irish]]
+*** [[https://davidwalsh.name/feed/atom][David Walsh Blog]]
+*** [[http://feeds.feedburner.com/AlexSexton][Alex Sexton]]
+*** [[https://www.smashingmagazine.com/feed/][Smashing Magazine]]
+*** [[http://www.phpied.com/feed/][phpied.com]]
+*** [[http://webresourcesdepot.com/feed/][Web Resources Depot]]
+*** [[http://speckyboy.com/feed/][Speckyboy Web Design Magazine]]
+** Unix/Linux
+*** [[http://feeds.feedburner.com/tecmint][Tecmint: Linux Howtos, Tutorials & Guides]]
+*** [[http://www.cyberciti.biz/feed/][nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format]]
+*** [[http://www.unixmen.com/feed/][Unixmen]]
+*** [[http://feeds.feedburner.com/codinghorror/][Coding Horror]]
+** 中文
+*** [[http://www.cnblogs.com/renly/rss][博客园_renly2013]]
+*** [[http://feeds.feedburner.com/ruanyifeng][阮一峰的网络日志]]
+*** [[http://wangbixi.com/feed/][王跸西的生命体验blog-WangBiXi.com]]
+*** [[http://mindhacks.cn/feed/][刘未鹏 | Mind Hacks]]
+*** [[http://blog.zhaojie.me/rss][老赵点滴 - 追求编程之美]]
+*** [[http://feed.williamlong.info/][月光博客]]
+*** [[http://feeds.feedburner.com/playpc][電腦玩物]]
+*** [[http://sspai.com/feed][少数派]]
+*** [[http://feeds.geekpark.net/][极客公园-GeekPark]]
+*** [[http://feed.iplaysoft.com/][异次元软件世界]]
+*** [[http://www.ifanr.com/feed][爱范儿]]
+*** [[http://www.waerfa.com/feed][Mac玩儿法 | Mac软件下载 | Mac软件推荐]]
+** 博客
+*** [[http://htedsv.logdown.com/posts.rss][htedsv&#39;s Blog]]
+*** [[http://www.tennfy.com/feed][TENNFY WU]]
+*** [[http://maybeiwill.me/feed/][MAYBEIWILL]]
+*** [[http://blog.csdn.net/liuyukuan/rss/list][liuyukuan的专栏]]
+*** [[http://feeds.feedburner.com/zenhabits][zenhabits]]

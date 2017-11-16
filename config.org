@@ -1770,13 +1770,17 @@ nixos workaround
 
 (add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
 #+END_SRC
-** COMMENT ElFeed
+** ElFeed
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
   :ensure t
   :config
-  (setq elfeed-feeds
-        '("http://planet.emacsen.org/atom.xml")))
+  (my/leader "9" 'elfeed))
+
+(use-package elfeed-org
+  :ensure t
+  :config
+  (elfeed-org))
 #+END_SRC
 ** Yadm
 Prerequisite: yadm version >= 1.0.8
