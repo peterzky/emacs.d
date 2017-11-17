@@ -1852,5 +1852,5 @@ access yadm repo via tramp
 ;;For editing systemd file
 (use-package systemd :ensure t)
 
-(use-package yaml-mode :ensure t)
+;;(use-package yaml-mode :ensure t)
 #+END_SRC
