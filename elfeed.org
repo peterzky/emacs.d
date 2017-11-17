@@ -2,7 +2,7 @@
 ** [[http://planet.haskell.org/rss20.xml][Planet Haskell]]
 ** [[http://planet.nixos.org/atom.xml][NixOS Planet]]
 ** [[https://www.freelists.org/feed/conkeror][conkeror]]
-** github
+** github                                                           :github:
 *** [[https://github.com/wangyu-/udp2raw-tunnel/releases.atom][udp2raw]]
 *** [[https://github.com/xtaci/kcptun/releases.atom][kcptun]]
 ** Emacs
@@ -17,12 +17,12 @@
 *** [[http://www.phpied.com/feed/][phpied.com]]
 *** [[http://webresourcesdepot.com/feed/][Web Resources Depot]]
 *** [[http://speckyboy.com/feed/][Speckyboy Web Design Magazine]]
-** Unix/Linux
+** Unix/Linux                                                        :linux:
 *** [[http://feeds.feedburner.com/tecmint][Tecmint: Linux Howtos, Tutorials & Guides]]
 *** [[http://www.cyberciti.biz/feed/][nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format]]
 *** [[http://www.unixmen.com/feed/][Unixmen]]
 *** [[http://feeds.feedburner.com/codinghorror/][Coding Horror]]
-** 中文
+** 中文                                                            :chinese:
 *** [[http://www.cnblogs.com/renly/rss][博客园_renly2013]]
 *** [[http://feeds.feedburner.com/ruanyifeng][阮一峰的网络日志]]
 *** [[http://wangbixi.com/feed/][王跸西的生命体验blog-WangBiXi.com]]
@@ -35,9 +35,9 @@
 *** [[http://feed.iplaysoft.com/][异次元软件世界]]
 *** [[http://www.ifanr.com/feed][爱范儿]]
 *** [[http://www.waerfa.com/feed][Mac玩儿法 | Mac软件下载 | Mac软件推荐]]
-** 博客
-*** [[http://htedsv.logdown.com/posts.rss][htedsv&#39;s Blog]]
-*** [[http://www.tennfy.com/feed][TENNFY WU]]
-*** [[http://maybeiwill.me/feed/][MAYBEIWILL]]
 *** [[http://blog.csdn.net/liuyukuan/rss/list][liuyukuan的专栏]]
+*** [[http://www.tennfy.com/feed][TENNFY WU]]
+** blog
+*** [[http://htedsv.logdown.com/posts.rss][htedsv&#39;s Blog]]
+*** [[http://maybeiwill.me/feed/][MAYBEIWILL]]
 *** [[http://feeds.feedburner.com/zenhabits][zenhabits]]

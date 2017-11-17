@@ -1774,6 +1774,12 @@ nixos workaround
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
   :ensure t
+  :bind (:map elfeed-search-mode-map
+	       ("j" . next-line)
+	       ("k" . previous-line)
+	 :map elfeed-show-mode-map
+	       ("j" . scroll-up-line)
+	       ("k" . scroll-down-line))
   :config
   (my/leader "9" 'elfeed))
 
