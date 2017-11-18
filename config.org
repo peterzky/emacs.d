@@ -968,6 +968,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
                                (octave . t)
                                (dot . t)))
 
+(add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
@@ -1061,86 +1062,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (add-hook 'org-capture-mode-hook 'peter/org-capture-window)
 
 #+END_SRC
-*** COMMENT Dictionary
-#+BEGIN_SRC emacs-lisp
-(defun my-vocabulary-format-result (word)
-  "Format request result of WORD."
-  (let* ((json (youdao-dictionary--request word))
-         (query        (assoc-default 'query       json)) ; string
-         (translation  (assoc-default 'translation json)) ; array
-         (errorCode    (assoc-default 'errorCode   json)) ; number
-         (web          (assoc-default 'web         json)) ; array
-         (basic        (assoc-default 'basic       json)) ; alist
-         ;; construct data for display
-         (phonetic (assoc-default 'phonetic basic))
-         (translation-str (mapconcat
-                           (lambda (trans) (concat " " trans))
-                           translation "\n"))
-         (basic-explains-str (mapconcat
-                              (lambda (explain) (concat " " explain))
-                              (assoc-default 'explains basic) "\n"))
-         (web-str (mapconcat
-                   (lambda (k-v)
-                     (format " %s :: %s"
-                             (assoc-default 'key k-v)
-                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
-                   web "\n")))
-    (if basic
-        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
-                query phonetic basic-explains-str web-str)
-      (format "** English\n%s\n*** Translation\n%s\n"
-              query translation-str))))
-
-
-
-(defun my-vocabulary-format-result-prompt ()
-  "Format request result of WORD."
-  (interactive)
-  (let* ((json (youdao-dictionary--request (read-from-minibuffer "word: ")))
-         (query        (assoc-default 'query       json)) ; string
-         (translation  (assoc-default 'translation json)) ; array
-         (errorCode    (assoc-default 'errorCode   json)) ; number
-         (web          (assoc-default 'web         json)) ; array
-         (basic        (assoc-default 'basic       json)) ; alist
-         ;; construct data for display
-         (phonetic (assoc-default 'phonetic basic))
-         (translation-str (mapconcat
-                           (lambda (trans) (concat " " trans))
-                           translation "\n"))
-         (basic-explains-str (mapconcat
-                              (lambda (explain) (concat " " explain))
-                              (assoc-default 'explains basic) "\n"))
-         (web-str (mapconcat
-                   (lambda (k-v)
-                     (format " %s :: %s"
-                             (assoc-default 'key k-v)
-                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
-                   web "\n")))
-    (if basic
-        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
-                query phonetic basic-explains-str web-str)
-      (format "** English\n%s\n*** Translation\n%s\n"
-              query translation-str))))
-#+END_SRC
-** Org Protocol
-#+BEGIN_SRC emacs-lisp
-(defun my-vocabulary-write (word)
-  (write-region
-   (my-vocabulary-format-result word)  nil
-   my-vocabulary-path t))
-
-(defvar my-vocabulary-path "/home/peterzky/Sync/org/vocabulary.org")
-
-(defun org-protocol-vocabulary (fname)
-  (let* ((splitparts (org-protocol-parse-parameters fname t))
-         (w (plist-get splitparts :word)))
-    (my-vocabulary-write w)
-    (message "word saved %s" w))
-  nil)
-
-(add-to-list 'org-protocol-protocol-alist
-             '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
-#+END_SRC
 ** Org Pomodoro
 #+BEGIN_SRC emacs-lisp
 (use-package org-pomodoro
@@ -1204,92 +1125,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (interactive)
   (org-wiki--assets-buffer-make-dir)
   (terminal-here-launch-in-directory (expand-file-name (file-name-base (buffer-file-name)))))
-#+END_SRC
-** COMMENT Org Htmlize
-#+BEGIN_SRC emacs-lisp
-(use-package htmlize
-  :ensure t)
-
-(require 'org-mime)
-
-(setq org-mime-library 'mml)
-
-
-(add-hook 'message-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
-
-(add-hook 'org-mime-html-hook
-          (lambda ()
-            (org-mime-change-element-style
-             "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
-                           "#E6E1DC" "#232323"))))
-
-(add-hook 'org-mime-html-hook
-          (lambda ()
-            (org-mime-change-element-style
-             "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
-#+END_SRC
-** COMMENT Org Brain
-#+BEGIN_SRC emacs-lisp
-(use-package org-brain
-  :ensure t
-  :init
-  (when (file-exists-p "~/Sync")
-    (setq org-brain-path "~/Sync/org/brain"))
-  (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
-  :config
-  ;; (org-brain-activate-cache-saving)
-  (my/leader
-   "oa" 'org-brain-visualize
-   "oe" 'org-brain-deft)
-  (define-key org-brain-visualize-mode-map "/" 'org-brain-deft))
-
-(defun org-brain-deft ()
-  "Use `deft' for files in `org-brain-path'."
-  (interactive)
-  (let ((deft-directory org-brain-path)
-        (deft-recursive t)
-        (deft-extensions '("org")))
-    (deft)))
-
-
-(use-package link-hint
-  :ensure t
-  :config
-  (define-key org-brain-visualize-mode-map (kbd "C-l") #'link-hint-open-link))
-
-(use-package ascii-art-to-unicode
-  :ensure t
-  :config
-  (defun aa2u-buffer ()
-    (aa2u (point-min) (point-max)))
-
-  (add-hook 'org-brain-after-visualize-hook #'aa2u-buffer))
-#+END_SRC
-** COMMENT Deft
-#+BEGIN_SRC emacs-lisp
-(use-package deft
-  :ensure t
-  :config
-  (evil-set-initial-state 'deft-mode 'emacs)
-  (evil-set-initial-state 'artist-mode 'emacs)
-  (my/leader
-   "ae" 'deft)
-  (setq deft-extensions '("org"))
-  (setq deft-use-filename-as-title nil)
-  (setq deft-use-filter-string-for-filename t)
-  ;; (setq deft-org-mode-title-prefix t)
-  (setq deft-default-extension "org")
-  (setq deft-directory "~/Sync/notes")
-  (setq deft-file-naming-rules
-        '((noslash . "-")
-          (nospace . "-")
-          (case-fn . downcase))))
 #+END_SRC
 ** Org Inline Image Workaround
 #+BEGIN_SRC emacs-lisp
@@ -1452,6 +1287,172 @@ boundaries."
 (add-to-list 'image-file-name-extensions "pdf")
 
 (setq imagemagick-types-inhibit (remove 'PDF imagemagick-types-inhibit))
+#+END_SRC
+** COMMENT Org Protocol
+#+BEGIN_SRC emacs-lisp
+(defun my-vocabulary-write (word)
+  (write-region
+   (my-vocabulary-format-result word)  nil
+   my-vocabulary-path t))
+
+(defvar my-vocabulary-path "/home/peterzky/Sync/org/vocabulary.org")
+
+(defun org-protocol-vocabulary (fname)
+  (let* ((splitparts (org-protocol-parse-parameters fname t))
+         (w (plist-get splitparts :word)))
+    (my-vocabulary-write w)
+    (message "word saved %s" w))
+  nil)
+
+(add-to-list 'org-protocol-protocol-alist
+             '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
+#+END_SRC
+** COMMENT Org Dictionary
+#+BEGIN_SRC emacs-lisp
+(defun my-vocabulary-format-result (word)
+  "Format request result of WORD."
+  (let* ((json (youdao-dictionary--request word))
+         (query        (assoc-default 'query       json)) ; string
+         (translation  (assoc-default 'translation json)) ; array
+         (errorCode    (assoc-default 'errorCode   json)) ; number
+         (web          (assoc-default 'web         json)) ; array
+         (basic        (assoc-default 'basic       json)) ; alist
+         ;; construct data for display
+         (phonetic (assoc-default 'phonetic basic))
+         (translation-str (mapconcat
+                           (lambda (trans) (concat " " trans))
+                           translation "\n"))
+         (basic-explains-str (mapconcat
+                              (lambda (explain) (concat " " explain))
+                              (assoc-default 'explains basic) "\n"))
+         (web-str (mapconcat
+                   (lambda (k-v)
+                     (format " %s :: %s"
+                             (assoc-default 'key k-v)
+                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
+                   web "\n")))
+    (if basic
+        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
+                query phonetic basic-explains-str web-str)
+      (format "** English\n%s\n*** Translation\n%s\n"
+              query translation-str))))
+
+
+
+(defun my-vocabulary-format-result-prompt ()
+  "Format request result of WORD."
+  (interactive)
+  (let* ((json (youdao-dictionary--request (read-from-minibuffer "word: ")))
+         (query        (assoc-default 'query       json)) ; string
+         (translation  (assoc-default 'translation json)) ; array
+         (errorCode    (assoc-default 'errorCode   json)) ; number
+         (web          (assoc-default 'web         json)) ; array
+         (basic        (assoc-default 'basic       json)) ; alist
+         ;; construct data for display
+         (phonetic (assoc-default 'phonetic basic))
+         (translation-str (mapconcat
+                           (lambda (trans) (concat " " trans))
+                           translation "\n"))
+         (basic-explains-str (mapconcat
+                              (lambda (explain) (concat " " explain))
+                              (assoc-default 'explains basic) "\n"))
+         (web-str (mapconcat
+                   (lambda (k-v)
+                     (format " %s :: %s"
+                             (assoc-default 'key k-v)
+                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
+                   web "\n")))
+    (if basic
+        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
+                query phonetic basic-explains-str web-str)
+      (format "** English\n%s\n*** Translation\n%s\n"
+              query translation-str))))
+#+END_SRC
+** COMMENT Org Htmlize
+#+BEGIN_SRC emacs-lisp
+(use-package htmlize
+  :ensure t)
+
+(require 'org-mime)
+
+(setq org-mime-library 'mml)
+
+
+(add-hook 'message-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (org-mime-change-element-style
+             "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                           "#E6E1DC" "#232323"))))
+
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (org-mime-change-element-style
+             "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
+#+END_SRC
+** COMMENT Org Brain
+#+BEGIN_SRC emacs-lisp
+(use-package org-brain
+  :ensure t
+  :init
+  (when (file-exists-p "~/Sync")
+    (setq org-brain-path "~/Sync/org/brain"))
+  (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
+  :config
+  ;; (org-brain-activate-cache-saving)
+  (my/leader
+   "oa" 'org-brain-visualize
+   "oe" 'org-brain-deft)
+  (define-key org-brain-visualize-mode-map "/" 'org-brain-deft))
+
+(defun org-brain-deft ()
+  "Use `deft' for files in `org-brain-path'."
+  (interactive)
+  (let ((deft-directory org-brain-path)
+        (deft-recursive t)
+        (deft-extensions '("org")))
+    (deft)))
+
+
+(use-package link-hint
+  :ensure t
+  :config
+  (define-key org-brain-visualize-mode-map (kbd "C-l") #'link-hint-open-link))
+
+(use-package ascii-art-to-unicode
+  :ensure t
+  :config
+  (defun aa2u-buffer ()
+    (aa2u (point-min) (point-max)))
+
+  (add-hook 'org-brain-after-visualize-hook #'aa2u-buffer))
+#+END_SRC
+** COMMENT Deft
+#+BEGIN_SRC emacs-lisp
+(use-package deft
+  :ensure t
+  :config
+  (evil-set-initial-state 'deft-mode 'emacs)
+  (evil-set-initial-state 'artist-mode 'emacs)
+  (my/leader
+   "ae" 'deft)
+  (setq deft-extensions '("org"))
+  (setq deft-use-filename-as-title nil)
+  (setq deft-use-filter-string-for-filename t)
+  ;; (setq deft-org-mode-title-prefix t)
+  (setq deft-default-extension "org")
+  (setq deft-directory "~/Sync/notes")
+  (setq deft-file-naming-rules
+        '((noslash . "-")
+          (nospace . "-")
+          (case-fn . downcase))))
 #+END_SRC
 * Programming Languages
 ** Nix
