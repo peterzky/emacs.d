@@ -1,13 +1,12 @@
 * Imported Feeds            :elfeed:
-** [[http://planet.haskell.org/rss20.xml][Planet Haskell]]
-** [[http://planet.nixos.org/atom.xml][NixOS Planet]]
+** [[http://planet.nixos.org/atom.xml][NixOS Planet]]                                                      :nixos:
 ** [[https://www.freelists.org/feed/conkeror][conkeror]]
 ** github                                                           :github:
 *** [[https://github.com/wangyu-/udp2raw-tunnel/releases.atom][udp2raw]]
 *** [[https://github.com/xtaci/kcptun/releases.atom][kcptun]]
 ** Emacs
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
-** Web Dev
+** Web Dev                                                             :web:
 *** [[https://scotch.io/feed][Scotch]]
 *** [[http://www.onextrapixel.com/feed/][Onextrapixel - Web Design and Development Online Magazine]]
 *** [[http://feeds.feedburner.com/paul-irish][Paul Irish]]

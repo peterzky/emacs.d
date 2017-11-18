@@ -65,6 +65,16 @@
   (interactive)
   (find-file "~/.emacs.d/config.org"))
 
+(defun peter/edit-journal-file ()
+  "edit config file"
+  (interactive)
+  (find-file "~/Sync/org/journal.org"))
+
+(defun peter/edit-inbox-file ()
+  "edit config file"
+  (interactive)
+  (find-file "~/Sync/org/inbox.org"))
+
 (defun peter/recompile-all-packages ()
   (interactive)
   (byte-recompile-directory package-user-dir nil 'force))
@@ -114,22 +124,24 @@
                           :prefix "SPC"
                           :non-normal-prefix "M-SPC"))
 (my/leader
- "fs" 'save-buffer
- "fa" 'add-file-local-variable-prop-line
- "he" 'elisp-index-search
- "qq" 'delete-frame
- "qQ" 'save-buffers-kill-emacs
+ "fs"	'save-buffer
+ "fa"	'add-file-local-variable-prop-line
+ "he"	'elisp-index-search
+ "qq"	'delete-frame
+ "qQ"	'save-buffers-kill-emacs
  ;;window management
- "wv" 'peter/split-horizontally
- "ws" 'peter/split-vertically
- "ww" 'other-window
- "wd" 'delete-window
+ "wv"	'peter/split-horizontally
+ "ws"	'peter/split-vertically
+ "ww"	'other-window
+ "wd"	'delete-window
  ;;file access
- "fed" 'peter/edit-config-file
- "cc" 'flycheck-mode
- "r" 'deer
- "cl" 'evilnc-comment-or-uncomment-lines
- "TAB" 'peter/switch-buffer
+ "fed"	'peter/edit-config-file
+ "fej"	'peter/edit-journal-file
+ "fei"	'peter/edit-inbox-file
+ "cc"	'flycheck-mode
+ "r"	'deer
+ "cl"	'evilnc-comment-or-uncomment-lines
+ "TAB"	'peter/switch-buffer
  )
 #+END_SRC
 ** Evil Mode
@@ -1849,6 +1861,8 @@ access yadm repo via tramp
 
 (use-package abbrev
   :diminish abbrev-mode)
+
+(use-package graphviz-dot-mode :ensure t)
 
 ;; (use-package auto-compile
 ;;   :ensure t
