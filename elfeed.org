@@ -8,7 +8,6 @@
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
 ** Web Dev                                                             :web:
 *** [[https://scotch.io/feed][Scotch]]
-*** [[http://www.onextrapixel.com/feed/][Onextrapixel - Web Design and Development Online Magazine]]
 *** [[http://feeds.feedburner.com/paul-irish][Paul Irish]]
 *** [[https://davidwalsh.name/feed/atom][David Walsh Blog]]
 *** [[http://feeds.feedburner.com/AlexSexton][Alex Sexton]]
