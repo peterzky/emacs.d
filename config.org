@@ -1828,16 +1828,41 @@ nixos workaround
 #+END_SRC
 ** ElFeed
 #+BEGIN_SRC emacs-lisp
+(defun peter/elfeed-load-db-and-open ()
+  "Wrapper to load the elfeed db from disk before opening"
+  (interactive)
+  (elfeed-db-load)
+  (elfeed)
+  (elfeed-search-update--force))
+
+(defun peter/elfeed-save-db-and-bury ()
+  "Wrapper to save the elfeed db to disk before burying buffer"
+  (interactive)
+  (elfeed-db-save)
+  (quit-window))
+
+(defun peter/elfeed-mark-all-as-read ()
+  "Mark all as read in current context."
+  (interactive)
+  (mark-whole-buffer)
+  (elfeed-search-untag-all-unread))
+
 (use-package elfeed
   :ensure t
   :bind (:map elfeed-search-mode-map
 	       ("j" . next-line)
 	       ("k" . previous-line)
+	       ("q" . peter/elfeed-save-db-and-bury)
+	       ("R" . peter/elfeed-mark-all-as-read)
 	 :map elfeed-show-mode-map
 	       ("j" . scroll-up-line)
 	       ("k" . scroll-down-line))
   :config
-  (my/leader "9" 'elfeed))
+  (my/leader "9" 'peter/elfeed-load-db-and-open)
+  (setq elfeed-db-directory "~/Sync/elfeed"))
+
+
+
 
 (use-package elfeed-org
   :ensure t
