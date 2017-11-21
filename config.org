@@ -1073,6 +1073,35 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (global-set-key [f2] 'org-pomodoro)
   (global-set-key (kbd "C-x t") 'org-pomodoro))
 #+END_SRC
+** Org Htmlize
+#+BEGIN_SRC emacs-lisp
+(use-package htmlize :ensure t)
+
+(use-package org-mime :ensure t)
+
+
+(setq org-mime-library 'mml)
+
+
+(add-hook 'message-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (org-mime-change-element-style
+             "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                           "#E6E1DC" "#232323"))))
+
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (org-mime-change-element-style
+             "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
+#+END_SRC
 ** Org Latex
 #+BEGIN_SRC emacs-lisp
 (setq org-latex-pdf-process
@@ -1410,35 +1439,6 @@ This function is called by `org-babel-execute-src-block'."
                 query phonetic basic-explains-str web-str)
       (format "** English\n%s\n*** Translation\n%s\n"
               query translation-str))))
-#+END_SRC
-** COMMENT Org Htmlize
-#+BEGIN_SRC emacs-lisp
-(use-package htmlize
-  :ensure t)
-
-(require 'org-mime)
-
-(setq org-mime-library 'mml)
-
-
-(add-hook 'message-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
-
-(add-hook 'org-mime-html-hook
-          (lambda ()
-            (org-mime-change-element-style
-             "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
-                           "#E6E1DC" "#232323"))))
-
-(add-hook 'org-mime-html-hook
-          (lambda ()
-            (org-mime-change-element-style
-             "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
 #+END_SRC
 ** COMMENT Org Brain
 #+BEGIN_SRC emacs-lisp
