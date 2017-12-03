@@ -1518,7 +1518,7 @@ NixOS Caveat:
 (defun rtags-nixos-include-path()
   "find include path in current nix sandbox"
   (funcall (-compose
-	    (-partial 'replace-regexp-in-string "\n" "")
+	    (-partial 'replace-regexp-in-string "\n" " ")
 	    (-partial 'replace-regexp-in-string "-isystem" "-s")
 	    (lambda () (nix-shell (nix-current-sandbox)
 				  "printenv NIX_CFLAGS_COMPILE NIX_CXXSTDLIB_COMPILE")))))
