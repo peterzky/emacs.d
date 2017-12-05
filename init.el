@@ -24,9 +24,9 @@
   (package-install 'org-plus-contrib))
 
 (eval-when-compile
-  (require 'use-package)
-  (require 'diminish)
-  (require 'bind-key))
+  (require 'use-package))
+
+(use-package diminish :ensure t)
 
 ;;Bootstrap `Org-mode' for parsing config file
 (use-package org :ensure org-plus-contrib)

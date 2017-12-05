@@ -454,7 +454,7 @@ popup window for better experience
   :ensure t
   :config
   (setq popwin:popup-window-height 15)
-  (global-set-key (kbd "C-`") popwin:keymap)
+  (global-set-key (kbd "C-M-`") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
   (popwin-mode 1))
 
@@ -1821,8 +1821,8 @@ nixos workaround
   (kbd "u") 'mu4e-update-index
   (kbd "U") 'mu4e-update-mail-and-index)
 
-(evil-define-key 'motion 'mu4e-headers-mode-map
-  (kbd "%") 'mu4e-headers-mark-pattern)
+;; (evil-define-key 'motion 'mu4e-headers-mode-map
+;;   (kbd "%") 'mu4e-headers-mark-pattern)
 
 (add-hook 'mu4e-main-mode-hook #'mu4e-update-index)
 #+END_SRC
@@ -1907,12 +1907,11 @@ access yadm repo via tramp
 ** Shell Pop
 #+BEGIN_SRC emacs-lisp
 (use-package shell-pop
-  :ensure
+  :ensure t
   :bind (("C-`" . shell-pop))
   :config
   (setq shell-pop-shell-type (quote ("ansi-term" "*ansi-term*" (lambda nil (ansi-term shell-pop-term-shell)))))
   (setq shell-pop-term-shell "zsh")
-  ;; need to do this manually or not picked up by `shell-pop'
   (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
 #+END_SRC
 ** Chinese Support
@@ -1952,5 +1951,5 @@ access yadm repo via tramp
 ;;For editing systemd file
 ;;(use-package systemd :ensure t)
 
-;;(use-package yaml-mode :ensure t)
+(use-package yaml-mode :ensure t)
 #+END_SRC

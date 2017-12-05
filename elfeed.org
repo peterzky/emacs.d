@@ -4,6 +4,7 @@
 ** github                                                           :github:
 *** [[https://github.com/wangyu-/udp2raw-tunnel/releases.atom][udp2raw]]
 *** [[https://github.com/xtaci/kcptun/releases.atom][kcptun]]
+*** [[https://github.com/darknessomi/musicbox/releases.atom][musicbox]]
 ** Emacs                                                             :emacs:
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
 ** Web Dev                                                             :web:
