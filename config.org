@@ -729,17 +729,14 @@ M   : /mnt
 #+END_SRC
 *** Projectile
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-global-mode)
-  ;; (setq projectile-switch-project-action 'projectile-dired)
-  ;; Mode line
-  ;; (setq projectile-mode-line
-  ;; 	'(:eval (format " Proj[%s]" (projectile-project-name))))
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
-  (add-to-list 'projectile-globally-ignored-files ".tern-port"))
-
+  (use-package projectile
+    :ensure t
+    :config
+    (defvar peter/projectile-ignored-directories
+      '("node_modules" "Godeps"))
+    (projectile-global-mode)
+    (cl-loop for dir in peter/projectile-ignored-directories
+	     do (add-to-list 'projectile-globally-ignored-directories dir)))
 #+END_SRC
 *** Fasd
 #+BEGIN_SRC emacs-lisp
