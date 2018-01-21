@@ -113,6 +113,7 @@
 #+BEGIN_SRC emacs-lisp
 (use-package general
   :ensure t
+  :load-path "~/Sync/site-lisp/general/"
   :config
   (general-create-definer my/leader
                           :states '(normal motion emacs)
