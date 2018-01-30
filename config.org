@@ -1726,6 +1726,7 @@ nix:
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
   :ensure t
+  :magic ("%PDF" . pdf-view-mode)
   :bind (:map pdf-view-mode-map
 	      ("C-s" . isearch-forward)
 	      ("j" . pdf-view-next-line-or-next-page)
@@ -1866,10 +1867,14 @@ nixos workaround
   (setq elfeed-db-directory "~/Sync/elfeed")
   (defun my-elfeed-tag-sort (a b)
     (let* ((a-tags (format "%s" (elfeed-entry-tags a)))
-	   (b-tags (format "%s" (elfeed-entry-tags b))))
+	   (b-tags (format "%s" (elfeed-entry-tags b)))
+	   (a-feed (format "%s" (elfeed-entry-feed a)))
+	   (b-feed (format "%s" (elfeed-entry-feed b))))
       (if (string= a-tags b-tags)
-	  (< (elfeed-entry-date b) (elfeed-entry-date a)))
-      (string< a-tags b-tags)))
+	  (if (string= a-feed b-feed)
+	      (< (elfeed-entry-date b) (elfeed-entry-date a))
+	    (string< a-feed b-feed))
+      (string< a-tags b-tags))))
 
   (setf elfeed-search-sort-function #'my-elfeed-tag-sort))
 
