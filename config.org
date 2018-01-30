@@ -1722,20 +1722,26 @@ nix:
                       "C-j" 'intero-goto-definition))
 #+END_SRC
 * Utilities
-** COMMENT PDF Tools
+** PDF Tools
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
   :ensure t
+  :bind (:map pdf-view-mode-map
+	      ("C-s" . isearch-forward)
+	      ("j" . pdf-view-next-line-or-next-page)
+	      ("k" . pdf-view-previous-line-or-previous-page)
+	      ("TAB" . pdf-outline)
+	      :map pdf-outline-buffer-mode-map
+	      ("j" . next-line)
+	      ("k" . previous-line)
+	      ("RET" . pdf-outline-follow-link-and-quit))
   :config
   (pdf-tools-install)
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-  (define-key pdf-view-mode-map (kbd "j") 'pdf-view-next-line-or-next-page)
-  (define-key pdf-view-mode-map (kbd "k") 'pdf-view-previous-line-or-previous-page)
   (general-define-key :states '(emacs)
-                      :keymaps 'pdf-view-mode-map
-                      :non-normal-prefix "SPC"
-                      "`" 'ivy-switch-buffer
-                      "TAB" 'peter/switch-buffer))
+		      :keymaps 'pdf-view-mode-map
+		      :non-normal-prefix "SPC"
+		      "`" 'ivy-switch-buffer
+		      "TAB" 'peter/switch-buffer))
 #+END_SRC
 ** Mail
 *** Send Mail
@@ -1848,19 +1854,24 @@ nixos workaround
 (use-package elfeed
   :ensure t
   :bind (:map elfeed-search-mode-map
-	       ("j" . next-line)
-	       ("k" . previous-line)
-	       ("q" . peter/elfeed-save-db-and-bury)
-	       ("R" . peter/elfeed-mark-all-as-read)
-	 :map elfeed-show-mode-map
-	       ("j" . scroll-up-line)
-	       ("k" . scroll-down-line))
+	      ("j" . next-line)
+	      ("k" . previous-line)
+	      ("q" . peter/elfeed-save-db-and-bury)
+	      ("R" . peter/elfeed-mark-all-as-read)
+	      :map elfeed-show-mode-map
+	      ("j" . scroll-up-line)
+	      ("k" . scroll-down-line))
   :config
   (my/leader "9" 'peter/elfeed-load-db-and-open)
-  (setq elfeed-db-directory "~/Sync/elfeed"))
+  (setq elfeed-db-directory "~/Sync/elfeed")
+  (defun my-elfeed-tag-sort (a b)
+    (let* ((a-tags (format "%s" (elfeed-entry-tags a)))
+	   (b-tags (format "%s" (elfeed-entry-tags b))))
+      (if (string= a-tags b-tags)
+	  (< (elfeed-entry-date b) (elfeed-entry-date a)))
+      (string< a-tags b-tags)))
 
-
-
+  (setf elfeed-search-sort-function #'my-elfeed-tag-sort))
 
 (use-package elfeed-org
   :ensure t
