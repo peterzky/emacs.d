@@ -426,13 +426,13 @@ visual mode:
 *** Company Mode
 #+BEGIN_SRC emacs-lisp
 (use-package company
-  :diminish company-mode
   :ensure t
-  :config
-  (add-hook 'after-init-hook 'global-company-mode)
-  (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
-  (define-key company-active-map (kbd "C-h") #'company-quickhelp-manual-begin))
+  :diminish company-mode
+  :hook (after-init-hook . global-company-mode)
+  :bind (:map company-active-map
+	      ("C-n" . company-select-next-or-abort)
+	      ("C-p" . company-select-previous-or-abort)
+	      ("C-h" . company-quickhelp-manual-begin)))
 
 (use-package company-quickhelp
   :ensure t
@@ -490,30 +490,27 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package eyebrowse
   :ensure t
-  :init
-  (setq eyebrowse-keymap-prefix (kbd "C-c C-b"))
+  :init (setq eyebrowse-keymap-prefix (kbd "C-c C-b"))
+  :bind (("M-p" . eyebrowse-prev-window-config)
+	 ("M-n" . eyebrowse-next-window-config)
+	 ("<M-tab>" . eyebrowse-last-window-config)
+	 ("M-1" . eyebrowse-switch-to-window-config-1)
+	 ("M-2" . eyebrowse-switch-to-window-config-2)
+	 ("M-3" . eyebrowse-switch-to-window-config-3)
+	 ("M-4" . eyebrowse-switch-to-window-config-4)
+	 ("M-5" . eyebrowse-switch-to-window-config-5)
+	 ("M-6" . eyebrowse-switch-to-window-config-6)
+	 ("M-7" . eyebrowse-switch-to-window-config-7)
+	 ("M-8" . eyebrowse-switch-to-window-config-8)
+	 ("M-9" . eyebrowse-switch-to-window-config-9))
   :config
-  (eyebrowse-mode t)
-  (global-set-key (kbd "M-p") 'eyebrowse-prev-window-config)
-  (global-set-key (kbd "M-n") 'eyebrowse-next-window-config)
-  (global-set-key (kbd "<M-tab>") 'eyebrowse-last-window-config)
-  (global-set-key (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
-  (global-set-key (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
-  (global-set-key (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
-  (global-set-key (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
-  (global-set-key (kbd "M-5") 'eyebrowse-switch-to-window-config-5)
-  (global-set-key (kbd "M-6") 'eyebrowse-switch-to-window-config-6)
-  (global-set-key (kbd "M-7") 'eyebrowse-switch-to-window-config-7)
-  (global-set-key (kbd "M-8") 'eyebrowse-switch-to-window-config-8)
-  (global-set-key (kbd "M-9") 'eyebrowse-switch-to-window-config-9)
-  )
+  (eyebrowse-mode t))
 #+END_SRC
 *** Ace Window
 #+BEGIN_SRC emacs-lisp
 (use-package ace-window
   :ensure t
-  :config
-  (global-set-key (kbd "M-`") 'ace-window))
+  :bind (("M-`" . ace-window)))
 #+END_SRC
 ** Editing
 *** ISpell
@@ -531,8 +528,7 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package paredit
   :ensure t
-  :config
-  (define-key paredit-mode-map (kbd "C-j") 'eval-print-last-sexp))
+  :bind (:map paredit-mode-map ("C-j" . eval-print-last-sexp)))
 
 (defvar peter/paredit-modes
   '(emacs-lisp-mode
@@ -810,23 +806,15 @@ M   : /mnt
 ** Interface Enhancement
 *** Helpful
 #+BEGIN_SRC emacs-lisp
-(use-package helpful
-  :ensure t
-  :config
-  ;; (global-set-key (kbd "<f1> f") 'helpful-function)
-  (global-set-key (kbd "<f1> c") 'helpful-command)
-  ;; (global-set-key (kbd "<f1> v") 'helpful-variable)
-  ;; (global-set-key (kbd "<f1> k") 'helpful-key)
-  )
+(use-package helpful :ensure t)
 #+END_SRC
 *** Rainbow Mode
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
   :ensure t
-  :diminish rainbow-mode
-  :config
-  (add-hook 'prog-mode-hook #'rainbow-mode)
-  (add-hook 'conf-xdefaults-mode-hook #'rainbow-mode))
+  :hook ((prog-mode-hook . rainbow-mode)
+	 (conf-xdefaults-mode-hook . rainbow-mode))
+  :diminish rainbow-mode)
 #+END_SRC
 *** Undo Tree
 #+BEGIN_SRC emacs-lisp
@@ -1627,13 +1615,8 @@ NixOS Caveat:
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
   :diminish rainbow-delimiters-mode
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook 'peter/emacs-mode-hook))
-
-(defun peter/emacs-mode-hook ()
-  (local-set-key (kbd "C-j") 'eval-print-last-sexp))
+  :hook (emacs-lisp-mode-hook . rainbow-delimiters-mode)
+  :ensure t)
 #+END_SRC
 ** Rust
 Rust-mode dependencies
@@ -1962,14 +1945,6 @@ access yadm repo via tramp
   :diminish abbrev-mode)
 
 (use-package graphviz-dot-mode :ensure t)
-
-;; (use-package auto-compile
-;;   :ensure t
-;;   :config
-;;   (auto-compile-on-load-mode)
-;;   (auto-compile-on-save-mode))
-;;For editing systemd file
-;;(use-package systemd :ensure t)
 
 (use-package yaml-mode :ensure t)
 #+END_SRC
