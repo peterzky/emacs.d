@@ -428,11 +428,12 @@ visual mode:
 (use-package company
   :ensure t
   :diminish company-mode
-  :hook (after-init-hook . global-company-mode)
   :bind (:map company-active-map
 	      ("C-n" . company-select-next-or-abort)
 	      ("C-p" . company-select-previous-or-abort)
-	      ("C-h" . company-quickhelp-manual-begin)))
+	      ("C-h" . company-quickhelp-manual-begin))
+  :config
+  (global-company-mode))
 
 (use-package company-quickhelp
   :ensure t
