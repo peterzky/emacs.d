@@ -113,17 +113,23 @@
 #+BEGIN_SRC emacs-lisp
 (use-package general
   :ensure t
-  :load-path "~/Sync/site-lisp/general/"
   :config
+  ;;unbind leader key
+  (general-define-key
+   :states '(normal motion emacs)
+   :keymaps 'global
+   :prefix "SPC"
+   :non-normal-prefix "M-SPC"
+   "" nil)
   (general-create-definer my/leader
-                          :states '(normal motion emacs)
-                          :keymaps 'global
-                          :prefix "SPC"
-                          :non-normal-prefix "M-SPC")
+    :states '(normal motion emacs)
+    :keymaps 'global
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC")
   (general-create-definer my/leader-mode
-                          :states '(normal motion emacs)
-                          :prefix "SPC"
-                          :non-normal-prefix "M-SPC"))
+    :states '(normal motion emacs)
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC"))
 (my/leader
  "fs"	'save-buffer
  "fa"	'add-file-local-variable-prop-line
