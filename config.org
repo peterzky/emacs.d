@@ -1894,6 +1894,7 @@ access yadm repo via tramp
 
 (defun reopen-as-yadm ()
   (interactive)
+  (fasd-add-file-to-db)
   (unless (file-remote-p (buffer-file-name))
     (find-alternate-file
      (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name))))
