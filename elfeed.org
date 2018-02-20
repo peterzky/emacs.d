@@ -1,5 +1,8 @@
 * Imported Feeds            :elfeed:
-** [[http://planet.nixos.org/atom.xml][NixOS Planet]]                                                      :nixos:
+
+** NixOS                                                             :nixos:
+*** [[http://planet.nixos.org/atom.xml][NixOS Planet]]
+*** [[https://www.arcadianvisions.com/blog/rss.xml][Arcadian Visions Blog]]
 ** [[https://www.freelists.org/feed/conkeror][conkeror]]
 ** github                                                           :github:
 *** [[https://github.com/wangyu-/udp2raw-tunnel/releases.atom][udp2raw]]

@@ -48,7 +48,7 @@
 
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
-          browse-url-generic-program "chromium"))
+          browse-url-generic-program "qutebrowser"))
 
 #+END_SRC
 ** User Defined Functions
@@ -443,6 +443,7 @@ visual mode:
 #+END_SRC
 *** Yasnippet
 #+BEGIN_SRC emacs-lisp
+(use-package yasnippet-snippets :ensure)
 (use-package yasnippet
   :diminish yas-minor-mode
   :ensure t
@@ -891,6 +892,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (global-set-key (kbd "\C-cc") 'org-capture)
 (global-set-key (kbd "\C-ca") 'org-agenda)
 (global-set-key (kbd "\C-cl") 'org-store-link)
+(global-set-key (kbd "\C-ci") 'org-insert-link)
 (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
 (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
 (setq org-startup-indented t)
@@ -1496,7 +1498,7 @@ This function is called by `org-babel-execute-src-block'."
 (use-package nix-sandbox :ensure t)
 (use-package nix-mode :ensure t)
 #+END_SRC
-** C/C++
+** COMMENT C/C++
 NixOS Caveat:
 - create development environment with =shell.nix=
 - export compile flags using ~cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .~
@@ -1545,6 +1547,23 @@ NixOS Caveat:
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
 
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+#+END_SRC
+** C++
+for this to work =shell.nix= must have ~llvm~ in buildinputs
+better to use clangStdenv
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode :ensure t)
+
+(use-package company-lsp
+  :ensure t
+  :config
+  (push 'company-lsp company-backends))
+
+(use-package cquery
+  :load-path "~/Sync/site-lisp/emacs-cquery"
+  :config
+  (setq cquery-executable "cquery")
+  (setq cquery-sem-highlight-method 'overlay))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
