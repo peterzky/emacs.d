@@ -709,6 +709,9 @@ M   : /mnt
 ** Version Control
 *** Magit
 #+BEGIN_SRC emacs-lisp
+;; update version control
+(setq auto-revert-check-vc-info t)
+
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status))
