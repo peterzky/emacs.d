@@ -3,14 +3,14 @@
 ** NixOS                                                             :nixos:
 *** [[http://planet.nixos.org/atom.xml][NixOS Planet]]
 *** [[https://www.arcadianvisions.com/blog/rss.xml][Arcadian Visions Blog]]
-** [[https://www.freelists.org/feed/conkeror][conkeror]]
 ** github                                                           :github:
 *** [[https://github.com/wangyu-/udp2raw-tunnel/releases.atom][udp2raw]]
 *** [[https://github.com/xtaci/kcptun/releases.atom][kcptun]]
 *** [[https://github.com/darknessomi/musicbox/releases.atom][musicbox]]
+*** [[https://github.com/cquery-project/cquery/releases.atom][cquery]]
 ** Emacs                                                             :emacs:
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
-** Web Dev                                                             :web:
+** Web Dev                                                          :ignore:
 *** [[https://scotch.io/feed][Scotch]]
 *** [[http://feeds.feedburner.com/paul-irish][Paul Irish]]
 *** [[https://davidwalsh.name/feed/atom][David Walsh Blog]]
@@ -33,8 +33,8 @@
 *** [[http://feed.williamlong.info/][月光博客]]
 *** [[http://feeds.feedburner.com/playpc][電腦玩物]]
 *** [[http://sspai.com/feed][少数派]]
-*** [[http://feeds.geekpark.net/][极客公园-GeekPark]]
-*** [[http://feed.iplaysoft.com/][异次元软件世界]]
+*** [[http://feeds.geekpark.net/][极客公园-GeekPark]]                                              :ignore:
+*** [[http://feed.iplaysoft.com/][异次元软件世界]]                                                 :ignore:
 *** [[http://www.ifanr.com/feed][爱范儿]]
 *** [[http://www.waerfa.com/feed][Mac玩儿法 | Mac软件下载 | Mac软件推荐]]
 *** [[http://blog.csdn.net/liuyukuan/rss/list][liuyukuan的专栏]]
