@@ -964,7 +964,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
         ("j" "Journal" entry (file+datetree "~/Sync/org/journal.org")
          "* %?\nEntered on %U\n %i\n")
         ("p" "org-protocol" entry (file "~/Sync/org/web.org")
-         "* [[%:link][%:description]]\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
+         "* %:description\n=Source=: %:link\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
          :empty-line 1)
         ("L" "org-protocol-link" entry (file "~/Sync/org/web.org")
          "* [[%:link][%:description]]\n"
@@ -993,7 +993,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (add-hook 'org-capture-after-finalize-hook 'peter/org-capture-delete-frame)
 
 (add-hook 'org-capture-mode-hook 'peter/org-capture-window)
-
 #+END_SRC
 ** Org Pomodoro
 #+BEGIN_SRC emacs-lisp
