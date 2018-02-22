@@ -546,7 +546,8 @@ popup window for better experience
   :config
   (smartparens-global-mode t)
   (require 'smartparens-config)
-  (setq sp-highlight-pair-overlay 'nil))
+  (setq sp-highlight-pair-overlay 'nil)
+  (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp))
 #+END_SRC
 *** Avy
 #+BEGIN_SRC emacs-lisp
