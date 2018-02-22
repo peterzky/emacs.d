@@ -62,9 +62,9 @@
 
 (defmacro peter/edit-file (file)
   "open file and widen if narrowed."
-  (list 'lambda nil '(interactive)
-	`(find-file ,file)
-	'(when (buffer-narrowed-p)
+   `(lambda nil (interactive)
+	(find-file ,file)
+	(when (buffer-narrowed-p)
 	   (widen))))
 
 ;; close window after kill buffer command
@@ -172,6 +172,10 @@
 *** Evil State
 [[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
+(defmacro peter/evil-state (state list)
+  `(cl-loop for mode in ,list
+	    do (add-to-list ,state mode)))
+
 (defvar peter/motion-state-modes
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode
                  intero-help-mode))
@@ -184,14 +188,9 @@
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
 
-(cl-loop for mode in peter/motion-state-modes
-         do (add-to-list 'evil-motion-state-modes mode))
+(peter/evil-state 'evil-motion-state-modes peter/motion-state-modes)
 
-(cl-loop for mode in peter/emacs-state-modes
-         do (add-to-list 'evil-emacs-state-modes mode))
-
-(cl-loop for mode in peter/emacs-state-modes
-         do (add-to-list 'evil-emacs-state-modes mode))
+(peter/evil-state 'evil-emacs-state-modes peter/emacs-state-modes)
 
 (cl-loop for mode in peter/emacs-state-minor-modes
          do (let ((hook (concat (symbol-name mode) "-hook")))
@@ -837,13 +836,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-link-frame-setup
       '((file . find-file)
         (vm . vm-visit-folder)))
-(my/leader
- "op" 'org-mobile-push
- "of" 'org-mobile-pull
- "as" 'org-clock-goto
- "aw" 'org-agenda-list
- "aa" 'org-todo-list
- "ac" 'org-capture)
+;; (my/leader
+;;   "op" 'org-mobile-push
+;;   "of" 'org-mobile-pull
+;;   "as" 'org-clock-goto
+;;   "aw" 'org-agenda-list
+;;   "aa" 'org-todo-list
+;;   "ac" 'org-capture)
 ;; diminish org-indent-mode
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 
@@ -1943,4 +1942,7 @@ access yadm repo via tramp
 (use-package graphviz-dot-mode :ensure t)
 
 (use-package yaml-mode :ensure t)
+
+;; general.el cleanup
+(general-auto-unbind-keys t)
 #+END_SRC
