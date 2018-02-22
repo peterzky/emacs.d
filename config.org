@@ -821,7 +821,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (global-set-key (kbd "\C-cc") 'org-capture)
 (global-set-key (kbd "\C-ca") 'org-agenda)
 (global-set-key (kbd "\C-cl") 'org-store-link)
-(global-set-key (kbd "\C-ci") 'org-insert-link)
+(define-key org-mode-map (kbd "\C-ci") 'org-insert-link)
 (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
 (evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
 (setq org-startup-indented t)
