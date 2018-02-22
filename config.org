@@ -1926,6 +1926,10 @@ access yadm repo via tramp
   (fcitx-aggressive-minibuffer-turn-off)
   (fcitx-aggressive-setup))
 #+END_SRC
+** RESTClient
+#+BEGIN_SRC emacs-lisp
+(use-package restclient :ensure t)
+#+END_SRC
 * Misc
 #+BEGIN_SRC emacs-lisp
 (diminish 'auto-revert-mode)
