@@ -8,6 +8,7 @@
 *** [[https://github.com/xtaci/kcptun/releases.atom][kcptun]]
 *** [[https://github.com/darknessomi/musicbox/releases.atom][musicbox]]
 *** [[https://github.com/cquery-project/cquery/releases.atom][cquery]]
+*** [[https://github.com/qutebrowser/qutebrowser/releases.atom][qutebrowser]]
 ** Emacs                                                             :emacs:
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
 ** Web Dev                                                          :ignore:
@@ -30,7 +31,7 @@
 *** [[http://wangbixi.com/feed/][王跸西的生命体验blog-WangBiXi.com]]
 *** [[http://mindhacks.cn/feed/][刘未鹏 | Mind Hacks]]
 *** [[http://blog.zhaojie.me/rss][老赵点滴 - 追求编程之美]]
-*** [[http://feed.williamlong.info/][月光博客]]
+*** [[http://feed.williamlong.info/][月光博客]]                                                       :ignore:
 *** [[http://feeds.feedburner.com/playpc][電腦玩物]]
 *** [[http://sspai.com/feed][少数派]]
 *** [[http://feeds.geekpark.net/][极客公园-GeekPark]]                                              :ignore:

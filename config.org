@@ -60,24 +60,12 @@
       (switch-to-buffer (car (evil-alternate-buffer)))
     (switch-to-buffer (other-buffer (current-buffer) t))))
 
-(defun peter/edit-config-file ()
-  "edit config file"
-  (interactive)
-  (find-file "~/.emacs.d/config.org"))
-
-(defun peter/edit-journal-file ()
-  "edit config file"
-  (interactive)
-  (find-file "~/Sync/org/journal.org"))
-
-(defun peter/edit-inbox-file ()
-  "edit config file"
-  (interactive)
-  (find-file "~/Sync/org/inbox.org"))
-
-(defun peter/recompile-all-packages ()
-  (interactive)
-  (byte-recompile-directory package-user-dir nil 'force))
+(defmacro peter/edit-file (file)
+  "open file and widen if narrowed."
+  (list 'lambda nil '(interactive)
+	`(find-file ,file)
+	'(when (buffer-narrowed-p)
+	   (widen))))
 
 ;; close window after kill buffer command
 (advice-add 'kill-this-buffer :after #'delete-window)
@@ -131,25 +119,26 @@
     :prefix "SPC"
     :non-normal-prefix "M-SPC"))
 (my/leader
- "fs"	'save-buffer
- "fa"	'add-file-local-variable-prop-line
- "he"	'elisp-index-search
- "qq"	'delete-frame
- "qQ"	'save-buffers-kill-emacs
- ;;window management
- "wv"	'peter/split-horizontally
- "ws"	'peter/split-vertically
- "ww"	'other-window
- "wd"	'delete-window
- ;;file access
- "fed"	'peter/edit-config-file
- "fej"	'peter/edit-journal-file
- "fei"	'peter/edit-inbox-file
- "cc"	'flycheck-mode
- "r"	'deer
- "cl"	'evilnc-comment-or-uncomment-lines
- "TAB"	'peter/switch-buffer
- )
+  "fs"	'save-buffer
+  "fa"	'add-file-local-variable-prop-line
+  "he"	'elisp-index-search
+  "qq"	'delete-frame
+  "qQ"	'save-buffers-kill-emacs
+  ;;window management
+  "wv"	'peter/split-horizontally
+  "ws"	'peter/split-vertically
+  "ww"	'other-window
+  "wd"	'delete-window
+  ;;file access
+  "fed"	 (peter/edit-file "~/.emacs.d/config.org")
+  "fej"	 (peter/edit-file "~/Sync/org/journal.org")
+  "fei"	 (peter/edit-file "~/Sync/org/inbox.org")
+  "fea"  (peter/edit-file "~/Sync/org/project.org")
+  "cc"	'flycheck-mode
+  "r"	'deer
+  "cl"	'evilnc-comment-or-uncomment-lines
+  "TAB"	'peter/switch-buffer
+  )
 #+END_SRC
 ** Evil Mode
 *** Evil General
