@@ -796,7 +796,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (global-set-key (kbd "\C-ca") 'org-agenda)
 (global-set-key (kbd "\C-cl") 'org-store-link)
 
-
 (setq org-startup-indented t)
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
@@ -823,11 +822,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (add-to-list 'org-modules 'org-habit)
 (add-to-list 'org-modules 'org-protocol)
 (add-to-list 'org-modules 'org-man)
+(add-to-list 'org-modules 'org-timer)
 
 ;; load modules
 (require 'org-habit)
 (require 'org-protocol)
 (require 'org-man)
+(require 'org-timer)
 
 ;; disable time dispaly for mode line compatibility
 (setq org-timer-display nil)
@@ -841,7 +842,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-
 
 ;; Org Babel
 (setq org-src-window-setup 'current-window)
