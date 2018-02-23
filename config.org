@@ -168,40 +168,44 @@
 ** Evil State
 [[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
-(defmacro peter/evil-state (state list)
-  `(cl-loop for mode in ,list
-	    do (add-to-list ,state mode)))
+  (defmacro peter/evil-state (state list)
+    `(cl-loop for mode in ,list
+              do (add-to-list ,state mode)))
 
-(defvar peter/motion-state-modes
-  '(special-mode go-guru-output-mode racer-help-mode helpful-mode
-                 intero-help-mode))
+  (defvar peter/motion-state-modes
+    '(special-mode go-guru-output-mode racer-help-mode helpful-mode
+                   intero-help-mode))
 
-(defvar peter/emacs-state-modes
-  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
-                intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-                elfeed-show-mode finder-mode image-mode))
+  (defvar peter/emacs-state-modes
+    '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
+                  intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
+                  elfeed-show-mode finder-mode image-mode))
 
-(defvar peter/emacs-state-minor-modes
-  '(edebug-mode))
+  (defvar peter/insert-state-hooks
+    '(org-log-buffer-setup-hook org-capture-mode-hook
+                                org-src-mode-hook git-commit-mode-hook))
 
-(peter/evil-state 'evil-motion-state-modes peter/motion-state-modes)
+  (defvar peter/emacs-state-minor-modes
+    '(edebug-mode))
 
-(peter/evil-state 'evil-emacs-state-modes peter/emacs-state-modes)
 
-(cl-loop for mode in peter/emacs-state-minor-modes
-         do (let ((hook (concat (symbol-name mode) "-hook")))
-              (add-hook (intern hook) `(lambda ()
-                                         (if ,mode
-                                             (evil-emacs-state)
-                                           (evil-normal-state))))))
+  (peter/evil-state 'evil-motion-state-modes peter/motion-state-modes)
+
+  (peter/evil-state 'evil-emacs-state-modes peter/emacs-state-modes)
+
+  (cl-loop for hook in peter/insert-state-hooks do
+           (add-hook hook 'evil-insert-state))
+
+  (cl-loop for mode in peter/emacs-state-minor-modes
+           do (let ((hook (concat (symbol-name mode) "-hook")))
+                (add-hook (intern hook) `(lambda ()
+                                           (if ,mode
+                                               (evil-emacs-state)
+                                             (evil-normal-state))))))
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
-(use-package evil-magit
-  :ensure t
-  :config
-  ;; Open commit message with insert state
-  (add-hook 'git-commit-mode-hook 'evil-insert-state))
+(use-package evil-magit :ensure t)
 #+END_SRC
 ** Evil Nerd Commenter
 text object ~c~ as comment
@@ -836,14 +840,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
 
-;; Enter insert state when opening log buffer
-(add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
-
-;; Org capture initial state insert
-(add-hook 'org-capture-mode-hook 'evil-insert-state)
-
-;; Org src initial insert state
-(add-hook 'org-src-mode-hook 'evil-insert-state)
 
 ;; Org Babel
 (setq org-src-window-setup 'current-window)
