@@ -106,9 +106,8 @@
      (region-end)
      "tts -p")))
 #+END_SRC
-* Bindings
-** Evil Mode
-*** Evil General
+* Evil Mode
+** Evil General
 #+BEGIN_SRC emacs-lisp
 (use-package evil
   :ensure t
@@ -118,7 +117,6 @@
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
   (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
   (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button))
-
 
 (setq evil-normal-state-tag "N"
       evil-insert-state-tag "I"
@@ -131,7 +129,7 @@
       evil-emacs-state-cursor	'(bar "SkyBlue2")
       evil-visual-state-cursor	'(box "gray"))
 #+END_SRC
-*** Evil Leader
+** Evil Leader
 #+BEGIN_SRC emacs-lisp
 (defvar peter/leader-map (make-sparse-keymap))
 
@@ -143,30 +141,31 @@
 (defmacro my/leader (args)
   `(cl-loop for elem in ,args
 	    do (define-key peter/leader-map (car elem) (cdr elem))))
+
 (my/leader
-  '(("fs" .  save-buffer)
-    ("fa" .  add-file-local-variable-prop-line)
-    ("he" .  elisp-index-search)
-    ("qq" .  delete-frame)
-    ("qQ" .  save-buffers-kill-emacs)
-    ;; window management
-    ("wv" .  peter/split-horizontally)
-    ("ws" .  peter/split-vertically)
-    ("ww" .  other-window)
-    ("wd" .  delete-window)
-    ;; text to speech
-    ("op" .  peter/text-to-speech)
-    ;;file access
-    ;; "fed"  (peter/edit-file "~/.emacs.d/config.org")
-    ;; "fej"  (peter/edit-file "~/Sync/org/journal.org")
-    ;; "fei"  (peter/edit-file "~/Sync/org/inbox.org")
-    ;; "fea"  (peter/edit-file "~/Sync/org/project.org")
-    ("cc" .  flycheck-mode)
-    ("r" .   deer)
-    ("cl" .  evilnc-comment-or-uncomment-lines)
-    ("TAB" . peter/switch-buffer)))
+ `(("fs" .  save-buffer)
+   ("fa" .  add-file-local-variable-prop-line)
+   ("he" .  elisp-index-search)
+   ("qq" .  delete-frame)
+   ("qQ" .  save-buffers-kill-emacs)
+   ("r"  .   deer)
+   ;; window management
+   ("wv" .  peter/split-horizontally)
+   ("ws" .  peter/split-vertically)
+   ("ww" .  other-window)
+   ("wd" .  delete-window)
+   ;; text to speech
+   ("op" .  peter/text-to-speech)
+   ;;file access
+   ("cc" .  flycheck-mode)
+   ("cl" .  evilnc-comment-or-uncomment-lines)
+   ("fed" . ,(peter/edit-file "~/.emacs.d/config.org"))
+   ("fej" . ,(peter/edit-file "~/Sync/org/journal.org"))
+   ("fei" . ,(peter/edit-file "~/Sync/org/inbox.org"))
+   ("fea" . ,(peter/edit-file "~/Sync/org/project.org"))
+   ("TAB" . peter/switch-buffer)))
 #+END_SRC
-*** Evil State
+** Evil State
 [[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
 (defmacro peter/evil-state (state list)
@@ -196,7 +195,7 @@
                                              (evil-emacs-state)
                                            (evil-normal-state))))))
 #+END_SRC
-*** Evil Magit
+** Evil Magit
 #+BEGIN_SRC emacs-lisp
 (use-package evil-magit
   :ensure t
@@ -204,7 +203,7 @@
   ;; Open commit message with insert state
   (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
-*** Evil Nerd Commenter
+** Evil Nerd Commenter
 text object ~c~ as comment
 operator ~,,~ as comment
 #+BEGIN_SRC emacs-lisp
@@ -213,28 +212,12 @@ operator ~,,~ as comment
   :config
   (evilnc-default-hotkeys))
 #+END_SRC
-*** Evil Surround
+** Evil Surround
 #+BEGIN_SRC emacs-lisp
 (use-package evil-surround
   :ensure t
   :config
   (global-evil-surround-mode 1))
-#+END_SRC
-*** COMMENT Evil MC
-=grm= make all cursors
-=gru= remove all cursors
-=grj= next match
-=grk= previous match
-visual mode:
-=C-n= next match
-=C-p= previous match
-=C-t= skip match
-#+BEGIN_SRC emacs-lisp
-(use-package evil-mc
-  :ensure t
-  :diminish evil-mc-mode
-  :config
-  (global-evil-mc-mode 1))
 #+END_SRC
 * Looks/Feels
 ** Mode Line
@@ -348,8 +331,6 @@ visual mode:
   :diminish ivy-mode ivy-minor-mode
   :config
   (ivy-mode 1)
-  ;; (setq ivy-re-builders-alist
-  ;; 	'((t . ivy--regex-fuzzy)))
   (setq ivy-use-virtual-buffers t
         enable-recursive-minibuffers t
         ivy-initial-inputs-alist nil
@@ -371,9 +352,6 @@ visual mode:
 ;; for edit in C-c C-o
 (use-package wgrep :ensure t)
 
-;; (use-package all-the-icons-ivy :ensure t
-;;   :config
-;;   (all-the-icons-ivy-setup))
 #+END_SRC
 **** Ivy Bindings
 #+BEGIN_SRC emacs-lisp
@@ -815,7 +793,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (global-set-key (kbd "\C-cl") 'org-store-link)
 (define-key org-mode-map (kbd "\C-ci") 'org-insert-link)
 (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
-(evil-define-key 'normal org-mode-map (kbd "g'") 'org-edit-special)
 (setq org-startup-indented t)
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
@@ -862,12 +839,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
 
-;; Enter insert state when opening log buffer
-(add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
-;; Org capture initial state insert
-(add-hook 'org-capture-mode-hook 'evil-insert-state)
-;; Org src initial insert state
-(add-hook 'org-src-mode-hook 'evil-insert-state)
 
 ;; Org Babel
 (setq org-src-window-setup 'current-window)
@@ -1931,7 +1902,4 @@ access yadm repo via tramp
 (use-package graphviz-dot-mode :ensure t)
 
 (use-package yaml-mode :ensure t)
-
-;; general.el cleanup
-(general-auto-unbind-keys t)
 #+END_SRC
