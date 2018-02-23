@@ -1670,6 +1670,8 @@ nixos workaround
 
 (require 'mu4e)
 
+(require 'org-mu4e)
+
 (my/leader '(("0" . mu4e)))
 
 (add-to-list 'mu4e-view-actions
