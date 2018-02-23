@@ -988,9 +988,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (use-package org-mime :ensure t)
 
-
 (setq org-mime-library 'mml)
-
 
 (add-hook 'message-mode-hook
           (lambda ()
@@ -1042,7 +1040,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
          ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
         ))
 #+END_SRC
-# ** Org Wiki
+** Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
 (use-package org-wiki
   :load-path "~/Sync/site-lisp/org-wiki"
