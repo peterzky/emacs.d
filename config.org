@@ -803,14 +803,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-link-frame-setup
       '((file . find-file)
         (vm . vm-visit-folder)))
-;; (my/leader
-;;   "op" 'org-mobile-push
-;;   "of" 'org-mobile-pull
-;;   "as" 'org-clock-goto
-;;   "aw" 'org-agenda-list
-;;   "aa" 'org-todo-list
-;;   "ac" 'org-capture)
-;; diminish org-indent-mode
+
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 
 ;; (my/leader-mode :keymaps 'org-mode-map
@@ -838,7 +831,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-
 
 ;; Org Babel
 (setq org-src-window-setup 'current-window)
