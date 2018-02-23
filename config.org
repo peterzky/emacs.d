@@ -1619,56 +1619,6 @@ nix:
                       "C-d" 'intero-info
                       "C-j" 'intero-goto-definition))
 #+END_SRC
-** COMMENT C/C++
-NixOS Caveat:
-- create development environment with =shell.nix=
-- export compile flags using ~cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .~
-- run =gencp= within /nix-shell/ to generate /.clang_complete/ for irony-mode completion
-#+BEGIN_SRC emacs-lisp
-(use-package rtags :ensure t)
-
-(use-package irony :ensure t)
-
-(use-package company-irony :ensure t)
-
-(defun rtags-nixos-include-path()
-  "find include path in current nix sandbox"
-  (funcall (-compose
-	    (-partial 'replace-regexp-in-string "\n" " ")
-	    (-partial 'replace-regexp-in-string "-isystem" "-s")
-	    (lambda () (nix-shell (nix-current-sandbox)
-				  "printenv NIX_CFLAGS_COMPILE NIX_CXXSTDLIB_COMPILE")))))
-
-(defun rtags-command-advise (orig-fun &rest args)
-  "append nixos include to rtags command"
-  (let ((res (apply orig-fun args)))
-    (format "%s %s" res (rtags-nixos-include-path))))
-
-;; advice rdm to add include path if NixOS
-(when (executable-find "nix-env")
-  (advice-add 'rtags-command :around #'rtags-command-advise))
-
-(use-package google-c-style
-  :ensure t)
-
-(defun peter/c-mode-hook ()
-  (google-set-c-style)
-  (google-make-newline-indent)
-  (rainbow-mode -1)
-  (set (make-local-variable 'company-backends)
-       '(company-irony company-files))
-  (local-set-key (kbd "C-c C-j") 'rtags-find-symbol-at-point)
-  (local-set-key (kbd "C-c C-a") 'rtags-include-file)
-  (local-set-key (kbd "C-c C-r") 'rtags-restart-process)
-  (local-set-key (kbd "C-c C-i") 'irony-cdb-autosetup-compile-options)
-  (local-set-key (kbd "C-c r") 'rtags-rename-symbol)
-  (rtags-start-process-unless-running)
-  (irony-mode))
-
-(add-hook 'c-mode-common-hook 'peter/c-mode-hook)
-
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-#+END_SRC
 * Utilities
 ** PDF Tools
 #+BEGIN_SRC emacs-lisp
