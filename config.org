@@ -813,7 +813,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (diminish 'visual-line-mode)
 
 (defun peter/org-mode-hook ()
-  (define-key peter/leader-map (kbd "i") 'counsel-org-goto)
+  (evil-local-set-key 'normal (kbd "SPC i") 'counsel-org-goto)
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point))
 
 (add-hook 'org-mode-hook 'peter/org-mode-hook)
