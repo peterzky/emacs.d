@@ -536,7 +536,7 @@ popup window for better experience
   :ensure t
   :bind ("C-;" . avy-goto-char)
   :config
-  (my/leader  '(("SPC" . avy-goto-char))))
+  (my/leader  '(("SPC" . avy-goto-word-1))))
 #+END_SRC
 ** File/Directory
 *** Direds/Ranger
@@ -815,7 +815,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (defun peter/org-mode-hook ()
   (define-key peter/leader-map (kbd "i") 'counsel-org-goto)
-  (define-key org-mode-map (kbd "\C-ci") 'org-insert-link)
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point))
 
 (add-hook 'org-mode-hook 'peter/org-mode-hook)
