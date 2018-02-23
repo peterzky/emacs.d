@@ -174,7 +174,7 @@
 
   (defvar peter/motion-state-modes
     '(special-mode go-guru-output-mode racer-help-mode helpful-mode
-                   intero-help-mode))
+                   intero-help-mode messages-buffer-mode))
 
   (defvar peter/emacs-state-modes
     '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
@@ -182,8 +182,8 @@
                   elfeed-show-mode finder-mode image-mode))
 
   (defvar peter/insert-state-hooks
-    '(org-log-buffer-setup-hook org-capture-mode-hook
-                                org-src-mode-hook git-commit-mode-hook))
+    '(org-src-mode-hook org-log-buffer-setup-hook
+			org-capture-mode-hook git-commit-mode-hook))
 
   (defvar peter/emacs-state-minor-modes
     '(edebug-mode))
@@ -795,12 +795,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (global-set-key (kbd "\C-cc") 'org-capture)
 (global-set-key (kbd "\C-ca") 'org-agenda)
 (global-set-key (kbd "\C-cl") 'org-store-link)
-(define-key org-mode-map (kbd "\C-ci") 'org-insert-link)
-(evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
+
+
 (setq org-startup-indented t)
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
 (setq org-imenu-depth 5)
+
 (if (string= "xps" (system-name))
     (setq org-image-actual-width 900)
   (setq org-image-actual-width 600))
@@ -813,7 +814,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (diminish 'visual-line-mode)
 
 (defun peter/org-mode-hook ()
-  (define-key peter/leader-map (kbd "i") 'counsel-org-goto))
+  (define-key peter/leader-map (kbd "i") 'counsel-org-goto)
+  (define-key org-mode-map (kbd "\C-ci") 'org-insert-link)
+  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point))
 
 (add-hook 'org-mode-hook 'peter/org-mode-hook)
 
@@ -915,7 +918,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
-  ;; (define-key org-agenda-mode-map "I" 'org-pomodoro)
   (define-key org-agenda-mode-map "p" 'org-mobile-push)
   (define-key org-agenda-mode-map "P" 'org-mobile-pull)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
@@ -967,16 +969,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (add-hook 'org-capture-after-finalize-hook 'peter/org-capture-delete-frame)
 
 (add-hook 'org-capture-mode-hook 'peter/org-capture-window)
-#+END_SRC
-# ** Org Pomodoro
-#+BEGIN_SRC emacs-lisp
-(use-package org-pomodoro
-  :ensure t
-  :config
-  ;(setq org-pomodoro-keep-killed-pomodoro-time t)
-  ;(setq org-clock-continuously nil)
-  (global-set-key [f2] 'org-pomodoro)
-  (global-set-key (kbd "C-x t") 'org-pomodoro))
 #+END_SRC
 ** Org Htmlize
 #+BEGIN_SRC emacs-lisp
