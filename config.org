@@ -806,8 +806,12 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 
-;; (my/leader-mode :keymaps 'org-mode-map
-;;                 "i" 'counsel-org-goto)
+(diminish 'visual-line-mode)
+
+(defun peter/org-mode-hook ()
+  (define-key peter/leader-map (kbd "i") 'counsel-org-goto))
+
+(add-hook 'org-mode-hook 'peter/org-mode-hook)
 
 ;; org modules
 (add-to-list 'org-modules 'org-habit)
@@ -831,6 +835,15 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+
+;; Enter insert state when opening log buffer
+(add-hook 'org-log-buffer-setup-hook 'evil-insert-state)
+
+;; Org capture initial state insert
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
+
+;; Org src initial insert state
+(add-hook 'org-src-mode-hook 'evil-insert-state)
 
 ;; Org Babel
 (setq org-src-window-setup 'current-window)
