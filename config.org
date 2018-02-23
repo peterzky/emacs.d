@@ -140,7 +140,7 @@
 
 (defmacro my/leader (args)
   `(cl-loop for elem in ,args
-	    do (define-key peter/leader-map (car elem) (cdr elem))))
+	    do (define-key peter/leader-map (kbd (car elem)) (cdr elem))))
 
 (my/leader
  `(("fs" .  save-buffer)
@@ -858,6 +858,23 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 #+END_SRC
+** Org Timer/Clock
+#+BEGIN_SRC emacs-lisp
+(setq org-clock-mode-line-total 'current)
+
+(defun polybar-clock ()
+  (if (org-clocking-p)
+      (substring-no-properties (org-clock-get-clock-string)) ""))
+
+(defun polybar-timer ()
+  (if (eq org-timer-countdown-timer 'nil)
+      ""
+    (org-timer-value-string)))
+
+(defun polybar-pomodoro ()
+  (interactive)
+  (format "%s %s" (polybar-timer) (polybar-clock)))
+#+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
@@ -897,7 +914,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
-  (define-key org-agenda-mode-map "I" 'org-pomodoro)
+  ;; (define-key org-agenda-mode-map "I" 'org-pomodoro)
   (define-key org-agenda-mode-map "p" 'org-mobile-push)
   (define-key org-agenda-mode-map "P" 'org-mobile-pull)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
@@ -1327,43 +1344,6 @@ This function is called by `org-babel-execute-src-block'."
                 query phonetic basic-explains-str web-str)
       (format "** English\n%s\n*** Translation\n%s\n"
               query translation-str))))
-#+END_SRC
-** COMMENT Org Brain
-#+BEGIN_SRC emacs-lisp
-(use-package org-brain
-  :ensure t
-  :init
-  (when (file-exists-p "~/Sync")
-    (setq org-brain-path "~/Sync/org/brain"))
-  (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
-  :config
-  ;; (org-brain-activate-cache-saving)
-  (my/leader
-   "oa" 'org-brain-visualize
-   "oe" 'org-brain-deft)
-  (define-key org-brain-visualize-mode-map "/" 'org-brain-deft))
-
-(defun org-brain-deft ()
-  "Use `deft' for files in `org-brain-path'."
-  (interactive)
-  (let ((deft-directory org-brain-path)
-        (deft-recursive t)
-        (deft-extensions '("org")))
-    (deft)))
-
-
-(use-package link-hint
-  :ensure t
-  :config
-  (define-key org-brain-visualize-mode-map (kbd "C-l") #'link-hint-open-link))
-
-(use-package ascii-art-to-unicode
-  :ensure t
-  :config
-  (defun aa2u-buffer ()
-    (aa2u (point-min) (point-max)))
-
-  (add-hook 'org-brain-after-visualize-hook #'aa2u-buffer))
 #+END_SRC
 ** COMMENT Deft
 #+BEGIN_SRC emacs-lisp
