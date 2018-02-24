@@ -1329,7 +1329,7 @@ This function is called by `org-babel-execute-src-block'."
 #+END_SRC
 ** C++
 for this to work =shell.nix= must have ~llvm~ in buildinputs
-better to use clangStdenv
+better to use ~clangStdenv~
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode :ensure t
   :config
