@@ -1537,13 +1537,11 @@ nix:
 #+BEGIN_SRC emacs-lisp
 (use-package intero
   :ensure t
+  :bind (:map intero-mode-map
+	      ("C-c C-d" . intero-info)
+	      ("C-c C-j" . intero-goto-definition))
   :config
-  (intero-global-mode 1)
-  (general-define-key :states '(normal emacs)
-                      :keymaps 'intero-mode-map
-                      :prefix "C-c"
-                      "C-d" 'intero-info
-                      "C-j" 'intero-goto-definition))
+  (intero-global-mode 1))
 #+END_SRC
 * Utilities
 ** PDF Tools
