@@ -711,10 +711,6 @@ M   : /mnt
   :config
   (global-git-gutter-mode +1))
 #+END_SRC
-*** Git Auto Commit Mode
-#+BEGIN_SRC emacs-lisp
-(use-package git-auto-commit-mode :ensure t)
-#+END_SRC
 ** Interface Enhancement
 *** Helpful
 #+BEGIN_SRC emacs-lisp
@@ -861,34 +857,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 #+END_SRC
-** Org Timer/Clock
-#+BEGIN_SRC emacs-lisp
-(setq org-clock-mode-line-total 'current)
-
-(defun polybar-clock ()
-  (if (org-clocking-p)
-      (substring-no-properties (org-clock-get-clock-string)) ""))
-
-(defun polybar-timer ()
-  (if (eq org-timer-countdown-timer 'nil)
-      ""
-    (org-timer-value-string)))
-
-(defun polybar-pomodoro ()
-  (interactive)
-  (format "%s %s" (polybar-timer) (polybar-clock)))
-#+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
-(setq org-default-notes-file "~/Sync/org/inbox.org")
-(setq org-agenda-files
-      (list "~/Sync/org/inbox.org"
-            "~/Sync/org/project.org"
-            "~/Sync/org/web.org"
-            "~/Sync/org/someday.org"
-            "~/Sync/org/todo.org"))
+(setq org-default-notes-file "~/Sync/org/agenda/inbox.org")
+(setq org-archive-location"~/Sync/org/agenda/archive.org::datetree/* Finished Tasks")
+(setq org-agenda-files (list "~/Sync/org/agenda"))
 (setq org-directory "~/Sync/org")
 (setq org-log-done 'time)
 (setq org-log-states-order-reversed nil)
@@ -896,11 +871,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 ;; org refile
 (defun peter/org-buffer-files ()
-
   "Return list of opened orgmode buffer files"
-
   (mapcar (function buffer-file-name)
-
           (org-buffer-list 'files)))
 
 (setq org-refile-targets '((nil :maxlevel . 2)
@@ -924,24 +896,38 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (hl-line-mode))
 
 (add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
-#+END_SRC
-** Org Mobile
-#+BEGIN_SRC emacs-lisp
-(setq org-mobile-inbox-for-pull "~/Sync/org/inbox.org")
-(setq org-mobile-directory "~/Sync/MobileOrg")
+
+;; org mobile
+(setq org-mobile-inbox-for-pull "~/Sync/org/agenda/inbox.org")
+(setq org-mobile-directory "~/Sync/org/mobile")
+
+;; org timer
+(setq org-clock-mode-line-total 'current)
+
+(defun polybar-clock ()
+  (if (org-clocking-p)
+      (substring-no-properties (org-clock-get-clock-string)) ""))
+
+(defun polybar-timer ()
+  (if (eq org-timer-countdown-timer 'nil)
+      ""
+    (org-timer-value-string)))
+
+(defun polybar-pomodoro ()
+  (interactive)
+  (format "%s %s" (polybar-timer) (polybar-clock)))
 #+END_SRC
 ** Org Caputre
-[[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome and firefox extension facilitating org-capture in emacs]]
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      '(("i" "Inbox" entry (file "~/Sync/org/inbox.org")
+      '(("i" "Inbox" entry (file "~/Sync/org/agenda/inbox.org")
          "* TODO %?\n %i\n")
-        ("j" "Journal" entry (file+datetree "~/Sync/org/journal.org")
+        ("j" "Journal" entry (file+datetree "~/Sync/org/agenda/journal.org")
          "* %?\nEntered on %U\n %i\n")
-        ("p" "org-protocol" entry (file "~/Sync/org/web.org")
+        ("p" "org-protocol" entry (file "~/Sync/org/agenda/inbox.org")
          "* %:description\n=Source=: %:link\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
          :empty-line 1)
-        ("L" "org-protocol-link" entry (file "~/Sync/org/web.org")
+        ("L" "org-protocol-link" entry (file "~/Sync/org/agenda/inbox.org")
          "* [[%:link][%:description]]\n"
          :empty-line 1)
         ("w" "vocabulary prompt" plain (file "~/Sync/org/vocabulary.org")
@@ -964,33 +950,25 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
            (equal "org-agenda" (frame-parameter nil 'name)))
       (delete-frame)))
 
-
 (add-hook 'org-capture-after-finalize-hook 'peter/org-capture-delete-frame)
-
 (add-hook 'org-capture-mode-hook 'peter/org-capture-window)
 #+END_SRC
 ** Org Htmlize
 #+BEGIN_SRC emacs-lisp
 (use-package htmlize :ensure t)
-
 (use-package org-mime :ensure t)
-
 (setq org-mime-library 'mml)
-
 (add-hook 'message-mode-hook
           (lambda ()
             (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
-
 (add-hook 'org-mode-hook
           (lambda ()
             (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
-
 (add-hook 'org-mime-html-hook
           (lambda ()
             (org-mime-change-element-style
              "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
                            "#E6E1DC" "#232323"))))
-
 (add-hook 'org-mime-html-hook
           (lambda ()
             (org-mime-change-element-style
@@ -999,40 +977,18 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 ** Org Latex
 #+BEGIN_SRC emacs-lisp
 (setq org-latex-pdf-process
-      '("xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"))
+      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 (setq tex-compile-commands '(("xelatex %r")))
 (setq tex-command "xelatex")
 (setq-default TeX-engine 'xelatex)
-(setq org-latex-classes
-      '(("article"
-         "
-\\documentclass{ctexart}
-\\usepackage{hyperref}
-\\hypersetup{
-  colorlinks=true,
-  linkcolor=[rgb]{0,0.37,0.53},
-  citecolor=[rgb]{0,0.47,0.68},
-  filecolor=[rgb]{0,0.37,0.53},
-  urlcolor=[rgb]{0,0.37,0.53},
-  pagebackref=true,
-  linktoc=all,}
-         "
-
-         ("\\section{%s}" . "\\section*{%s}")
-         ("\\subsection{%s}" . "\\subsection*{%s}")
-         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-         ("\\paragraph{%s}" . "\\paragraph*{%s}")
-         ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-        ))
 #+END_SRC
 ** Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
 (use-package org-wiki
   :load-path "~/Sync/site-lisp/org-wiki"
   :config
-  (setq org-wiki-location "~/Sync/wiki")
+  (setq org-wiki-location "~/Sync/org/wiki")
   (my/leader
     '(("ki" . org-wiki-index)
       ("ks" . peter/org-wiki-search)
