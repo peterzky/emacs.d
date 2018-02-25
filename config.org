@@ -798,6 +798,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-hide-emphasis-markers t)
 (setq org-imenu-depth 5)
 
+
 (if (string= "xps" (system-name))
     (setq org-image-actual-width 900)
   (setq org-image-actual-width 600))
@@ -867,6 +868,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-agenda-files (list "~/Sync/org/agenda/inbox.org"
 			     "~/Sync/org/agenda/project.org"))
 (setq org-directory "~/Sync/org")
+
+(setq org-attach-store-link-p t)
+(setq org-attach-auto-tag nil)
 (setq org-attach-directory "attach/")
 
 (setq org-log-done 'time)
@@ -895,6 +899,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
   (define-key org-agenda-mode-map "p" 'org-mobile-push)
   (define-key org-agenda-mode-map "P" 'org-mobile-pull)
+  (define-key org-agenda-mode-map (kbd "SPC") peter/leader-map)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
   (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
   (hl-line-mode))
@@ -960,11 +965,16 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 ;; org download
 (use-package org-download
   :ensure t
+  :bind (:map org-mode-map
+	      ("C-c d s" . org-download-screenshot)
+	      ("C-c d d" . org-download-delete)
+	      ("C-c d e" . org-download-edit))
   :config
   (setq org-download-method 'attach)
   (setq org-download-screenshot-method "scrot -s %s"))
 #+END_SRC
-** Org Htmlize
+** Org Export
+*** Org Htmlize
 #+BEGIN_SRC emacs-lisp
 (use-package htmlize :ensure t)
 (use-package org-mime :ensure t)
@@ -985,8 +995,11 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
             (org-mime-change-element-style
              "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
 #+END_SRC
-** Org Latex
+*** Org Latex
 #+BEGIN_SRC emacs-lisp
+(setq org-export-with-toc nil
+      org-export-with-entities nil)
+
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
         "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
@@ -1571,11 +1584,7 @@ nix:
 	      ("RET" . pdf-outline-follow-link-and-quit))
   :config
   (pdf-tools-install)
-  (general-define-key :states '(emacs)
-		      :keymaps 'pdf-view-mode-map
-		      :non-normal-prefix "SPC"
-		      "`" 'ivy-switch-buffer
-		      "TAB" 'peter/switch-buffer))
+  (define-key pdf-view-mode-map (kbd "SPC") peter/leader-map))
 #+END_SRC
 ** Mail
 *** Send Mail
