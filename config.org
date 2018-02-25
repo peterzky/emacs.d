@@ -869,6 +869,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 			     "~/Sync/org/agenda/project.org"))
 (setq org-directory "~/Sync/org")
 
+(setq org-archive-subtree-add-inherited-tags t)
+
 (setq org-attach-store-link-p t)
 (setq org-attach-auto-tag nil)
 (setq org-attach-directory "attach/")
