@@ -90,6 +90,8 @@
 
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
+(global-set-key (kbd "C-x C-r") 'revert-buffer)
+
 (defun peter/align-whitespace (start end)
   "Align columns by whitespace"
   (interactive "r")
@@ -270,10 +272,8 @@ operator ~,,~ as comment
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr/34697306#34697306][follow up solution]]
 #+BEGIN_SRC emacs-lisp
-(if (file-exists-p "~/Sync")
-    (use-package doom-themes
-      :load-path "~/Sync/site-lisp/doom-themes/")
-  (use-package doom-themes :ensure t))
+(use-package doom-themes
+  :load-path "~/.emacs.d/site-lisp/doom-themes/")
 
 (use-package solarized-theme :ensure t)
 
@@ -687,6 +687,7 @@ M   : /mnt
   :ensure t
   :bind (("C-x g" . magit-status))
   :config
+  (setq magit-auto-revert-immediately t)
   (my/leader
     '(("gs" . magit-status))))
 #+END_SRC
@@ -866,6 +867,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq org-agenda-files (list "~/Sync/org/agenda/inbox.org"
 			     "~/Sync/org/agenda/project.org"))
 (setq org-directory "~/Sync/org")
+(setq org-attach-directory "attach/")
+
 (setq org-log-done 'time)
 (setq org-log-states-order-reversed nil)
 (setq org-agenda-window-setup 'current-window)
@@ -953,6 +956,13 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (add-hook 'org-capture-after-finalize-hook 'peter/org-capture-delete-frame)
 (add-hook 'org-capture-mode-hook 'peter/org-capture-window)
+
+;; org download
+(use-package org-download
+  :ensure t
+  :config
+  (setq org-download-method 'attach)
+  (setq org-download-screenshot-method "scrot -s %s"))
 #+END_SRC
 ** Org Htmlize
 #+BEGIN_SRC emacs-lisp
@@ -987,7 +997,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 ** Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
 (use-package org-wiki
-  :load-path "~/Sync/site-lisp/org-wiki"
+  :load-path "~/.emacs.d/site-lisp/org-wiki"
   :config
   (setq org-wiki-location "~/Sync/org/wiki")
   (my/leader
