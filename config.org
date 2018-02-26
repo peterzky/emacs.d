@@ -162,9 +162,9 @@
    ("cc" .  flycheck-mode)
    ("cl" .  evilnc-comment-or-uncomment-lines)
    ("fed" . ,(peter/edit-file "~/.emacs.d/config.org"))
-   ("fej" . ,(peter/edit-file "~/Sync/org/agenda/archive.org"))
+   ("fea" . ,(peter/edit-file "~/Sync/org/agenda/archive.org"))
    ("fei" . ,(peter/edit-file "~/Sync/org/agenda/inbox.org"))
-   ("fea" . ,(peter/edit-file "~/Sync/org/agenda/project.org"))
+   ("fep" . ,(peter/edit-file "~/Sync/org/agenda/project.org"))
    ("TAB" . peter/switch-buffer)))
 #+END_SRC
 ** Evil State
