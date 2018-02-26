@@ -973,7 +973,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 	      ("C-c d e" . org-download-edit))
   :config
   (setq org-download-method 'attach)
-  (setq org-download-screenshot-method "scrot -s %s"))
+  (setq org-download-screenshot-method "scrot -s %s")
+  (setq org-download-edit-cmd "krita %s"))
 #+END_SRC
 ** Org Export
 *** Org Htmlize
