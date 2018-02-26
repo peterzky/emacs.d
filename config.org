@@ -233,40 +233,40 @@ operator ~,,~ as comment
   :ensure t
   :init
   (setq sml/no-confirm-load-theme t
-        sml/theme 'respectful
-        sml/mode-width 'full
-        sml/vc-mode-show-backend t
-        projectile-mode-line nil
-        )
+	sml/theme 'respectful
+	sml/mode-width 'full
+	sml/vc-mode-show-backend t
+	projectile-mode-line nil
+	)
   :config
   (sml/setup))
 
 (setq evil-mode-line-format '(before . mode-line-front-space))
 
 (setq-default mode-line-format
-              '("%e"
-                mode-line-front-space
-                " "
-                (:eval (eyebrowse-mode-line-indicator))
-                                        ;mode-line-mule-info
-                mode-line-client
-                mode-line-modified
-                mode-line-auto-compile
-                mode-line-remote
-                mode-line-frame-identification
-                " "
-                mode-line-buffer-identification
-                sml/pos-id-separator
-                " "
-                (vc-mode vc-mode)
-                " "
-                mode-line-modes
-                                        ;mode-line-misc-info
-                sml/pre-modes-separator
-                mode-line-position
-                "(%l:%c)"
-                mode-line-end-spaces
-                ))
+	      '("%e"
+		mode-line-front-space
+		" "
+		(eyebrowse-mode
+		 (:eval
+		  (eyebrowse-mode-line-indicator)))
+		mode-line-client
+		mode-line-modified
+		mode-line-auto-compile
+		mode-line-remote
+		mode-line-frame-identification
+		" "
+		mode-line-buffer-identification
+		sml/pos-id-separator
+		" "
+		(vc-mode vc-mode)
+		" "
+		mode-line-modes
+		sml/pre-modes-separator
+		mode-line-position
+		"(%l:%c)"
+		mode-line-end-spaces
+		))
 #+END_SRC
 ** Themes
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
@@ -494,7 +494,7 @@ popup window for better experience
 ;; spell check world
 (global-set-key (kbd "C-\\") 'ispell-word)
 #+END_SRC
-*** Expand Region
+*** COMMENT Expand Region
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
   :ensure t
@@ -871,7 +871,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 
 (setq org-archive-subtree-add-inherited-tags t)
 
-(setq org-attach-store-link-p t)
+(setq org-attach-store-link-p 'attached)
 (setq org-attach-auto-tag nil)
 (setq org-attach-directory "attach/")
 
@@ -970,11 +970,19 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
   :bind (:map org-mode-map
 	      ("C-c d s" . org-download-screenshot)
 	      ("C-c d d" . org-download-delete)
-	      ("C-c d e" . org-download-edit))
+	      ("C-c d e" . org-download-edit)
+	      ("C-c d y" . org-download-yank))
   :config
   (setq org-download-method 'attach)
   (setq org-download-screenshot-method "scrot -s %s")
   (setq org-download-edit-cmd "krita %s"))
+
+(require 'org-download)
+(defun my:org-download-insert-image ()
+  (interactive)
+  (org-download-image (read-file-name "image: ")))
+
+(define-key org-mode-map (kbd "C-c d i") 'my:org-download-insert-image)
 #+END_SRC
 ** Org Export
 *** Org Htmlize
@@ -1792,6 +1800,19 @@ access yadm repo via tramp
 ** RESTClient
 #+BEGIN_SRC emacs-lisp
 (use-package restclient :ensure t)
+#+END_SRC
+** Ranger Choose Files
+#+BEGIN_SRC emacs-lisp :tangle (if (executable-find "urxvt") "yes" "no")
+(defun ranger-select (prompt &optional dir default-filenamme mustmatch initial predicate)
+  "select file with ranger"
+  (interactive)
+  (call-process-shell-command
+   (concat "urxvt -name rangerFloat -e ranger --choosefiles=/tmp/ranger_current_file " dir))
+  (with-temp-buffer
+    (insert-file-contents "/tmp/ranger_current_file")
+    (car (split-string (buffer-string) "\n" t))))
+
+(fset 'read-file-name 'ranger-select)
 #+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp
