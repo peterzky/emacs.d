@@ -1001,7 +1001,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 *** Org Latex
 #+BEGIN_SRC emacs-lisp
 (setq org-export-with-toc nil
-      org-export-with-entities nil)
+      org-export-with-entities nil
+      org-export-with-section-numbers nil
+      org-export-with-todo-keywords nil)
 
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
