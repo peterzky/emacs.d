@@ -1790,7 +1790,7 @@ access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (use-package restclient :ensure t)
 #+END_SRC
-* Misc
+* Etc
 #+BEGIN_SRC emacs-lisp
 (diminish 'auto-revert-mode)
 
