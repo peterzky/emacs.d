@@ -3,15 +3,6 @@
 
 ~C-c ;~ to comment out unwanted section
 
-* Library
-** Dash
-#+BEGIN_SRC emacs-lisp
-(use-package dash :ensure t)
-(use-package dash-functional :ensure t)
-
-(require 'dash)
-(require 'dash-functional)
-#+END_SRC
 * Settings
 ** Defaults
 #+BEGIN_SRC emacs-lisp
@@ -120,11 +111,11 @@
   (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
   (evil-define-key 'motion help-mode-map (kbd "S-<tab>") 'backward-button))
 
-(setq evil-normal-state-tag "N"
-      evil-insert-state-tag "I"
-      evil-motion-state-tag "M"
-      evil-emacs-state-tag  "E"
-      evil-visual-state-tag "V"
+(setq evil-normal-state-tag " <N>"
+      evil-insert-state-tag " <I>"
+      evil-motion-state-tag " <M>"
+      evil-emacs-state-tag  " <E>"
+      evil-visual-state-tag " <V>"
       evil-motion-state-cursor	'(box "#663399")
       evil-normal-state-cursor	'(box "YellowGreen")
       evil-insert-state-cursor	'(bar "#F86155")
@@ -159,6 +150,7 @@
    ;; text to speech
    ("op" .  peter/text-to-speech)
    ;;file access
+   ("cg" . customize-group)
    ("cc" .  flycheck-mode)
    ("cl" .  evilnc-comment-or-uncomment-lines)
    ("fed" . ,(peter/edit-file "~/.emacs.d/config.org"))
@@ -569,15 +561,9 @@ popup window for better experience
   (setq ranger-deer-show-details t
         ranger-show-hidden nil
         ranger-cleanup-eagerly t)
-  (define-key ranger-mode-map (kbd "M-1") nil)
-  (define-key ranger-mode-map (kbd "M-2") nil)
-  (define-key ranger-mode-map (kbd "M-3") nil)
-  (define-key ranger-mode-map (kbd "M-4") nil)
-  (define-key ranger-mode-map (kbd "M-5") nil)
-  (define-key ranger-mode-map (kbd "M-6") nil)
-  (define-key ranger-mode-map (kbd "M-7") nil)
-  (define-key ranger-mode-map (kbd "M-8") nil)
-  (define-key ranger-mode-map (kbd "M-9") nil)
+  ;; remove conflict bindings
+  (cl-loop for x  in (split-string "1 2 3 4 5 6 7 8 9 0")
+	 do (define-key ranger-mode-map (kbd (format "M-%s" x)) nil))
   (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook)
   (defun ranger-go (path)
     "Go subroutine"
@@ -1020,7 +1006,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq tex-command "xelatex")
 (setq-default TeX-engine 'xelatex)
 #+END_SRC
-** Org Wiki
+** COMMENT Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
 (use-package org-wiki
   :load-path "~/.emacs.d/site-lisp/org-wiki"
