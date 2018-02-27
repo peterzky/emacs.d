@@ -486,12 +486,6 @@ popup window for better experience
 ;; spell check world
 (global-set-key (kbd "C-\\") 'ispell-word)
 #+END_SRC
-*** COMMENT Expand Region
-#+BEGIN_SRC emacs-lisp
-(use-package expand-region
-  :ensure t
-  :bind ("C-=" . er/expand-region))
-#+END_SRC
 *** Paredit
 #+BEGIN_SRC emacs-lisp
 (use-package paredit
@@ -959,16 +953,12 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 	      ("C-c d e" . org-download-edit)
 	      ("C-c d y" . org-download-yank))
   :config
+  (setq org-download-image-html-width 500)
+  (setq org-download-image-latex-width 500)
   (setq org-download-method 'attach)
   (setq org-download-screenshot-method "scrot -s %s")
   (setq org-download-edit-cmd "krita %s"))
 
-(require 'org-download)
-(defun my:org-download-insert-image ()
-  (interactive)
-  (org-download-image (read-file-name "image: ")))
-
-(define-key org-mode-map (kbd "C-c d i") 'my:org-download-insert-image)
 #+END_SRC
 ** Org Export
 *** Org Htmlize
@@ -1787,7 +1777,7 @@ access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (use-package restclient :ensure t)
 #+END_SRC
-** Ranger Choose Files
+** Ranger Select
 #+BEGIN_SRC emacs-lisp :tangle (if (executable-find "urxvt") "yes" "no")
 (defun ranger-select (prompt &optional dir default-filenamme mustmatch initial predicate)
   "select file with ranger"
@@ -1798,7 +1788,30 @@ access yadm repo via tramp
     (insert-file-contents "/tmp/ranger_current_file")
     (car (split-string (buffer-string) "\n" t))))
 
-(fset 'read-file-name 'ranger-select)
+					;(fset 'read-file-name 'ranger-select)
+(defun my-ranger-advice (orig-function &rest arguments)
+  "advice read-file-name function to ranger-select"
+  (interactive)
+  (cl-letf (((symbol-function 'read-file-name) 'ranger-select))
+    (if (called-interactively-p 'any)
+	(call-interactively orig-function)
+      (apply orig-function arguments))))
+
+;; advice org-attach
+(eval-after-load "org-attach"
+  (advice-add 'org-attach-attach :around #'my-ranger-advice))
+
+;; mml-attach-file
+(eval-after-load "mml"
+  (advice-add 'mml-attach-file :around #'my-ranger-advice))
+
+;; org-download
+(require 'org-download)
+(defun my:org-download-insert-image ()
+  (interactive)
+  (org-download-image (ranger-select "image: ")))
+
+(define-key org-mode-map (kbd "C-c d i") 'my:org-download-insert-image)
 #+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp
