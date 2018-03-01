@@ -996,29 +996,26 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq tex-command "xelatex")
 (setq-default TeX-engine 'xelatex)
 #+END_SRC
-** COMMENT Org Wiki
-#+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
-(use-package org-wiki
-  :load-path "~/.emacs.d/site-lisp/org-wiki"
+*** Org Publish
+#+BEGIN_SRC emacs-lisp
+(use-package ox-twbs
+  :ensure t
   :config
-  (setq org-wiki-location "~/Sync/org/wiki")
-  (my/leader
-    '(("ki" . org-wiki-index)
-      ("ks" . peter/org-wiki-search)
-      ("kc" . org-wiki-create)
-      ("kj" . org-wiki-insert)
-      ("kt" . org-wiki-asset-open-terminal)
-      ("ae" . org-wiki-helm))))
-
-(defun peter/org-wiki-search ()
-  (interactive)
-  (counsel-ag nil org-wiki-location nil "Wiki Search"))
-
-(defun org-wiki-asset-open-terminal ()
-  "Open asset directory of current page with terminal"
-  (interactive)
-  (org-wiki--assets-buffer-make-dir)
-  (terminal-here-launch-in-directory (expand-file-name (file-name-base (buffer-file-name)))))
+  (setq org-publish-project-alist
+	'(("org-wiki"
+	   :base-directory "~/Sync/org/wiki/"
+	   :publishing-directory "~/Desktop/wiki/"
+	   :publishing-function org-twbs-publish-to-html
+	   :with-sub-superscript nil))))
+#+END_SRC
+** Org Wiki
+#+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
+(load (concat user-emacs-directory "site-lisp/wiki/wiki.el"))
+(require 'wiki)
+(setq wiki-location "~/Sync/org/wiki/")
+(my/leader '(("as" . wiki-search)
+	     ("ae" . wiki-goto)
+	     ("aj" . org-clock-goto-may-find-recent-task)))
 #+END_SRC
 ** Org Inline Image Workaround
 #+BEGIN_SRC emacs-lisp
@@ -1303,26 +1300,6 @@ This function is called by `org-babel-execute-src-block'."
                 query phonetic basic-explains-str web-str)
       (format "** English\n%s\n*** Translation\n%s\n"
               query translation-str))))
-#+END_SRC
-** COMMENT Deft
-#+BEGIN_SRC emacs-lisp
-(use-package deft
-  :ensure t
-  :config
-  (evil-set-initial-state 'deft-mode 'emacs)
-  (evil-set-initial-state 'artist-mode 'emacs)
-  (my/leader
-   "ae" 'deft)
-  (setq deft-extensions '("org"))
-  (setq deft-use-filename-as-title nil)
-  (setq deft-use-filter-string-for-filename t)
-  ;; (setq deft-org-mode-title-prefix t)
-  (setq deft-default-extension "org")
-  (setq deft-directory "~/Sync/notes")
-  (setq deft-file-naming-rules
-        '((noslash . "-")
-          (nospace . "-")
-          (case-fn . downcase))))
 #+END_SRC
 * Programming Languages
 ** Nix
