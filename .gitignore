@@ -42,3 +42,4 @@ config.el
 /nix-buffer/|home|peterzky|playground|rust|hello_cargo|src|main.rs/result
 /.mc-lists.el
 /.#tramp
+/.#.org-id-locations

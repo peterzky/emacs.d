@@ -1015,7 +1015,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (setq wiki-location "~/Sync/org/wiki/")
 (my/leader '(("as" . wiki-search)
 	     ("ae" . wiki-goto)
-	     ("aj" . org-clock-goto-may-find-recent-task)))
+	     ("aj" . org-clock-goto)))
 #+END_SRC
 ** Org Inline Image Workaround
 #+BEGIN_SRC emacs-lisp
@@ -1316,6 +1316,10 @@ This function is called by `org-babel-execute-src-block'."
   (nix-compile
    (nix-current-sandbox)
    (concat "cd " (projectile-project-root) ";" command)))
+#+END_SRC
+** Julia
+#+BEGIN_SRC emacs-lisp
+(use-package julia-mode :ensure t)
 #+END_SRC
 ** C++
 for this to work =shell.nix= must have ~llvm~ in buildinputs
