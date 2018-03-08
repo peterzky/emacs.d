@@ -320,72 +320,55 @@ operator ~,,~ as comment
 ** Completion Framework
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-(use-package flx :ensure t)
-
 (use-package counsel
   :ensure t
   :diminish ivy-mode ivy-minor-mode
+  :bind (("C-s" . swiper)
+	 ("M-x" . counsel-M-x)
+	 ("s-x" . counsel-M-x)
+	 ("C-x C-f" . counsel-find-file)
+	 ("<f1> l" . counsel-find-library)
+	 ("<f1> b" . counsel-descbinds)
+	 :map read-expression-map
+	 ("C-r" . counsel-expression-history)
+	 :map ivy-minibuffer-map
+	 ("C-l" . ivy-backward-delete-char))
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t
-        ivy-initial-inputs-alist nil
-        ivy-count-format "%d/%d "))
+	enable-recursive-minibuffers t
+	ivy-initial-inputs-alist nil
+	ivy-count-format "%d/%d "
+	magit-completing-read-function 'ivy-completing-read
+	projectile-completion-system 'ivy)
+  (my/leader
+   '(("ag" . counsel-ag)
+     ("`" .  ivy-switch-buffer)
+     ("d" .  counsel-yank-pop)
+     ("m" .  counsel-mark-ring)
+     ("s" .  swiper)
+     ("bb" . ibuffer)
+     ("pp" . projectile-switch-project)
+     ("pf" . projectile-find-file-dwim)
+     ("i" .  ivy-imenu-anywhere)
+     ("fl" . imenu-anywhere)
+     ("gg" . counsel-git-grep)
+     ("ff" . counsel-find-file))))
 
-(defun ivy-open-other-window (x)
-  (find-file-other-window x))
 
-(ivy-set-actions t '(("i" ivy-open-other-window "open other window")))
 
 (use-package ivy-rich
   :ensure t
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
   (setq ivy-virtual-abbreviate 'full
-        ivy-rich-switch-buffer-align-virtual-buffer t)
+	ivy-rich-switch-buffer-align-virtual-buffer t)
   (setq ivy-rich-abbreviate-paths t))
 
 ;; for edit in C-c C-o
 (use-package wgrep :ensure t)
 
-#+END_SRC
-**** Ivy Bindings
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "s-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f1> b") 'counsel-descbinds)
-(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "C-c v") 'ivy-push-view)
-(global-set-key (kbd "C-c V") 'ivy-pop-view)
-(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-(my/leader
-  '(("ag" . counsel-ag)
-    ("`" .  ivy-switch-buffer)
-    ("d" .  counsel-yank-pop)
-    ("m" .  counsel-mark-ring)
-    ("s" .  swiper)
-    ("bb" . ibuffer)
-    ("pp" . projectile-switch-project)
-    ("pf" . projectile-find-file-dwim)
-    ("i" .  ivy-imenu-anywhere)
-    ("fl" . imenu-anywhere)
-    ("gg" . counsel-git-grep)
-    ("ff" . counsel-find-file)
-    ("vv" .  ivy-push-view)
-    ("vo" . ivy-pop-view)))
-
-(define-key ivy-minibuffer-map (kbd "C-l") 'ivy-backward-delete-char)
-#+END_SRC
-**** Packages Compatibility
-#+BEGIN_SRC emacs-lisp
-(setq magit-completing-read-function 'ivy-completing-read)
-(setq projectile-completion-system 'ivy)
+(use-package flx :ensure t)
 #+END_SRC
 *** Company Mode
 #+BEGIN_SRC emacs-lisp
@@ -520,9 +503,10 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind ("C-;" . avy-goto-char)
-  :config
-  (my/leader  '(("SPC" . avy-goto-word-1))))
+  :bind (("C-;" . avy-goto-char)
+	 :map evil-normal-state-map
+	 ("s" . avy-goto-char-2)
+	 ("S" . avy-goto-word-1)))
 #+END_SRC
 ** File/Directory
 *** Direds/Ranger
@@ -538,8 +522,7 @@ popup window for better experience
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
 (defun peter/ranger-mode-hook ()
-  (define-key ranger-mode-map "+" 'dired-create-directory)
-  )
+  (define-key ranger-mode-map "+" 'dired-create-directory))
 
 
 (use-package all-the-icons-dired
@@ -1017,290 +1000,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 	     ("ae" . wiki-goto)
 	     ("aj" . org-clock-goto)))
 #+END_SRC
-** Org Inline Image Workaround
-#+BEGIN_SRC emacs-lisp
-;; * Rescaling inline-images
-;; This will eventually be obsolete if this makes it into org-mode
-(defvar org-inline-image-resize-function
-  #'org-inline-image-resize
-  "Function that takes a filename and resize argument and returns
- a new filename pointing to the resized image.")
-
-
-(defun org-inline-image-resize (fname resize-options)
-  "Resize FNAME with RESIZE-OPTIONS.
-RESIZE-OPTIONS are passed to \"mogrify resized-fname -resize resize-options\".
-RESIZE-OPTIONS could be:
-N% to scale the image by a percentage.
-N to set the width, keeping the aspect ratio constant.
-xN to set the height, keeping the aspect ratio constant.
-NxM! to set the width and height, ignoring the aspect ratio.
-See http://www.imagemagick.org/Usage/resize/#resize for more options."
-  (let* ((md5-hash (with-temp-buffer (insert-file-contents fname)
-                                     (insert (format "%s" resize-options))
-                                     (md5 (buffer-string))))
-         (resized-fname (concat (expand-file-name
-                                 md5-hash
-                                 temporary-file-directory)
-                                "."
-                                (file-name-extension fname)))
-         (cmd (format "mogrify -resize %s %s"
-                      resize-options
-                      resized-fname)))
-    (if (not (executable-find "mogrify"))
-        (progn
-          (message "No mogrify executable found. To eliminate this message, set  `org-inline-image-resize-function' to nil or install imagemagick from http://www.imagemagick.org/script/binary-releases.php")
-          fname)
-      (unless (file-exists-p resized-fname)
-        (copy-file fname resized-fname)
-        (shell-command cmd))
-      resized-fname)))
-
-
-;; this is copied and modified from org.el
-(defun org-display-inline-images (&optional include-linked refresh beg end)
-  "Display inline images.
-An inline image is a link which follows either of these
-conventions:
-  1. Its path is a file with an extension matching return value
-     from `image-file-name-regexp' and it has no contents.
-  2. Its description consists in a single link of the previous
-     type.
-When optional argument INCLUDE-LINKED is non-nil, also links with
-a text description part will be inlined.  This can be nice for
-a quick look at those images, but it does not reflect what
-exported files will look like.
-When optional argument REFRESH is non-nil, refresh existing
-images between BEG and END.  This will create new image displays
-only if necessary.  BEG and END default to the buffer
-boundaries."
-  (interactive "P")
-  (when (display-graphic-p)
-    (unless refresh
-      (org-remove-inline-images)
-      (when (fboundp 'clear-image-cache) (clear-image-cache)))
-    (org-with-wide-buffer
-     (goto-char (or beg (point-min)))
-     (let ((case-fold-search t)
-           (file-extension-re (image-file-name-regexp)))
-       (while (re-search-forward "[][]\\[\\(?:file\\|[./~]\\)" end t)
-         (let ((link (save-match-data (org-element-context))))
-           ;; Check if we're at an inline image.
-           (when (and (equal (org-element-property :type link) "file")
-                      (or include-linked
-                          (not (org-element-property :contents-begin link)))
-                      (let ((parent (org-element-property :parent link)))
-                        (or (not (eq (org-element-type parent) 'link))
-                            (not (cdr (org-element-contents parent)))))
-                      (org-string-match-p file-extension-re
-                                          (org-element-property :path link)))
-             (let ((file (expand-file-name
-                          (org-link-unescape
-                           (org-element-property :path link)))))
-               (when (file-exists-p file)
-                 (let ((width
-                        ;; Apply `org-image-actual-width' specifications.
-                        (cond
-                         ((and (not (image-type-available-p 'imagemagick))
-                               (not org-inline-image-resize-function))
-                          nil)
-                         ((eq org-image-actual-width t) nil)
-                         ((listp org-image-actual-width)
-                          (or
-                           ;; First try to find a width among
-                           ;; attributes associated to the paragraph
-                           ;; containing link.
-                           (let* ((paragraph
-                                   (let ((e link))
-                                     (while (and (setq e (org-element-property
-                                                          :parent e))
-                                                 (not (eq (org-element-type e)
-                                                          'paragraph))))
-                                     e))
-                                  (attr_org (org-element-property :attr_org paragraph)))
-                             (when attr_org
-                               (plist-get
-                                (org-export-read-attribute :attr_org  paragraph) :width)))
-                           ;; Otherwise, fall-back to provided number.
-                           (car org-image-actual-width)))
-                         ((numberp org-image-actual-width)
-                          org-image-actual-width)))
-                       (old (get-char-property-and-overlay
-                             (org-element-property :begin link)
-                             'org-image-overlay)))
-                   (if (and (car-safe old) refresh)
-                       (image-refresh (overlay-get (cdr old) 'display))
-
-                     (when (and width org-inline-image-resize-function)
-                       (setq file (funcall  org-inline-image-resize-function file width)
-                             width nil))
-                     (let ((image (create-image file
-                                                (cond
-                                                 ((image-type-available-p 'imagemagick)
-                                                  (and width 'imagemagick))
-                                                 (t nil))
-                                                nil
-                                                :width width)))
-                       (when image
-                         (let* ((link
-                                 ;; If inline image is the description
-                                 ;; of another link, be sure to
-                                 ;; consider the latter as the one to
-                                 ;; apply the overlay on.
-                                 (let ((parent
-                                        (org-element-property :parent link)))
-                                   (if (eq (org-element-type parent) 'link)
-                                       parent
-                                     link)))
-                                (ov (make-overlay
-                                     (org-element-property :begin link)
-                                     (progn
-                                       (goto-char
-                                        (org-element-property :end link))
-                                       (skip-chars-backward " \t")
-                                       (point)))))
-                           (overlay-put ov 'display image)
-                           (overlay-put ov 'face 'default)
-                           (overlay-put ov 'org-image-overlay t)
-                           (overlay-put
-                            ov 'modification-hooks
-                            (list 'org-display-inline-remove-overlay))
-                           (push ov org-inline-image-overlays)))))))))))))))
-
-;; * Enable pdf and eps images in org-mode
-;; Suggested on the org-mode maillist by Julian Burgos
-(add-to-list 'image-file-name-extensions "pdf")
-(add-to-list 'image-file-name-extensions "eps")
-
-(add-to-list 'image-type-file-name-regexps '("\\.eps\\'" . imagemagick))
-(add-to-list 'image-file-name-extensions "eps")
-(add-to-list 'image-type-file-name-regexps '("\\.pdf\\'" . imagemagick))
-(add-to-list 'image-file-name-extensions "pdf")
-
-(setq imagemagick-types-inhibit (remove 'PDF imagemagick-types-inhibit))
-#+END_SRC
-** Org Plantuml Workaround
-#+BEGIN_SRC emacs-lisp
-(defun org-babel-execute:plantuml (body params)
-  "Execute a block of plantuml code with org-babel.
-This function is called by `org-babel-execute-src-block'."
-  (let* ((out-file (or (cdr (assq :file params))
-		       (error "PlantUML requires a \":file\" header argument")))
-	 (cmdline (cdr (assq :cmdline params)))
-	 (in-file (org-babel-temp-file "plantuml-"))
-	 (java (or (cdr (assq :java params)) ""))
-	 (full-body (org-babel-plantuml-make-body body params))
-	 (cmd (concat "plantuml"
-		      (if (string= (file-name-extension out-file) "png")
-			  " -tpng" "")
-		      (if (string= (file-name-extension out-file) "svg")
-			  " -tsvg" "")
-		      (if (string= (file-name-extension out-file) "eps")
-			  " -teps" "")
-		      (if (string= (file-name-extension out-file) "pdf")
-			  " -tpdf" "")
-		      (if (string= (file-name-extension out-file) "vdx")
-			  " -tvdx" "")
-		      (if (string= (file-name-extension out-file) "xmi")
-			  " -txmi" "")
-		      (if (string= (file-name-extension out-file) "scxml")
-			  " -tscxml" "")
-		      (if (string= (file-name-extension out-file) "html")
-			  " -thtml" "")
-		      (if (string= (file-name-extension out-file) "txt")
-			  " -ttxt" "")
-		      (if (string= (file-name-extension out-file) "utxt")
-			  " -utxt" "")
-		      " -p " cmdline " < "
-		      (org-babel-process-file-name in-file)
-		      " > "
-		      (org-babel-process-file-name out-file))))
-    (unless (file-exists-p org-plantuml-jar-path)
-      (error "Could not find plantuml.jar at %s" org-plantuml-jar-path))
-    (with-temp-file in-file (insert full-body))
-    (message "%s" cmd) (org-babel-eval cmd "")
-    nil))
-#+END_SRC
-** COMMENT Org Protocol
-#+BEGIN_SRC emacs-lisp
-(defun my-vocabulary-write (word)
-  (write-region
-   (my-vocabulary-format-result word)  nil
-   my-vocabulary-path t))
-
-(defvar my-vocabulary-path "/home/peterzky/Sync/org/vocabulary.org")
-
-(defun org-protocol-vocabulary (fname)
-  (let* ((splitparts (org-protocol-parse-parameters fname t))
-         (w (plist-get splitparts :word)))
-    (my-vocabulary-write w)
-    (message "word saved %s" w))
-  nil)
-
-(add-to-list 'org-protocol-protocol-alist
-             '("Vocabulary" :protocol "vocabulary" :function org-protocol-vocabulary))
-#+END_SRC
-** COMMENT Org Dictionary
-#+BEGIN_SRC emacs-lisp
-(defun my-vocabulary-format-result (word)
-  "Format request result of WORD."
-  (let* ((json (youdao-dictionary--request word))
-         (query        (assoc-default 'query       json)) ; string
-         (translation  (assoc-default 'translation json)) ; array
-         (errorCode    (assoc-default 'errorCode   json)) ; number
-         (web          (assoc-default 'web         json)) ; array
-         (basic        (assoc-default 'basic       json)) ; alist
-         ;; construct data for display
-         (phonetic (assoc-default 'phonetic basic))
-         (translation-str (mapconcat
-                           (lambda (trans) (concat " " trans))
-                           translation "\n"))
-         (basic-explains-str (mapconcat
-                              (lambda (explain) (concat " " explain))
-                              (assoc-default 'explains basic) "\n"))
-         (web-str (mapconcat
-                   (lambda (k-v)
-                     (format " %s :: %s"
-                             (assoc-default 'key k-v)
-                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
-                   web "\n")))
-    (if basic
-        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
-                query phonetic basic-explains-str web-str)
-      (format "** English\n%s\n*** Translation\n%s\n"
-              query translation-str))))
-
-
-
-(defun my-vocabulary-format-result-prompt ()
-  "Format request result of WORD."
-  (interactive)
-  (let* ((json (youdao-dictionary--request (read-from-minibuffer "word: ")))
-         (query        (assoc-default 'query       json)) ; string
-         (translation  (assoc-default 'translation json)) ; array
-         (errorCode    (assoc-default 'errorCode   json)) ; number
-         (web          (assoc-default 'web         json)) ; array
-         (basic        (assoc-default 'basic       json)) ; alist
-         ;; construct data for display
-         (phonetic (assoc-default 'phonetic basic))
-         (translation-str (mapconcat
-                           (lambda (trans) (concat " " trans))
-                           translation "\n"))
-         (basic-explains-str (mapconcat
-                              (lambda (explain) (concat " " explain))
-                              (assoc-default 'explains basic) "\n"))
-         (web-str (mapconcat
-                   (lambda (k-v)
-                     (format " %s :: %s"
-                             (assoc-default 'key k-v)
-                             (mapconcat 'identity (assoc-default 'value k-v) "; ")))
-                   web "\n")))
-    (if basic
-        (format "** English          :drill:\n*%s* /%s/\n*** Translation\n%s\n Web References\n%s\n"
-                query phonetic basic-explains-str web-str)
-      (format "** English\n%s\n*** Translation\n%s\n"
-              query translation-str))))
-#+END_SRC
 * Programming Languages
 ** Nix
 #+BEGIN_SRC emacs-lisp
@@ -1316,10 +1015,6 @@ This function is called by `org-babel-execute-src-block'."
   (nix-compile
    (nix-current-sandbox)
    (concat "cd " (projectile-project-root) ";" command)))
-#+END_SRC
-** Julia
-#+BEGIN_SRC emacs-lisp
-(use-package julia-mode :ensure t)
 #+END_SRC
 ** C++
 for this to work =shell.nix= must have ~llvm~ in buildinputs
@@ -1491,18 +1186,12 @@ cargo install rustfmt
 #+END_SRC
 ** Octave
 #+BEGIN_SRC emacs-lisp
-(evil-set-initial-state 'inferior-octave-mode 'emacs)
-(setq inferior-octave-program "octave")
-(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
-
-(defun peter/octave-mode-hook ()
-  (local-set-key (kbd "C-c C-d") 'octave-help)
-  (local-set-key (kbd "C-c C-c") 'octave-send-buffer)
-  (local-set-key (kbd "C-c C-q") 'octave-hide-process-buffer)
-  (local-set-key (kbd "C-c C-z") 'octave-show-process-buffer)
-  (local-set-key (kbd "C-c C-k") 'octave-kill-process))
-
-(add-hook 'octave-mode-hook 'peter/octave-mode-hook)
+(use-package octave
+  :mode ("\\.m\\'" . octave-mode)
+  :bind (:map octave-mode-map
+	      ("C-c C-d" . octave-help)
+	      ("C-c C-c" . octave-send-buffer)
+	      ("C-c g" . run-octave)))
 #+END_SRC
 ** Haskell intero
 nixos config
