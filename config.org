@@ -1031,10 +1031,10 @@ better to use ~clangStdenv~
   :ensure t
   :config
   (setq cquery-executable "cquery")
-  (setq cquery-sem-highlight-method 'overlay))
+  ;; (setq cquery-sem-highlight-method 'overlay)
+  )
 
-(use-package google-c-style
-  :ensure t)
+(use-package google-c-style :ensure t)
 
 (defun peter/c-mode-hook ()
   (google-set-c-style)
@@ -1059,6 +1059,20 @@ better to use ~clangStdenv~
   (indent-according-to-mode)
   (forward-line -1)
   (indent-according-to-mode))
+
+#+END_SRC
+** CMake
+#+BEGIN_SRC emacs-lisp
+(defun peter/cmake-hook ()
+  (let ((cmake-path (nix-executable-find (nix-current-sandbox) "cmake")))
+    (setq cmake-mode-cmake-executable cmake-path)
+    (setq company-cmake-executable cmake-path)))
+
+(use-package cmake-mode
+  :ensure t
+  :config
+  (when (executable-find "nix-env")
+    (add-hook 'cmake-mode-hook 'peter/cmake-hook)))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
