@@ -53,10 +53,10 @@
 
 (defmacro peter/edit-file (file)
   "open file and widen if narrowed."
-   `(lambda nil (interactive)
-	(find-file ,file)
-	(when (buffer-narrowed-p)
-	   (widen))))
+  `(lambda nil (interactive)
+     (find-file ,file)
+     (when (buffer-narrowed-p)
+       (widen))))
 
 ;; close window after kill buffer command
 (advice-add 'kill-this-buffer :after #'delete-window)
@@ -87,17 +87,26 @@
   "Align columns by whitespace"
   (interactive "r")
   (align-regexp start end
-                "\\(\\s-*\\)\\s-" 1 0 t))
+		"\\(\\s-*\\)\\s-" 1 0 t))
 
 (defun peter/text-to-speech ()
   "read paragraph with tts"
   (interactive)
   (save-mark-and-excursion
-    (mark-paragraph)
-    (shell-command-on-region
-     (region-beginning)
-     (region-end)
-     "tts -p")))
+   (mark-paragraph)
+   (kill-ring-save)
+   (let ((text (substring-no-properties (car kill-ring))))
+     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
+
+(defun peter/read-pdf-page ()
+  "read whole page or selected region in pdf mode"
+  (interactive)
+  (save-mark-and-excursion
+   (unless (pdf-view-active-region-p)
+       (pdf-view-mark-whole-page))
+   (pdf-view-kill-ring-save)
+   (let ((text (substring-no-properties (car kill-ring))))
+     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
 #+END_SRC
 * Evil Mode
 ** Evil General
@@ -162,40 +171,40 @@
 ** Evil State
 [[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
-  (defmacro peter/evil-state (state list)
-    `(cl-loop for mode in ,list
-              do (add-to-list ,state mode)))
+(defmacro peter/evil-state (state list)
+  `(cl-loop for mode in ,list
+	    do (add-to-list ,state mode)))
 
-  (defvar peter/motion-state-modes
-    '(special-mode go-guru-output-mode racer-help-mode helpful-mode
-                   intero-help-mode messages-buffer-mode))
+(defvar peter/motion-state-modes
+  '(special-mode go-guru-output-mode racer-help-mode helpful-mode
+		 intero-help-mode messages-buffer-mode youdao-dictionary-mode))
 
-  (defvar peter/emacs-state-modes
-    '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
-                  intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-                  elfeed-show-mode finder-mode image-mode))
+(defvar peter/emacs-state-modes
+  '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
+		intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
+		elfeed-show-mode finder-mode image-mode))
 
-  (defvar peter/insert-state-hooks
-    '(org-src-mode-hook org-log-buffer-setup-hook
-			org-capture-mode-hook git-commit-mode-hook))
+(defvar peter/insert-state-hooks
+  '(org-src-mode-hook org-log-buffer-setup-hook
+		      org-capture-mode-hook git-commit-mode-hook))
 
-  (defvar peter/emacs-state-minor-modes
-    '(edebug-mode))
+(defvar peter/emacs-state-minor-modes
+  '(edebug-mode))
 
 
-  (peter/evil-state 'evil-motion-state-modes peter/motion-state-modes)
+(peter/evil-state 'evil-motion-state-modes peter/motion-state-modes)
 
-  (peter/evil-state 'evil-emacs-state-modes peter/emacs-state-modes)
+(peter/evil-state 'evil-emacs-state-modes peter/emacs-state-modes)
 
-  (cl-loop for hook in peter/insert-state-hooks do
-           (add-hook hook 'evil-insert-state))
+(cl-loop for hook in peter/insert-state-hooks do
+	 (add-hook hook 'evil-insert-state))
 
-  (cl-loop for mode in peter/emacs-state-minor-modes
-           do (let ((hook (concat (symbol-name mode) "-hook")))
-                (add-hook (intern hook) `(lambda ()
-                                           (if ,mode
-                                               (evil-emacs-state)
-                                             (evil-normal-state))))))
+(cl-loop for mode in peter/emacs-state-minor-modes
+	 do (let ((hook (concat (symbol-name mode) "-hook")))
+	      (add-hook (intern hook) `(lambda ()
+					 (if ,mode
+					     (evil-emacs-state)
+					   (evil-normal-state))))))
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
@@ -505,7 +514,7 @@ popup window for better experience
   :ensure t
   :bind (("C-;" . avy-goto-char)
 	 :map evil-normal-state-map
-	 ("s" . avy-goto-char-2)
+	 ("s" . avy-goto-char)
 	 ("S" . avy-goto-word-1)))
 #+END_SRC
 ** File/Directory
@@ -1248,6 +1257,8 @@ nix:
 	      ("C-s" . isearch-forward)
 	      ("j" . pdf-view-next-line-or-next-page)
 	      ("k" . pdf-view-previous-line-or-previous-page)
+	      ("i" . peter/read-pdf-page)
+	      ("d" . peter/pdf-dict)
 	      ("TAB" . pdf-outline)
 	      :map pdf-outline-buffer-mode-map
 	      ("j" . next-line)
@@ -1443,6 +1454,14 @@ access yadm repo via tramp
   :ensure t
   :config
   (my/leader '(("oo" . youdao-dictionary-search-at-point+))))
+
+(defun peter/pdf-dict ()
+  "pdf-tool dict"
+  (interactive)
+  (pdf-view-kill-ring-save)
+  (let ((word (substring-no-properties (car kill-ring))))
+    (youdao-dictionary-search word))
+  (pdf-view-deactivate-region))
 #+END_SRC
 *** Fcitx
 #+BEGIN_SRC emacs-lisp :tangle (if (executable-find "fcitx-remote") "yes" "no")
