@@ -1154,7 +1154,14 @@ better to use ~clangStdenv~
 (use-package elpy
   :ensure t
   :config
- (elpy-enable))
+  (setq elpy-company-post-completion-function
+	'elpy-company-post-complete-parens)
+  (setq elpy-modules
+	'(elpy-module-sane-defaults
+	  elpy-module-company
+	  elpy-module-eldoc
+	  elpy-module-yasnippet))
+  (elpy-enable))
 #+END_SRC
 ** Emacs Lisp
 #+BEGIN_SRC emacs-lisp
