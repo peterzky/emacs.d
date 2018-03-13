@@ -974,6 +974,9 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+END_SRC
 *** Org Latex
 #+BEGIN_SRC emacs-lisp
+;; inline latex fragment
+(plist-put org-format-latex-options :scale 2)
+
 (setq org-export-with-toc nil
       org-export-with-entities nil
       org-export-with-section-numbers nil
