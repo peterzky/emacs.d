@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: mat
+# key: mat
+# --
+\begin{bmatrix}
+` (let* ((matrix "")
+       (row-count (string-to-number (read-string "row: ")))
+       (column-count (string-to-number (read-string "column: "))))
+  (cl-loop repeat column-count  do
+	   (let ((row ""))
+	     (cl-loop repeat (- row-count 1) do
+		      (setq row (concat row " &")))
+	     (setq row (concat row " " ))
+	     (setq matrix (concat matrix (format "%s \\\\\n" row)))))
+  matrix)`
+\end{bmatrix}
