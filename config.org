@@ -531,7 +531,7 @@ popup window for better experience
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
 (defun peter/ranger-mode-hook ()
-  (define-key ranger-mode-map "+" 'dired-create-directory))
+  (define-key ranger-mode-map "+" 'dired-do-chmod))
 
 
 (use-package all-the-icons-dired
@@ -1393,6 +1393,7 @@ nixos workaround
 	      ("k" . scroll-down-line))
   :config
   (my/leader '(("9" . peter/elfeed-load-db-and-open)))
+  (setq elfeed-curl-extra-arguments '("-x" "http://127.0.0.1:8123"))
   (setq elfeed-db-directory "~/Sync/elfeed")
   (defun my-elfeed-tag-sort (a b)
     (let* ((a-tags (format "%s" (elfeed-entry-tags a)))
@@ -1523,6 +1524,21 @@ access yadm repo via tramp
   (org-download-image (ranger-select "image: ")))
 
 (define-key org-mode-map (kbd "C-c d i") 'my:org-download-insert-image)
+#+END_SRC
+** RipGrep
+#+BEGIN_SRC emacs-lisp
+(use-package rg
+  :ensure t
+  :bind (:map rg-global-map
+	      ("n" . rg-search-nix))
+  :config
+  (rg-enable-default-bindings "\M-s")
+  (rg-define-search rg-search-nix
+    "search nix files"
+    :qusery ask
+    :format regexp
+    :files "nix"
+    :dir "/nix/var/nix/profiles/per-user/root/channels/nixos"))
 #+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp
