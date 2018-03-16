@@ -1558,6 +1558,8 @@ access yadm repo via tramp
 (defhydra hydra-tts-menu ()
   ("j" forward-paragraph)
   ("u" scroll-down-command)
+  ("]" Info-forward-node)
+  ("[" Info-backward-node)
   ("f" scroll-up-command)
   ("k" backward-paragraph)
   ("i" tts/read-paragraph "read paragraph")
