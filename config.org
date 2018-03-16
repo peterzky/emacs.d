@@ -783,6 +783,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (diminish 'visual-line-mode)
 
 (defun peter/org-mode-hook ()
+  (electric-indent-local-mode -1)
   (evil-local-set-key 'normal (kbd "SPC i") 'counsel-org-goto)
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point))
 
