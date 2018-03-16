@@ -88,25 +88,6 @@
   (interactive "r")
   (align-regexp start end
 		"\\(\\s-*\\)\\s-" 1 0 t))
-
-(defun peter/text-to-speech ()
-  "read paragraph with tts"
-  (interactive)
-  (save-mark-and-excursion
-   (mark-paragraph)
-   (kill-ring-save)
-   (let ((text (substring-no-properties (car kill-ring))))
-     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
-
-(defun peter/read-pdf-page ()
-  "read whole page or selected region in pdf mode"
-  (interactive)
-  (save-mark-and-excursion
-   (unless (pdf-view-active-region-p)
-       (pdf-view-mark-whole-page))
-   (pdf-view-kill-ring-save)
-   (let ((text (substring-no-properties (car kill-ring))))
-     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
 #+END_SRC
 * Evil Mode
 ** Evil General
@@ -157,7 +138,7 @@
    ("ww" .  other-window)
    ("wd" .  delete-window)
    ;; text to speech
-   ("op" .  peter/text-to-speech)
+   ("op" .  hydra-tts-menu/body)
    ;;file access
    ("cg" . customize-group)
    ("cc" .  flycheck-mode)
@@ -752,6 +733,10 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
 (use-package imenu-anywhere :ensure t)
 #+END_SRC
+*** Hydra
+#+BEGIN_SRC emacs-lisp
+(use-package hydra :ensure t)
+#+END_SRC
 * Org Mode
 ** Org Mode General
 #+BEGIN_SRC emacs-lisp
@@ -1268,7 +1253,7 @@ nix:
 	      ("C-s" . isearch-forward)
 	      ("j" . pdf-view-next-line-or-next-page)
 	      ("k" . pdf-view-previous-line-or-previous-page)
-	      ("i" . peter/read-pdf-page)
+	      ("i" . tts/pdf-read-page)
 	      ("d" . peter/pdf-dict)
 	      ("TAB" . pdf-outline)
 	      :map pdf-outline-buffer-mode-map
@@ -1519,7 +1504,6 @@ access yadm repo via tramp
   (advice-add 'mml-attach-file :around #'my-ranger-advice))
 
 ;; org-download
-(require 'org-download)
 (defun my:org-download-insert-image ()
   (interactive)
   (org-download-image (ranger-select "image: ")))
@@ -1540,6 +1524,44 @@ access yadm repo via tramp
     :format regexp
     :files "nix"
     :dir "/nix/var/nix/profiles/per-user/root/channels/nixos"))
+#+END_SRC
+** TTS - Text to Speech
+- [ ] encapsulate tts process within emacs buffer
+- [ ] tts/process-running-p check tts process
+#+BEGIN_SRC emacs-lisp
+(defun tts/read-paragraph ()
+  "read paragraph with tts"
+  (interactive)
+  (save-mark-and-excursion
+   (mark-paragraph)
+   (kill-ring-save
+    (region-beginning)
+    (region-end))
+   (let ((text (substring-no-properties (car kill-ring))))
+     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
+
+(defun tts/pdf-read-page ()
+  "read whole page or selected region in pdf mode"
+  (interactive)
+  (save-mark-and-excursion
+   (unless (pdf-view-active-region-p)
+     (pdf-view-mark-whole-page))
+   (pdf-view-kill-ring-save)
+   (let ((text (substring-no-properties (car kill-ring))))
+     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
+
+(defun tts/read-paragraph-forward ()
+  (interactive)
+  (tts/read-paragraph)
+  (forward-paragraph))
+
+(defhydra hydra-tts-menu ()
+  ("j" forward-paragraph)
+  ("u" scroll-down-command)
+  ("f" scroll-up-command)
+  ("k" backward-paragraph)
+  ("i" tts/read-paragraph "read paragraph")
+  ("SPC" tts/read-paragraph-forward "read forward"))
 #+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp
