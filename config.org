@@ -404,8 +404,10 @@ popup window for better experience
   :ensure t
   :config
   (setq popwin:popup-window-height 15)
-  (global-set-key (kbd "C-M-`") popwin:keymap)
+  (global-set-key (kbd "C-q") popwin:keymap)
   (define-key popwin:keymap "q" 'popwin:close-popup-window)
+  (define-key popwin:keymap "o" 'popwin:original-display-last-buffer)
+  (define-key popwin:keymap "p" 'popwin:original-pop-to-last-buffer)
   (popwin-mode 1))
 
 (defvar my:popup-config
