@@ -1019,7 +1019,7 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
    (nix-current-sandbox)
    (concat "cd " (projectile-project-root) ";" command)))
 #+END_SRC
-** C++
+** C/C++
 for this to work =shell.nix= must have ~llvm~ in buildinputs
 better to use ~clangStdenv~
 #+BEGIN_SRC emacs-lisp
@@ -1070,6 +1070,15 @@ better to use ~clangStdenv~
   (indent-according-to-mode))
 
 (setq gdb-many-windows t)
+
+;; cmode
+(defun peter/c-mode-manual ()
+  (interactive)
+  (man (format "3 %s" (symbol-at-point))))
+
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c C-d") 'peter/c-mode-manual)))
 #+END_SRC
 ** CMake
 #+BEGIN_SRC emacs-lisp
