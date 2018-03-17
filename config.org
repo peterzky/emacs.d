@@ -500,6 +500,12 @@ popup window for better experience
 	 ("s" . avy-goto-char)
 	 ("S" . avy-goto-word-1)))
 #+END_SRC
+*** Expand Region
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region))
+#+END_SRC
 ** File/Directory
 *** Direds/Ranger
 #+BEGIN_SRC emacs-lisp
