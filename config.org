@@ -1504,6 +1504,7 @@ access yadm repo via tramp
   (advice-add 'mml-attach-file :around #'my-ranger-advice))
 
 ;; org-download
+(require 'org-download)
 (defun my:org-download-insert-image ()
   (interactive)
   (org-download-image (ranger-select "image: ")))
@@ -1517,7 +1518,7 @@ access yadm repo via tramp
   :bind (:map rg-global-map
 	      ("n" . rg-search-nix))
   :config
-  (rg-enable-default-bindings "\M-s")
+  (define-key peter/leader-map (kbd "ar") rg-global-map)
   (rg-define-search rg-search-nix
     "search nix files"
     :qusery ask
