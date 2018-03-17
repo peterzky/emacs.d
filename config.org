@@ -1007,6 +1007,8 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 (use-package nix-sandbox :ensure t)
 (use-package nix-mode :ensure t)
 
+(add-hook 'comint-mode-hook 'nix-prettify-mode)
+
 (setq last-nix-command "make")
 
 (defun nix-run (command)
