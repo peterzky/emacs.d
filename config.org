@@ -7,6 +7,7 @@
 ** Defaults
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t)
+(setq use-dialog-box nil)
 (line-number-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -1033,20 +1034,24 @@ better to use ~clangStdenv~
   :ensure t
   :config
   (setq cquery-executable "cquery")
-  ;; (setq cquery-sem-highlight-method 'overlay)
-  )
+  (setq cquery-extra-init-params
+	'(:index (:comments 2)
+		 :cacheFormat "msgpack"
+		 :completion (:detailedLabel t))))
 
 (use-package google-c-style :ensure t)
 
 (defun peter/c-mode-hook ()
   (google-set-c-style)
   (google-make-newline-indent)
-  (lsp-cquery-enable)
   (lsp-enable-imenu)
   (rainbow-mode -1)
+  (crux-reopen-as-root-mode -1)
   (local-set-key [f5] 'nix-run)
   (local-set-key (kbd "C-c C-j") 'xref-find-definitions)
-  (local-set-key (kbd "C-c C-r") 'lsp-cquery-enable)
+  (local-set-key (kbd "C-c C-f") 'lsp-format-buffer)
+  (local-set-key (kbd "C-c C-c") 'lsp-cquery-enable)
+  (local-set-key (kbd "C-c C-l") 'cquery-freshen-index)
   (local-set-key (kbd "C-c r") 'lsp-rename))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
@@ -1062,6 +1067,7 @@ better to use ~clangStdenv~
   (forward-line -1)
   (indent-according-to-mode))
 
+(setq gdb-many-windows t)
 #+END_SRC
 ** CMake
 #+BEGIN_SRC emacs-lisp
