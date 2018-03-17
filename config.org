@@ -42,7 +42,7 @@
           browse-url-generic-program "qutebrowser"))
 
 #+END_SRC
-** User Defined Functions
+** Functions
 #+BEGIN_SRC emacs-lisp
 (defun peter/switch-buffer ()
   "switch to last buffer"
@@ -218,8 +218,7 @@ operator ~,,~ as comment
 	sml/theme 'respectful
 	sml/mode-width 'full
 	sml/vc-mode-show-backend t
-	projectile-mode-line nil
-	)
+	projectile-mode-line nil)
   :config
   (sml/setup))
 
@@ -247,8 +246,7 @@ operator ~,,~ as comment
 		sml/pre-modes-separator
 		mode-line-position
 		"(%l:%c)"
-		mode-line-end-spaces
-		))
+		mode-line-end-spaces))
 #+END_SRC
 ** Themes
 [[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
@@ -344,8 +342,6 @@ operator ~,,~ as comment
      ("fl" . imenu-anywhere)
      ("gg" . counsel-git-grep)
      ("ff" . counsel-find-file))))
-
-
 
 (use-package ivy-rich
   :ensure t
