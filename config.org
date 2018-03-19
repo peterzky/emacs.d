@@ -230,10 +230,12 @@ operator ~,,~ as comment
 
 ** Themes
 #+BEGIN_SRC emacs-lisp
+;; theme packages
 (use-package color-theme-sanityinc-tomorrow :ensure t)
 (use-package doom-themes :ensure t)
 
-(load-theme 'sanityinc-tomorrow-day t)
+;; default theme
+(load-theme 'adwaita t)
 
 (my/leader '(("uu" . counsel-load-theme)
 	     ("ui" . my:font-select)))
