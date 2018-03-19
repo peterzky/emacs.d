@@ -209,6 +209,35 @@ operator ~,,~ as comment
   (global-evil-surround-mode 1))
 #+END_SRC
 * Looks/Feels
+** Fonts
+#+BEGIN_SRC emacs-lisp
+(defun my:set-font (FONT)
+  (interactive)
+  (set-face-attribute 'default t :font FONT)
+  (set-frame-font FONT nil t))
+
+(defun my:font-select ()
+  (interactive)
+  (ivy-read "set font: "
+	    my:font-list
+	    :action (lambda (select)
+		      (my:set-font select))))
+
+(defvar my:font-list
+  '("Hack-10" "Iosevka-12" "Fira Code-10"
+    "DejaVu Sans Mono-11"))
+#+END_SRC
+
+** Themes
+#+BEGIN_SRC emacs-lisp
+(use-package color-theme-sanityinc-tomorrow :ensure t)
+(use-package doom-themes :ensure t)
+
+(load-theme 'sanityinc-tomorrow-day t)
+
+(my/leader '(("uu" . counsel-load-theme)
+	     ("ui" . my:font-select)))
+#+END_SRC
 ** Mode Line
 *** Smart Mode Line
 #+BEGIN_SRC emacs-lisp
@@ -248,62 +277,6 @@ operator ~,,~ as comment
 		mode-line-position
 		"(%l:%c)"
 		mode-line-end-spaces))
-#+END_SRC
-** Themes
-[[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr][Emacs daemon and theme]]
-[[https://stackoverflow.com/questions/18904529/after-emacs-deamon-i-can-not-see-new-theme-in-emacsclient-frame-it-works-fr/34697306#34697306][follow up solution]]
-#+BEGIN_SRC emacs-lisp
-(use-package doom-themes
-  :load-path "~/.emacs.d/site-lisp/doom-themes/")
-
-(use-package solarized-theme :ensure t)
-
-(setq my:theme-index 0)
-(setq my:theme-list
-      '(doom-tomorrow-night adwaita solarized-light))
-
-(defun my:enabled-themes ()
-  (delete 'smart-mode-line-respectful
-	  custom-enabled-themes))
-
-(defun my:clear-theme ()
-  (interactive)
-  (mapcar #'disable-theme (my:enabled-themes)))
-
-(defun my:switch-theme ()
-  (interactive)
-  (mapcar #'disable-theme (my:enabled-themes))
-  (setq my:theme-index (% (1+ my:theme-index) (length my:theme-list)))
-  (setq my:theme (nth my:theme-index my:theme-list))
-  (load-theme my:theme :no-confirm))
-
-(my/leader '(("u" . my:switch-theme)))
-
-(setq my:theme (nth my:theme-index my:theme-list))
-(defvar my:theme-window-loaded nil)
-(defvar my:theme-terminal-loaded nil)
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-	      (lambda (frame)
-		(select-frame frame)
-		(if (window-system frame)
-		    (unless my:theme-window-loaded
-		      (if my:theme-terminal-loaded
-			  (enable-theme my:theme)
-			(load-theme my:theme t))
-		      (setq my:theme-window-loaded t))
-		  (unless my:theme-terminal-loaded
-		    (if my:theme-window-loaded
-			(enable-theme my:theme)
-		      (load-theme my:theme t))
-		    (setq my:theme-terminal-loaded t)))))
-
-  (progn
-    (load-theme my:theme t)
-    (if (display-graphic-p)
-	(setq my:theme-window-loaded t)
-      (setq my:theme-terminal-loaded t))))
 #+END_SRC
 * Interface
 ** Completion Framework
