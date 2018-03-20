@@ -234,11 +234,30 @@ operator ~,,~ as comment
 (use-package color-theme-sanityinc-tomorrow :ensure t)
 (use-package doom-themes :ensure t)
 
-;; default theme
-(load-theme 'adwaita t)
+(defvar my:dark-light-themes
+;'(gruvbox-dark-medium gruvbox-light-medium)
+  '(adwaita tsdh-dark)
+  )
 
-(my/leader '(("uu" . counsel-load-theme)
-	     ("ui" . my:font-select)))
+(defun my:switch-themes ()
+  "switch between dark and light theme"
+  (interactive)
+  (let ((dark (car my:dark-light-themes))
+	(light (cadr my:dark-light-themes)))
+    (if (eq (car custom-enabled-themes) dark)
+	(progn
+	  (mapcar 'disable-theme custom-enabled-themes)
+	  (load-theme light t))
+      (progn
+	(mapcar 'disable-theme custom-enabled-themes)
+	(load-theme dark t)))))
+
+;; default theme
+(load-theme (car my:dark-light-themes) t)
+
+(my/leader '(("uo" . counsel-load-theme)
+	     ("ui" . my:font-select)
+	     ("uu" . my:switch-themes)))
 #+END_SRC
 ** Mode Line
 *** Smart Mode Line
@@ -247,7 +266,7 @@ operator ~,,~ as comment
   :ensure t
   :init
   (setq sml/no-confirm-load-theme t
-	sml/theme 'respectful
+	sml/theme nil
 	sml/mode-width 'full
 	sml/vc-mode-show-backend t
 	projectile-mode-line nil)
@@ -417,15 +436,20 @@ popup window for better experience
 	 ("M-7" . eyebrowse-switch-to-window-config-7)
 	 ("M-8" . eyebrowse-switch-to-window-config-8)
 	 ("M-9" . eyebrowse-switch-to-window-config-9)
-	 ("M-0" . eyebrowse-close-window-config))
+	 ("M-0" . eyebrowse-close-window-config)
+	 ("M-]" . eyebrowse-next-window-config)
+	 ("M-[" . eyebrowse-prev-window-config))
   :config
+  (setq eyebrowse-new-workspace t)
   (eyebrowse-mode t))
 #+END_SRC
 *** Ace Window
 #+BEGIN_SRC emacs-lisp
 (use-package ace-window
   :ensure t
-  :bind (("M-`" . ace-window)))
+  :bind (("M-`" . ace-window))
+  :config
+  (setq aw-scope 'visible))
 #+END_SRC
 ** Editing
 *** ISpell
