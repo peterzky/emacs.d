@@ -518,13 +518,6 @@ popup window for better experience
 (defun peter/ranger-mode-hook ()
   (define-key ranger-mode-map "+" 'dired-do-chmod))
 
-
-(use-package all-the-icons-dired
-  :ensure t
-  :diminish all-the-icons-dired-mode
-  :config
-  (add-hook 'ranger-mode-hook 'all-the-icons-dired-mode))
-
 (use-package ranger
   :ensure t
   :config
@@ -535,66 +528,7 @@ popup window for better experience
   ;; remove conflict bindings
   (cl-loop for x  in (split-string "1 2 3 4 5 6 7 8 9 0")
 	 do (define-key ranger-mode-map (kbd (format "M-%s" x)) nil))
-  (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook)
-  (defun ranger-go (path)
-    "Go subroutine"
-    (interactive
-     (list
-      (read-char-choice
-       "e   : /etc
-d   : Desktop
-p   : Playground
-o   : Org Directory
-s   : Sync Directory
-n   : Nixos
-G   : Golang Src Directory
-u   : /usr
-r,/ : /
-v   : /var
-m   : /media
-h   : ~/
-M   : /mnt
-> "
-       '(?q ?e ?u ?d ?l ?L ?o ?v ?m ?M ?s ?r ?G ?p ?/ ?h ?g ?D ?j ?k ?T ?t ?n ?c))))
-    (message nil)
-    (let* ((c (char-to-string path))
-           (new-path
-            (cl-case (intern c)
-              ('e "/etc")
-              ('u "/usr")
-              ('d "~/Desktop")
-              ('l (file-truename default-directory))
-              ('L (file-truename (dired-get-filename)))
-              ('o "~/Sync/org")
-              ('p "~/Playground")
-              ('v "/var")
-              ('m "/media")
-              ('M "/mnt")
-              ('s "~/Sync")
-              ('n "~/Nixos")
-              ('c "~/.config")
-              ('r "/")
-              ('G "~/golang/src")
-              ('h  "~/")
-              ('/ "/")))
-           (alt-option
-            (cl-case (intern c)
-              ;; Subdir Handlng
-              ('j 'ranger-next-subdir)
-              ('k 'ranger-prev-subdir)
-              ;; Tab Handling
-              ('T 'ranger-prev-tab)
-              ('t 'ranger-next-tab)
-              ('g 'ranger-goto-top))))
-      (when (string-equal c "q")
-        (keyboard-quit))
-      (when (and new-path (file-directory-p new-path))
-        (ranger-find-file new-path))
-      (when (eq system-type 'windows-nt)
-        (when (string-equal c "D")
-          (ranger-show-drives)))
-      (when alt-option
-        (call-interactively alt-option)))))
+  (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook))
 #+END_SRC
 *** Projectile
 #+BEGIN_SRC emacs-lisp
