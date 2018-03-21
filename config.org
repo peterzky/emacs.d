@@ -675,6 +675,17 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 #+BEGIN_SRC emacs-lisp
 (use-package hydra :ensure t)
 #+END_SRC
+*** Bm
+bookmark tool
+#+BEGIN_SRC emacs-lisp
+(use-package bm
+  :ensure t
+  :bind (("<f2>" . bm-next)
+	 ("S-<f2>" . bm-previous)
+	 ("C-<f2>" . bm-toggle))
+  :config
+  (setq bm-cycle-all-buffers t))
+#+END_SRC
 * Org Mode
 ** Org Mode General
 #+BEGIN_SRC emacs-lisp
