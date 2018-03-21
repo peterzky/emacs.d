@@ -12,6 +12,7 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(delete-selection-mode 1)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq help-window-select t)
@@ -328,7 +329,6 @@ operator ~,,~ as comment
    '(("ag" . counsel-ag)
      ("`" .  ivy-switch-buffer)
      ("d" .  counsel-yank-pop)
-     ("m" .  counsel-mark-ring)
      ("s" .  swiper)
      ("bb" . ibuffer)
      ("pp" . projectile-switch-project)
@@ -678,6 +678,10 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 *** Bm
 bookmark tool
 #+BEGIN_SRC emacs-lisp
+(my/leader
+   '(("m" . bm-toggle)
+     ("j" . bm-next)
+     ("k" . bm-previous)))
 (use-package bm
   :ensure t
   :bind (("<f2>" . bm-next)
