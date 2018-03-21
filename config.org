@@ -678,10 +678,6 @@ package.el wrapper with upgrade package bind to ~<Leader> p u~
 *** Bm
 bookmark tool
 #+BEGIN_SRC emacs-lisp
-(my/leader
-   '(("m" . bm-toggle)
-     ("j" . bm-next)
-     ("k" . bm-previous)))
 (use-package bm
   :ensure t
   :bind (("<f2>" . bm-next)
@@ -1111,6 +1107,8 @@ better to use ~clangStdenv~
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
   :ensure t
+  :bind (:map elpy-mode-map
+	      ("C-c C-j" . elpy-goto-definition))
   :config
   (setq elpy-company-post-completion-function
 	'elpy-company-post-complete-parens)
