@@ -160,7 +160,7 @@
 
 (defvar peter/motion-state-modes
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode
-		 intero-help-mode messages-buffer-mode youdao-dictionary-mode))
+		 intero-help-mode messages-buffer-mode youdao-dictionary-mode makey-key-mode))
 
 (defvar peter/emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
@@ -502,6 +502,12 @@ popup window for better experience
   :ensure t
   :bind ("C-=" . er/expand-region))
 #+END_SRC
+*** Visual Regexp Steroids
+#+BEGIN_SRC emacs-lisp
+(use-package visual-regexp-steroids
+  :ensure t
+  :bind ("C-M-s" . vr/query-replace))
+#+END_SRC
 ** File/Directory
 *** Direds/Ranger
 #+BEGIN_SRC emacs-lisp
@@ -684,7 +690,15 @@ bookmark tool
 	 ("S-<f2>" . bm-previous)
 	 ("C-<f2>" . bm-toggle))
   :config
-  (setq bm-cycle-all-buffers t))
+  (setq bm-cycle-all-buffers t)
+  (setq bm-highlight-style 'bm-highlight-only-fringe))
+#+END_SRC
+*** Discover Major
+#+BEGIN_SRC emacs-lisp
+(use-package discover-my-major
+  :ensure t
+  :bind (("C-h m" . discover-my-major)
+	 ("C-h C-m" . discover-my-mode)))
 #+END_SRC
 * Org Mode
 ** Org Mode General
@@ -946,6 +960,13 @@ bookmark tool
 	     ("aj" . org-clock-goto)))
 #+END_SRC
 * Programming Languages
+** Documents
+#+BEGIN_SRC emacs-lisp
+(use-package helm-dash
+  :ensure t
+  :bind (("C-h d" . helm-dash-at-point)
+	 ("C-h C-d" . helm-dash)))
+#+END_SRC
 ** Nix
 #+BEGIN_SRC emacs-lisp
 (use-package nix-sandbox :ensure t)
@@ -988,6 +1009,7 @@ better to use ~clangStdenv~
 (use-package google-c-style :ensure t)
 
 (defun peter/c-mode-hook ()
+  (setq-local helm-dash-docsets '("C++")')
   (google-set-c-style)
   (google-make-newline-indent)
   (lsp-enable-imenu)
