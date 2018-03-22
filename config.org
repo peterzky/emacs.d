@@ -1009,7 +1009,7 @@ better to use ~clangStdenv~
 (use-package google-c-style :ensure t)
 
 (defun peter/c-mode-hook ()
-  (setq-local helm-dash-docsets '("C++")')
+  (setq-local helm-dash-docsets '("C++"))
   (google-set-c-style)
   (google-make-newline-indent)
   (lsp-enable-imenu)
