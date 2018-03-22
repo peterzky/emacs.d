@@ -237,7 +237,7 @@ operator ~,,~ as comment
 
 (defvar my:dark-light-themes
 ;'(gruvbox-dark-medium gruvbox-light-medium)
-  '(adwaita tsdh-dark)
+  '(doom-one-light doom-vibrant)
   )
 
 (defun my:switch-themes ()
@@ -882,7 +882,7 @@ bookmark tool
   (setq org-download-image-html-width 500)
   (setq org-download-image-latex-width 500)
   (setq org-download-method 'attach)
-  (setq org-download-screenshot-method "scrot -s %s")
+  (setq org-download-screenshot-method "maim -s %s")
   (setq org-download-edit-cmd "krita %s"))
 #+END_SRC
 ** Org Export
