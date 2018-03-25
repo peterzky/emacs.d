@@ -516,8 +516,13 @@ popup window for better experience
 *** Visual Regexp Steroids
 #+BEGIN_SRC emacs-lisp
 (use-package visual-regexp-steroids
+  :demand t
   :ensure t
-  :bind ("C-M-s" . vr/query-replace))
+  :bind (("M-%" . vr/query-replace)
+	 :map esc-map
+	 ("C-s" . vr/isearch-forward))
+  :config
+  (setq vr/auto-show-help nil))
 #+END_SRC
 ** File/Directory
 *** Direds/Ranger
