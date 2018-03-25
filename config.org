@@ -300,6 +300,10 @@ operator ~,,~ as comment
 		"(%l:%c)"
 		mode-line-end-spaces))
 #+END_SRC
+*** Hide Mode Line
+#+BEGIN_SRC emacs-lisp
+(use-package hide-mode-line :ensure t)
+#+END_SRC
 * Interface
 ** Completion Framework
 *** Ivy
@@ -816,6 +820,7 @@ bookmark tool
 
 (defun peter/agenda-mode-config ()
   "agenda mode key bindings and config"
+  (hide-mode-line-mode)
   (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
@@ -1238,6 +1243,7 @@ nix:
 (use-package pdf-tools
   :ensure t
   :magic ("%PDF" . pdf-view-mode)
+  :hook ((pdf-view-mode pdf-outline-buffer-mode) . hide-mode-line-mode)
   :bind (:map pdf-view-mode-map
 	      ("C-s" . isearch-forward)
 	      ("j" . pdf-view-next-line-or-next-page)
