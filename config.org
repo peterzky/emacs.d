@@ -391,6 +391,13 @@ operator ~,,~ as comment
       ("yt" . yas-describe-tables)
       ("yi" . yas-insert-snippet))))
 #+END_SRC
+*** Auto Yasnippet
+#+BEGIN_SRC emacs-lisp
+(use-package auto-yasnippet
+  :ensure t
+  :bind (("C-c ya" . aya-create)
+	 ("C-c ye" . aya-expand)))
+#+END_SRC
 ** Window Control
 *** Popwin
 popup window for better experience
@@ -1023,8 +1030,10 @@ better to use ~clangStdenv~
   (local-set-key [f5] 'nix-run)
   (local-set-key (kbd "C-c C-j") 'xref-find-definitions)
   (local-set-key (kbd "C-c C-f") 'lsp-format-buffer)
+  (local-set-key (kbd "C-c C-d") 'helm-dash-at-point)
   (local-set-key (kbd "C-c C-c") 'lsp-cquery-enable)
   (local-set-key (kbd "C-c C-l") 'cquery-freshen-index)
+  (local-set-key (kbd "C-c C-r") 'lsp-restart-workspace)
   (local-set-key (kbd "C-c r") 'lsp-rename))
 
 (add-hook 'c-mode-common-hook 'peter/c-mode-hook)
