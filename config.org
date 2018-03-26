@@ -37,6 +37,8 @@
 
 (setq gc-cons-threshold 20000000)
 
+(setq compilation-scroll-output t)
+
 (add-to-list 'safe-local-eval-forms '(reopen-as-yadm))
 
 (if (eq system-type 'gnu/linux)
@@ -335,8 +337,7 @@ operator ~,,~ as comment
      ("d" .  counsel-yank-pop)
      ("s" .  swiper)
      ("bb" . ibuffer)
-     ("pp" . projectile-switch-project)
-     ("pf" . projectile-find-file-dwim)
+     ("p" . projectile-command-map)
      ("i" .  ivy-imenu-anywhere)
      ("fl" . imenu-anywhere)
      ("gg" . counsel-git-grep)
@@ -518,9 +519,8 @@ popup window for better experience
 (use-package visual-regexp-steroids
   :demand t
   :ensure t
-  :bind (("M-%" . vr/query-replace)
-	 :map esc-map
-	 ("C-s" . vr/isearch-forward))
+  :bind (:map esc-map
+	 ("C-s" . vr/query-replace))
   :config
   (setq vr/auto-show-help nil))
 #+END_SRC
@@ -668,18 +668,6 @@ Open file with sudo if needed
   :ensure t
   :config
   (crux-reopen-as-root-mode))
-#+END_SRC
-*** Paradox
-package.el wrapper with upgrade package bind to ~<Leader> p u~
-#+BEGIN_SRC emacs-lisp
-(use-package paradox
-  :ensure t
-  :config
-  (setq paradox-github-token t)
-  (evil-set-initial-state 'paradox-menu-mode 'emacs)
-  (my/leader
-    '(("pr" . paradox-list-packages)
-      ("pu" . paradox-upgrade-packages))))
 #+END_SRC
 *** IBuffer
 #+BEGIN_SRC emacs-lisp
@@ -903,6 +891,7 @@ bookmark tool
 
 ;; org download
 (use-package org-download
+  :demand t
   :ensure t
   :bind (:map org-mode-map
 	      ("C-c d s" . org-download-screenshot)
@@ -1513,7 +1502,6 @@ access yadm repo via tramp
   (advice-add 'mml-attach-file :around #'my-ranger-advice))
 
 ;; org-download
-(require 'org-download)
 (defun my:org-download-insert-image ()
   (interactive)
   (org-download-image (ranger-select "image: ")))

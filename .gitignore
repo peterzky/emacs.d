@@ -43,3 +43,4 @@ config.el
 /.mc-lists.el
 /.#tramp
 /.#.org-id-locations
+/persp-confs/*
