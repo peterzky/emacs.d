@@ -1133,6 +1133,18 @@ better to use ~clangStdenv~
   :config
   (flycheck-gometalinter-setup))
 #+END_SRC
+** TypeScript
+#+BEGIN_SRC emacs-lisp
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (local-set-key (kbd "C-c C-j") 'tide-jump-to-definition)
+  (local-set-key (kbd "C-c C-f") 'tide-format))
+(use-package tide
+  :ensure t
+  :config
+  (add-hook 'typescript-mode-hook #'setup-tide-mode))
+#+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
