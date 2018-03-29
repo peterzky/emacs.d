@@ -1536,8 +1536,6 @@ access yadm repo via tramp
     :dir "/nix/var/nix/profiles/per-user/root/channels/nixos"))
 #+END_SRC
 ** TTS - Text to Speech
-- [ ] encapsulate tts process within emacs buffer
-- [ ] tts/process-running-p check tts process
 #+BEGIN_SRC emacs-lisp
 (defun tts/read-paragraph ()
   "read paragraph with tts"
