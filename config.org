@@ -1583,4 +1583,7 @@ access yadm repo via tramp
 (use-package graphviz-dot-mode :ensure t)
 
 (use-package yaml-mode :ensure t)
+
+;; must have anki-connect plugin installed!
+(use-package anki-editor :ensure t)
 #+END_SRC
