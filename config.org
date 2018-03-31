@@ -1001,7 +1001,10 @@ better to use ~clangStdenv~
 (use-package company-lsp
   :ensure t
   :config
-  (push 'company-lsp company-backends))
+  (push 'company-lsp company-backends)
+  (setq company-lsp-async t
+	company-lsp-cache-candidates nil
+	company-transformers nil))
 
 (use-package cquery
   :ensure t
