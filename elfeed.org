@@ -47,3 +47,6 @@
 *** [[http://htedsv.logdown.com/posts.rss][htedsv&#39;s Blog]]
 *** [[http://maybeiwill.me/feed/][MAYBEIWILL]]
 *** [[http://feeds.feedburner.com/zenhabits][zenhabits]]
+** youtube                                                         :youtube:
+*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCkf4VIqu3Acnfzuk3kRIFwA][gotbletu]]
+*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA][luke smith]]

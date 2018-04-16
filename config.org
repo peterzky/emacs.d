@@ -1136,16 +1136,16 @@ better to use ~clangStdenv~
   :config
   (flycheck-gometalinter-setup))
 #+END_SRC
-** TypeScript
+** COMMENT TypeScript
 #+BEGIN_SRC emacs-lisp
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (local-set-key (kbd "C-c C-j") 'tide-jump-to-definition)
-  (local-set-key (kbd "C-c C-f") 'tide-format))
 (use-package tide
   :ensure t
   :config
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (local-set-key (kbd "C-c C-j") 'tide-jump-to-definition)
+    (local-set-key (kbd "C-c C-f") 'tide-format))
   (add-hook 'typescript-mode-hook #'setup-tide-mode))
 #+END_SRC
 ** Python
@@ -1380,6 +1380,25 @@ nixos workaround
   (mark-whole-buffer)
   (elfeed-search-untag-all-unread))
 
+(defun elfeed-search-mpv ()
+  "browse url with mpv with tmux"
+  (interactive)
+  (let ((entries (elfeed-search-selected)))
+    (cl-loop for entry in entries
+             do (elfeed-untag entry 'unread)
+             when (elfeed-entry-link entry)
+             do (browse-url-mpv it))
+    (mapc #'elfeed-search-update-entry entries)
+    (unless (use-region-p) (forward-line)))
+  (message "view with mpv"))
+
+
+(defun browse-url-mpv (url)
+  (interactive)
+  (call-process-shell-command
+   (format "tmux new-window -n mpv \"http_proxy=http://127.0.0.1:8123 https_proxy=http://127.0.0.1:8123 mpv --ytdl-format mp4 '%s'\"" url) nil 0))
+
+
 (use-package elfeed
   :ensure t
   :bind (:map elfeed-search-mode-map
@@ -1387,6 +1406,7 @@ nixos workaround
 	      ("k" . previous-line)
 	      ("q" . peter/elfeed-save-db-and-bury)
 	      ("R" . peter/elfeed-mark-all-as-read)
+	      ("v" . elfeed-search-mpv)
 	      :map elfeed-show-mode-map
 	      ("j" . scroll-up-line)
 	      ("k" . scroll-down-line))
