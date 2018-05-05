@@ -43,7 +43,7 @@
 
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
-          browse-url-generic-program "qutebrowser"))
+          browse-url-generic-program "firefox"))
 
 #+END_SRC
 ** Functions
