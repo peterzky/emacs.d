@@ -41,6 +41,8 @@
 
 (add-to-list 'safe-local-eval-forms '(reopen-as-yadm))
 
+(add-to-list 'safe-local-eval-forms '(setq-local helm-dash-docsets '("C++" "OpenCV C++")))
+
 (put 'projectile-project-compilation-cmd 'safe-local-variable #'stringp)
 
 (if (eq system-type 'gnu/linux)
