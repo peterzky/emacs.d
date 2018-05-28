@@ -41,6 +41,8 @@
 
 (add-to-list 'safe-local-eval-forms '(reopen-as-yadm))
 
+(put 'projectile-project-compilation-cmd 'safe-local-variable #'stringp)
+
 (if (eq system-type 'gnu/linux)
     (setq browse-url-browser-function 'browse-url-generic
           browse-url-generic-program "firefox"))
@@ -1266,7 +1268,7 @@ nix:
 	      ("C-s" . isearch-forward)
 	      ("j" . pdf-view-next-line-or-next-page)
 	      ("k" . pdf-view-previous-line-or-previous-page)
-	      ("i" . tts/pdf-read-page)
+	      ("r" . tts/pdf-read-page)
 	      ("d" . peter/pdf-dict)
 	      ("TAB" . pdf-outline)
 	      :map pdf-outline-buffer-mode-map
@@ -1276,6 +1278,11 @@ nix:
   :config
   (pdf-tools-install)
   (define-key pdf-view-mode-map (kbd "SPC") peter/leader-map))
+
+(use-package org-noter
+  :ensure t
+  :config
+  )
 #+END_SRC
 ** Mail
 *** Send Mail
