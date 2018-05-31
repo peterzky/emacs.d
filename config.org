@@ -1284,7 +1284,7 @@ nix:
 (use-package org-noter
   :ensure t
   :config
-  )
+  (setq org-noter-always-create-frame nil))
 #+END_SRC
 ** Mail
 *** Send Mail
