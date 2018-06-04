@@ -243,7 +243,10 @@ operator ~,,~ as comment
 
 (defvar my:dark-light-themes
 ;'(gruvbox-dark-medium gruvbox-light-medium)
-  '(doom-one-light doom-vibrant)
+  '(;; doom-one-light
+    ;; doom-nord-light
+    adwaita
+    doom-vibrant)
   )
 
 (defun my:switch-themes ()
