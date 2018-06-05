@@ -1286,6 +1286,7 @@ nix:
 
 (use-package org-noter
   :ensure t
+  :hook (org-noter-doc-mode . hide-mode-line-mode)
   :config
   (setq org-noter-always-create-frame nil))
 #+END_SRC
