@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: tensorflow-opencv-env
+# key: tensorflow
+# --
+
+# <ts-staging> has staging tenserflow nix expression.
+# url: https://github.com/NixOS/nixpkgs/archive/0704c7e17b904aceefec80e26f58e0da10a951ae.tar.gz
+
+{pkgs ? import <tf-staging> {} }:
+
+with pkgs;
+
+(let
+  packageOverrides = self: super: {
+    opencv3 = super.opencv3.override {
+       enableGtk3 = true;
+       enableFfmpeg = true;
+    };
+  };
+  in (pkgs.python36.override {inherit packageOverrides;}).withPackages
+  (ps: with ps; [opencv3 tensorflowWithCuda numpy])).env
