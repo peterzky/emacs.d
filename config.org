@@ -1160,6 +1160,7 @@ better to use ~clangStdenv~
 (use-package elpy
   :ensure t
   :commands elpy-enable
+  :init (with-eval-after-load 'python (elpy-enable))
   :bind (:map elpy-mode-map
 	      ("C-c C-j" . elpy-goto-definition))
   :config
