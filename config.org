@@ -1159,6 +1159,7 @@ better to use ~clangStdenv~
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
   :ensure t
+  :commands elpy-enable
   :bind (:map elpy-mode-map
 	      ("C-c C-j" . elpy-goto-definition))
   :config

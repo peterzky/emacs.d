@@ -50,3 +50,4 @@
 ** youtube                                                         :youtube:
 *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCkf4VIqu3Acnfzuk3kRIFwA][gotbletu]]
 *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA][luke smith]]
+*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCWN3xxRkmTPmbKwht9FuE5A][siraj raval]]
