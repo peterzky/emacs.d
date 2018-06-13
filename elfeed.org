@@ -34,7 +34,7 @@
 *** [[http://feeds.feedburner.com/ruanyifeng][阮一峰的网络日志]]
 *** [[http://wangbixi.com/feed/][王跸西的生命体验blog-WangBiXi.com]]
 *** [[http://mindhacks.cn/feed/][刘未鹏 | Mind Hacks]]
-*** [[http://blog.zhaojie.me/rss][老赵点滴 - 追求编程之美]]
+*** [[http://blog.zhaojie.me/rss][老赵点滴 - 追求编程之美]]                                        :ignore:
 *** [[http://feed.williamlong.info/][月光博客]]                                                       :ignore:
 *** [[http://feeds.feedburner.com/playpc][電腦玩物]]
 *** [[http://sspai.com/feed][少数派]]
@@ -52,3 +52,4 @@
 *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCkf4VIqu3Acnfzuk3kRIFwA][gotbletu]]
 *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA][luke smith]]
 *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCWN3xxRkmTPmbKwht9FuE5A][siraj raval]]
+*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UC9-y-6csu5WGm29I7JiwpnA][computerphile]]
