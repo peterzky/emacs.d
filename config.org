@@ -325,6 +325,7 @@ operator ~,,~ as comment
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
   :ensure t
+  :demand
   :diminish ivy-mode ivy-minor-mode
   :bind (("C-s" . swiper)
 	 ("M-x" . counsel-M-x)
