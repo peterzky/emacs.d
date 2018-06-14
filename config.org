@@ -96,6 +96,12 @@
   (interactive "r")
   (align-regexp start end
 		"\\(\\s-*\\)\\s-" 1 0 t))
+
+(defun read-curl ()
+  "Insert url content into corrent buffer"
+    (interactive)
+      (let ((url (read-string "url: ")))
+	    (shell-command (concat "curl -Ls -x socks5://127.0.0.1:1080 " url) t)))
 #+END_SRC
 * Evil Mode
 ** Evil General
@@ -1163,8 +1169,7 @@ better to use ~clangStdenv~
   :bind (:map elpy-mode-map
 	      ("C-c C-j" . elpy-goto-definition))
   :config
-  (setq elpy-company-post-completion-function
-	'elpy-company-post-complete-parens)
+  (setq elpy-company-post-completion-function 'ignore)
   (setq elpy-modules
 	'(elpy-module-sane-defaults
 	  elpy-module-company
