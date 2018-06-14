@@ -468,7 +468,7 @@ popup window for better experience
   :ensure t
   :bind (("M-`" . ace-window))
   :config
-  (setq aw-scope 'visible))
+  (setq aw-scope 'frame))
 #+END_SRC
 ** Editing
 *** ISpell
