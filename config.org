@@ -790,7 +790,8 @@ bookmark tool
       org-support-shift-select 'always)
 
 (org-babel-do-load-languages 'org-babel-load-languages
-                             '((gnuplot . t)
+                             '((shell . t)
+			       (gnuplot . t)
                                (octave . t)
                                (dot . t)
 			       (plantuml .t)))
