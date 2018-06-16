@@ -818,6 +818,21 @@ bookmark tool
 (setq org-log-states-order-reversed nil)
 (setq org-agenda-window-setup 'current-window)
 
+;; custom agenda
+
+(setq org-agenda-start-with-log-mode t)
+(setq org-agenda-custom-commands
+      '(("d" "Agenda Day View"
+         ((agenda "" ((org-agenda-span 1)
+                      ))))
+        ("w" "Agenda Weekly Review"
+         ((agenda "" ((org-agenda-span 7)
+                      (org-agenda-start-on-weekday 1)
+                      (org-agenda-time-grid nil)
+                      (org-agenda-repeating-timestamp-show-all t)
+                      (org-agenda-clockreport-mode t)))))
+        ))
+
 ;; org refile
 (defun peter/org-buffer-files ()
   "Return list of opened orgmode buffer files"
