@@ -801,11 +801,11 @@ bookmark tool
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")))
+      '((sequence "TODO(t)" "WAIT(w@/!)" "NEXT(n)" "|" "DONE(d)" "CANCELED(c@)")))
 (setq org-default-notes-file "~/Sync/org/agenda/inbox.org")
 (setq org-archive-location"~/Sync/org/agenda/archive.org::datetree/* Finished Tasks")
 (setq org-agenda-files (list "~/Sync/org/agenda/inbox.org"
-			     "~/Sync/org/agenda/project.org"))
+                             "~/Sync/org/agenda/project.org"))
 (setq org-directory "~/Sync/org")
 (setq org-agenda-text-search-extra-files '("~/Sync/org/agenda/archive.org"))
 (setq org-archive-subtree-add-inherited-tags t)
@@ -825,12 +825,18 @@ bookmark tool
       '(("d" "Agenda Day View"
          ((agenda "" ((org-agenda-span 1)
                       ))))
-        ("w" "Agenda Weekly Review"
+        ("W" "Agenda Weekly Review"
          ((agenda "" ((org-agenda-span 7)
                       (org-agenda-start-on-weekday 1)
                       (org-agenda-time-grid nil)
                       (org-agenda-repeating-timestamp-show-all t)
                       (org-agenda-clockreport-mode t)))))
+        ("w" tags-todo "@work"
+         ((org-agenda-sorting-strategy '(todo-state-down priority-down))))
+        ("l" tags-todo "@learn"
+         ((org-agenda-sorting-strategy '(todo-state-down priority-down))))
+        ("c" tags-todo "@misc"
+         ((org-agenda-sorting-strategy '(todo-state-down priority-down))))
         ))
 
 ;; org refile
@@ -914,6 +920,13 @@ bookmark tool
   (if (and (equal peter/org-refile-index 0)
            (equal "org-agenda" (frame-parameter nil 'name)))
       (delete-frame)))
+
+(defun peter/org-agenda-quit-delete-frame (orig-fun &rest args)
+  (if (equal "org-agenda" (frame-parameter nil 'name))
+      (delete-frame)
+    (call-interactively orig-fun)))
+
+(advice-add 'org-agenda-quit :around #'peter/org-agenda-quit-delete-frame)
 
 (add-hook 'org-capture-after-finalize-hook 'peter/org-capture-delete-frame)
 (add-hook 'org-capture-mode-hook 'peter/org-capture-window)
