@@ -1437,6 +1437,30 @@ nixos workaround
     (unless (use-region-p) (forward-line)))
   (message "view with mpv"))
 
+(defmacro elfeed-filter-wrapper (filter)
+  "wrap elfeed search filter"
+  `(lambda ()
+    (interactive)
+    (unwind-protect
+        (let ((elfeed-search-filter-active :live))
+          (setq elfeed-search-filter ,filter))
+      (elfeed-search-update :force))))
+
+(defun peter/elfeed-filter-all ()
+  (interactive)
+  (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread")))
+
+(defun peter/elfeed-filter-chinese ()
+  (interactive)
+  (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread +chinese")))
+
+(defun peter/elfeed-filter-youtube ()
+  (interactive)
+  (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread +youtube")))
+
+(defun peter/elfeed-filter-github ()
+  (interactive)
+  (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread +github")))
 
 (defun browse-url-mpv (url)
   (interactive)
@@ -1451,6 +1475,10 @@ nixos workaround
 	      ("k" . previous-line)
 	      ("q" . peter/elfeed-save-db-and-bury)
 	      ("R" . peter/elfeed-mark-all-as-read)
+              ("A" . peter/elfeed-filter-all)
+              ("C" . peter/elfeed-filter-chinese)
+              ("Y" . peter/elfeed-filter-youtube)
+              ("H" . peter/elfeed-filter-github)
 	      ("v" . elfeed-search-mpv)
 	      :map elfeed-show-mode-map
 	      ("j" . scroll-up-line)
