@@ -903,6 +903,12 @@ bookmark tool
 ;; org timer
 (setq org-clock-mode-line-total 'current)
 
+;; org alert
+(use-package org-alert
+  :ensure t
+  :config
+  (setq alert-default-style 'libnotify))
+
 (defun polybar-clock ()
   (if (org-clocking-p)
       (substring-no-properties (org-clock-get-clock-string)) ""))
