@@ -735,7 +735,7 @@ bookmark tool
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
 (setq org-imenu-depth 5)
-
+(setq org-enforce-todo-dependencies t)
 
 (if (string= "xps" (system-name))
     (setq org-image-actual-width 900)
@@ -814,6 +814,20 @@ bookmark tool
       '((sequence "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")
         (sequence "TODO(t)" "PROJ(p)" "MAYBE(m)" "|" "FINISH(f)")
         (sequence "REPEAT(r)" "|" "REF(R)" )))
+
+(setq org-todo-keyword-faces
+      '(("REF" . "#d35400")
+        ("TODO" . "#8e44ad")
+        ("PROJ" . "#2c3e50")
+        ("MAYBE" . "#1abc9c")
+        ("REPEAT" . "#3498db")
+        ("WAIT" . "#f1c40f")
+        ("CANCELED" . "#95a5a6")))
+
+(setq org-priority-faces
+      '((65 . "#e74c3c")
+        (66 . "#f1c40f")'
+        (67 . "#2ecc71")))
 (setq org-default-notes-file "~/Sync/org/agenda/inbox.org")
 (setq org-archive-location"~/Sync/org/agenda/archive.org::datetree/* Finished Tasks")
 (setq org-agenda-files (list "~/Sync/org/agenda/inbox.org"
