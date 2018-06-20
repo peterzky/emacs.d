@@ -813,7 +813,7 @@ bookmark tool
 (setq org-todo-keywords
       '((sequence "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")
         (sequence "TODO(t)" "PROJ(p)" "MAYBE(m)" "|" "FINISH(f)")
-        (sequence "REPEAT(r)" "|" )))
+        (sequence "REPEAT(r)" "|" "REF(R)" )))
 (setq org-default-notes-file "~/Sync/org/agenda/inbox.org")
 (setq org-archive-location"~/Sync/org/agenda/archive.org::datetree/* Finished Tasks")
 (setq org-agenda-files (list "~/Sync/org/agenda/inbox.org"
