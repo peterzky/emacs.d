@@ -773,9 +773,17 @@ bookmark tool
 ;; line wrap in org mode
 (add-hook 'org-mode-hook 'visual-line-mode)
 
+(defun peter/org-narrow-subtree ()
+  "narrow to subtree if current entry has NEXT keyword"
+  (if (string= (org-entry-get nil "TODO") "NEXT")
+      (save-mark-and-excursion
+        (progn (org-up-heading-safe)
+               (org-narrow-to-subtree)))
+    (org-narrow-to-subtree)))
+
 ;; narrow to subtree after selecting entry in org agenda
-(add-hook 'org-clock-goto-hook 'org-narrow-to-subtree)
-(advice-add 'org-agenda-switch-to :after #'org-narrow-to-subtree)
+(add-hook 'org-clock-goto-hook 'peter/org-narrow-subtree)
+(advice-add 'org-agenda-switch-to :after #'peter/org-narrow-subtree)
 
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
@@ -801,7 +809,8 @@ bookmark tool
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT(w@/!)" "NEXT(n)" "|" "DONE(d)" "CANCELED(c@)")))
+      '((sequence "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")
+        (sequence "TODO(t)" "PROJ(p)" "MAYBE(m)" "|" "FINISH(f)")))
 (setq org-default-notes-file "~/Sync/org/agenda/inbox.org")
 (setq org-archive-location"~/Sync/org/agenda/archive.org::datetree/* Finished Tasks")
 (setq org-agenda-files (list "~/Sync/org/agenda/inbox.org"
@@ -837,6 +846,7 @@ bookmark tool
          ((org-agenda-sorting-strategy '(todo-state-down priority-down))))
         ("c" tags-todo "@misc"
          ((org-agenda-sorting-strategy '(todo-state-down priority-down))))
+        ("p" todo "PROJ")
         ))
 
 ;; org refile
