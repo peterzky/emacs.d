@@ -813,7 +813,7 @@ bookmark tool
 (setq org-todo-keywords
       '((sequence "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)")
         (sequence "TODO(t)" "PROJ(p)" "MAYBE(m)" "|" "FINISH(f)")
-        (sequence "REPEAT(r)" "|" "REF(R)" )))
+        (sequence "REPEAT(r)" "BUG(b)" "|" "REF(R)" "FIXED(x)")))
 
 (setq org-todo-keyword-faces
       '(("REF" . "#d35400")
@@ -1442,7 +1442,7 @@ nixos workaround
 
 (setq message-kill-buffer-on-exit t)
 (setq mu4e-view-show-images t)
-(setq mu4e-html2text-command "w3m -T text/html")
+;; (setq mu4e-html2text-command "w3m -T text/html")
 
 (setq mu4e-use-fancy-chars t)
 (setq mu4e-change-filenames-when-moving t)
