@@ -842,6 +842,7 @@ bookmark tool
 
 (setq org-log-done 'time)
 (setq org-log-states-order-reversed nil)
+(setq org-log-into-drawer t)
 (setq org-agenda-window-setup 'current-window)
 
 ;; custom agenda
