@@ -95,13 +95,13 @@
   "Align columns by whitespace"
   (interactive "r")
   (align-regexp start end
-		"\\(\\s-*\\)\\s-" 1 0 t))
+                "\\(\\s-*\\)\\s-" 1 0 t))
 
 (defun read-curl ()
   "Insert url content into corrent buffer"
-    (interactive)
-      (let ((url (read-string "url: ")))
-	    (shell-command (concat "curl -Ls -x socks5://127.0.0.1:1080 " url) t)))
+  (interactive)
+  (let ((url (read-string "url: ")))
+    (shell-command (concat "curl -Ls -x socks5://127.0.0.1:1080 " url) t)))
 #+END_SRC
 * Evil Mode
 ** Evil General
@@ -137,7 +137,7 @@
 
 (defmacro my/leader (args)
   `(cl-loop for elem in ,args
-	    do (define-key peter/leader-map (kbd (car elem)) (cdr elem))))
+            do (define-key peter/leader-map (kbd (car elem)) (cdr elem))))
 
 (my/leader
  `(("fs" .  save-buffer)
@@ -168,20 +168,20 @@
 #+BEGIN_SRC emacs-lisp
 (defmacro peter/evil-state (state list)
   `(cl-loop for mode in ,list
-	    do (add-to-list ,state mode)))
+            do (add-to-list ,state mode)))
 
 (defvar peter/motion-state-modes
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode
-		 intero-help-mode messages-buffer-mode youdao-dictionary-mode makey-key-mode))
+                 intero-help-mode messages-buffer-mode youdao-dictionary-mode makey-key-mode))
 
 (defvar peter/emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
-		intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-		elfeed-show-mode finder-mode image-mode))
+                intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
+                elfeed-show-mode finder-mode image-mode))
 
 (defvar peter/insert-state-hooks
   '(org-src-mode-hook org-log-buffer-setup-hook
-		      org-capture-mode-hook git-commit-mode-hook))
+                      org-capture-mode-hook git-commit-mode-hook))
 
 (defvar peter/emacs-state-minor-modes
   '(edebug-mode))
@@ -192,14 +192,14 @@
 (peter/evil-state 'evil-emacs-state-modes peter/emacs-state-modes)
 
 (cl-loop for hook in peter/insert-state-hooks do
-	 (add-hook hook 'evil-insert-state))
+         (add-hook hook 'evil-insert-state))
 
 (cl-loop for mode in peter/emacs-state-minor-modes
-	 do (let ((hook (concat (symbol-name mode) "-hook")))
-	      (add-hook (intern hook) `(lambda ()
-					 (if ,mode
-					     (evil-emacs-state)
-					   (evil-normal-state))))))
+         do (let ((hook (concat (symbol-name mode) "-hook")))
+              (add-hook (intern hook) `(lambda ()
+                                         (if ,mode
+                                             (evil-emacs-state)
+                                           (evil-normal-state))))))
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
@@ -232,9 +232,9 @@ operator ~,,~ as comment
 (defun my:font-select ()
   (interactive)
   (ivy-read "set font: "
-	    my:font-list
-	    :action (lambda (select)
-		      (my:set-font select))))
+            my:font-list
+            :action (lambda (select)
+                      (my:set-font select))))
 
 (defvar my:font-list
   '("Hack-10" "Iosevka-12" "Fira Code-10"
@@ -248,7 +248,7 @@ operator ~,,~ as comment
 (use-package doom-themes :ensure t)
 
 (defvar my:dark-light-themes
-;'(gruvbox-dark-medium gruvbox-light-medium)
+                                        ;'(gruvbox-dark-medium gruvbox-light-medium)
   '(;; doom-one-light
     ;; doom-nord-light
     adwaita
@@ -259,21 +259,21 @@ operator ~,,~ as comment
   "switch between dark and light theme"
   (interactive)
   (let ((dark (car my:dark-light-themes))
-	(light (cadr my:dark-light-themes)))
+        (light (cadr my:dark-light-themes)))
     (if (eq (car custom-enabled-themes) dark)
-	(progn
-	  (mapcar 'disable-theme custom-enabled-themes)
-	  (load-theme light t))
+        (progn
+          (mapcar 'disable-theme custom-enabled-themes)
+          (load-theme light t))
       (progn
-	(mapcar 'disable-theme custom-enabled-themes)
-	(load-theme dark t)))))
+        (mapcar 'disable-theme custom-enabled-themes)
+        (load-theme dark t)))))
 
 ;; default theme
 (load-theme (car my:dark-light-themes) t)
 
 (my/leader '(("uo" . counsel-load-theme)
-	     ("ui" . my:font-select)
-	     ("uu" . my:switch-themes)))
+             ("ui" . my:font-select)
+             ("uu" . my:switch-themes)))
 #+END_SRC
 ** Mode Line
 *** Smart Mode Line
@@ -282,38 +282,38 @@ operator ~,,~ as comment
   :ensure t
   :init
   (setq sml/no-confirm-load-theme t
-	sml/theme nil
-	sml/mode-width 'full
-	sml/vc-mode-show-backend t
-	projectile-mode-line nil)
+        sml/theme nil
+        sml/mode-width 'full
+        sml/vc-mode-show-backend t
+        projectile-mode-line nil)
   :config
   (sml/setup))
 
 (setq evil-mode-line-format '(before . mode-line-front-space))
 
 (setq-default mode-line-format
-	      '("%e"
-		mode-line-front-space
-		" "
-		(eyebrowse-mode
-		 (:eval
-		  (eyebrowse-mode-line-indicator)))
-		mode-line-client
-		mode-line-modified
-		mode-line-auto-compile
-		mode-line-remote
-		mode-line-frame-identification
-		" "
-		mode-line-buffer-identification
-		sml/pos-id-separator
-		" "
-		(vc-mode vc-mode)
-		" "
-		mode-line-modes
-		sml/pre-modes-separator
-		mode-line-position
-		"(%l:%c)"
-		mode-line-end-spaces))
+              '("%e"
+                mode-line-front-space
+                " "
+                (eyebrowse-mode
+                 (:eval
+                  (eyebrowse-mode-line-indicator)))
+                mode-line-client
+                mode-line-modified
+                mode-line-auto-compile
+                mode-line-remote
+                mode-line-frame-identification
+                " "
+                mode-line-buffer-identification
+                sml/pos-id-separator
+                " "
+                (vc-mode vc-mode)
+                " "
+                mode-line-modes
+                sml/pre-modes-separator
+                mode-line-position
+                "(%l:%c)"
+                mode-line-end-spaces))
 #+END_SRC
 *** Hide Mode Line
 #+BEGIN_SRC emacs-lisp
@@ -328,23 +328,24 @@ operator ~,,~ as comment
   :demand
   :diminish ivy-mode ivy-minor-mode
   :bind (("C-s" . swiper)
-	 ("M-x" . counsel-M-x)
-	 ("s-x" . counsel-M-x)
-	 ("C-x C-f" . counsel-find-file)
-	 ("<f1> l" . counsel-find-library)
-	 ("<f1> b" . counsel-descbinds)
-	 :map read-expression-map
-	 ("C-r" . counsel-expression-history)
-	 :map ivy-minibuffer-map
-	 ("C-l" . ivy-backward-delete-char))
+         ("M-x" . counsel-M-x)
+         ("s-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("<f1> l" . counsel-find-library)
+         ("<f1> b" . counsel-descbinds)
+         :map read-expression-map
+         ("C-r" . counsel-expression-history)
+         :map ivy-minibuffer-map
+         ("C-l" . ivy-backward-delete-char))
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
-	enable-recursive-minibuffers t
-	ivy-initial-inputs-alist nil
-	ivy-count-format "%d/%d "
-	magit-completing-read-function 'ivy-completing-read
-	projectile-completion-system 'ivy)
+        enable-recursive-minibuffers t
+        ivy-initial-inputs-alist nil
+        ivy-use-selectable-prompt t
+        ivy-count-format "%d/%d "
+        magit-completing-read-function 'ivy-completing-read
+        projectile-completion-system 'ivy)
   (my/leader
    '(("ag" . counsel-ag)
      ("`" .  ivy-switch-buffer)
@@ -362,7 +363,7 @@ operator ~,,~ as comment
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
   (setq ivy-virtual-abbreviate 'full
-	ivy-rich-switch-buffer-align-virtual-buffer t)
+        ivy-rich-switch-buffer-align-virtual-buffer t)
   (setq ivy-rich-abbreviate-paths t))
 
 ;; for edit in C-c C-o
@@ -376,15 +377,15 @@ operator ~,,~ as comment
   :ensure t
   :diminish company-mode
   :bind (:map company-active-map
-	      ("C-n" . company-select-next-or-abort)
-	      ("C-p" . company-select-previous-or-abort)
-	      ("C-h" . company-quickhelp-manual-begin))
+              ("C-n" . company-select-next-or-abort)
+              ("C-p" . company-select-previous-or-abort)
+              ("C-h" . company-quickhelp-manual-begin))
   :config
   (global-company-mode)
   (setq my-disabled-company-mode
-	'(company-bbdb company-nxml company-css company-semantic company-clang company-xcode))
+        '(company-bbdb company-nxml company-css company-semantic company-clang company-xcode))
   (cl-loop for mode in my-disabled-company-mode do
-	   (delete mode company-backends)))
+           (delete mode company-backends)))
 
 (use-package company-quickhelp
   :ensure t
@@ -401,17 +402,17 @@ operator ~,,~ as comment
   :config
   (yas-global-mode 1)
   (my/leader
-    '(("yn" . yas-new-snippet)
-      ("yv" . yas-visit-snippet-file)
-      ("yt" . yas-describe-tables)
-      ("yi" . yas-insert-snippet))))
+   '(("yn" . yas-new-snippet)
+     ("yv" . yas-visit-snippet-file)
+     ("yt" . yas-describe-tables)
+     ("yi" . yas-insert-snippet))))
 #+END_SRC
 *** Auto Yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package auto-yasnippet
   :ensure t
   :bind (("C-c ya" . aya-create)
-	 ("C-c ye" . aya-expand)))
+         ("C-c ye" . aya-expand)))
 #+END_SRC
 ** Window Control
 *** Popwin
@@ -454,17 +455,17 @@ popup window for better experience
   :ensure t
   :init (setq eyebrowse-keymap-prefix (kbd "C-c C-b"))
   :bind (("M-1" . eyebrowse-switch-to-window-config-1)
-	 ("M-2" . eyebrowse-switch-to-window-config-2)
-	 ("M-3" . eyebrowse-switch-to-window-config-3)
-	 ("M-4" . eyebrowse-switch-to-window-config-4)
-	 ("M-5" . eyebrowse-switch-to-window-config-5)
-	 ("M-6" . eyebrowse-switch-to-window-config-6)
-	 ("M-7" . eyebrowse-switch-to-window-config-7)
-	 ("M-8" . eyebrowse-switch-to-window-config-8)
-	 ("M-9" . eyebrowse-switch-to-window-config-9)
-	 ("M-0" . eyebrowse-close-window-config)
-	 ("M-]" . eyebrowse-next-window-config)
-	 ("M-[" . eyebrowse-prev-window-config))
+         ("M-2" . eyebrowse-switch-to-window-config-2)
+         ("M-3" . eyebrowse-switch-to-window-config-3)
+         ("M-4" . eyebrowse-switch-to-window-config-4)
+         ("M-5" . eyebrowse-switch-to-window-config-5)
+         ("M-6" . eyebrowse-switch-to-window-config-6)
+         ("M-7" . eyebrowse-switch-to-window-config-7)
+         ("M-8" . eyebrowse-switch-to-window-config-8)
+         ("M-9" . eyebrowse-switch-to-window-config-9)
+         ("M-0" . eyebrowse-close-window-config)
+         ("M-]" . eyebrowse-next-window-config)
+         ("M-[" . eyebrowse-prev-window-config))
   :config
   (setq eyebrowse-new-workspace t)
   (eyebrowse-mode t))
@@ -518,9 +519,9 @@ popup window for better experience
 (use-package avy
   :ensure t
   :bind (("C-;" . avy-goto-char)
-	 :map evil-normal-state-map
-	 ("s" . avy-goto-char)
-	 ("S" . avy-goto-word-1)))
+         :map evil-normal-state-map
+         ("s" . avy-goto-char)
+         ("S" . avy-goto-word-1)))
 #+END_SRC
 *** Expand Region
 #+BEGIN_SRC emacs-lisp
@@ -534,7 +535,7 @@ popup window for better experience
   :demand t
   :ensure t
   :bind (:map esc-map
-	 ("C-s" . vr/query-replace))
+              ("C-s" . vr/query-replace))
   :config
   (setq vr/auto-show-help nil))
 #+END_SRC
@@ -563,19 +564,19 @@ popup window for better experience
         ranger-cleanup-eagerly t)
   ;; remove conflict bindings
   (cl-loop for x  in (split-string "1 2 3 4 5 6 7 8 9 0")
-	 do (define-key ranger-mode-map (kbd (format "M-%s" x)) nil))
+           do (define-key ranger-mode-map (kbd (format "M-%s" x)) nil))
   (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook))
 #+END_SRC
 *** Projectile
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :ensure t
-    :config
-    (defvar peter/projectile-ignored-directories
-      '("node_modules" "Godeps"))
-    (projectile-global-mode)
-    (cl-loop for dir in peter/projectile-ignored-directories
-	     do (add-to-list 'projectile-globally-ignored-directories dir)))
+(use-package projectile
+  :ensure t
+  :config
+  (defvar peter/projectile-ignored-directories
+    '("node_modules" "Godeps"))
+  (projectile-global-mode)
+  (cl-loop for dir in peter/projectile-ignored-directories
+           do (add-to-list 'projectile-globally-ignored-directories dir)))
 #+END_SRC
 *** Fasd
 #+BEGIN_SRC emacs-lisp
@@ -602,7 +603,7 @@ popup window for better experience
   :config
   (global-fasd-mode 1)
   (my/leader
-    '(("fd" . counsel-fasd))))
+   '(("fd" . counsel-fasd))))
 #+END_SRC
 ** Version Control
 *** Magit
@@ -616,7 +617,7 @@ popup window for better experience
   :config
   (setq magit-auto-revert-immediately t)
   (my/leader
-    '(("gs" . magit-status))))
+   '(("gs" . magit-status))))
 #+END_SRC
 *** Git Timemachine
 #+BEGIN_SRC emacs-lisp
@@ -649,7 +650,7 @@ popup window for better experience
 (use-package rainbow-mode
   :ensure t
   :hook ((prog-mode-hook . rainbow-mode)
-	 (conf-xdefaults-mode-hook . rainbow-mode))
+         (conf-xdefaults-mode-hook . rainbow-mode))
   :diminish rainbow-mode)
 #+END_SRC
 *** Undo Tree
@@ -705,8 +706,8 @@ bookmark tool
 (use-package bm
   :ensure t
   :bind (("<f2>" . bm-next)
-	 ("S-<f2>" . bm-previous)
-	 ("C-<f2>" . bm-toggle))
+         ("S-<f2>" . bm-previous)
+         ("C-<f2>" . bm-toggle))
   :config
   (setq bm-cycle-all-buffers t)
   (setq bm-highlight-style 'bm-highlight-only-fringe))
@@ -716,7 +717,7 @@ bookmark tool
 (use-package discover-my-major
   :ensure t
   :bind (("C-h m" . discover-my-major)
-	 ("C-h C-m" . discover-my-mode)))
+         ("C-h C-m" . discover-my-mode)))
 #+END_SRC
 * Org Mode
 ** Org Mode General
@@ -801,10 +802,10 @@ bookmark tool
 
 (org-babel-do-load-languages 'org-babel-load-languages
                              '((shell . t)
-			       (gnuplot . t)
+                               (gnuplot . t)
                                (octave . t)
                                (dot . t)
-			       (plantuml .t)))
+                               (plantuml .t)))
 
 (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 #+END_SRC
@@ -970,10 +971,10 @@ bookmark tool
   :demand t
   :ensure t
   :bind (:map org-mode-map
-	      ("C-c d s" . org-download-screenshot)
-	      ("C-c d d" . org-download-delete)
-	      ("C-c d e" . org-download-edit)
-	      ("C-c d y" . org-download-yank))
+              ("C-c d s" . org-download-screenshot)
+              ("C-c d d" . org-download-delete)
+              ("C-c d e" . org-download-edit)
+              ("C-c d y" . org-download-yank))
   :config
   (setq org-download-image-html-width 500)
   (setq org-download-image-latex-width 500)
@@ -1026,11 +1027,11 @@ bookmark tool
   :ensure t
   :config
   (setq org-publish-project-alist
-	'(("org-wiki"
-	   :base-directory "~/Sync/org/wiki/"
-	   :publishing-directory "~/Desktop/wiki/"
-	   :publishing-function org-twbs-publish-to-html
-	   :with-sub-superscript nil))))
+        '(("org-wiki"
+           :base-directory "~/Sync/org/wiki/"
+           :publishing-directory "~/Desktop/wiki/"
+           :publishing-function org-twbs-publish-to-html
+           :with-sub-superscript nil))))
 #+END_SRC
 ** Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
@@ -1038,8 +1039,8 @@ bookmark tool
 (require 'wiki)
 (setq wiki-location "~/Sync/org/wiki/")
 (my/leader '(("as" . wiki-search)
-	     ("ae" . wiki-goto)
-	     ("aj" . org-clock-goto)))
+             ("ae" . wiki-goto)
+             ("aj" . org-clock-goto)))
 #+END_SRC
 * Programming Languages
 ** Documents
@@ -1047,7 +1048,7 @@ bookmark tool
 (use-package helm-dash
   :ensure t
   :bind (("C-h d" . helm-dash-at-point)
-	 ("C-h C-d" . helm-dash)))
+         ("C-h C-d" . helm-dash)))
 #+END_SRC
 ** Nix
 #+BEGIN_SRC emacs-lisp
@@ -1079,17 +1080,17 @@ better to use ~clangStdenv~
   :config
   (push 'company-lsp company-backends)
   (setq company-lsp-async t
-	company-lsp-cache-candidates nil
-	company-transformers nil))
+        company-lsp-cache-candidates nil
+        company-transformers nil))
 
 (use-package cquery
   :ensure t
   :config
   (setq cquery-executable "cquery")
   (setq cquery-extra-init-params
-	'(:index (:comments 2)
-		 :cacheFormat "msgpack"
-		 :completion (:detailedLabel t))))
+        '(:index (:comments 2)
+                 :cacheFormat "msgpack"
+                 :completion (:detailedLabel t))))
 
 (use-package google-c-style :ensure t)
 
@@ -1113,7 +1114,7 @@ better to use ~clangStdenv~
 
 ;; auto indent bracket
 (sp-local-pair 'c++-mode "{" nil
-	       :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+               :post-handlers '((my-create-newline-and-enter-sexp "RET")))
 
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent. "
@@ -1130,8 +1131,8 @@ better to use ~clangStdenv~
   (man (format "3 %s" (symbol-at-point))))
 
 (add-hook 'c-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-c C-d") 'peter/c-mode-manual)))
+          (lambda ()
+            (local-set-key (kbd "C-c C-d") 'peter/c-mode-manual)))
 #+END_SRC
 ** CMake
 #+BEGIN_SRC emacs-lisp
@@ -1240,14 +1241,14 @@ better to use ~clangStdenv~
   :commands elpy-enable
   :init (with-eval-after-load 'python (elpy-enable))
   :bind (:map elpy-mode-map
-	      ("C-c C-j" . elpy-goto-definition))
+              ("C-c C-j" . elpy-goto-definition))
   :config
   (setq elpy-company-post-completion-function 'ignore)
   (setq elpy-modules
-	'(elpy-module-sane-defaults
-	  elpy-module-company
-	  elpy-module-eldoc
-	  elpy-module-yasnippet))
+        '(elpy-module-sane-defaults
+          elpy-module-company
+          elpy-module-eldoc
+          elpy-module-yasnippet))
   (elpy-enable))
 #+END_SRC
 ** Emacs Lisp
@@ -1304,17 +1305,17 @@ cargo install rustfmt
 (use-package octave
   :mode ("\\.m\\'" . octave-mode)
   :bind (:map octave-mode-map
-	      ("C-c C-d" . octave-help)
-	      ("C-c C-c" . octave-send-buffer)
-	      ("C-c g" . run-octave)))
+              ("C-c C-d" . octave-help)
+              ("C-c C-c" . octave-send-buffer)
+              ("C-c g" . run-octave)))
 #+END_SRC
 ** Haskell intero
 nixos config
 install intero in directory =~/.stack/global-project/=
 ~$HOME/.stack/config.yaml~
 #+BEGIN_SRC yaml
-  nix:
-    enable: true
+    nix:
+      enable: true
 #+END_SRC
 
 ~$HOME/.stack/global-project/stack.yaml~
@@ -1336,8 +1337,8 @@ nix:
 (use-package intero
   :ensure t
   :bind (:map intero-mode-map
-	      ("C-c C-d" . intero-info)
-	      ("C-c C-j" . intero-goto-definition))
+              ("C-c C-d" . intero-info)
+              ("C-c C-j" . intero-goto-definition))
   :config
   (intero-global-mode 1))
 #+END_SRC
@@ -1349,16 +1350,16 @@ nix:
   :magic ("%PDF" . pdf-view-mode)
   :hook ((pdf-view-mode pdf-outline-buffer-mode) . hide-mode-line-mode)
   :bind (:map pdf-view-mode-map
-	      ("C-s" . isearch-forward)
-	      ("j" . pdf-view-next-line-or-next-page)
-	      ("k" . pdf-view-previous-line-or-previous-page)
-	      ("r" . tts/pdf-read-page)
-	      ("d" . peter/pdf-dict)
-	      ("TAB" . pdf-outline)
-	      :map pdf-outline-buffer-mode-map
-	      ("j" . next-line)
-	      ("k" . previous-line)
-	      ("RET" . pdf-outline-follow-link-and-quit))
+              ("C-s" . isearch-forward)
+              ("j" . pdf-view-next-line-or-next-page)
+              ("k" . pdf-view-previous-line-or-previous-page)
+              ("r" . tts/pdf-read-page)
+              ("d" . peter/pdf-dict)
+              ("TAB" . pdf-outline)
+              :map pdf-outline-buffer-mode-map
+              ("j" . next-line)
+              ("k" . previous-line)
+              ("RET" . pdf-outline-follow-link-and-quit))
   :config
   (pdf-tools-install)
   (define-key pdf-view-mode-map (kbd "SPC") peter/leader-map))
@@ -1487,11 +1488,11 @@ nixos workaround
 (defmacro elfeed-filter-wrapper (filter)
   "wrap elfeed search filter"
   `(lambda ()
-    (interactive)
-    (unwind-protect
-        (let ((elfeed-search-filter-active :live))
-          (setq elfeed-search-filter ,filter))
-      (elfeed-search-update :force))))
+     (interactive)
+     (unwind-protect
+         (let ((elfeed-search-filter-active :live))
+           (setq elfeed-search-filter ,filter))
+       (elfeed-search-update :force))))
 
 (defun peter/elfeed-filter-all ()
   (interactive)
@@ -1518,32 +1519,32 @@ nixos workaround
 (use-package elfeed
   :ensure t
   :bind (:map elfeed-search-mode-map
-	      ("j" . next-line)
-	      ("k" . previous-line)
-	      ("q" . peter/elfeed-save-db-and-bury)
-	      ("R" . peter/elfeed-mark-all-as-read)
+              ("j" . next-line)
+              ("k" . previous-line)
+              ("q" . peter/elfeed-save-db-and-bury)
+              ("R" . peter/elfeed-mark-all-as-read)
               ("A" . peter/elfeed-filter-all)
               ("C" . peter/elfeed-filter-chinese)
               ("Y" . peter/elfeed-filter-youtube)
               ("H" . peter/elfeed-filter-github)
-	      ("v" . elfeed-search-mpv)
-	      :map elfeed-show-mode-map
-	      ("j" . scroll-up-line)
-	      ("k" . scroll-down-line))
+              ("v" . elfeed-search-mpv)
+              :map elfeed-show-mode-map
+              ("j" . scroll-up-line)
+              ("k" . scroll-down-line))
   :config
   (my/leader '(("9" . peter/elfeed-load-db-and-open)))
   (setq elfeed-curl-extra-arguments '("-x" "http://127.0.0.1:8123"))
   (setq elfeed-db-directory "~/Sync/elfeed")
   (defun my-elfeed-tag-sort (a b)
     (let* ((a-tags (format "%s" (elfeed-entry-tags a)))
-	   (b-tags (format "%s" (elfeed-entry-tags b)))
-	   (a-feed (format "%s" (elfeed-entry-feed a)))
-	   (b-feed (format "%s" (elfeed-entry-feed b))))
+           (b-tags (format "%s" (elfeed-entry-tags b)))
+           (a-feed (format "%s" (elfeed-entry-feed a)))
+           (b-feed (format "%s" (elfeed-entry-feed b))))
       (if (string= a-tags b-tags)
-	  (if (string= a-feed b-feed)
-	      (< (elfeed-entry-date b) (elfeed-entry-date a))
-	    (string< a-feed b-feed))
-      (string< a-tags b-tags))))
+          (if (string= a-feed b-feed)
+              (< (elfeed-entry-date b) (elfeed-entry-date a))
+            (string< a-feed b-feed))
+        (string< a-tags b-tags))))
 
   (setf elfeed-search-sort-function #'my-elfeed-tag-sort))
 
@@ -1557,18 +1558,18 @@ Prerequisite: yadm version >= 1.0.8
 access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'tramp-methods
-	     '("yadm"
-	       (tramp-login-program "yadm")
-	       (tramp-login-args (("enter")))
-	       (tramp-login-env
-		(("SHELL")
-		 ("/bin/sh")))
-	       (tramp-remote-shell "/bin/sh")
-	       (tramp-remote-shell-login
-		("-l"))
-	       (tramp-remote-shell-args
-		("-c"))
-	       (tramp-connection-timeout 10)))
+             '("yadm"
+               (tramp-login-program "yadm")
+               (tramp-login-args (("enter")))
+               (tramp-login-env
+                (("SHELL")
+                 ("/bin/sh")))
+               (tramp-remote-shell "/bin/sh")
+               (tramp-remote-shell-login
+                ("-l"))
+               (tramp-remote-shell-args
+                ("-c"))
+               (tramp-connection-timeout 10)))
 
 
 (defun reopen-as-yadm ()
@@ -1639,13 +1640,13 @@ access yadm repo via tramp
     (insert-file-contents "/tmp/ranger_current_file")
     (car (split-string (buffer-string) "\n" t))))
 
-					;(fset 'read-file-name 'ranger-select)
+                                        ;(fset 'read-file-name 'ranger-select)
 (defun my-ranger-advice (orig-function &rest arguments)
   "advice read-file-name function to ranger-select"
   (interactive)
   (cl-letf (((symbol-function 'read-file-name) 'ranger-select))
     (if (called-interactively-p 'any)
-	(call-interactively orig-function)
+        (call-interactively orig-function)
       (apply orig-function arguments))))
 
 ;; advice org-attach
@@ -1668,7 +1669,7 @@ access yadm repo via tramp
 (use-package rg
   :ensure t
   :bind (:map rg-global-map
-	      ("n" . rg-search-nix))
+              ("n" . rg-search-nix))
   :config
   (define-key peter/leader-map (kbd "ar") rg-global-map)
   (rg-define-search rg-search-nix
@@ -1684,22 +1685,22 @@ access yadm repo via tramp
   "read paragraph with tts"
   (interactive)
   (save-mark-and-excursion
-   (mark-paragraph)
-   (kill-ring-save
-    (region-beginning)
-    (region-end))
-   (let ((text (substring-no-properties (car kill-ring))))
-     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
+    (mark-paragraph)
+    (kill-ring-save
+     (region-beginning)
+     (region-end))
+    (let ((text (substring-no-properties (car kill-ring))))
+      (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
 
 (defun tts/pdf-read-page ()
   "read whole page or selected region in pdf mode"
   (interactive)
   (save-mark-and-excursion
-   (unless (pdf-view-active-region-p)
-     (pdf-view-mark-whole-page))
-   (pdf-view-kill-ring-save)
-   (let ((text (substring-no-properties (car kill-ring))))
-     (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
+    (unless (pdf-view-active-region-p)
+      (pdf-view-mark-whole-page))
+    (pdf-view-kill-ring-save)
+    (let ((text (substring-no-properties (car kill-ring))))
+      (call-process-shell-command (format "tts -t '%s'&" text) nil 0))))
 
 (defun tts/read-paragraph-forward ()
   (interactive)
