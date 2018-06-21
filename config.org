@@ -882,6 +882,7 @@ bookmark tool
                            (org-agenda-files :maxlevel . 2)))
 ;; Refile in a single go
 (setq org-outline-path-complete-in-steps nil)
+
 ;; Show full paths for refiling
 (setq org-refile-use-outline-path t)
 
@@ -913,6 +914,12 @@ bookmark tool
   :ensure t
   :config
   (setq alert-default-style 'libnotify))
+
+;; link to run shell command
+(defun peter/run-link-open (cmd)
+  (call-process-shell-command (format "%s &" cmd) nil 0))
+
+(org-link-set-parameters "run" :follow 'peter/run-link-open)
 
 (defun polybar-clock ()
   (if (org-clocking-p)
