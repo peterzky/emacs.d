@@ -5,7 +5,7 @@
 ;;; Code:
 (defvar wiki-location "/home/peterzky/playground/org-testing/")
 
-(org-add-link-type "wiki" 'wiki-open)
+(org-link-set-parameters "wiki" :follow 'wiki-open)
 
 (defun wiki-file (page-name)
   (concat wiki-location page-name ".org"))
