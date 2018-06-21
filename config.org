@@ -735,8 +735,11 @@ bookmark tool
 (setq org-startup-indented t)
 (setq org-startup-folded t)
 (setq org-hide-emphasis-markers t)
+(setq org-hide-leading-stars t)
 (setq org-imenu-depth 5)
 (setq org-enforce-todo-dependencies t)
+(setq org-columns-default-format
+      "%6CATEGORY %50ITEM %6CLOCKSUM %10TODO")
 
 (if (string= "xps" (system-name))
     (setq org-image-actual-width 900)
