@@ -108,6 +108,7 @@
 #+BEGIN_SRC emacs-lisp
 (use-package evil
   :ensure t
+  :init (setq evil-respect-visual-line-mode t)
   :config
   (evil-mode 1)
   (setq evil-insert-state-map (make-sparse-keymap))
@@ -1324,8 +1325,8 @@ nixos config
 install intero in directory =~/.stack/global-project/=
 ~$HOME/.stack/config.yaml~
 #+BEGIN_SRC yaml
-    nix:
-      enable: true
+      nix:
+        enable: true
 #+END_SRC
 
 ~$HOME/.stack/global-project/stack.yaml~
