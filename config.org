@@ -134,7 +134,7 @@
 
 (define-key evil-normal-state-map (kbd "SPC") peter/leader-map)
 (define-key evil-motion-state-map (kbd "SPC") peter/leader-map)
-(define-key evil-emacs-state-map (kbd "M-SPC") peter/leader-map)
+(define-key evil-emacs-state-map (kbd "s-SPC") peter/leader-map)
 (evil-define-key 'motion Info-mode-map (kbd "SPC") peter/leader-map)
 
 (defmacro my/leader (args)
@@ -869,8 +869,12 @@ bookmark tool
 (setq org-agenda-window-setup 'current-window)
 
 ;; custom agenda
-
+(setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-start-with-log-mode t)
+(setq org-tag-alist
+      '(("@work" . ?w)
+        ("@web" . ?b)
+        ("@read" . ?r)))
 (setq org-agenda-custom-commands
       '(("d" "Agenda Day View"
          ((agenda "" ((org-agenda-span 1)
