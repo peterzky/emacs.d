@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: project
+# key: project
+# --
+:PURPOSE:
+${1:Purpose of this project}
+:END:
+:VISION:
+${2:What you wish to accomplish}
+:END:
+:IDEAS:
+${3:Though or ideas about this project}
+:END:
+:STRUCTURE:
+${0:Structure}
+:END:
