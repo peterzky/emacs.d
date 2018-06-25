@@ -564,6 +564,9 @@ popup window for better experience
 ** File/Directory
 *** Direds/Ranger
 #+BEGIN_SRC emacs-lisp
+;; hl-line-mode face
+(setq hl-line-face 'ivy-current-match)
+
 (defun peter/dired-mode-hook ()
   (hl-line-mode)
   (define-key dired-mode-map "l" 'dired-find-file)
@@ -685,6 +688,7 @@ popup window for better experience
   :ensure t
   :diminish beacon-mode
   :config
+  (add-to-list 'beacon-dont-blink-major-modes 'ranger-mode t)
   (beacon-mode 1))
 #+END_SRC
 *** Which Key
@@ -946,12 +950,6 @@ bookmark tool
 ;; org timer
 (setq org-clock-mode-line-total 'current)
 
-;; org alert
-(use-package org-alert
-  :ensure t
-  :config
-  (setq alert-default-style 'libnotify)
-  (org-alert-enable))
 
 ;; link to run shell command
 (defun peter/run-link-open (cmd)
