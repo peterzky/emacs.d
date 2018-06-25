@@ -253,7 +253,8 @@ operator ~,,~ as comment
                                         ;'(gruvbox-dark-medium gruvbox-light-medium)
   '(;; doom-one-light
     ;; doom-nord-light
-    adwaita
+    sanityinc-tomorrow-night
+    ;; adwaita
     doom-vibrant)
   )
 
@@ -800,18 +801,6 @@ bookmark tool
 ;; line wrap in org mode
 (add-hook 'org-mode-hook 'visual-line-mode)
 
-(defun peter/org-narrow-subtree ()
-  "narrow to subtree if current entry has NEXT keyword"
-  (if (string= (org-entry-get nil "TODO") "NEXT")
-      (save-mark-and-excursion
-        (progn (org-up-heading-safe)
-               (org-narrow-to-subtree)))
-    (org-narrow-to-subtree)))
-
-;; narrow to subtree after selecting entry in org agenda
-(add-hook 'org-clock-goto-hook 'peter/org-narrow-subtree)
-(advice-add 'org-agenda-switch-to :after #'peter/org-narrow-subtree)
-
 ;; refresh inline image after evaluate code block
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
 
@@ -835,53 +824,25 @@ bookmark tool
 #+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
+;; todo keywords
 (setq org-todo-keywords
       '((sequence "INBOX(i)" "PROJ(p)" "NEXT(n)" "WAIT(w@/!)"
                   "MAYBE(m)"  "|" "DONE(d)" "REF(r)" "CANCELED(c@)")
-        (sequence "REPEAT(R)" "|" "DONE")
-        ))
+        (sequence "REPEAT(R)" "|" "DONE")))
 
-(setq org-tag-alist '((:startgrouptag)
-                      ("@high")
-                      (:grouptags)
-                      ("@exec")
-                      ("@plan")
-                      ("@review")
-                      (:endgrouptag)
-                      (:startgrouptag)
-                      ("@medium")
-                      (:grouptags)
-                      ("@paper")
-                      ("@article")
-                      ("@search")
-                      (:endgrouptag)
-                      (:startgrouptag)
-                      ("@low")
-                      (:grouptags)
-                      ("@watch")
-                      ("@book")
-                      ("@do")
-                      (:endgrouptag)
-                      (:startgroup)
-                      ("@read")
-                      (:grouptags)
-                      ("@paper")
-                      ("@article")
-                      ("@book")
-                      (:endgroup)
-                      (:startgroup)
-                      ("@web")
-                      (:grouptags)
-                      ("@watch")
-                      ("@article")
-                      ("@search")
-                      (:endgroup)
-                      (:startgroup)
-                      ("@think")
-                      (:grouptags)
-                      ("@plan")
-                      ("@review")
-                      (:endgroup)))
+;; tags
+(setq org-tag-alist '((:startgrouptag) ("@high") (:grouptags)
+                      ("@exec") ("@plan") ("@review") (:endgrouptag)
+                      (:startgrouptag) ("@medium") (:grouptags)
+                      ("@paper") ("@article") ("@search") (:endgrouptag)
+                      (:startgrouptag) ("@low") (:grouptags)
+                      ("@watch") ("@book") ("@do") (:endgrouptag)
+                      (:startgroup) ("@read") (:grouptags)
+                      ("@paper") ("@article") ("@book") (:endgroup)
+                      (:startgroup) ("@web") (:grouptags)
+                      ("@watch") ("@article") ("@search") (:endgroup)
+                      (:startgroup) ("@think") (:grouptags)
+                      ("@plan") ("@review") (:endgroup)))
 
 (setq org-todo-keyword-faces
       '(("REF" . "#d35400")
@@ -915,6 +876,7 @@ bookmark tool
 (setq org-agenda-window-setup 'current-window)
 
 ;; custom agenda
+(setq org-indirect-buffer-display 'current-window)
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-start-with-log-mode t)
 
@@ -988,7 +950,8 @@ bookmark tool
 (use-package org-alert
   :ensure t
   :config
-  (setq alert-default-style 'libnotify))
+  (setq alert-default-style 'libnotify)
+  (org-alert-enable))
 
 ;; link to run shell command
 (defun peter/run-link-open (cmd)
@@ -1421,8 +1384,8 @@ nixos config
 install intero in directory =~/.stack/global-project/=
 ~$HOME/.stack/config.yaml~
 #+BEGIN_SRC yaml
-        nix:
-          enable: true
+          nix:
+            enable: true
 #+END_SRC
 
 ~$HOME/.stack/global-project/stack.yaml~
