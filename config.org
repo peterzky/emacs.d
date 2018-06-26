@@ -53,14 +53,14 @@
 #+END_SRC
 ** Functions
 #+BEGIN_SRC emacs-lisp
-(defun peter/switch-buffer ()
+(defun my:switch-buffer ()
   "switch to last buffer"
   (interactive)
   (if (evil-alternate-buffer)
       (switch-to-buffer (car (evil-alternate-buffer)))
     (switch-to-buffer (other-buffer (current-buffer) t))))
 
-(defmacro peter/edit-file (file)
+(defmacro my:edit-file (file)
   "open file and widen if narrowed."
   `(lambda nil (interactive)
      (find-file ,file)
@@ -70,19 +70,19 @@
 ;; close window after kill buffer command
 (advice-add 'kill-this-buffer :after #'delete-window)
 
-(defun peter/split-vertically ()
+(defun my:split-vertically ()
   "Split window vertically and focus"
   (interactive)
   (split-window-vertically)
   (other-window 1))
 
-(defun peter/split-horizontally ()
+(defun my:split-horizontally ()
   "Split window horizontally and focus"
   (interactive)
   (split-window-horizontally)
   (other-window 1))
 
-(defun peter/widen ()
+(defun my:widen ()
   "after widen scroll down"
   (interactive)
   (widen)
@@ -92,7 +92,7 @@
 
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-(defun peter/align-whitespace (start end)
+(defun my:align-whitespace (start end)
   "Align columns by whitespace"
   (interactive "r")
   (align-regexp start end
@@ -130,16 +130,16 @@
 #+END_SRC
 ** Evil Leader
 #+BEGIN_SRC emacs-lisp
-(defvar peter/leader-map (make-sparse-keymap))
+(defvar my:leader-map (make-sparse-keymap))
 
-(define-key evil-normal-state-map (kbd "SPC") peter/leader-map)
-(define-key evil-motion-state-map (kbd "SPC") peter/leader-map)
-(define-key evil-emacs-state-map (kbd "s-SPC") peter/leader-map)
-(evil-define-key 'motion Info-mode-map (kbd "SPC") peter/leader-map)
+(define-key evil-normal-state-map (kbd "SPC") my:leader-map)
+(define-key evil-motion-state-map (kbd "SPC") my:leader-map)
+(define-key evil-emacs-state-map (kbd "s-SPC") my:leader-map)
+(evil-define-key 'motion Info-mode-map (kbd "SPC") my:leader-map)
 
 (defmacro my/leader (args)
   `(cl-loop for elem in ,args
-            do (define-key peter/leader-map (kbd (car elem)) (cdr elem))))
+            do (define-key my:leader-map (kbd (car elem)) (cdr elem))))
 
 (my/leader
  `(("fs" .  save-buffer)
@@ -149,8 +149,8 @@
    ("qQ" .  save-buffers-kill-emacs)
    ("r"  .   deer)
    ;; window management
-   ("wv" .  peter/split-horizontally)
-   ("ws" .  peter/split-vertically)
+   ("wv" .  my:split-horizontally)
+   ("ws" .  my:split-vertically)
    ("ww" .  other-window)
    ("wd" .  delete-window)
    ;; text to speech
@@ -159,44 +159,44 @@
    ("cg" . customize-group)
    ("cc" .  flycheck-mode)
    ("cl" .  evilnc-comment-or-uncomment-lines)
-   ("fed" . ,(peter/edit-file "~/.emacs.d/config.org"))
-   ("fea" . ,(peter/edit-file "~/Sync/org/agenda/archive.org"))
-   ("fei" . ,(peter/edit-file "~/Sync/org/agenda/inbox.org"))
-   ("fep" . ,(peter/edit-file "~/Sync/org/agenda/project.org"))
-   ("TAB" . peter/switch-buffer)))
+   ("fed" . ,(my:edit-file "~/.emacs.d/config.org"))
+   ("fea" . ,(my:edit-file "~/Sync/org/agenda/archive.org"))
+   ("fei" . ,(my:edit-file "~/Sync/org/agenda/inbox.org"))
+   ("fep" . ,(my:edit-file "~/Sync/org/agenda/project.org"))
+   ("TAB" . my:switch-buffer)))
 #+END_SRC
 ** Evil State
 [[https://github.com/bling/dotemacs/blob/master/config/init-evil.el][dotemacs/init-evil.el at master · bling/dotemacs]]
 #+BEGIN_SRC emacs-lisp
-(defmacro peter/evil-state (state list)
+(defmacro my:evil-state (state list)
   `(cl-loop for mode in ,list
             do (add-to-list ,state mode)))
 
-(defvar peter/motion-state-modes
+(defvar my:motion-state-modes
   '(special-mode go-guru-output-mode racer-help-mode helpful-mode
                  intero-help-mode messages-buffer-mode youdao-dictionary-mode makey-key-mode))
 
-(defvar peter/emacs-state-modes
+(defvar my:emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
                 intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
                 elfeed-show-mode finder-mode image-mode))
 
-(defvar peter/insert-state-hooks
+(defvar my:insert-state-hooks
   '(org-src-mode-hook org-log-buffer-setup-hook
                       org-capture-mode-hook git-commit-mode-hook))
 
-(defvar peter/emacs-state-minor-modes
+(defvar my:emacs-state-minor-modes
   '(edebug-mode))
 
 
-(peter/evil-state 'evil-motion-state-modes peter/motion-state-modes)
+(my:evil-state 'evil-motion-state-modes my:motion-state-modes)
 
-(peter/evil-state 'evil-emacs-state-modes peter/emacs-state-modes)
+(my:evil-state 'evil-emacs-state-modes my:emacs-state-modes)
 
-(cl-loop for hook in peter/insert-state-hooks do
+(cl-loop for hook in my:insert-state-hooks do
          (add-hook hook 'evil-insert-state))
 
-(cl-loop for mode in peter/emacs-state-minor-modes
+(cl-loop for mode in my:emacs-state-minor-modes
          do (let ((hook (concat (symbol-name mode) "-hook")))
               (add-hook (intern hook) `(lambda ()
                                          (if ,mode
@@ -226,6 +226,11 @@ operator ~,,~ as comment
 * Looks/Feels
 ** Fonts
 #+BEGIN_SRC emacs-lisp
+;; pc specific font setting
+(when (string= (system-name) "nixos")
+  (add-to-list 'default-frame-alist '(font . "Input-13"))
+  (set-face-attribute 'default t :font "Input-13"))
+
 (defun my:set-font (FONT)
   (interactive)
   (set-face-attribute 'default t :font FONT)
@@ -250,13 +255,8 @@ operator ~,,~ as comment
 (use-package doom-themes :ensure t)
 
 (defvar my:dark-light-themes
-                                        ;'(gruvbox-dark-medium gruvbox-light-medium)
-  '(;; doom-one-light
-    ;; doom-nord-light
-    sanityinc-tomorrow-night
-    ;; adwaita
-    doom-vibrant)
-  )
+  '(doom-spacegrey
+    doom-opera-light))
 
 (defun my:switch-themes ()
   "switch between dark and light theme"
@@ -272,7 +272,34 @@ operator ~,,~ as comment
         (load-theme dark t)))))
 
 ;; default theme
-(load-theme (car my:dark-light-themes) t)
+(defvar my:theme (car my:dark-light-themes))
+
+;; solve partial loading theme issue
+(defvar my:theme-window-loaded nil)
+(defvar my:theme-terminal-loaded nil)
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions(lambda (frame)
+                                           (select-frame frame)
+                                           (if (window-system frame)
+                                               (unless my:theme-window-loaded
+                                                 (if my:theme-terminal-loaded
+                                                     (enable-theme my:theme)
+                                                   (load-theme my:theme t))
+                                                 (setq my:theme-window-loaded t))
+                                             (unless my:theme-terminal-loaded
+                                               (if my:theme-window-loaded
+                                                   (enable-theme my:theme)
+                                                 (load-theme my:theme t))
+                                               (setq my:theme-terminal-loaded t)))))
+
+  (progn
+    (load-theme my:theme t)
+    (if (display-graphic-p)
+        (setq my:theme-window-loaded t)
+      (setq my:theme-terminal-loaded t))))
+
+
 
 (my/leader '(("uo" . counsel-load-theme)
              ("ui" . my:font-select)
@@ -493,7 +520,7 @@ popup window for better experience
   :ensure t
   :bind (:map paredit-mode-map ("C-j" . eval-print-last-sexp)))
 
-(defvar peter/paredit-modes
+(defvar my:paredit-modes
   '(emacs-lisp-mode
     eval-expression-minibuffer-setup
     ielm-mode
@@ -502,7 +529,7 @@ popup window for better experience
     scheme-mode
     slime-repl-mode))
 
-(cl-loop for mode in peter/paredit-modes
+(cl-loop for mode in my:paredit-modes
          do (let ((hook (concat (symbol-name mode) "-hook")))
               (add-hook (intern hook) #'paredit-mode)))
 #+END_SRC
@@ -567,17 +594,17 @@ popup window for better experience
 ;; hl-line-mode face
 (setq hl-line-face 'ivy-current-match)
 
-(defun peter/dired-mode-hook ()
+(defun my:dired-mode-hook ()
   (hl-line-mode)
   (define-key dired-mode-map "l" 'dired-find-file)
   (define-key dired-mode-map "h" 'dired-up-directory)
   (define-key dired-mode-map "j" 'dired-next-line)
   (define-key dired-mode-map "k" 'dired-previous-line))
 
-(add-hook 'dired-mode-hook 'peter/dired-mode-hook)
+(add-hook 'dired-mode-hook 'my:dired-mode-hook)
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
-(defun peter/ranger-mode-hook ()
+(defun my:ranger-mode-hook ()
   (define-key ranger-mode-map "+" 'dired-do-chmod))
 
 (use-package ranger
@@ -590,17 +617,17 @@ popup window for better experience
   ;; remove conflict bindings
   (cl-loop for x  in (split-string "1 2 3 4 5 6 7 8 9 0")
            do (define-key ranger-mode-map (kbd (format "M-%s" x)) nil))
-  (add-hook 'ranger-mode-hook 'peter/ranger-mode-hook))
+  (add-hook 'ranger-mode-hook 'my:ranger-mode-hook))
 #+END_SRC
 *** Projectile
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :ensure t
   :config
-  (defvar peter/projectile-ignored-directories
+  (defvar my:projectile-ignored-directories
     '("node_modules" "Godeps"))
   (projectile-global-mode)
-  (cl-loop for dir in peter/projectile-ignored-directories
+  (cl-loop for dir in my:projectile-ignored-directories
            do (add-to-list 'projectile-globally-ignored-directories dir)))
 #+END_SRC
 *** Fasd
@@ -712,11 +739,11 @@ Open file with sudo if needed
 #+END_SRC
 *** IBuffer
 #+BEGIN_SRC emacs-lisp
-(defun peter/ibuffer-mode-hook ()
+(defun my:ibuffer-mode-hook ()
   (hl-line-mode)
   (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
   (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
-(add-hook 'ibuffer-mode-hook 'peter/ibuffer-mode-hook)
+(add-hook 'ibuffer-mode-hook 'my:ibuffer-mode-hook)
 #+END_SRC
 *** IMenu Anywhere
 #+BEGIN_SRC emacs-lisp
@@ -778,12 +805,12 @@ bookmark tool
 
 (diminish 'visual-line-mode)
 
-(defun peter/org-mode-hook ()
+(defun my:org-mode-hook ()
   (electric-indent-local-mode -1)
   (evil-local-set-key 'normal (kbd "SPC i") 'counsel-org-goto)
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point))
 
-(add-hook 'org-mode-hook 'peter/org-mode-hook)
+(add-hook 'org-mode-hook 'my:org-mode-hook)
 
 ;; org modules
 (add-to-list 'org-modules 'org-habit)
@@ -851,7 +878,7 @@ bookmark tool
 (setq org-todo-keyword-faces
       '(("REF" . "#d35400")
         ("INBOX" . "#3498db")
-        ("PROJ" . "#2c3e50")
+        ("PROJ" . "#9b59b6")
         ("MAYBE" . "#1abc9c")
         ("REPEAT" . "#3498db")
         ("WAIT" . "#f1c40f")
@@ -895,13 +922,13 @@ bookmark tool
         ("b" tags-todo "/MAYBE")))
 
 ;; org refile
-(defun peter/org-buffer-files ()
+(defun my:org-buffer-files ()
   "Return list of opened orgmode buffer files"
   (mapcar (function buffer-file-name)
           (org-buffer-list 'files)))
 
 (setq org-refile-targets '((nil :maxlevel . 2)
-                           (peter/org-buffer-files :maxlevel . 3)
+                           (my:org-buffer-files :maxlevel . 3)
                            (org-agenda-files :maxlevel . 2)))
 ;; Refile in a single go
 (setq org-outline-path-complete-in-steps nil)
@@ -909,7 +936,7 @@ bookmark tool
 ;; Show full paths for refiling
 (setq org-refile-use-outline-path t)
 
-(defun peter/agenda-mode-config ()
+(defun my:agenda-mode-config ()
   "agenda mode key bindings and config"
   (hide-mode-line-mode)
   (define-key org-agenda-mode-map "j" 'org-agenda-next-line)
@@ -918,12 +945,12 @@ bookmark tool
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
   (define-key org-agenda-mode-map "p" 'org-mobile-push)
   (define-key org-agenda-mode-map "P" 'org-mobile-pull)
-  (define-key org-agenda-mode-map (kbd "SPC") peter/leader-map)
+  (define-key org-agenda-mode-map (kbd "SPC") my:leader-map)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
   (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
   (hl-line-mode))
 
-(add-hook 'org-agenda-mode-hook 'peter/agenda-mode-config)
+(add-hook 'org-agenda-mode-hook 'my:agenda-mode-config)
 
 ;; org mobile
 (setq org-mobile-inbox-for-pull "~/Sync/org/agenda/inbox.org")
@@ -953,10 +980,10 @@ bookmark tool
 
 
 ;; link to run shell command
-(defun peter/run-link-open (cmd)
+(defun my:run-link-open (cmd)
   (call-process-shell-command (format "%s &" cmd) nil 0))
 
-(org-link-set-parameters "run" :follow 'peter/run-link-open)
+(org-link-set-parameters "run" :follow 'my:run-link-open)
 
 (defun polybar-clock ()
   (if (org-clocking-p)
@@ -973,7 +1000,7 @@ bookmark tool
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
-(defun peter/gen-weekly-review ()
+(defun my:gen-weekly-review ()
   "generate clocktable for this week"
   (with-temp-buffer
     (org-mode)
@@ -999,7 +1026,7 @@ bookmark tool
         ("j" "Journal" entry (file+olp+datetree "~/Sync/org/agenda/archive.org")
          "* %? :journal: \nEntered on %U\n %i\n")
         ("r" "Weekly Review" entry (file+olp+datetree "~/Sync/org/agenda/archive.org")
-         "* Weekly Review %U :review: \n %(peter/gen-weekly-review)")
+         "* Weekly Review %U :review: \n %(my:gen-weekly-review)")
         ("p" "org-protocol" entry (file "~/Sync/org/agenda/inbox.org")
          "* %:description\n=Source=: %:link\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
          :empty-line 1)
@@ -1008,32 +1035,32 @@ bookmark tool
          :empty-line 1)
         ))
 
-(defvar peter/org-refile-index 0
+(defvar my:org-refile-index 0
   "Indicator for org-caputre-refile, if 0 delete frame if 1 no delete ")
 
-(advice-add 'org-capture-refile :before '(lambda () (setq peter/org-refile-index 1)))
+(advice-add 'org-capture-refile :before '(lambda () (setq my:org-refile-index 1)))
 (advice-add 'org-capture-refile :after '(lambda ()
-                                          (setq peter/org-refile-index 0)
-                                          (peter/org-capture-delete-frame)))
+                                          (setq my:org-refile-index 0)
+                                          (my:org-capture-delete-frame)))
 
-(defun peter/org-capture-window ()
+(defun my:org-capture-window ()
   (if (equal "org-agenda" (frame-parameter nil 'name))
       (delete-other-windows)))
 
-(defun peter/org-capture-delete-frame ()
-  (if (and (equal peter/org-refile-index 0)
+(defun my:org-capture-delete-frame ()
+  (if (and (equal my:org-refile-index 0)
            (equal "org-agenda" (frame-parameter nil 'name)))
       (delete-frame)))
 
-(defun peter/org-agenda-quit-delete-frame (orig-fun &rest args)
+(defun my:org-agenda-quit-delete-frame (orig-fun &rest args)
   (if (equal "org-agenda" (frame-parameter nil 'name))
       (delete-frame)
     (call-interactively orig-fun)))
 
-(advice-add 'org-agenda-quit :around #'peter/org-agenda-quit-delete-frame)
+(advice-add 'org-agenda-quit :around #'my:org-agenda-quit-delete-frame)
 
-(add-hook 'org-capture-after-finalize-hook 'peter/org-capture-delete-frame)
-(add-hook 'org-capture-mode-hook 'peter/org-capture-window)
+(add-hook 'org-capture-after-finalize-hook 'my:org-capture-delete-frame)
+(add-hook 'org-capture-mode-hook 'my:org-capture-window)
 
 ;; org download
 (use-package org-download
@@ -1114,10 +1141,7 @@ bookmark tool
 * Programming Languages
 ** Documents
 #+BEGIN_SRC emacs-lisp
-(use-package helm-dash
-  :ensure t
-  :bind (("C-h d" . helm-dash-at-point)
-         ("C-h C-d" . helm-dash)))
+(use-package zeal-at-point :ensure t)
 #+END_SRC
 ** Nix
 #+BEGIN_SRC emacs-lisp
@@ -1137,8 +1161,7 @@ bookmark tool
    (concat "cd " (projectile-project-root) ";" command)))
 #+END_SRC
 ** C/C++
-for this to work =shell.nix= must have ~llvm~ in buildinputs
-better to use ~clangStdenv~
+use ~load-cpp-env~
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode :ensure t
   :config
@@ -1163,8 +1186,8 @@ better to use ~clangStdenv~
 
 (use-package google-c-style :ensure t)
 
-(defun peter/c-mode-hook ()
-  (setq-local helm-dash-docsets '("C++"))
+(defun my:c-mode-hook ()
+  (setq-local zeal-at-point-docset '("c++" "glib" "opencv"))
   (google-set-c-style)
   (google-make-newline-indent)
   (lsp-enable-imenu)
@@ -1173,13 +1196,13 @@ better to use ~clangStdenv~
   (local-set-key [f5] 'nix-run)
   (local-set-key (kbd "C-c C-j") 'xref-find-definitions)
   (local-set-key (kbd "C-c C-f") 'lsp-format-buffer)
-  (local-set-key (kbd "C-c C-d") 'helm-dash-at-point)
+  (local-set-key (kbd "C-c C-d") 'zeal-at-point)
   (local-set-key (kbd "C-c C-c") 'lsp-cquery-enable)
   (local-set-key (kbd "C-c C-l") 'cquery-freshen-index)
   (local-set-key (kbd "C-c C-r") 'lsp-restart-workspace)
   (local-set-key (kbd "C-c r") 'lsp-rename))
 
-(add-hook 'c-mode-common-hook 'peter/c-mode-hook)
+(add-hook 'c-mode-common-hook 'my:c-mode-hook)
 
 ;; auto indent bracket
 (sp-local-pair 'c++-mode "{" nil
@@ -1195,17 +1218,17 @@ better to use ~clangStdenv~
 (setq gdb-many-windows t)
 
 ;; cmode
-(defun peter/c-mode-manual ()
+(defun my:c-mode-manual ()
   (interactive)
   (man (format "3 %s" (symbol-at-point))))
 
 (add-hook 'c-mode-hook
           (lambda ()
-            (local-set-key (kbd "C-c C-d") 'peter/c-mode-manual)))
+            (local-set-key (kbd "C-c C-d") 'my:c-mode-manual)))
 #+END_SRC
 ** CMake
 #+BEGIN_SRC emacs-lisp
-(defun peter/cmake-hook ()
+(defun my:cmake-hook ()
   (let ((cmake-path (nix-executable-find (nix-current-sandbox) "cmake")))
     (setq cmake-mode-cmake-executable cmake-path)
     (setq company-cmake-executable cmake-path)))
@@ -1214,7 +1237,7 @@ better to use ~clangStdenv~
   :ensure t
   :config
   (when (executable-find "nix-env")
-    (add-hook 'cmake-mode-hook 'peter/cmake-hook)))
+    (add-hook 'cmake-mode-hook 'my:cmake-hook)))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -1248,16 +1271,16 @@ better to use ~clangStdenv~
   :config
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
-(defun peter/go-mode-hook ()
+(defun my:go-mode-hook ()
   (interactive)
   (setq-local helm-dash-docsets '("Go"))
   (local-set-key (kbd "C-c C-d") 'godoc-at-point)
   (local-set-key (kbd "C-c r") 'go-rename)
   (local-set-key (kbd "C-c g") 'go-playground)
   (local-set-key (kbd "C-c C-k") 'go-playground-rm)
-  (local-set-key [f5] 'peter/go-install-or-run))
+  (local-set-key [f5] 'my:go-install-or-run))
 
-(defun peter/go-install-or-run ()
+(defun my:go-install-or-run ()
   (interactive)
   (cond ((bound-and-true-p go-playground-mode)
          (go-playground-exec))
@@ -1271,7 +1294,7 @@ better to use ~clangStdenv~
   (setq go-playground-basedir "~/golang/src/playground")
   (setq gofmt-command "goimports")
   (setq godoc-at-point-function 'godoc-gogetdoc)
-  (add-hook 'go-mode-hook 'peter/go-mode-hook)
+  (add-hook 'go-mode-hook 'my:go-mode-hook)
   (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook (lambda ()
                             (set (make-local-variable 'company-backends) '(company-go company-files))
@@ -1383,8 +1406,8 @@ nixos config
 install intero in directory =~/.stack/global-project/=
 ~$HOME/.stack/config.yaml~
 #+BEGIN_SRC yaml
-          nix:
-            enable: true
+            nix:
+              enable: true
 #+END_SRC
 
 ~$HOME/.stack/global-project/stack.yaml~
@@ -1423,7 +1446,7 @@ nix:
               ("j" . pdf-view-next-line-or-next-page)
               ("k" . pdf-view-previous-line-or-previous-page)
               ("r" . tts/pdf-read-page)
-              ("d" . peter/pdf-dict)
+              ("d" . my:pdf-dict)
               ("TAB" . pdf-outline)
               :map pdf-outline-buffer-mode-map
               ("j" . next-line)
@@ -1431,7 +1454,7 @@ nix:
               ("RET" . pdf-outline-follow-link-and-quit))
   :config
   (pdf-tools-install)
-  (define-key pdf-view-mode-map (kbd "SPC") peter/leader-map))
+  (define-key pdf-view-mode-map (kbd "SPC") my:leader-map))
 
 (use-package org-noter
   :ensure t
@@ -1523,20 +1546,20 @@ nixos workaround
 #+END_SRC
 ** ElFeed
 #+BEGIN_SRC emacs-lisp
-(defun peter/elfeed-load-db-and-open ()
+(defun my:elfeed-load-db-and-open ()
   "Wrapper to load the elfeed db from disk before opening"
   (interactive)
   (elfeed-db-load)
   (elfeed)
   (elfeed-search-update--force))
 
-(defun peter/elfeed-save-db-and-bury ()
+(defun my:elfeed-save-db-and-bury ()
   "Wrapper to save the elfeed db to disk before burying buffer"
   (interactive)
   (elfeed-db-save)
   (quit-window))
 
-(defun peter/elfeed-mark-all-as-read ()
+(defun my:elfeed-mark-all-as-read ()
   "Mark all as read in current context."
   (interactive)
   (mark-whole-buffer)
@@ -1563,19 +1586,19 @@ nixos workaround
            (setq elfeed-search-filter ,filter))
        (elfeed-search-update :force))))
 
-(defun peter/elfeed-filter-all ()
+(defun my:elfeed-filter-all ()
   (interactive)
   (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread")))
 
-(defun peter/elfeed-filter-chinese ()
+(defun my:elfeed-filter-chinese ()
   (interactive)
   (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread +chinese")))
 
-(defun peter/elfeed-filter-youtube ()
+(defun my:elfeed-filter-youtube ()
   (interactive)
   (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread +youtube")))
 
-(defun peter/elfeed-filter-github ()
+(defun my:elfeed-filter-github ()
   (interactive)
   (call-interactively (elfeed-filter-wrapper "@6-months-ago +unread +github")))
 
@@ -1590,18 +1613,18 @@ nixos workaround
   :bind (:map elfeed-search-mode-map
               ("j" . next-line)
               ("k" . previous-line)
-              ("q" . peter/elfeed-save-db-and-bury)
-              ("R" . peter/elfeed-mark-all-as-read)
-              ("A" . peter/elfeed-filter-all)
-              ("C" . peter/elfeed-filter-chinese)
-              ("Y" . peter/elfeed-filter-youtube)
-              ("H" . peter/elfeed-filter-github)
+              ("q" . my:elfeed-save-db-and-bury)
+              ("R" . my:elfeed-mark-all-as-read)
+              ("A" . my:elfeed-filter-all)
+              ("C" . my:elfeed-filter-chinese)
+              ("Y" . my:elfeed-filter-youtube)
+              ("H" . my:elfeed-filter-github)
               ("v" . elfeed-search-mpv)
               :map elfeed-show-mode-map
               ("j" . scroll-up-line)
               ("k" . scroll-down-line))
   :config
-  (my/leader '(("9" . peter/elfeed-load-db-and-open)))
+  (my/leader '(("9" . my:elfeed-load-db-and-open)))
   (setq elfeed-curl-extra-arguments '("-x" "http://127.0.0.1:8123"))
   (setq elfeed-db-directory "~/Sync/elfeed")
   (defun my-elfeed-tag-sort (a b)
@@ -1675,7 +1698,7 @@ access yadm repo via tramp
   :config
   (my/leader '(("oo" . youdao-dictionary-search-at-point+))))
 
-(defun peter/pdf-dict ()
+(defun my:pdf-dict ()
   "pdf-tool dict"
   (interactive)
   (pdf-view-kill-ring-save)
@@ -1740,7 +1763,7 @@ access yadm repo via tramp
   :bind (:map rg-global-map
               ("n" . rg-search-nix))
   :config
-  (define-key peter/leader-map (kbd "ar") rg-global-map)
+  (define-key my:leader-map (kbd "ar") rg-global-map)
   (rg-define-search rg-search-nix
     "search nix files"
     :qusery ask
