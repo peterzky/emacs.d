@@ -239,7 +239,7 @@ operator ~,,~ as comment
                       (my:set-font select))))
 
 (defvar my:font-list
-  '("Hack-10" "Iosevka-12" "Fira Code-10"
+  '("Input-12" "Hack-10" "Iosevka-12" "Fira Code-10"
     "DejaVu Sans Mono-11"))
 #+END_SRC
 
@@ -886,7 +886,8 @@ bookmark tool
 
 (setq org-agenda-custom-commands
       '(("w" tags-todo "/WAIT")
-        ("d" tags-todo "/DONE|CANCELED")
+        ("d" tags "/DONE|CANCELED")
+        ("i" tags-todo "/INBOX")
         ("1" tags-todo "@high/NEXT")
         ("2" tags-todo "@medium/NEXT")
         ("3" tags-todo "@low/NEXT")
