@@ -304,6 +304,9 @@ operator ~,,~ as comment
 (my/leader '(("uo" . counsel-load-theme)
              ("ui" . my:font-select)
              ("uu" . my:switch-themes)))
+
+;; doom theme
+(doom-themes-org-config)
 #+END_SRC
 ** Mode Line
 *** Smart Mode Line
