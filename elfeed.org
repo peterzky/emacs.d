@@ -1,4 +1,4 @@
-* Imported Feeds            :elfeed:
+* Imported Feeds                                                     :elfeed:
 
 ** NixOS                                                             :nixos:
 *** [[http://planet.nixos.org/atom.xml][NixOS Planet]]
@@ -26,9 +26,9 @@
 *** [[http://webresourcesdepot.com/feed/][Web Resources Depot]]
 *** [[http://speckyboy.com/feed/][Speckyboy Web Design Magazine]]
 ** Unix/Linux                                                        :linux:
-*** [[http://feeds.feedburner.com/tecmint][Tecmint: Linux Howtos, Tutorials & Guides]]
-*** [[http://www.cyberciti.biz/feed/][nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format]]
-*** [[http://www.unixmen.com/feed/][Unixmen]]
+*** [[http://feeds.feedburner.com/tecmint][Tecmint: Linux Howtos, Tutorials & Guides]]                      :ignore:
+*** [[http://www.cyberciti.biz/feed/][nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format]] :ignore:
+*** [[http://www.unixmen.com/feed/][Unixmen]]                                                        :ignore:
 *** [[http://feeds.feedburner.com/codinghorror/][Coding Horror]]
 ** 中文                                                            :chinese:
 *** [[http://www.cnblogs.com/renly/rss][博客园_renly2013]]

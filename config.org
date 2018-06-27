@@ -228,8 +228,8 @@ operator ~,,~ as comment
 #+BEGIN_SRC emacs-lisp
 ;; pc specific font setting
 (when (string= (system-name) "nixos")
-  (add-to-list 'default-frame-alist '(font . "Input-13"))
-  (set-face-attribute 'default t :font "Input-13"))
+  (add-to-list 'default-frame-alist '(font . "Input-10.5"))
+  (set-face-attribute 'default t :font "Input-10.5"))
 
 (defun my:set-font (FONT)
   (interactive)
@@ -251,8 +251,26 @@ operator ~,,~ as comment
 ** Themes
 #+BEGIN_SRC emacs-lisp
 ;; theme packages
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using 'load-theme'")
+
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+
 (use-package color-theme-sanityinc-tomorrow :ensure t)
 (use-package doom-themes :ensure t)
+
+(defun my:doom-theme ()
+  (with-eval-after-load 'doom-spacegrey-theme
+    (doom-themes-set-faces
+      'doom-spacegrey
+      (org-level-1 :foreground (doom-color 'fg) :weight 'ultra-bold :height 1.0 :background (doom-color 'bg))
+      (org-block-begin-line :foreground (doom-color 'base) :slant 'italic :background (doom-color 'bg))
+      (org-block :background (doom-color 'bg)))))
+
+(add-hook 'after-load-theme-hook 'my:doom-theme)
+
 
 (defvar my:dark-light-themes
   '(doom-spacegrey
@@ -295,6 +313,7 @@ operator ~,,~ as comment
 
   (progn
     (load-theme my:theme t)
+
     (if (display-graphic-p)
         (setq my:theme-window-loaded t)
       (setq my:theme-terminal-loaded t))))
@@ -304,9 +323,6 @@ operator ~,,~ as comment
 (my/leader '(("uo" . counsel-load-theme)
              ("ui" . my:font-select)
              ("uu" . my:switch-themes)))
-
-;; doom theme
-(doom-themes-org-config)
 #+END_SRC
 ** Mode Line
 *** Smart Mode Line
@@ -555,8 +571,7 @@ popup window for better experience
          :map org-mode-map
          ("C-M-;" . avy-org-refile-as-child)
          :map evil-normal-state-map
-         ("s" . avy-goto-char)
-         ("S" . avy-goto-word-1)))
+         ("s" . avy-goto-char)))
 #+END_SRC
 *** Expand Region
 #+BEGIN_SRC emacs-lisp
