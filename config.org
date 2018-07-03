@@ -1469,10 +1469,12 @@ nix:
               :map pdf-outline-buffer-mode-map
               ("j" . next-line)
               ("k" . previous-line)
-              ("RET" . pdf-outline-follow-link-and-quit))
+              ("RET" . pdf-outline-follow-link-and-quit)
+              :map my:leader-map
+              ("i" . counsel-imenu))
   :config
-  (pdf-tools-install)
-  (define-key pdf-view-mode-map (kbd "SPC") my:leader-map))
+  (define-key pdf-view-mode-map (kbd "SPC") my:leader-map)
+  (pdf-tools-install))
 
 (use-package org-noter
   :ensure t
