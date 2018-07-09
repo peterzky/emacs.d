@@ -1757,20 +1757,12 @@ access yadm repo via tramp
 
 (define-key org-mode-map (kbd "C-c d i") 'my:org-download-insert-image)
 #+END_SRC
-** RipGrep
+** Deadgrep
 #+BEGIN_SRC emacs-lisp
-(use-package rg
+(use-package deadgrep
   :ensure t
-  :bind (:map rg-global-map
-              ("n" . rg-search-nix))
   :config
-  (define-key my:leader-map (kbd "ar") rg-global-map)
-  (rg-define-search rg-search-nix
-    "search nix files"
-    :qusery ask
-    :format regexp
-    :files "nix"
-    :dir "/nix/var/nix/profiles/per-user/root/channels/nixos"))
+  (define-key my:leader-map (kbd "ar") 'deadgrep))
 #+END_SRC
 ** TTS - Text to Speech
 #+BEGIN_SRC emacs-lisp
