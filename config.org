@@ -644,7 +644,7 @@ popup window for better experience
   :config
   (defvar my:projectile-ignored-directories
     '("node_modules" "Godeps"))
-  (projectile-global-mode)
+  (projectile-mode)
   (cl-loop for dir in my:projectile-ignored-directories
            do (add-to-list 'projectile-globally-ignored-directories dir)))
 #+END_SRC
@@ -1437,7 +1437,7 @@ nix:
 ** PDF Tools
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
-  :ensure t
+  :defer t
   :magic ("%PDF" . pdf-view-mode)
   :hook ((pdf-view-mode pdf-outline-buffer-mode) . hide-mode-line-mode)
   :bind (:map pdf-view-mode-map
@@ -1488,21 +1488,6 @@ nix:
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 #+END_SRC
 *** Mu4e
-nixos workaround
-#+BEGIN_SRC emacs-lisp :tangle (if (executable-find "nix-env") "yes" "no")
-;; nixos add to load path
-(let ((mu4epath
-       (concat
-        (f-dirname
-         (file-truename
-          (executable-find "mu")))
-        "/../share/emacs/site-lisp/mu4e")))
-  (when (and
-         (string-prefix-p "/nix/store/" mu4epath)
-         (file-directory-p mu4epath))
-    (add-to-list 'load-path mu4epath)))
-#+END_SRC
-
 #+BEGIN_SRC emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
 (use-package evil-mu4e :ensure t)
 
