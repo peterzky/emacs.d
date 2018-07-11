@@ -45,6 +45,7 @@
 *** [[http://www.waerfa.com/feed][Mac玩儿法 | Mac软件下载 | Mac软件推荐]]
 *** [[http://blog.csdn.net/liuyukuan/rss/list][liuyukuan的专栏]]
 *** [[http://www.tennfy.com/feed][TENNFY WU]]
+*** [[https://linux.cn/rss.xml][Linux中国]]                                                       :linux:
 ** blog
 *** [[http://htedsv.logdown.com/posts.rss][htedsv&#39;s Blog]]
 *** [[http://maybeiwill.me/feed/][MAYBEIWILL]]
