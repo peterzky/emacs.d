@@ -1440,6 +1440,7 @@ nix:
 ; jupyter notebook
 (use-package ein
   :ensure t
+  :demand
   :bind (:map ein:notebook-mode-map
               ("<M-S-return>" . ein:worksheet-execute-all-cell)
               ("C-c C-d" . ein:pytools-request-help))
