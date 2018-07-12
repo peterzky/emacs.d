@@ -503,7 +503,6 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package eyebrowse
   :ensure t
-  :init (setq eyebrowse-keymap-prefix (kbd "C-c C-b"))
   :bind (("M-1" . eyebrowse-switch-to-window-config-1)
          ("M-2" . eyebrowse-switch-to-window-config-2)
          ("M-3" . eyebrowse-switch-to-window-config-3)
@@ -517,6 +516,7 @@ popup window for better experience
          ("M-]" . eyebrowse-next-window-config)
          ("M-[" . eyebrowse-prev-window-config))
   :config
+  (setq eyebrowse-keymap-prefix nil)
   (setq eyebrowse-new-workspace t)
   (eyebrowse-mode t))
 #+END_SRC
@@ -1442,7 +1442,8 @@ nix:
   :ensure t
   :demand
   :bind (:map ein:notebook-mode-map
-              ("<M-S-return>" . ein:worksheet-execute-all-cell)
+              ("<f5>" . ein:worksheet-execute-all-cell)
+              ("<f6>" . ein:worksheet-clear-all-output)
               ("C-c C-d" . ein:pytools-request-help))
   :config
   (setq ein:completion-backend 'ein:use-company-backend)
