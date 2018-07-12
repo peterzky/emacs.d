@@ -112,6 +112,7 @@
   :init (setq evil-respect-visual-line-mode t)
   :config
   (evil-mode 1)
+  (define-key evil-normal-state-map (kbd "M-.") nil)
   (setq evil-insert-state-map (make-sparse-keymap))
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
   (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
@@ -186,7 +187,7 @@
                       org-capture-mode-hook git-commit-mode-hook))
 
 (defvar my:emacs-state-minor-modes
-  '(edebug-mode))
+  '(edebug-mode view-mode))
 
 
 (my:evil-state 'evil-motion-state-modes my:motion-state-modes)
@@ -1439,6 +1440,9 @@ nix:
 ; jupyter notebook
 (use-package ein
   :ensure t
+  :bind (:map ein:notebook-mode-map
+              ("<M-S-return>" . ein:worksheet-execute-all-cell)
+              ("C-c C-d" . ein:pytools-request-help))
   :config
   (setq ein:completion-backend 'ein:use-company-backend)
   (setq ein:jupyter-server-args '("--no-browser"))
