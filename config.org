@@ -1434,6 +1434,17 @@ nix:
   (intero-global-mode 1))
 #+END_SRC
 * Utilities
+** Jupyter Notebook
+#+BEGIN_SRC emacs-lisp
+; jupyter notebook
+(use-package ein
+  :ensure t
+  :config
+  (setq ein:completion-backend 'ein:use-company-backend)
+  (setq ein:jupyter-server-args '("--no-browser"))
+  (my/leader '(("8" . ein:jupyter-server-start)
+               ("7" . ein:jupyter-server-stop))))
+#+END_SRC
 ** PDF Tools
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools

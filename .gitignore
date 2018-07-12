@@ -44,3 +44,4 @@ config.el
 /.#tramp
 /.#.org-id-locations
 /persp-confs/*
+request/
