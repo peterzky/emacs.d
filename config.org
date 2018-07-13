@@ -687,6 +687,7 @@ popup window for better experience
   :bind (("C-x g" . magit-status))
   :config
   (setq magit-auto-revert-immediately t)
+  (define-key magit-status-mode-map "j" #'evil-next-line)
   (my/leader
    '(("gs" . magit-status))))
 #+END_SRC
@@ -710,6 +711,14 @@ popup window for better experience
   :diminish git-gutter-mode
   :config
   (global-git-gutter-mode +1))
+#+END_SRC
+*** Magit Todos
+#+BEGIN_SRC emacs-lisp
+(use-package magit-todos
+  :ensure t
+  :config
+  (setq magit-todos-section-map nil)
+  (magit-todos-mode))
 #+END_SRC
 ** Interface Enhancement
 *** Helpful
