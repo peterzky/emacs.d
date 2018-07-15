@@ -1449,7 +1449,6 @@ nix:
 ; jupyter notebook
 (use-package ein
   :ensure t
-  :demand
   :bind (:map ein:notebook-mode-map
               ("<f5>" . ein:worksheet-execute-all-cell)
               ("<f6>" . ein:worksheet-clear-all-output)
