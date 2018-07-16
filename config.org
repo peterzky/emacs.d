@@ -865,7 +865,7 @@ bookmark tool
 
 ;; Org Babel
 (setq org-src-window-setup 'current-window)
-(setq org-src-preserve-indentation t)
+(setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0
       org-src-tab-acts-natively t
       org-src-fontify-natively t
@@ -885,9 +885,8 @@ bookmark tool
 #+BEGIN_SRC emacs-lisp
 ;; todo keywords
 (setq org-todo-keywords
-      '((sequence "INBOX(i)" "PROJ(p)" "NEXT(n)" "WAIT(w@/!)"
-                  "MAYBE(m)"  "|" "DONE(d)" "REF(r)" "CANCELED(c@)")
-        (sequence "REPEAT(R)" "|" "DONE")))
+      '((sequence "NEXT(n)" "WAIT(w@/!)" "MAYBE(m)"  "|" "DONE(d)" "REF(r)" "CANCELED(c@)")
+        (sequence "INBOX(i)" "PROJ(p)" "REPEAT(R)" "|" "DONE")))
 
 ;; tags
 (setq org-tag-alist '((:startgrouptag) ("@high") (:grouptags)
@@ -934,6 +933,9 @@ bookmark tool
 (setq org-log-into-drawer t)
 (setq org-agenda-window-setup 'current-window)
 
+(setq org-clock-persist t)
+(setq org-clock-persist-file "~/Sync/org/org-clock-save.el")
+
 ;; custom agenda
 (setq org-indirect-buffer-display 'current-window)
 (setq org-agenda-skip-scheduled-if-done t)
@@ -953,7 +955,7 @@ bookmark tool
 (defun my:org-buffer-files ()
   "Return list of opened orgmode buffer files"
   (mapcar (function buffer-file-name)
-          (org-buffer-list 'files)))
+          (cl-remove-if-not 'buffer-file-name (org-buffer-list 'files))))
 
 (setq org-refile-targets '((nil :maxlevel . 2)
                            (my:org-buffer-files :maxlevel . 3)
@@ -1036,12 +1038,17 @@ bookmark tool
          "* %? :journal: \nEntered on %U\n %i\n")
         ("r" "Weekly Review" entry (file+olp+datetree "~/Sync/org/agenda/archive.org")
          "* Weekly Review %U :review: \n %(my:gen-weekly-review)")
-        ("p" "org-protocol" entry (file "~/Sync/org/agenda/inbox.org")
-         "* %:description\n=Source=: %:link\n#+BEGIN_QUOTE\n%:initial\n#+END_QUOTE"
-         :empty-line 1)
-        ("L" "org-protocol-link" entry (file "~/Sync/org/agenda/inbox.org")
-         "* [[%:link][%:description]]\n"
-         :empty-line 1)
+        ("c" "Clocking Item" item (clock)
+         "- %?")
+        ("p" "org-protocol" item (clock)
+         "- %:description \n  =Source:= [[%:link][link]]\n  #+BEGIN_QUOTE\n%:initial\n  #+END_QUOTE\n"
+         :empty-line 1
+         :immediate-finish t
+         )
+        ("l" "org-protocol-link" item (clock)
+         "- [[%:link][%:description]]\n"
+         :empty-line 1
+         :immediate-finish t)
         ))
 
 (defvar my:org-refile-index 0
