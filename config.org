@@ -274,7 +274,8 @@ operator ~,,~ as comment
 
 
 (defvar my:dark-light-themes
-  '(doom-spacegrey
+  '(adwaita
+    doom-spacegrey
     doom-opera-light))
 
 (defun my:switch-themes ()
@@ -465,7 +466,7 @@ operator ~,,~ as comment
          ("C-c ye" . aya-expand)))
 #+END_SRC
 ** Window Control
-*** Popwin
+*** COMMENT Popwin
 popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package popwin
@@ -499,7 +500,7 @@ popup window for better experience
 (cl-loop for conf in my:popup-config
          do (push conf popwin:special-display-config))
 #+END_SRC
-*** Eyebrowse
+*** COMMENT Eyebrowse
 #+BEGIN_SRC emacs-lisp
 (use-package eyebrowse
   :ensure t
@@ -527,6 +528,75 @@ popup window for better experience
   :bind (("M-`" . ace-window))
   :config
   (setq aw-scope 'frame))
+#+END_SRC
+*** Purpose
+#+BEGIN_SRC emacs-lisp
+(use-package window-purpose
+  :ensure t
+  :config
+  (purpose-mode))
+#+END_SRC
+*** Persp Mode
+#+BEGIN_SRC emacs-lisp
+(use-package persp-mode
+  :ensure t
+  :bind-keymap ("C-q" . persp-key-map)
+  :config
+  (setq persp-auto-save-opt 0)
+  (setq persp-auto-resume-time -1.0)
+
+  ;; indirect buffer
+  (with-eval-after-load "persp-mode"
+    (defvar persp-indirrect-buffers-to-restore nil)
+
+    (persp-def-buffer-save/load
+     :tag-symbol 'def-indirect-buffer
+     :predicate #'buffer-base-buffer
+     :save-function
+     #'(lambda (buf tag vars)
+         (list tag (buffer-name buf) vars
+               (buffer-name (buffer-base-buffer))))
+     :load-function
+     #'(lambda (savelist &rest _rest)
+         (destructuring-bind
+             (buf-name vars base-buf-name &rest _rest) (cdr savelist)
+           (push (cons buf-name base-buf-name)
+                 persp-indirrect-buffers-to-restore)
+           nil)))
+
+    (add-hook 'persp-after-load-state-functions
+              #'(lambda (&rest _args)
+                  (dolist (ibc persp-indirrect-buffers-to-restore)
+                    (let* ((nbn (car ibc))
+                           (bbn (cdr ibc))
+                           (bb (get-buffer bbn)))
+                      (when bb
+                        (when (get-buffer nbn)
+                          (setq nbn (generate-new-buffer-name nbn)))
+                        (make-indirect-buffer bb nbn t))))
+                  (setq persp-indirrect-buffers-to-restore nil))))
+
+  ;; ivy
+  (with-eval-after-load "persp-mode"
+    (with-eval-after-load "ivy"
+      (add-hook 'ivy-ignore-buffers
+                #'(lambda (b)
+                    (when persp-mode
+                      (let ((persp (get-current-persp)))
+                        (if persp
+                            (not (persp-contain-buffer-p b persp))
+                          nil)))))
+
+      (setq ivy-sort-functions-alist
+            (append ivy-sort-functions-alist
+                    '((persp-kill-buffer   . nil)
+                      (persp-remove-buffer . nil)
+                      (persp-add-buffer    . nil)
+                      (persp-switch        . nil)
+                      (persp-window-switch . nil)
+                      (persp-frame-switch . nil))))))
+
+  (persp-mode))
 #+END_SRC
 ** Editing
 *** ISpell
@@ -723,7 +793,13 @@ popup window for better experience
 ** Interface Enhancement
 *** Helpful
 #+BEGIN_SRC emacs-lisp
-(use-package helpful :ensure t)
+(use-package helpful
+  :ensure t
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h F" . helpful-function)
+         ("C-h C" . helpful-command)))
 #+END_SRC
 *** Rainbow Mode
 #+BEGIN_SRC emacs-lisp
