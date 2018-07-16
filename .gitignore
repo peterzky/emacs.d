@@ -45,3 +45,4 @@ config.el
 /.#.org-id-locations
 /persp-confs/*
 request/
+layouts/*
