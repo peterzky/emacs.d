@@ -1239,6 +1239,10 @@ bookmark tool
 #+BEGIN_SRC emacs-lisp
 (use-package nix-sandbox :ensure t)
 (use-package nix-mode :ensure t)
+(use-package nix-update
+  :ensure t
+  :bind (:map nix-mode-map
+              ("C-c .u" . nix-update-fetch)))
 
 (add-hook 'comint-mode-hook 'nix-prettify-mode)
 
