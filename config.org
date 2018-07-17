@@ -485,7 +485,7 @@ operator ~,,~ as comment
 #+BEGIN_SRC emacs-lisp
 (use-package persp-mode
   :ensure t
-  :bind-keymap ("C-c ." . persp-key-map)
+  :bind-keymap ("C-q" . persp-key-map)
   :config
   (setq persp-auto-save-opt 0)
   (setq persp-auto-resume-time -1.0)
