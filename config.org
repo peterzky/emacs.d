@@ -489,6 +489,7 @@ operator ~,,~ as comment
   :config
   (setq persp-auto-save-opt 0)
   (setq persp-auto-resume-time -1.0)
+  (setq persp-init-frame-behaviour nil)
 
   ;; indirect buffer
   (with-eval-after-load "persp-mode"
@@ -1029,6 +1030,7 @@ bookmark tool
 (defun polybar-pomodoro ()
   (interactive)
   (format "%s %s" (polybar-timer) (polybar-clock)))
+
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
