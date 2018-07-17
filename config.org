@@ -487,9 +487,10 @@ operator ~,,~ as comment
   :ensure t
   :bind-keymap ("C-q" . persp-key-map)
   :config
-  (setq persp-auto-save-opt 0)
-  (setq persp-auto-resume-time -1.0)
-  (setq persp-init-frame-behaviour nil)
+  (setq persp-auto-save-opt 0
+        persp-auto-resume-time -1.0
+        persp-init-frame-behaviour nil
+        persp-set-last-persp-for-new-frames nil)
 
   ;; indirect buffer
   (with-eval-after-load "persp-mode"
