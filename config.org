@@ -602,8 +602,10 @@ operator ~,,~ as comment
 (use-package visual-regexp-steroids
   :demand t
   :ensure t
-  :bind (:map esc-map
-              ("C-s" . vr/query-replace))
+  :bind (("M-%" . vr/query-replace)
+         :map esc-map
+              ("C-s" . vr/isearch-forward)
+              ("C-r" . vr/isearch-backward))
   :config
   (setq vr/auto-show-help nil))
 #+END_SRC
@@ -822,6 +824,14 @@ bookmark tool
   :ensure t
   :bind (("C-h m" . discover-my-major)
          ("C-h C-m" . discover-my-mode)))
+#+END_SRC
+*** Anzu
+#+BEGIN_SRC emacs-lisp
+(use-package anzu
+  :ensure t
+  :diminish anzu-mode
+  :config
+  (global-anzu-mode +1))
 #+END_SRC
 * Org Mode
 ** Org Mode General
