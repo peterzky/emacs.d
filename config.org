@@ -103,6 +103,14 @@
   (interactive)
   (let ((url (read-string "url: ")))
     (shell-command (concat "curl -Ls -x socks5://127.0.0.1:1080 " url) t)))
+
+(defun my:save-all ()
+  "Save all file-visiting buffers without prompting"
+  (interactive)
+  (save-some-buffers t))
+
+(add-hook 'focus-out-hook 'my:save-all)
+
 #+END_SRC
 * Evil Mode
 ** Evil General
@@ -1483,14 +1491,16 @@ nix:
 #+BEGIN_SRC emacs-lisp
 ; jupyter notebook
 (use-package ein
-  :ensure t
+  ;; :ensure t
+  :demand
+  :init
+  (setq ein:completion-backend 'ein:use-company-backend)
+  (setq ein:jupyter-server-args '("--no-browser"))
   :bind (:map ein:notebook-mode-map
               ("<f5>" . ein:worksheet-execute-all-cell)
               ("<f6>" . ein:worksheet-clear-all-output)
               ("C-c C-d" . ein:pytools-request-help))
   :config
-  (setq ein:completion-backend 'ein:use-company-backend)
-  (setq ein:jupyter-server-args '("--no-browser"))
   (my/leader '(("8" . ein:jupyter-server-start)
                ("7" . ein:jupyter-server-stop))))
 #+END_SRC
