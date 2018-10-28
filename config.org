@@ -271,7 +271,7 @@ operator ~,,~ as comment
 (use-package doom-themes :ensure t)
 
 (defun my:doom-theme ()
-  (with-eval-after-load 'doom-spacegrey-theme
+  (with-eval-after-load 'doom-city-lights-theme
     (doom-themes-set-faces
       'doom-spacegrey
       (org-level-1 :foreground (doom-color 'fg) :weight 'ultra-bold :height 1.0 :background (doom-color 'bg))
@@ -282,7 +282,8 @@ operator ~,,~ as comment
 
 
 (defvar my:dark-light-themes
-  '(adwaita
+  '(doom-city-lights
+    adwaita
     doom-spacegrey
     doom-opera-light))
 
@@ -420,7 +421,8 @@ operator ~,,~ as comment
 (use-package ivy-rich
   :ensure t
   :config
-  (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+  ;; (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+  (ivy-rich-mode 1)
   (setq ivy-virtual-abbreviate 'full
         ivy-rich-switch-buffer-align-virtual-buffer t)
   (setq ivy-rich-abbreviate-paths t))
@@ -805,6 +807,7 @@ Open file with sudo if needed
   (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
   (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
 (add-hook 'ibuffer-mode-hook 'my:ibuffer-mode-hook)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
 *** IMenu Anywhere
 #+BEGIN_SRC emacs-lisp
@@ -1204,7 +1207,9 @@ bookmark tool
 ** Nix
 #+BEGIN_SRC emacs-lisp
 (use-package nix-sandbox :ensure t)
-(use-package nix-mode :ensure t)
+(use-package nix-mode
+  :magic ("\.nix$" . nix-mode)
+  :ensure t)
 (use-package nix-update
   :ensure t
   :bind (:map nix-mode-map
@@ -1245,7 +1250,7 @@ use ~load-cpp-env~
   (lsp-enable-imenu)
   (rainbow-mode -1)
   (crux-reopen-as-root-mode -1)
-  (local-set-key [f5] 'nix-run)
+  ;; (local-set-key [f5] 'nix-run)
   (local-set-key (kbd "C-c C-j") 'xref-find-definitions)
   (local-set-key (kbd "C-c C-f") 'lsp-format-buffer)
   (local-set-key (kbd "C-c C-d") 'zeal-at-point)
@@ -1487,7 +1492,7 @@ nix:
   (intero-global-mode 1))
 #+END_SRC
 * Utilities
-** Jupyter Notebook
+** COMMENT Jupyter Notebook
 #+BEGIN_SRC emacs-lisp
 ; jupyter notebook
 (use-package ein
@@ -1856,6 +1861,13 @@ access yadm repo via tramp
   ("k" backward-paragraph)
   ("i" tts/read-paragraph "read paragraph")
   ("SPC" tts/read-paragraph-forward "read forward"))
+#+END_SRC
+** Direnv
+#+BEGIN_SRC emacs-lisp
+(use-package direnv
+  :ensure t
+  :config
+  (direnv-mode))
 #+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp

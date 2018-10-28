@@ -14,6 +14,7 @@
 *** [[https://github.com/cmcaine/tridactyl/releases.atom][tridactyl]]
 *** [[https://github.com/rndusr/stig/releases.atom][stig]]
 *** [[https://github.com/mooz/xkeysnail/releases.atom][xkeysnail]]
+*** [[https://github.com/trazyn/ieaseMusic/releases.atom][ieaseMusic]]
 ** Emacs                                                             :emacs:
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
 ** Web Dev                                                          :ignore:
