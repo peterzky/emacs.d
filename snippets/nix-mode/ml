@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: ml
+# key: ml
+# --
+with import <nixpkgs> {};
+stdenv.mkDerivation {
+  name = "env";
+  buildInputs = [
+    bashInteractive
+    (python3.withPackages (ps: with ps;
+          [opencv3 tensorflow numpy matplotlib scipy elpy yapf pip jedi pillow pandas jupyter ipython]))
+  ];
+}

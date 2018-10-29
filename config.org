@@ -223,7 +223,8 @@ operator ~,,~ as comment
 (use-package evil-nerd-commenter
   :ensure t
   :config
-  (evilnc-default-hotkeys))
+  ;; (evilnc-default-hotkeys)
+  )
 #+END_SRC
 ** Evil Surround
 #+BEGIN_SRC emacs-lisp
@@ -259,81 +260,81 @@ operator ~,,~ as comment
 
 ** Themes
 #+BEGIN_SRC emacs-lisp
-;; theme packages
-(defvar after-load-theme-hook nil
-  "Hook run after a color theme is loaded using 'load-theme'")
+  ;; theme packages
+  (defvar after-load-theme-hook nil
+    "Hook run after a color theme is loaded using 'load-theme'")
 
-(defadvice load-theme (after run-after-load-theme-hook activate)
-  "Run `after-load-theme-hook'."
-  (run-hooks 'after-load-theme-hook))
+  (defadvice load-theme (after run-after-load-theme-hook activate)
+    "Run `after-load-theme-hook'."
+    (run-hooks 'after-load-theme-hook))
 
-(use-package color-theme-sanityinc-tomorrow :ensure t)
-(use-package doom-themes :ensure t)
+  (use-package color-theme-sanityinc-tomorrow :ensure t)
+  (use-package doom-themes :ensure t)
 
-(defun my:doom-theme ()
-  (with-eval-after-load 'doom-city-lights-theme
-    (doom-themes-set-faces
-      'doom-spacegrey
-      (org-level-1 :foreground (doom-color 'fg) :weight 'ultra-bold :height 1.0 :background (doom-color 'bg))
-      (org-block-begin-line :foreground (doom-color 'base) :slant 'italic :background (doom-color 'bg))
-      (org-block :background (doom-color 'bg)))))
+  ;; (defun my:doom-theme ()
+  ;;   (with-eval-after-load 'doom-city-lights-theme
+  ;;     (doom-themes-set-faces
+  ;;       'doom-spacegrey
+  ;;       ;(outline-1 :foreground (doom-color 'fg) :weight 'ultra-bold :height 1.0 :background (doom-color 'bg))
+  ;;       (org-block-begin-line :foreground (doom-color 'base) :slant 'italic :background (doom-color 'bg))
+  ;;       (org-block :background (doom-color 'bg)))))
 
-(add-hook 'after-load-theme-hook 'my:doom-theme)
-
-
-(defvar my:dark-light-themes
-  '(doom-city-lights
-    adwaita
-    doom-spacegrey
-    doom-opera-light))
-
-(defun my:switch-themes ()
-  "switch between dark and light theme"
-  (interactive)
-  (let ((dark (car my:dark-light-themes))
-        (light (cadr my:dark-light-themes)))
-    (if (eq (car custom-enabled-themes) dark)
-        (progn
-          (mapcar 'disable-theme custom-enabled-themes)
-          (load-theme light t))
-      (progn
-        (mapcar 'disable-theme custom-enabled-themes)
-        (load-theme dark t)))))
-
-;; default theme
-(defvar my:theme (car my:dark-light-themes))
-
-;; solve partial loading theme issue
-(defvar my:theme-window-loaded nil)
-(defvar my:theme-terminal-loaded nil)
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions(lambda (frame)
-                                           (select-frame frame)
-                                           (if (window-system frame)
-                                               (unless my:theme-window-loaded
-                                                 (if my:theme-terminal-loaded
-                                                     (enable-theme my:theme)
-                                                   (load-theme my:theme t))
-                                                 (setq my:theme-window-loaded t))
-                                             (unless my:theme-terminal-loaded
-                                               (if my:theme-window-loaded
-                                                   (enable-theme my:theme)
-                                                 (load-theme my:theme t))
-                                               (setq my:theme-terminal-loaded t)))))
-
-  (progn
-    (load-theme my:theme t)
-
-    (if (display-graphic-p)
-        (setq my:theme-window-loaded t)
-      (setq my:theme-terminal-loaded t))))
+  ;; (add-hook 'after-load-theme-hook 'my:doom-theme)
 
 
+  (defvar my:dark-light-themes
+    '(doom-city-lights
+      adwaita
+      doom-spacegrey
+      doom-opera-light))
 
-(my/leader '(("uo" . counsel-load-theme)
-             ("ui" . my:font-select)
-             ("uu" . my:switch-themes)))
+  (defun my:switch-themes ()
+    "switch between dark and light theme"
+    (interactive)
+    (let ((dark (car my:dark-light-themes))
+	  (light (cadr my:dark-light-themes)))
+      (if (eq (car custom-enabled-themes) dark)
+	  (progn
+	    (mapcar 'disable-theme custom-enabled-themes)
+	    (load-theme light t))
+	(progn
+	  (mapcar 'disable-theme custom-enabled-themes)
+	  (load-theme dark t)))))
+
+  ;; default theme
+  (defvar my:theme (car my:dark-light-themes))
+
+  ;; solve partial loading theme issue
+  (defvar my:theme-window-loaded nil)
+  (defvar my:theme-terminal-loaded nil)
+
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions(lambda (frame)
+					     (select-frame frame)
+					     (if (window-system frame)
+						 (unless my:theme-window-loaded
+						   (if my:theme-terminal-loaded
+						       (enable-theme my:theme)
+						     (load-theme my:theme t))
+						   (setq my:theme-window-loaded t))
+					       (unless my:theme-terminal-loaded
+						 (if my:theme-window-loaded
+						     (enable-theme my:theme)
+						   (load-theme my:theme t))
+						 (setq my:theme-terminal-loaded t)))))
+
+    (progn
+      (load-theme my:theme t)
+
+      (if (display-graphic-p)
+	  (setq my:theme-window-loaded t)
+	(setq my:theme-terminal-loaded t))))
+
+
+
+  (my/leader '(("uo" . counsel-load-theme)
+	       ("ui" . my:font-select)
+	       ("uu" . my:switch-themes)))
 #+END_SRC
 ** Mode Line
 *** Smart Mode Line
@@ -1200,6 +1201,17 @@ bookmark tool
              ("aj" . org-clock-goto)))
 #+END_SRC
 * Programming Languages
+** COMMENT Eglot -- language server
+#+BEGIN_SRC emacs-lisp
+(use-package eglot
+  :ensure t
+  :bind (:map eglot-mode-map
+	      ("C-c C-r" . eglot-rename)
+	      ("C-c C-f" . eglot-format)
+	      ("C-c C-d" . eglot-help-at-point))
+  :config
+  (add-to-list 'eglot-server-programs '((c++ mode c-mode) . (eglot-cquery "cquery"))))
+#+END_SRC
 ** Documents
 #+BEGIN_SRC emacs-lisp
 (use-package zeal-at-point :ensure t)
@@ -1257,7 +1269,8 @@ use ~load-cpp-env~
   (local-set-key (kbd "C-c C-c") 'lsp-cquery-enable)
   (local-set-key (kbd "C-c C-l") 'cquery-freshen-index)
   (local-set-key (kbd "C-c C-r") 'lsp-restart-workspace)
-  (local-set-key (kbd "C-c r") 'lsp-rename))
+  (local-set-key (kbd "C-c r") 'lsp-rename)
+)
 
 (add-hook 'c-mode-common-hook 'my:c-mode-hook)
 
@@ -1407,7 +1420,7 @@ use ~load-cpp-env~
   :hook (emacs-lisp-mode-hook . rainbow-delimiters-mode)
   :ensure t)
 #+END_SRC
-** Rust
+** COMMENT Rust
 Rust-mode dependencies
 #+BEGIN_SRC sh :result no
 cargo install racer
@@ -1492,7 +1505,7 @@ nix:
   (intero-global-mode 1))
 #+END_SRC
 * Utilities
-** COMMENT Jupyter Notebook
+** Jupyter Notebook
 #+BEGIN_SRC emacs-lisp
 ; jupyter notebook
 (use-package ein
@@ -1501,10 +1514,10 @@ nix:
   :init
   (setq ein:completion-backend 'ein:use-company-backend)
   (setq ein:jupyter-server-args '("--no-browser"))
-  :bind (:map ein:notebook-mode-map
-              ("<f5>" . ein:worksheet-execute-all-cell)
-              ("<f6>" . ein:worksheet-clear-all-output)
-              ("C-c C-d" . ein:pytools-request-help))
+  ;; :bind (:map ein:notebook-mode-map
+  ;;             ("<f5>" . ein:worksheet-execute-all-cell)
+  ;;             ("<f6>" . ein:worksheet-clear-all-output)
+  ;;             ("C-c C-d" . ein:pytools-request-help))
   :config
   (my/leader '(("8" . ein:jupyter-server-start)
                ("7" . ein:jupyter-server-stop))))
