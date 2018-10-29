@@ -477,6 +477,63 @@ operator ~,,~ as comment
          ("C-c ye" . aya-expand)))
 #+END_SRC
 ** Window Control
+*** Popwin
+popup window for better experience
+#+BEGIN_SRC emacs-lisp
+(use-package popwin
+  :ensure t
+  :config
+  (setq popwin:popup-window-height 15)
+  (global-set-key (kbd "C-q") popwin:keymap)
+  (define-key popwin:keymap "q" 'popwin:close-popup-window)
+  (define-key popwin:keymap "o" 'popwin:original-display-last-buffer)
+  (define-key popwin:keymap "p" 'popwin:original-pop-to-last-buffer)
+  (popwin-mode 1))
+
+(defvar my:popup-config
+  '(("*Backtrace*" :regexp nil)
+    ("*warnings*" :regexp nil)
+    ("*Youdao Dictionary*" :regexp nil)
+    (" *undo-tree*" :position bottom)
+    (" *undo-tree Diff*" :position bottom)
+    ("*HS-Error*" :position bottom)
+    ("*Gofmt Errors*" :position bottom)
+    ("*Buffer List*" :position bottom)
+    ("*godoc <at point>*" :position bottom)
+    ("*Go Test*" :position bottom)
+    (vc-mode :noselect nil)
+    (compilation-mode :noselect nil)
+    (go-guru-output-mode :noselect nil)
+    (racer-help-mode :noselect nil)
+    (intero-help-mode :noselect nil)
+    (helpful-mode :noselect nil)))
+
+(cl-loop for conf in my:popup-config
+         do (push conf popwin:special-display-config))
+#+END_SRC
+*** Eyebrowse
+#+BEGIN_SRC emacs-lisp
+(use-package eyebrowse
+  :ensure t
+  :demand
+  :bind (("M-1" . eyebrowse-switch-to-window-config-1)
+         ("M-2" . eyebrowse-switch-to-window-config-2)
+         ("M-3" . eyebrowse-switch-to-window-config-3)
+         ("M-4" . eyebrowse-switch-to-window-config-4)
+         ("M-5" . eyebrowse-switch-to-window-config-5)
+         ("M-6" . eyebrowse-switch-to-window-config-6)
+         ("M-7" . eyebrowse-switch-to-window-config-7)
+         ("M-8" . eyebrowse-switch-to-window-config-8)
+         ("M-9" . eyebrowse-switch-to-window-config-9)
+         ("M-0" . eyebrowse-close-window-config)
+         ("M-]" . eyebrowse-next-window-config)
+         ("M-[" . eyebrowse-prev-window-config))
+  :config
+  (setq eyebrowse-keymap-prefix nil)
+  (setq eyebrowse-new-workspace t)
+  (eyebrowse-mode t))
+#+END_SRC
+
 *** Ace Window
 #+BEGIN_SRC emacs-lisp
 (use-package ace-window
@@ -484,77 +541,6 @@ operator ~,,~ as comment
   :bind (("M-`" . ace-window))
   :config
   (setq aw-scope 'frame))
-#+END_SRC
-*** Purpose
-#+BEGIN_SRC emacs-lisp
-(use-package window-purpose
-  :ensure t
-  :config
-  (purpose-mode))
-#+END_SRC
-*** Persp Mode
-#+BEGIN_SRC emacs-lisp
-(use-package persp-mode
-  :ensure t
-  :bind-keymap ("C-q" . persp-key-map)
-  :config
-  (setq persp-auto-save-opt 0
-        persp-auto-resume-time -1.0
-        persp-init-frame-behaviour nil
-        persp-set-last-persp-for-new-frames nil)
-
-  ;; indirect buffer
-  (with-eval-after-load "persp-mode"
-    (defvar persp-indirrect-buffers-to-restore nil)
-
-    (persp-def-buffer-save/load
-     :tag-symbol 'def-indirect-buffer
-     :predicate #'buffer-base-buffer
-     :save-function
-     #'(lambda (buf tag vars)
-         (list tag (buffer-name buf) vars
-               (buffer-name (buffer-base-buffer))))
-     :load-function
-     #'(lambda (savelist &rest _rest)
-         (destructuring-bind
-             (buf-name vars base-buf-name &rest _rest) (cdr savelist)
-           (push (cons buf-name base-buf-name)
-                 persp-indirrect-buffers-to-restore)
-           nil)))
-
-    (add-hook 'persp-after-load-state-functions
-              #'(lambda (&rest _args)
-                  (dolist (ibc persp-indirrect-buffers-to-restore)
-                    (let* ((nbn (car ibc))
-                           (bbn (cdr ibc))
-                           (bb (get-buffer bbn)))
-                      (when bb
-                        (when (get-buffer nbn)
-                          (setq nbn (generate-new-buffer-name nbn)))
-                        (make-indirect-buffer bb nbn t))))
-                  (setq persp-indirrect-buffers-to-restore nil))))
-
-  ;; ivy
-  (with-eval-after-load "persp-mode"
-    (with-eval-after-load "ivy"
-      (add-hook 'ivy-ignore-buffers
-                #'(lambda (b)
-                    (when persp-mode
-                      (let ((persp (get-current-persp)))
-                        (if persp
-                            (not (persp-contain-buffer-p b persp))
-                          nil)))))
-
-      (setq ivy-sort-functions-alist
-            (append ivy-sort-functions-alist
-                    '((persp-kill-buffer   . nil)
-                      (persp-remove-buffer . nil)
-                      (persp-add-buffer    . nil)
-                      (persp-switch        . nil)
-                      (persp-window-switch . nil)
-                      (persp-frame-switch . nil))))))
-
-  (persp-mode))
 #+END_SRC
 ** Editing
 *** ISpell
