@@ -260,81 +260,68 @@ operator ~,,~ as comment
 
 ** Themes
 #+BEGIN_SRC emacs-lisp
-  ;; theme packages
-  (defvar after-load-theme-hook nil
-    "Hook run after a color theme is loaded using 'load-theme'")
+;; theme packages
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using 'load-theme'")
 
-  (defadvice load-theme (after run-after-load-theme-hook activate)
-    "Run `after-load-theme-hook'."
-    (run-hooks 'after-load-theme-hook))
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
 
-  (use-package color-theme-sanityinc-tomorrow :ensure t)
-  (use-package doom-themes :ensure t)
+(use-package color-theme-sanityinc-tomorrow :ensure t)
+                                        ;(use-package doom-themes :ensure t)
 
-  ;; (defun my:doom-theme ()
-  ;;   (with-eval-after-load 'doom-city-lights-theme
-  ;;     (doom-themes-set-faces
-  ;;       'doom-spacegrey
-  ;;       ;(outline-1 :foreground (doom-color 'fg) :weight 'ultra-bold :height 1.0 :background (doom-color 'bg))
-  ;;       (org-block-begin-line :foreground (doom-color 'base) :slant 'italic :background (doom-color 'bg))
-  ;;       (org-block :background (doom-color 'bg)))))
+(defvar my:dark-light-themes
+  '(sanityinc-tomorrow-eighties
+    adwaita))
 
-  ;; (add-hook 'after-load-theme-hook 'my:doom-theme)
+(defun my:switch-themes ()
+  "switch between dark and light theme"
+  (interactive)
+  (let ((dark (car my:dark-light-themes))
+        (light (cadr my:dark-light-themes)))
+    (if (eq (car custom-enabled-themes) dark)
+        (progn
+          (mapcar 'disable-theme custom-enabled-themes)
+          (load-theme light t))
+      (progn
+        (mapcar 'disable-theme custom-enabled-themes)
+        (load-theme dark t)))))
 
+;; default theme
+(defvar my:theme (car my:dark-light-themes))
 
-  (defvar my:dark-light-themes
-    '(doom-city-lights
-      adwaita
-      doom-spacegrey
-      doom-opera-light))
+;; solve partial loading theme issue
+(defvar my:theme-window-loaded nil)
+(defvar my:theme-terminal-loaded nil)
 
-  (defun my:switch-themes ()
-    "switch between dark and light theme"
-    (interactive)
-    (let ((dark (car my:dark-light-themes))
-	  (light (cadr my:dark-light-themes)))
-      (if (eq (car custom-enabled-themes) dark)
-	  (progn
-	    (mapcar 'disable-theme custom-enabled-themes)
-	    (load-theme light t))
-	(progn
-	  (mapcar 'disable-theme custom-enabled-themes)
-	  (load-theme dark t)))))
+(if (daemonp)
+    (add-hook 'after-make-frame-functions(lambda (frame)
+                                           (select-frame frame)
+                                           (if (window-system frame)
+                                               (unless my:theme-window-loaded
+                                                 (if my:theme-terminal-loaded
+                                                     (enable-theme my:theme)
+                                                   (load-theme my:theme t))
+                                                 (setq my:theme-window-loaded t))
+                                             (unless my:theme-terminal-loaded
+                                               (if my:theme-window-loaded
+                                                   (enable-theme my:theme)
+                                                 (load-theme my:theme t))
+                                               (setq my:theme-terminal-loaded t)))))
 
-  ;; default theme
-  (defvar my:theme (car my:dark-light-themes))
+  (progn
+    (load-theme my:theme t)
 
-  ;; solve partial loading theme issue
-  (defvar my:theme-window-loaded nil)
-  (defvar my:theme-terminal-loaded nil)
-
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions(lambda (frame)
-					     (select-frame frame)
-					     (if (window-system frame)
-						 (unless my:theme-window-loaded
-						   (if my:theme-terminal-loaded
-						       (enable-theme my:theme)
-						     (load-theme my:theme t))
-						   (setq my:theme-window-loaded t))
-					       (unless my:theme-terminal-loaded
-						 (if my:theme-window-loaded
-						     (enable-theme my:theme)
-						   (load-theme my:theme t))
-						 (setq my:theme-terminal-loaded t)))))
-
-    (progn
-      (load-theme my:theme t)
-
-      (if (display-graphic-p)
-	  (setq my:theme-window-loaded t)
-	(setq my:theme-terminal-loaded t))))
+    (if (display-graphic-p)
+        (setq my:theme-window-loaded t)
+      (setq my:theme-terminal-loaded t))))
 
 
 
-  (my/leader '(("uo" . counsel-load-theme)
-	       ("ui" . my:font-select)
-	       ("uu" . my:switch-themes)))
+(my/leader '(("uo" . counsel-load-theme)
+             ("ui" . my:font-select)
+	     ("uu" . my:switch-themes)))
 #+END_SRC
 ** Mode Line
 *** Smart Mode Line
@@ -1284,16 +1271,8 @@ use ~load-cpp-env~
 #+END_SRC
 ** CMake
 #+BEGIN_SRC emacs-lisp
-(defun my:cmake-hook ()
-  (let ((cmake-path (nix-executable-find (nix-current-sandbox) "cmake")))
-    (setq cmake-mode-cmake-executable cmake-path)
-    (setq company-cmake-executable cmake-path)))
-
 (use-package cmake-mode
-  :ensure t
-  :config
-  (when (executable-find "nix-env")
-    (add-hook 'cmake-mode-hook 'my:cmake-hook)))
+  :ensure t)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -1498,7 +1477,7 @@ nix:
   ;; :ensure t
   :demand
   :init
-  (setq ein:completion-backend 'ein:use-company-backend)
+  ;; (setq ein:completion-backend 'ein:use-company-backend)
   (setq ein:jupyter-server-args '("--no-browser"))
   ;; :bind (:map ein:notebook-mode-map
   ;;             ("<f5>" . ein:worksheet-execute-all-cell)
