@@ -503,6 +503,9 @@ popup window for better experience
 (use-package eyebrowse
   :ensure t
   :demand
+  :init
+  (setq eyebrowse-keymap-prefix nil)
+  (setq eyebrowse-new-workspace t)
   :bind (("M-1" . eyebrowse-switch-to-window-config-1)
          ("M-2" . eyebrowse-switch-to-window-config-2)
          ("M-3" . eyebrowse-switch-to-window-config-3)
@@ -516,8 +519,6 @@ popup window for better experience
          ("M-]" . eyebrowse-next-window-config)
          ("M-[" . eyebrowse-prev-window-config))
   :config
-  (setq eyebrowse-keymap-prefix nil)
-  (setq eyebrowse-new-workspace t)
   (eyebrowse-mode t))
 #+END_SRC
 
