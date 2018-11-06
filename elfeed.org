@@ -16,6 +16,7 @@
 *** [[https://github.com/mooz/xkeysnail/releases.atom][xkeysnail]]
 *** [[https://github.com/trazyn/ieaseMusic/releases.atom][ieaseMusic]]
 *** [[https://github.com/MaskRay/ccls/releases.atom][ccls]]
+*** *[[https://github.com/trazyn/weweChat/releases.atom][weweChat]]
 ** Emacs                                                             :emacs:
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
 ** Web Dev                                                          :ignore:

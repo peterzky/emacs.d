@@ -504,7 +504,7 @@ popup window for better experience
   :ensure t
   :demand
   :init
-  (setq eyebrowse-keymap-prefix nil)
+  (setq eyebrowse-keymap-prefix (kbd "C-c C-]"))
   (setq eyebrowse-new-workspace t)
   :bind (("M-1" . eyebrowse-switch-to-window-config-1)
          ("M-2" . eyebrowse-switch-to-window-config-2)
