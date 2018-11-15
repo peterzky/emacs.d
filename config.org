@@ -241,6 +241,10 @@ operator ~,,~ as comment
   (add-to-list 'default-frame-alist '(font . "Input-10.5"))
   (set-face-attribute 'default t :font "Input-10.5"))
 
+(when (string= (system-name) "thinkpad")
+  (add-to-list 'default-frame-alist '(font . "Input-10"))
+  (set-face-attribute 'default t :font "Input-10"))
+
 (defun my:set-font (FONT)
   (interactive)
   (set-face-attribute 'default t :font FONT)
