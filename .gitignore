@@ -46,3 +46,4 @@ config.el
 /persp-confs/*
 request/
 layouts/*
+/.cache/*

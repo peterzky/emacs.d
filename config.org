@@ -1015,9 +1015,9 @@ bookmark tool
 
 (org-link-set-parameters "run" :follow 'my:run-link-open)
 
-(defun polybar-clock ()
+(defun xmobar-clock ()
   (if (org-clocking-p)
-      (substring-no-properties (org-clock-get-clock-string)) ""))
+      (xmobar-format "#f1c40f" "#9b59b6") ""))
 
 (defun polybar-timer ()
   (if (eq org-timer-countdown-timer 'nil)
@@ -1027,6 +1027,15 @@ bookmark tool
 (defun polybar-pomodoro ()
   (interactive)
   (format "%s %s" (polybar-timer) (polybar-clock)))
+
+(defun xmobar-color (col text)
+  (concat "<fc=" col ">" text "</fc>"))
+
+(defun xmobar-format (time-color task-color)
+    (let* ((timer-list (split-string (substring-no-properties (org-clock-get-clock-string)) "(" t ")"))
+        (time (substring (car timer-list) 2 -2))
+        (task (nth 1 timer-list)))
+   (concat "[" (xmobar-color time-color time) "] " (xmobar-color task-color task))))
 
 #+END_SRC
 ** Org Caputre
