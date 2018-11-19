@@ -1,0 +1,12 @@
+# key: dot
+# name: dot
+# --
+#+BEGIN_SRC sh :results code
+graph-easy << EOF
+digraph G {
+${0: a [label="hello"]
+     b [label="world"]
+     a -> b [label="to"]}
+}
+EOF
+#+END_SRC

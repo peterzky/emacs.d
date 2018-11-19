@@ -453,6 +453,7 @@ operator ~,,~ as comment
   :diminish yas-minor-mode
   :ensure t
   :config
+  (setq yas-indent-line 'fixed)
   (yas-global-mode 1)
   (my/leader
    '(("yn" . yas-new-snippet)
@@ -908,8 +909,8 @@ bookmark tool
 #+BEGIN_SRC emacs-lisp
 ;; todo keywords
 (setq org-todo-keywords
-      '((sequence "NEXT(n)" "WAIT(w@/!)" "MAYBE(m)"  "|" "DONE(d)" "REF(r)" "CANCELED(c@)")
-        (sequence "INBOX(i)" "PROJ(p)" "REPEAT(R)" "|" "DONE")))
+      '((sequence "TODO(t)" "NEXT(n)" "INBOX(i)" "WAIT(w@/!)" "MAYBE(m)"  "|" "DONE(d)" "CANCELED(c@)")
+        (sequence "REPEAT(R)" "|" "DONE")))
 
 ;; tags
 (setq org-tag-alist '((:startgrouptag) ("@high") (:grouptags)
@@ -928,7 +929,7 @@ bookmark tool
 (setq org-todo-keyword-faces
       '(("REF" . "#d35400")
         ("INBOX" . "#3498db")
-        ("PROJ" . "#9b59b6")
+        ("TODO" . "#9b59b6")
         ("MAYBE" . "#1abc9c")
         ("REPEAT" . "#3498db")
         ("WAIT" . "#f1c40f")
@@ -971,7 +972,7 @@ bookmark tool
         ("1" tags-todo "@high/NEXT")
         ("2" tags-todo "@medium/NEXT")
         ("3" tags-todo "@low/NEXT")
-        ("p" todo "PROJ")
+        ("n" todo "NEXT")
         ("b" tags-todo "/MAYBE")))
 
 ;; org refile
@@ -1488,8 +1489,8 @@ nix:
 #+BEGIN_SRC emacs-lisp
 ; jupyter notebook
 (use-package ein
-  ;; :ensure t
-  :demand
+  :ensure t
+  ;; :demand
   :init
   ;; (setq ein:completion-backend 'ein:use-company-backend)
   (setq ein:jupyter-server-args '("--no-browser"))
