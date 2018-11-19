@@ -721,7 +721,7 @@ popup window for better experience
   :config
   (global-git-gutter-mode +1))
 #+END_SRC
-*** Magit Todos
+*** COMMENT Magit Todos
 #+BEGIN_SRC emacs-lisp
 (use-package magit-todos
   :ensure t
