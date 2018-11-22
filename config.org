@@ -942,6 +942,9 @@ bookmark tool
         (66 . "#f1c40f")'
         (67 . "#2ecc71")))
 
+(setq org-stuck-projects
+      '("/TODO" ("NEXT") nil ""))
+
 (setq org-default-notes-file "~/Sync/sync/org/agenda/inbox.org")
 (setq org-archive-location"~/Sync/sync/org/agenda/archive.org::datetree/* Finished Tasks")
 (setq org-agenda-files (list "~/Sync/sync/org/agenda/inbox.org"
@@ -1045,7 +1048,6 @@ bookmark tool
         (time (substring (car timer-list) 2 -2))
         (task (nth 1 timer-list)))
    (concat "[" (xmobar-color time-color time) "] " (xmobar-color task-color task))))
-
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
