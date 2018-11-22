@@ -1089,6 +1089,10 @@ bookmark tool
          "- [[%:link][%:description]]\n"
          :empty-line 1
          :immediate-finish t)
+        ("L" "org-protocol-link" entry (file "~/Sync/sync/org/agenda/inbox.org")
+         "* INBOX [[%:link][%:description]]\n"
+         :empty-line 1
+         :immediate-finish t)
         ))
 
 (defvar my:org-refile-index 0
@@ -1133,6 +1137,53 @@ bookmark tool
   (setq org-download-method 'attach)
   (setq org-download-screenshot-method "maim -s %s")
   (setq org-download-edit-cmd "krita %s"))
+#+END_SRC
+** Org Protocol
+#+BEGIN_SRC emacs-lisp
+(defun org-protocol-context (info)
+
+  (if (and (boundp 'org-stored-links)
+           (org-protocol-do-capture-context info))
+      (message "Item captured."))
+  nil)
+
+
+(defun org-protocol-do-capture-context (info)
+  "Perform the actual capture based on INFO."
+  (let* ((temp-parts (org-protocol-parse-parameters info))
+         (parts
+	  (cond
+	   ((and (listp info) (symbolp (car info))) info)
+	   ((= (length (car temp-parts)) 1) ;; First parameter is exactly one character long
+	    (org-protocol-assign-parameters temp-parts '(:template :url :title :body)))
+	   (t
+	    (org-protocol-assign-parameters temp-parts '(:url :title :body)))))
+         ;; if clocking store link to clock item, else inbox
+         (template (if (org-clocking-p) "l" "L"))
+         (url (and (plist-get parts :url) (org-protocol-sanitize-uri (plist-get parts :url))))
+         (type (and url (if (string-match "^\\([a-z]+\\):" url)
+                            (match-string 1 url))))
+         (title (or (plist-get parts :title) ""))
+         (region (or (plist-get parts :body) ""))
+         (orglink (if url
+                      (org-make-link-string
+                       url (if (string-match "[^[:space:]]" title) title url))
+                    title))
+         (org-capture-link-is-already-stored t)) ;; avoid call to org-store-link
+    (setq org-stored-links
+          (cons (list url title) org-stored-links))
+    (org-store-link-props :type type
+                          :link url
+                          :description title
+                          :annotation orglink
+                          :initial region
+                          :query parts)
+    (raise-frame)
+    (funcall 'org-capture nil template)))
+
+
+(add-to-list 'org-protocol-protocol-alist
+             '("org-context" :protocol "context" :function org-protocol-context :kill-client t))
 #+END_SRC
 ** Org Export
 *** Org Htmlize
