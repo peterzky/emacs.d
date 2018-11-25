@@ -266,6 +266,13 @@ operator ~,,~ as comment
 
 ** Themes
 #+BEGIN_SRC emacs-lisp
+(use-package nimbus-theme :ensure t)
+(load-theme 'nimbus t)
+(load-theme 'smart-mode-line-dark t)
+#+END_SRC
+
+** COMMENT Themes Backup
+#+BEGIN_SRC emacs-lisp
 ;; theme packages
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using 'load-theme'")
@@ -274,11 +281,12 @@ operator ~,,~ as comment
   "Run `after-load-theme-hook'."
   (run-hooks 'after-load-theme-hook))
 
-(use-package color-theme-sanityinc-tomorrow :ensure t)
-                                        ;(use-package doom-themes :ensure t)
+;; (use-package color-theme-sanityinc-tomorrow :ensure t)
+(use-package nimbus-theme :ensure t)
+
 
 (defvar my:dark-light-themes
-  '(sanityinc-tomorrow-eighties
+  '(nimbus
     adwaita))
 
 (defun my:switch-themes ()
