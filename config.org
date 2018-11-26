@@ -736,7 +736,7 @@ Open file with sudo if needed
 *** IBuffer
 #+BEGIN_SRC emacs-lisp
 (defun my:ibuffer-mode-hook ()
-  ;(hl-line-mode)
+  (hl-line-mode)
   (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
   (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
 (add-hook 'ibuffer-mode-hook 'my:ibuffer-mode-hook)
@@ -960,8 +960,7 @@ bookmark tool
   (define-key org-agenda-mode-map (kbd "SPC") my:leader-map)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
   (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
-  ;(hl-line-mode)
-)
+  (hl-line-mode))
 
 (add-hook 'org-agenda-mode-hook 'my:agenda-mode-config)
 
