@@ -266,77 +266,15 @@ operator ~,,~ as comment
 
 ** Themes
 #+BEGIN_SRC emacs-lisp
-(use-package nimbus-theme :ensure t)
-(load-theme 'nimbus t)
-(load-theme 'smart-mode-line-dark t)
-#+END_SRC
-
-** COMMENT Themes Backup
-#+BEGIN_SRC emacs-lisp
-;; theme packages
-(defvar after-load-theme-hook nil
-  "Hook run after a color theme is loaded using 'load-theme'")
-
-(defadvice load-theme (after run-after-load-theme-hook activate)
-  "Run `after-load-theme-hook'."
-  (run-hooks 'after-load-theme-hook))
-
-;; (use-package color-theme-sanityinc-tomorrow :ensure t)
-(use-package nimbus-theme :ensure t)
-
-
-(defvar my:dark-light-themes
-  '(nimbus
-    adwaita))
-
-(defun my:switch-themes ()
-  "switch between dark and light theme"
-  (interactive)
-  (let ((dark (car my:dark-light-themes))
-        (light (cadr my:dark-light-themes)))
-    (if (eq (car custom-enabled-themes) dark)
-        (progn
-          (mapcar 'disable-theme custom-enabled-themes)
-          (load-theme light t))
-      (progn
-        (mapcar 'disable-theme custom-enabled-themes)
-        (load-theme dark t)))))
-
-;; default theme
-(defvar my:theme (car my:dark-light-themes))
-
-;; solve partial loading theme issue
-(defvar my:theme-window-loaded nil)
-(defvar my:theme-terminal-loaded nil)
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions(lambda (frame)
-                                           (select-frame frame)
-                                           (if (window-system frame)
-                                               (unless my:theme-window-loaded
-                                                 (if my:theme-terminal-loaded
-                                                     (enable-theme my:theme)
-                                                   (load-theme my:theme t))
-                                                 (setq my:theme-window-loaded t))
-                                             (unless my:theme-terminal-loaded
-                                               (if my:theme-window-loaded
-                                                   (enable-theme my:theme)
-                                                 (load-theme my:theme t))
-                                               (setq my:theme-terminal-loaded t)))))
-
-  (progn
-    (load-theme my:theme t)
-
-    (if (display-graphic-p)
-        (setq my:theme-window-loaded t)
-      (setq my:theme-terminal-loaded t))))
-
-
+(use-package lab-themes :ensure t)
+(load-theme 'lab-dark t)
 
 (my/leader '(("uo" . counsel-load-theme)
              ("ui" . my:font-select)
-	     ("uu" . my:switch-themes)))
+             ("uu" . lab-themes-switch-style)))
+
 #+END_SRC
+
 ** Mode Line
 *** Smart Mode Line
 #+BEGIN_SRC emacs-lisp
@@ -344,7 +282,7 @@ operator ~,,~ as comment
   :ensure t
   :init
   (setq sml/no-confirm-load-theme t
-        sml/theme nil
+        sml/theme 'respectful
         sml/mode-width 'full
         sml/vc-mode-show-backend t
         projectile-mode-line nil)
@@ -630,10 +568,10 @@ popup window for better experience
 *** Direds/Ranger
 #+BEGIN_SRC emacs-lisp
 ;; hl-line-mode face
-(setq hl-line-face 'ivy-current-match)
+;(setq hl-line-face 'ivy-current-match)
 
 (defun my:dired-mode-hook ()
-  (hl-line-mode)
+  ;(hl-line-mode)
   (define-key dired-mode-map "l" 'dired-find-file)
   (define-key dired-mode-map "h" 'dired-up-directory)
   (define-key dired-mode-map "j" 'dired-next-line)
@@ -793,7 +731,7 @@ Open file with sudo if needed
 *** IBuffer
 #+BEGIN_SRC emacs-lisp
 (defun my:ibuffer-mode-hook ()
-  (hl-line-mode)
+  ;(hl-line-mode)
   (define-key ibuffer-mode-map "j" 'ibuffer-forward-line)
   (define-key ibuffer-mode-map "k" 'ibuffer-backward-line))
 (add-hook 'ibuffer-mode-hook 'my:ibuffer-mode-hook)
@@ -1017,7 +955,8 @@ bookmark tool
   (define-key org-agenda-mode-map (kbd "SPC") my:leader-map)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
   (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
-  (hl-line-mode))
+  ;(hl-line-mode)
+)
 
 (add-hook 'org-agenda-mode-hook 'my:agenda-mode-config)
 
