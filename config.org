@@ -265,9 +265,14 @@ operator ~,,~ as comment
 #+END_SRC
 
 ** Themes
+- badwolf theme : dark high-contrast
+- jbean: flat dark
+- kaolin: kalin-dark
 #+BEGIN_SRC emacs-lisp
 (use-package lab-themes :ensure t)
-(load-theme 'lab-dark t)
+(use-package kaolin-themes :ensure t)
+
+(load-theme 'kaolin-dark t)
 
 (my/leader '(("uo" . counsel-load-theme)
              ("ui" . my:font-select)
