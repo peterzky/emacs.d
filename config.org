@@ -1218,7 +1218,9 @@ bookmark tool
 (use-package nix-sandbox :ensure t)
 (use-package nix-mode
   :magic ("\.nix$" . nix-mode)
-  :ensure t)
+  :ensure t
+  :config
+  (setq nix-indent-function 'nix-indent-line))
 (use-package nix-update
   :ensure t
   :bind (:map nix-mode-map
