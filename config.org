@@ -917,7 +917,7 @@ bookmark tool
 
 ;; org clock
 (setq org-clock-clocked-in-display nil)
-(setq org-clock-out-remove-zero-time-clocks t)
+;; (setq org-clock-out-remove-zero-time-clocks t)
 (setq org-clock-persist 'history)
 (setq org-clock-persist-query-resume nil)
 (setq org-clock-persist-file "~/Sync/sync/org/org-clock-save.el")
@@ -1828,7 +1828,14 @@ access yadm repo via tramp
 (use-package deadgrep
   :ensure t
   :config
-  (define-key my:leader-map (kbd "ar") 'deadgrep))
+  (define-key my:leader-map (kbd "ar") 'deadgrep)
+
+  (defun nixpkgs-deadgrep ()
+    "override path to nixpkgs, create a shortcut for searching in nixpkgs"
+    (interactive)
+    (cl-flet ((deadgrep--project-root nil "~/.nix-defexpr/channels_root/nixos/"))
+      (call-interactively 'deadgrep)))
+  (define-key my:leader-map (kbd "an") 'nixpkgs-deadgrep))
 #+END_SRC
 ** TTS - Text to Speech
 #+BEGIN_SRC emacs-lisp
