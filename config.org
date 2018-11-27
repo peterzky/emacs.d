@@ -915,8 +915,15 @@ bookmark tool
 (setq org-log-into-drawer t)
 (setq org-agenda-window-setup 'current-window)
 
-(setq org-clock-persist t)
+;; org clock
+(setq org-clock-clocked-in-display nil)
+(setq org-clock-out-remove-zero-time-clocks t)
+(setq org-clock-persist 'history)
+(setq org-clock-persist-query-resume nil)
 (setq org-clock-persist-file "~/Sync/sync/org/org-clock-save.el")
+(add-hook 'org-clock-out-hook 'org-clock-save)
+(add-hook 'org-clock-cancel-hook 'org-clock-save)
+(org-clock-load)
 
 ;; custom agenda
 (setq org-indirect-buffer-display 'current-window)
@@ -998,7 +1005,8 @@ bookmark tool
     (let* ((timer-list (split-string (substring-no-properties (org-clock-get-clock-string)) "(" t ")"))
         (time (substring (car timer-list) 2 -2))
         (task (nth 1 timer-list)))
-   (concat "[" (xmobar-color time-color time) "] " (xmobar-color task-color task))))
+      (concat "<fn=1>\xf00c</fn>  "
+       "[" (xmobar-color time-color time) "] " (xmobar-color task-color task))))
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
@@ -1091,6 +1099,8 @@ bookmark tool
 #+END_SRC
 ** Org Protocol
 #+BEGIN_SRC emacs-lisp
+(require 'org-capture)
+(require 'org-protocol)
 (defun org-protocol-context (info)
 
   (if (and (boundp 'org-stored-links)
@@ -1101,14 +1111,7 @@ bookmark tool
 
 (defun org-protocol-do-capture-context (info)
   "Perform the actual capture based on INFO."
-  (let* ((temp-parts (org-protocol-parse-parameters info))
-         (parts
-	  (cond
-	   ((and (listp info) (symbolp (car info))) info)
-	   ((= (length (car temp-parts)) 1) ;; First parameter is exactly one character long
-	    (org-protocol-assign-parameters temp-parts '(:template :url :title :body)))
-	   (t
-	    (org-protocol-assign-parameters temp-parts '(:url :title :body)))))
+  (let* ((parts info)
          ;; if clocking store link to clock item, else inbox
          (template (if (org-clocking-p) "l" "L"))
          (url (and (plist-get parts :url) (org-protocol-sanitize-uri (plist-get parts :url))))
