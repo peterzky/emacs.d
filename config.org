@@ -1837,7 +1837,8 @@ access yadm repo via tramp
   (defun nixpkgs-deadgrep ()
     "override path to nixpkgs, create a shortcut for searching in nixpkgs"
     (interactive)
-    (cl-flet ((deadgrep--project-root nil "~/.nix-defexpr/channels_root/nixos/"))
+    (let ((deadgrep-project-root-function
+           (lambda nil "~/.nix-defexpr/channels_root/nixos/")))
       (call-interactively 'deadgrep)))
   (define-key my:leader-map (kbd "an") 'nixpkgs-deadgrep))
 #+END_SRC
