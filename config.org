@@ -942,7 +942,7 @@ bookmark tool
         ("2" tags-todo "@medium/NEXT")
         ("3" tags-todo "@low/NEXT")
         ("n" todo "NEXT")
-        ("b" tags-todo "/MAYBE")))
+        ("b" tags-todo "/MAYBE|WAIT")))
 
 ;; org refile
 (defun my:org-buffer-files ()
