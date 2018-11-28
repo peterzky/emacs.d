@@ -903,7 +903,11 @@ bookmark tool
                              "~/Sync/sync/org/agenda/area.org"
                              "~/Sync/sync/org/agenda/resource.org"))
 (setq org-directory "~/Sync/sync/org")
-(setq org-agenda-text-search-extra-files '("~/Sync/sync/org/agenda/archive.org"))
+
+(setq org-agenda-text-search-extra-files
+      (append (directory-files-recursively "~/Sync/sync/org/wiki" "\.org$" )
+            (list "~/Sync/sync/org/agenda/archive.org")))
+
 (setq org-archive-subtree-add-inherited-tags t)
 
 (setq org-attach-store-link-p 'attached)
