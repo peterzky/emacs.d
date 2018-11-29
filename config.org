@@ -344,7 +344,7 @@ operator ~,,~ as comment
          ("C-l" . ivy-backward-delete-char))
   :config
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
+  (setq ivy-use-virtual-buffers nil
         enable-recursive-minibuffers t
         ivy-initial-inputs-alist nil
         ivy-use-selectable-prompt t
@@ -1105,11 +1105,13 @@ bookmark tool
 #+BEGIN_SRC emacs-lisp
 (require 'org-capture)
 (require 'org-protocol)
+(require 'notifications)
+
 (defun org-protocol-context (info)
 
   (if (and (boundp 'org-stored-links)
            (org-protocol-do-capture-context info))
-      (message "Item captured."))
+      (notifications-notify :title "Item Captured."))
   nil)
 
 
