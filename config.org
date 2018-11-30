@@ -644,10 +644,13 @@ popup window for better experience
 ;; update version control
 (setq auto-revert-check-vc-info t)
 
+(global-auto-revert-mode +1)
+
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status))
   :config
+  (magit-auto-revert-mode -1)
   (setq magit-auto-revert-immediately t)
   (define-key magit-status-mode-map "j" #'evil-next-line)
   (my/leader
