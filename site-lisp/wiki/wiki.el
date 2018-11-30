@@ -79,6 +79,7 @@
 #+DESCRIPTION:
 #+KEYWORDS:
 #+STARTUP: overview
+#+CATEGORY: WIKI
 
 Related: [[wiki:index][Index]]")
 	    (file-name-base (buffer-file-name))))))
