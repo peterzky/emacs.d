@@ -1892,10 +1892,6 @@ access yadm repo via tramp
   :config
   (direnv-mode))
 #+END_SRC
-** Restart Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package restart-emacs :ensure t)
-#+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp
 (diminish 'auto-revert-mode)
