@@ -642,7 +642,9 @@ popup window for better experience
 *** Magit
 #+BEGIN_SRC emacs-lisp
 ;; update version control
-(setq auto-revert-check-vc-info t)
+(setq auto-revert-check-vc-info nil)
+
+(setq auto-revert-buffer-list-filter 'magit-auto-revert-repository-buffer-p)
 
 (global-auto-revert-mode +1)
 
