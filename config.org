@@ -190,7 +190,7 @@
 (defvar my:emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
                 intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-                elfeed-show-mode finder-mode image-mode))
+                elfeed-show-mode finder-mode image-mode deadgrep-mode))
 
 (defvar my:insert-state-hooks
   '(org-src-mode-hook org-log-buffer-setup-hook
@@ -363,14 +363,14 @@ operator ~,,~ as comment
      ("gg" . counsel-git-grep)
      ("ff" . counsel-find-file))))
 
-(use-package ivy-rich
-  :ensure t
-  :config
-  ;; (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
-  (ivy-rich-mode 1)
-  (setq ivy-virtual-abbreviate 'full
-        ivy-rich-switch-buffer-align-virtual-buffer t)
-  (setq ivy-rich-abbreviate-paths t))
+;; (use-package ivy-rich
+;;   :ensure t
+;;   :config
+;;   ;; (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+;;   (ivy-rich-mode 1)
+;;   (setq ivy-virtual-abbreviate 'full
+;;         ivy-rich-switch-buffer-align-virtual-buffer t)
+;;   (setq ivy-rich-abbreviate-paths t))
 
 ;; for edit in C-c C-o
 (use-package wgrep :ensure t)
@@ -679,7 +679,7 @@ popup window for better experience
   :config
   (global-git-gutter-mode +1))
 #+END_SRC
-*** COMMENT Magit Todos
+*** Magit Todos
 #+BEGIN_SRC emacs-lisp
 (use-package magit-todos
   :ensure t
@@ -1246,7 +1246,8 @@ use ~load-cpp-env~
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode :ensure t
   :config
-  (require 'lsp-imenu))
+  ;(require 'lsp-imenu)
+)
 
 (use-package company-lsp
   :ensure t
@@ -1271,7 +1272,7 @@ use ~load-cpp-env~
   (setq-local zeal-at-point-docset '("c++" "glib" "opencv"))
   (google-set-c-style)
   (google-make-newline-indent)
-  (lsp-enable-imenu)
+  ;(lsp-enable-imenu)
   (rainbow-mode -1)
   (crux-reopen-as-root-mode -1)
   ;; (local-set-key [f5] 'nix-run)
@@ -1838,6 +1839,10 @@ access yadm repo via tramp
 #+BEGIN_SRC emacs-lisp
 (use-package deadgrep
   :ensure t
+  :demand
+  :bind (:map deadgrep-mode-map
+              ("j" . deadgrep-forward)
+              ("k" . deadgrep-backward))
   :config
   (define-key my:leader-map (kbd "ar") 'deadgrep)
 
