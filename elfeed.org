@@ -12,11 +12,12 @@
 *** [[https://github.com/ranger/ranger/releases.atom][ranger]]
 *** [[https://github.com/wangyu-/UDPspeeder/releases.atom][UDPspeeder]]
 *** [[https://github.com/cmcaine/tridactyl/releases.atom][tridactyl]]
-*** [[https://github.com/rndusr/stig/releases.atom][stig]]
+*** [[https://github.com/rndusr/stig/releases.atom][stig]]                                                           :ignore:
 *** [[https://github.com/mooz/xkeysnail/releases.atom][xkeysnail]]
-*** [[https://github.com/trazyn/ieaseMusic/releases.atom][ieaseMusic]]
+*** [[https://github.com/trazyn/ieaseMusic/releases.atom][ieaseMusic]]                                                     :ignore:
 *** [[https://github.com/MaskRay/ccls/releases.atom][ccls]]
-*** *[[https://github.com/trazyn/weweChat/releases.atom][weweChat]]
+*** *[[https://github.com/trazyn/weweChat/releases.atom][weweChat]]                                                       :ignore:
+*** [[https://github.com/shadowsocks/shadowsocks-libev/releases.atom][shadowsocks-libev]]
 ** Emacs                                                             :emacs:
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
 ** Web Dev                                                          :ignore:
