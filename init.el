@@ -2,10 +2,18 @@
 
 (require 'package)
 (setq package-enable-at-startup nil)
+
+;; china mirror
+
+;; (setq package-archives
+;;       '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+;; 	("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+;; 	("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/" )))
+
 (setq package-archives
-      '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-	("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-	("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/" )))
+      '(("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/")
+        ("org" . "https://orgmode.org/elpa/")))
 
 (package-initialize)
 
