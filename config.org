@@ -1684,7 +1684,7 @@ nix:
 (defun browse-url-mpv (url)
   (interactive)
   (call-process-shell-command
-   (format "tmux new-window -n mpv \"http_proxy=http://127.0.0.1:8123 https_proxy=http://127.0.0.1:8123 mpv --ytdl-format mp4 '%s'\"" url) nil 0))
+   (format "tmux new-window -n mpv \"mpv --ytdl-format mp4 '%s'\"" url) nil 0))
 
 
 (use-package elfeed
@@ -1704,7 +1704,7 @@ nix:
               ("k" . scroll-down-line))
   :config
   (my/leader '(("9" . my:elfeed-load-db-and-open)))
-  (setq elfeed-curl-extra-arguments '("-x" "http://127.0.0.1:8123"))
+  ;; (setq elfeed-curl-extra-arguments '("-x" "http://127.0.0.1:8123"))
   (setq elfeed-db-directory "~/Sync/sync/elfeed")
   (defun my-elfeed-tag-sort (a b)
     (let* ((a-tags (format "%s" (elfeed-entry-tags a)))

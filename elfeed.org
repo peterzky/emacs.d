@@ -18,6 +18,7 @@
 *** [[https://github.com/MaskRay/ccls/releases.atom][ccls]]
 *** *[[https://github.com/trazyn/weweChat/releases.atom][weweChat]]                                                       :ignore:
 *** [[https://github.com/shadowsocks/shadowsocks-libev/releases.atom][shadowsocks-libev]]
+*** [[https://github.com/v2ray/v2ray-core/releases.atom][v2ray]]
 ** Emacs                                                             :emacs:
 *** [[http://planet.emacsen.org/atom.xml][Planet Emacsen]]
 ** Web Dev                                                          :ignore:
@@ -39,16 +40,16 @@
 *** [[http://feeds.feedburner.com/ruanyifeng][阮一峰的网络日志]]
 *** [[http://wangbixi.com/feed/][王跸西的生命体验blog-WangBiXi.com]]
 *** [[http://mindhacks.cn/feed/][刘未鹏 | Mind Hacks]]
-*** [[http://blog.zhaojie.me/rss][老赵点滴 - 追求编程之美]]                                        :ignore:
-*** [[http://feed.williamlong.info/][月光博客]]                                                       :ignore:
 *** [[http://feeds.feedburner.com/playpc][電腦玩物]]
 *** [[http://sspai.com/feed][少数派]]
-*** [[http://feeds.geekpark.net/][极客公园-GeekPark]]                                              :ignore:
-*** [[http://feed.iplaysoft.com/][异次元软件世界]]                                                 :ignore:
-*** [[http://www.ifanr.com/feed][爱范儿]]
-*** [[http://www.waerfa.com/feed][Mac玩儿法 | Mac软件下载 | Mac软件推荐]]
 *** [[http://blog.csdn.net/liuyukuan/rss/list][liuyukuan的专栏]]
 *** [[http://www.tennfy.com/feed][TENNFY WU]]
+*** [[http://www.ifanr.com/feed][爱范儿]]                                                         :ignore:
+*** [[http://www.waerfa.com/feed][Mac玩儿法 | Mac软件下载 | Mac软件推荐]]                          :ignore:
+*** [[http://blog.zhaojie.me/rss][老赵点滴 - 追求编程之美]]                                        :ignore:
+*** [[http://feed.williamlong.info/][月光博客]]                                                       :ignore:
+*** [[http://feeds.geekpark.net/][极客公园-GeekPark]]                                              :ignore:
+*** [[http://feed.iplaysoft.com/][异次元软件世界]]                                                 :ignore:
 *** [[https://linux.cn/rss.xml][Linux中国]]                                                       :linux:
 ** blog
 *** [[http://htedsv.logdown.com/posts.rss][htedsv&#39;s Blog]]
