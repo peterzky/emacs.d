@@ -174,6 +174,7 @@
    ("fep" . ,(my:edit-file "~/Sync/sync/org/agenda/project.org"))
    ("fer" . ,(my:edit-file "~/Sync/sync/org/agenda/resource.org"))
    ("feA" . ,(my:edit-file "~/Sync/sync/org/agenda/archive.org"))
+   ("few" . ,(my:edit-file "~/Sync/sync/org/web-archive/web-archive.org"))
    ("TAB" . my:switch-buffer)))
 #+END_SRC
 ** Evil State
@@ -911,7 +912,8 @@ bookmark tool
 
 (setq org-agenda-text-search-extra-files
       (append (directory-files-recursively "~/Sync/sync/org/wiki" "\.org$" )
-            (list "~/Sync/sync/org/agenda/archive.org")))
+            (list "~/Sync/sync/org/agenda/archive.org"
+                  "~/Sync/sync/org/web-archive/web-archive.org")))
 
 (setq org-archive-subtree-add-inherited-tags t)
 
@@ -1042,6 +1044,11 @@ bookmark tool
 (setq org-capture-templates
       '(("i" "Inbox" entry (file "~/Sync/sync/org/agenda/inbox.org")
          "* INBOX %?\n %i\n")
+        ("b" "org board capture" entry
+             (file+headline "~/Sync/sync/org/web-archive/web-archive.org" "Unsorted")
+             "* %?%:description\n:PROPERTIES:\n:URL: %:link\n:END:\n\n Added %U"
+             :immediate-finish t
+             )
         ("j" "Journal" entry (file+olp+datetree "~/Sync/sync/org/agenda/archive.org")
          "* %? :journal: \nEntered on %U\n %i\n")
         ("r" "Weekly Review" entry (file+olp+datetree "~/Sync/sync/org/agenda/archive.org")
@@ -1062,6 +1069,18 @@ bookmark tool
          :empty-line 1
          :immediate-finish t)
         ))
+;; org-board
+(use-package org-board :ensure t)
+
+(define-key org-mode-map (kbd "C-c o") org-board-keymap)
+
+(defun do-org-board-dl-hook ()
+  (when (equal (buffer-name)
+               (concat "CAPTURE-" "web-archive.org"))
+    (org-board-archive)))
+
+(add-hook 'org-capture-before-finalize-hook 'do-org-board-dl-hook)
+
 
 (defvar my:org-refile-index 0
   "Indicator for org-caputre-refile, if 0 delete frame if 1 no delete ")
