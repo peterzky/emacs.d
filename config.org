@@ -783,6 +783,14 @@ bookmark tool
   :config
   (global-anzu-mode +1))
 #+END_SRC
+*** Ace Link
+#+BEGIN_SRC emacs-lisp
+(use-package ace-link
+  :ensure t
+  :config
+  (ace-link-setup-default)
+  (define-key org-mode-map (kbd "M-o") 'ace-link-org))
+#+END_SRC
 * Org Mode
 ** Org Mode General
 #+BEGIN_SRC emacs-lisp
@@ -1100,7 +1108,8 @@ bookmark tool
       (delete-frame)))
 
 (defun my:org-agenda-quit-delete-frame (orig-fun &rest args)
-  (if (equal "org-agenda" (frame-parameter nil 'name))
+  (if (or (equal "org-agenda" (frame-parameter nil 'name))
+          (equal "ORG" (frame-parameter nil 'name)))
       (delete-frame)
     (call-interactively orig-fun)))
 
@@ -1191,7 +1200,7 @@ bookmark tool
             (org-mime-change-element-style
              "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
 #+END_SRC
-*** Org Latex
+*** COMMENT Org Latex
 #+BEGIN_SRC emacs-lisp
 ;; inline latex fragment
 (plist-put org-format-latex-options :scale 2)
@@ -1208,6 +1217,38 @@ bookmark tool
 (setq tex-command "xelatex")
 (setq-default TeX-engine 'xelatex)
 #+END_SRC
+*** Org Latex
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-pdf-process
+      '("xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"))
+(setq tex-compile-commands '(("xelatex %r")))
+(setq tex-command "xelatex")
+(setq-default TeX-engine 'xelatex)
+(setq org-latex-classes
+      '(("article"
+	 "
+\\documentclass{ctexart}
+\\usepackage{hyperref}
+\\hypersetup{
+  colorlinks=true,
+  linkcolor=[rgb]{0,0.37,0.53},
+  citecolor=[rgb]{0,0.47,0.68},
+  filecolor=[rgb]{0,0.37,0.53},
+  urlcolor=[rgb]{0,0.37,0.53},
+  pagebackref=true,
+  linktoc=all,}
+	 "
+
+	 ("\\section{%s}" . "\\section*{%s}")
+	 ("\\subsection{%s}" . "\\subsection*{%s}")
+	 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+	))
+#+END_SRC
+
 *** Org Publish
 #+BEGIN_SRC emacs-lisp
 (use-package ox-twbs
@@ -1655,7 +1696,9 @@ nix:
   "Wrapper to save the elfeed db to disk before burying buffer"
   (interactive)
   (elfeed-db-save)
-  (quit-window))
+  (quit-window)
+  (if (equal "ORG" (frame-parameter nil 'name))
+      (delete-frame)))
 
 (defun my:elfeed-mark-all-as-read ()
   "Mark all as read in current context."
@@ -1924,6 +1967,16 @@ access yadm repo via tramp
   :ensure t
   :bind (:map my:leader-map
               ("d" . docker)))
+#+END_SRC
+** XMonad Integration
+
+#+BEGIN_SRC emacs-lisp
+(defun my:org-workspace-delete-frame (orig-fun &rest args)
+  (if (equal "ORG" (frame-parameter nil 'name))
+      (delete-frame)
+    (call-interactively orig-fun)))
+
+(advice-add 'mu4e~stop :around #'my:org-workspace-delete-frame)
 #+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp
