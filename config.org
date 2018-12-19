@@ -769,7 +769,8 @@ bookmark tool
          ("C-<f2>" . bm-toggle))
   :config
   (setq bm-cycle-all-buffers t)
-  (setq bm-highlight-style 'bm-highlight-only-fringe))
+  (setq bm-highlight-style 'bm-highlight-only-fringe)
+  (define-key evil-normal-state-map (kbd "M") 'bm-toggle))
 #+END_SRC
 *** Discover Major
 #+BEGIN_SRC emacs-lisp
