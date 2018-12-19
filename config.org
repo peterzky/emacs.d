@@ -608,7 +608,7 @@ popup window for better experience
 (use-package projectile
   :ensure t
   :config
-  (setq projectile-switch-project-action 'projectile-recentf)
+  ;(setq projectile-switch-project-action 'projectile-recentf)
   (defvar my:projectile-ignored-directories
     '("node_modules" "Godeps"))
   (projectile-mode)
@@ -1202,23 +1202,6 @@ bookmark tool
           (lambda ()
             (org-mime-change-element-style
              "blockquote" "border-left: 2px solid gray; padding-left: 4px;")))
-#+END_SRC
-*** COMMENT Org Latex
-#+BEGIN_SRC emacs-lisp
-;; inline latex fragment
-(plist-put org-format-latex-options :scale 2)
-
-(setq org-export-with-toc nil
-      org-export-with-entities nil
-      org-export-with-section-numbers nil
-      org-export-with-todo-keywords nil)
-
-(setq org-latex-pdf-process
-      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-(setq tex-compile-commands '(("xelatex %r")))
-(setq tex-command "xelatex")
-(setq-default TeX-engine 'xelatex)
 #+END_SRC
 *** Org Latex
 #+BEGIN_SRC emacs-lisp
