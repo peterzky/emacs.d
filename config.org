@@ -50,6 +50,8 @@
     (setq browse-url-browser-function 'browse-url-generic
           browse-url-generic-program "firefox"))
 
+;; use package statistics
+(setq use-package-compute-statistics t)
 #+END_SRC
 ** Functions
 #+BEGIN_SRC emacs-lisp
@@ -606,6 +608,7 @@ popup window for better experience
 (use-package projectile
   :ensure t
   :config
+  (setq projectile-switch-project-action 'projectile-recentf)
   (defvar my:projectile-ignored-directories
     '("node_modules" "Godeps"))
   (projectile-mode)
@@ -1652,6 +1655,8 @@ nix:
 
 (add-to-list 'mu4e-view-actions
              '("browser" . mu4e-action-view-in-browser) t)
+
+(define-key mu4e-view-mode-map (kbd "M-o") 'ace-link-mu4e)
 
 (setq mu4e-maildir "~/.mail")
 
