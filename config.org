@@ -764,6 +764,7 @@ bookmark tool
 #+BEGIN_SRC emacs-lisp
 (use-package bm
   :ensure t
+  :demand
   :bind (("<f2>" . bm-next)
          ("S-<f2>" . bm-previous)
          ("C-<f2>" . bm-toggle))
