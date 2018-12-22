@@ -913,7 +913,7 @@ bookmark tool
         (67 . "#2ecc71")))
 
 (setq org-stuck-projects
-      '("/TODO" ("NEXT") nil ""))
+      '("/TODO" ("NEXT") ("reminder") ""))
 
 (setq org-default-notes-file "~/Sync/sync/org/agenda/inbox.org")
 (setq org-archive-location"~/Sync/sync/org/agenda/archive.org::datetree/* Finished Tasks")
