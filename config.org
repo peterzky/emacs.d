@@ -1208,16 +1208,37 @@ bookmark tool
 *** Org Latex
 #+BEGIN_SRC emacs-lisp
 (setq org-latex-pdf-process
-      '("xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"))
+      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 (setq tex-compile-commands '(("xelatex %r")))
 (setq tex-command "xelatex")
 (setq-default TeX-engine 'xelatex)
+(require 'ox-latex)
+
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+
+;; minted language support
+(add-to-list 'org-latex-minted-langs '(go "go"))
+(add-to-list 'org-latex-minted-langs '(nix "nix"))
+(add-to-list 'org-latex-minted-langs '(python "python"))
+(add-to-list 'org-latex-minted-langs '(json "json"))
+(add-to-list 'org-latex-minted-langs '(yaml "yaml"))
+(add-to-list 'org-latex-minted-langs '(haskell "haskell"))
+(add-to-list 'org-latex-minted-langs '(js "js"))
+
+(setq org-latex-minted-options
+         '(("frame" "lines")
+           ("mathescape" "")
+           ;; ("fontsize" "\\scriptsize")
+           ;; ("linenos" "")
+           ))
+
 (setq org-latex-classes
       '(("article"
 	 "
-\\documentclass{ctexart}
+\\documentclass[8pt]{article}
 \\usepackage{hyperref}
 \\hypersetup{
   colorlinks=true,
@@ -1258,8 +1279,8 @@ bookmark tool
 \\pagestyle{empty} % no page number
 
 \\usepackage{multicol}
-
 \\usepackage{vmargin}
+
 \\setpapersize[landscape]{A4}
 \\setmarginsrb
 {1.5cm}  % left
@@ -1292,7 +1313,6 @@ bookmark tool
            :publishing-function org-twbs-publish-to-html
            :with-sub-superscript nil))))
 #+END_SRC
-**
 ** Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
 (load (concat user-emacs-directory "site-lisp/wiki/wiki.el"))
