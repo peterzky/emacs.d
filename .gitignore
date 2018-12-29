@@ -47,3 +47,5 @@ config.el
 request/
 layouts/*
 /.cache/*
+/games/tetris-scores
+/games/*
