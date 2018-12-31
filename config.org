@@ -895,6 +895,43 @@ bookmark tool
 
 (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 #+END_SRC
+** Org Narrow
+#+BEGIN_SRC emacs-lisp
+(defun my:org-narrow-forward ()
+  "Move to the next subtree at same level, and narrow to it."
+  (interactive)
+  (widen)
+  (org-forward-heading-same-level 1)
+  (org-narrow-to-subtree))
+
+
+(defun my:org-narrow-backward ()
+  "Move to the previous subtree at same level, and narrow to it."
+  (interactive)
+  (widen)
+  (org-backward-heading-same-level 1)
+  (org-narrow-to-subtree))
+
+(defun my:org-narrow-forward-advice (orig-func &rest args)
+  (interactive)
+  (if (and (derived-mode-p 'org-mode)
+           (buffer-narrowed-p))
+      (call-interactively 'my:org-narrow-forward)
+    (apply orig-func args)))
+
+(defun my:org-narrow-backward-advice (orig-func &rest args)
+  (interactive)
+  (if (and (derived-mode-p 'org-mode)
+           (buffer-narrowed-p))
+      (call-interactively 'my:org-narrow-backward)
+    (apply orig-func args)))
+
+
+(eval-after-load "evil"
+  (progn
+    (advice-add 'evil-forward-section-begin :around #'my:org-narrow-forward-advice)
+    (advice-add 'evil-backward-section-begin :around #'my:org-narrow-backward-advice)))
+#+END_SRC
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp
 ;; todo keywords
