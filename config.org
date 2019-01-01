@@ -275,7 +275,7 @@ operator ~,,~ as comment
 (use-package lab-themes :ensure t)
 (use-package kaolin-themes :ensure t)
 
-(load-theme 'kaolin-dark t)
+(load-theme 'lab-dark t)
 
 (my/leader '(("uo" . counsel-load-theme)
              ("ui" . my:font-select)
@@ -326,6 +326,11 @@ operator ~,,~ as comment
 *** Hide Mode Line
 #+BEGIN_SRC emacs-lisp
 (use-package hide-mode-line :ensure t)
+#+END_SRC
+
+** olivetti
+#+BEGIN_SRC emacs-lisp
+(use-package olivetti :ensure t)
 #+END_SRC
 * Interface
 ** Completion Framework
@@ -821,7 +826,7 @@ bookmark tool
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-bullets-bullet-list '("●" "◆" "◇" "✚" "✜" "☯" "◉" )))
+  (setq org-bullets-bullet-list '("●" "○")))
 
 (global-set-key (kbd "\C-cc") 'org-capture)
 (global-set-key (kbd "\C-ca") 'org-agenda)
@@ -1005,6 +1010,10 @@ bookmark tool
 (add-hook 'org-clock-out-hook 'org-clock-save)
 (add-hook 'org-clock-cancel-hook 'org-clock-save)
 (org-clock-load)
+
+;; org-agenda-list hide items secheduled for the future
+(setq org-agenda-todo-ignore-scheduled 'future)
+(setq org-agenda-tags-todo-honor-ignore-options t)
 
 ;; custom agenda
 (setq org-indirect-buffer-display 'current-window)
