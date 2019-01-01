@@ -330,7 +330,10 @@ operator ~,,~ as comment
 
 ** olivetti
 #+BEGIN_SRC emacs-lisp
-(use-package olivetti :ensure t)
+(use-package olivetti
+  :ensure t
+  :bind (:map my:leader-map
+              ("ol" . olivetti-mode)))
 #+END_SRC
 * Interface
 ** Completion Framework
@@ -763,16 +766,19 @@ Open file with sudo if needed
 
 (setq ibuffer-saved-filter-groups
       (quote (("default"
-               ("dired" (mode . dired-mode))
-               ("mu4e" (name . "\*mu4e\*"))
-               ("programming" (or
-                               (mode . python-mode)
-                               (mode . c++-mode)))
-               ("emacs" (or
-                         (name . "^\\*scratch\\*$")
-                         (name . "^\\*Messages\\*$")))
-               ("org" (name . "^.*org$"))
-               ))))
+               ("org" (or (mode . org-mode)
+                          (mode . org-agenda-mode)
+                          (name . "\*Org\*")))
+               ("emacs" (or (name . "^\\*scratch\\*$")
+                            (name . "^\\*Messages\\*$")))
+               ("process" (or (mode . magit-mode)
+                              (name . "\*elfeed\*")
+                              (name . "\*mu4e\*")))))))
+
+
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
 #+END_SRC
 *** IMenu Anywhere
 #+BEGIN_SRC emacs-lisp
