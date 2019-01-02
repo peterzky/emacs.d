@@ -332,6 +332,8 @@ operator ~,,~ as comment
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
   :ensure t
+  :init
+  (setq olivetti-body-width 110)
   :bind (:map my:leader-map
               ("ol" . olivetti-mode)))
 #+END_SRC
@@ -773,7 +775,8 @@ Open file with sudo if needed
                             (name . "^\\*Messages\\*$")))
                ("process" (or (mode . magit-mode)
                               (name . "\*elfeed\*")
-                              (name . "\*mu4e\*")))))))
+                              (name . "\*mu4e\*")
+                              (name . "\*magit\*")))))))
 
 
 (add-hook 'ibuffer-mode-hook
@@ -1018,7 +1021,7 @@ bookmark tool
 (org-clock-load)
 
 ;; org-agenda-list hide items secheduled for the future
-(setq org-agenda-todo-ignore-scheduled 'future)
+(setq org-agenda-todo-ignore-scheduled 'all)
 (setq org-agenda-tags-todo-honor-ignore-options t)
 
 ;; custom agenda
@@ -1049,7 +1052,7 @@ bookmark tool
 (setq org-outline-path-complete-in-steps nil)
 
 ;; Show full paths for refiling
-(setq org-refile-use-outline-path t)
+(setq org-refile-use-outline-path 'file)
 
 (defun my:agenda-mode-config ()
   "agenda mode key bindings and config"
@@ -1406,7 +1409,7 @@ bookmark tool
   :config
   (add-to-list 'eglot-server-programs '((c++ mode c-mode) . (eglot-cquery "cquery"))))
 #+END_SRC
-** Documents
+** COMMENT Documents
 #+BEGIN_SRC emacs-lisp
 (use-package zeal-at-point :ensure t)
 #+END_SRC
