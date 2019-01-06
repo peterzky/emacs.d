@@ -1,6 +1,5 @@
 #+TITLE:My Emacs Config
 #+PROPERTY: header-args :tangle yes
-
 ~C-c ;~ to comment out unwanted section
 
 * Settings
@@ -168,6 +167,7 @@
    ("op" .  hydra-tts-menu/body)
    ;;file access
    ("cg" . customize-group)
+   ("ct" . customize-themes)
    ("cc" .  flycheck-mode)
    ("cl" .  evilnc-comment-or-uncomment-lines)
    ("fed" . ,(my:edit-file "~/.emacs.d/config.org"))
@@ -272,14 +272,18 @@ operator ~,,~ as comment
 - jbean: flat dark
 - kaolin: kalin-dark
 #+BEGIN_SRC emacs-lisp
+(use-package srcery-theme :ensure t)
 (use-package lab-themes :ensure t)
 (use-package kaolin-themes :ensure t)
+(use-package klere-theme
+  :load-path "~/.emacs.d/site-lisp/klere-theme")
 
-(load-theme 'lab-dark t)
+;; (load-theme 'lab-dark t)
+(load-theme 'klere t)
 
 (my/leader '(("uo" . counsel-load-theme)
-             ("ui" . my:font-select)
-             ("uu" . lab-themes-switch-style)))
+	     ("ui" . my:font-select)
+	     ("uu" . lab-themes-switch-style)))
 
 #+END_SRC
 
@@ -952,7 +956,7 @@ bookmark tool
 #+BEGIN_SRC emacs-lisp
 ;; todo keywords
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "INBOX(i)" "WAIT(w@/!)" "MAYBE(m)"  "|" "DONE(d)" "CANCELED(c@)")
+      '((sequence "TODO(t)" "NEXT(n)" "INBOX(i)" "WAIT(w@/!)" "MAYBE(m)"  "|" "DONE(d)" "NOTE(o)" "CANCELED(c@)")
         (sequence "REPEAT(R)" "|" "DONE")))
 
 ;; tags
@@ -970,7 +974,7 @@ bookmark tool
                       ("@plan") ("@review") (:endgroup)))
 
 (setq org-todo-keyword-faces
-      '(("REF" . "#d35400")
+      '(("NOTE" . "#d35400")
         ("INBOX" . "#3498db")
         ("TODO" . "#9b59b6")
         ("MAYBE" . "#1abc9c")
@@ -1071,8 +1075,8 @@ bookmark tool
 (add-hook 'org-agenda-mode-hook 'my:agenda-mode-config)
 
 ;; org mobile
-(setq org-mobile-inbox-for-pull "~/Sync/sync/org/agenda/inbox.org")
-(setq org-mobile-directory "~/Sync/sync/org/mobile")
+;; (setq org-mobile-inbox-for-pull "~/Sync/sync/org/agenda/inbox.org")
+;; (setq org-mobile-directory "~/Sync/sync/org/mobile")
 
 ;; org timer
 (setq org-clock-mode-line-total 'current)
@@ -1083,6 +1087,12 @@ bookmark tool
   (call-process-shell-command (format "%s &" cmd) nil 0))
 
 (org-link-set-parameters "run" :follow 'my:run-link-open)
+
+;; call function on link
+(defun my:call-func-link-open (func)
+  (call-interactively (intern func)))
+
+(org-link-set-parameters "func" :follow 'my:call-func-link-open)
 
 (defun xmobar-clock ()
   (if (org-clocking-p)
@@ -1963,10 +1973,7 @@ access yadm repo via tramp
 ** Chinese Support
 *** Youdao Dictionary
 #+BEGIN_SRC emacs-lisp
-(use-package youdao-dictionary
-  :ensure t
-  :config
-  (my/leader '(("oo" . youdao-dictionary-search-at-point+))))
+(use-package youdao-dictionary :ensure t)
 
 (defun my:pdf-dict ()
   "pdf-tool dict"
@@ -1986,6 +1993,14 @@ access yadm repo via tramp
   (fcitx-org-speed-command-turn-on)
   (fcitx-aggressive-minibuffer-turn-off)
   (fcitx-aggressive-setup))
+#+END_SRC
+*** Sdcv
+#+BEGIN_SRC emacs-lisp
+(use-package sdcv
+  :ensure t
+  :init (setq sdcv-dictionary-simple-list '("朗道英汉字典5.0"))
+  :bind (:map my:leader-map
+              ("oo" . sdcv-search-pointer+)))
 #+END_SRC
 ** RESTClient
 #+BEGIN_SRC emacs-lisp
@@ -2106,6 +2121,29 @@ access yadm repo via tramp
     (call-interactively orig-fun)))
 
 (advice-add 'mu4e~stop :around #'my:org-workspace-delete-frame)
+#+END_SRC
+** Speed Typing
+#+BEGIN_SRC emacs-lisp
+(use-package speed-type
+  :load-path "~/.emacs.d/site-lisp/speed-type")
+
+(defun my:typist (start end)
+  (interactive "r")
+  (speed-type--setup (buffer-substring-no-properties start end))
+  (when (equal (count-windows) 1)
+    (olivetti-mode))
+  (text-scale-increase 2)
+  (evil-insert-state)
+  (local-set-key (kbd "M-.") 'sdcv-search-pointer+))
+
+(defun my:auto-typist ()
+  (interactive)
+  (with-temp-buffer
+    (bookmark-jump "speed")
+    (forward-paragraph)
+    (bookmark-set "speed")
+    (mark-paragraph)
+    (call-interactively 'my:typist)))
 #+END_SRC
 * Etc
 #+BEGIN_SRC emacs-lisp
