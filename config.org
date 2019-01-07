@@ -280,7 +280,7 @@ operator ~,,~ as comment
 ;; (use-package doom-themes :ensure t)
 (use-package ujelly-theme :ensure t)
 
-(load-theme 'ujelly t)
+;; (load-theme 'ujelly t)
 ;; (load-theme 'adwaita t)
 ;; (load-theme 'klere t)
 
@@ -288,6 +288,31 @@ operator ~,,~ as comment
 	     ("ui" . my:font-select)
 	     ("uu" . lab-themes-switch-style)))
 
+
+(defvar my:theme 'ujelly)
+(defvar my:theme-window-loaded nil)
+(defvar my:theme-terminal-loaded nil)
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions(lambda (frame)
+                       (select-frame frame)
+                       (if (window-system frame)
+                           (unless my:theme-window-loaded
+                             (if my:theme-terminal-loaded
+                                 (enable-theme my:theme)
+                               (load-theme my:theme t))
+                             (setq my:theme-window-loaded t))
+                         (unless my:theme-terminal-loaded
+                           (if my:theme-window-loaded
+                               (enable-theme my:theme)
+                             (load-theme my:theme t))
+                           (setq my:theme-terminal-loaded t)))))
+
+  (progn
+    (load-theme my:theme t)
+    (if (display-graphic-p)
+        (setq my:theme-window-loaded t)
+      (setq my:theme-terminal-loaded t))))
 #+END_SRC
 
 ** Mode Line
