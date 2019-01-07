@@ -272,14 +272,17 @@ operator ~,,~ as comment
 - jbean: flat dark
 - kaolin: kalin-dark
 #+BEGIN_SRC emacs-lisp
-(use-package srcery-theme :ensure t)
-(use-package lab-themes :ensure t)
-(use-package kaolin-themes :ensure t)
-(use-package klere-theme
-  :load-path "~/.emacs.d/site-lisp/klere-theme")
+;; (use-package srcery-theme :ensure t)
+;; (use-package lab-themes :ensure t)
+;; (use-package kaolin-themes :ensure t)
+;; (use-package klere-theme
+;;   :load-path "~/.emacs.d/site-lisp/klere-theme")
+;; (use-package doom-themes :ensure t)
+(use-package ujelly-theme :ensure t)
 
-;; (load-theme 'lab-dark t)
-(load-theme 'klere t)
+(load-theme 'ujelly t)
+;; (load-theme 'adwaita t)
+;; (load-theme 'klere t)
 
 (my/leader '(("uo" . counsel-load-theme)
 	     ("ui" . my:font-select)
