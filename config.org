@@ -1086,6 +1086,7 @@ bookmark tool
 ;; Show full paths for refiling
 (setq org-refile-use-outline-path 'file)
 
+
 (defun my:agenda-mode-config ()
   "agenda mode key bindings and config"
   (hide-mode-line-mode)
@@ -1093,8 +1094,10 @@ bookmark tool
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "g" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "n" 'org-agenda-capture)
-  (define-key org-agenda-mode-map "p" 'org-mobile-push)
-  (define-key org-agenda-mode-map "P" 'org-mobile-pull)
+  ;; (define-key org-agenda-mode-map "p" 'org-mobile-push)
+  ;; (define-key org-agenda-mode-map "P" 'org-mobile-pull)
+  (define-key org-agenda-mode-map (kbd "<S-down>") 'org-agenda-date-later-minutes)
+  (define-key org-agenda-mode-map (kbd "<S-up>") 'org-agenda-date-earlier-minutes)
   (define-key org-agenda-mode-map (kbd "SPC") my:leader-map)
   (define-key org-agenda-mode-map (kbd "C-e") 'evil-scroll-line-down)
   (define-key org-agenda-mode-map (kbd "C-y") 'evil-scroll-line-up)
