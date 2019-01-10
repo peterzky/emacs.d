@@ -272,22 +272,16 @@ operator ~,,~ as comment
 - jbean: flat dark
 - kaolin: kalin-dark
 #+BEGIN_SRC emacs-lisp
-;; (use-package srcery-theme :ensure t)
-;; (use-package lab-themes :ensure t)
-;; (use-package kaolin-themes :ensure t)
-;; (use-package klere-theme
-;;   :load-path "~/.emacs.d/site-lisp/klere-theme")
-;; (use-package doom-themes :ensure t)
 (use-package ujelly-theme :ensure t)
-
-;; (load-theme 'ujelly t)
-;; (load-theme 'adwaita t)
-;; (load-theme 'klere t)
 
 (my/leader '(("uo" . counsel-load-theme)
 	     ("ui" . my:font-select)
-	     ("uu" . lab-themes-switch-style)))
+	     ;("uu" . lab-themes-switch-style)
+             ))
 
+(defun my:theme-mod ()
+  (set-face-underline 'org-link t)
+  (set-face-foreground 'org-agenda-done "gray"))
 
 (defvar my:theme 'ujelly)
 (defvar my:theme-window-loaded nil)
@@ -300,12 +294,14 @@ operator ~,,~ as comment
                            (unless my:theme-window-loaded
                              (if my:theme-terminal-loaded
                                  (enable-theme my:theme)
-                               (load-theme my:theme t))
+                               (progn (load-theme my:theme t)
+                                      (my:theme-mod)))
                              (setq my:theme-window-loaded t))
                          (unless my:theme-terminal-loaded
                            (if my:theme-window-loaded
                                (enable-theme my:theme)
-                             (load-theme my:theme t))
+                             (progn (load-theme my:theme t)
+                                    (my:theme-mod)))
                            (setq my:theme-terminal-loaded t)))))
 
   (progn
