@@ -121,6 +121,9 @@
   :init (setq evil-respect-visual-line-mode t)
   :config
   (evil-mode 1)
+  ;; minibuffer evil mode
+  (setq evil-want-minibuffer t)
+  (setq evil-move-cursor-back nil)
   (define-key evil-normal-state-map (kbd "M-.") nil)
   (setq evil-insert-state-map (make-sparse-keymap))
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
@@ -418,28 +421,6 @@ operator ~,,~ as comment
 
 (use-package flx :ensure t)
 #+END_SRC
-*** Company Mode
-#+BEGIN_SRC emacs-lisp
-(use-package company
-  :ensure t
-  :diminish company-mode
-  :bind (:map company-active-map
-              ("C-n" . company-select-next-or-abort)
-              ("C-p" . company-select-previous-or-abort)
-              ("C-h" . company-quickhelp-manual-begin))
-  :config
-  (global-company-mode)
-  (setq my-disabled-company-mode
-        '(company-bbdb company-nxml company-css company-semantic company-clang company-xcode))
-  (cl-loop for mode in my-disabled-company-mode do
-           (delete mode company-backends)))
-
-(use-package company-quickhelp
-  :ensure t
-  :config
-  (company-quickhelp-mode 1)
-  (setq company-quickhelp-delay nil))
-#+END_SRC
 *** Yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet-snippets :ensure)
@@ -454,6 +435,39 @@ operator ~,,~ as comment
      ("yv" . yas-visit-snippet-file)
      ("yt" . yas-describe-tables)
      ("yi" . yas-insert-snippet))))
+#+END_SRC
+*** Company Mode
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :ensure t
+  :diminish company-mode
+  :bind (:map company-active-map
+              ("C-n" . company-select-next-or-abort)
+              ("C-p" . company-select-previous-or-abort))
+  :config
+  (global-company-mode)
+
+  ;; fix yasnippet and company conflicts
+  (defun company-yasnippet-or-completion ()
+    "Solve company yasnippet conflicts."
+    (interactive)
+    (let ((yas-fallback-behavior
+           (apply 'company-complete-common nil)))
+      (yas-expand)))
+
+  (add-hook 'company-mode-hook
+            (lambda ()
+              (substitute-key-definition
+               'company-complete-common
+               'company-yasnippet-or-completion
+               company-active-map)))
+
+  (setq company-idle-delay 0.01)
+  (setq my-disabled-company-mode
+        '(company-bbdb company-nxml company-css company-semantic company-clang company-xcode))
+  (cl-loop for mode in my-disabled-company-mode do
+           (delete mode company-backends)))
+
 #+END_SRC
 *** Auto Yasnippet
 #+BEGIN_SRC emacs-lisp
