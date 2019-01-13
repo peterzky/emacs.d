@@ -501,6 +501,7 @@ popup window for better experience
     ("*Buffer List*" :position bottom)
     ("*godoc <at point>*" :position bottom)
     ("*Go Test*" :position bottom)
+    ("*grep*" :position bottom)
     (vc-mode :noselect nil)
     (compilation-mode :noselect nil)
     (go-guru-output-mode :noselect nil)
@@ -2181,9 +2182,9 @@ access yadm repo via tramp
   (interactive)
   (with-temp-buffer
     (bookmark-jump "speed")
-    (forward-paragraph)
+    (set-mark (point-marker))
+    (forward-sentence 10)
     (bookmark-set "speed")
-    (mark-paragraph)
     (call-interactively 'my:typist)))
 #+END_SRC
 * Etc
@@ -2199,4 +2200,13 @@ access yadm repo via tramp
 
 ;; must have anki-connect plugin installed!
 (use-package anki-editor :ensure t)
+
+;; (use-package langtool
+;;   :load-path "/home/peterzky/playground/Emacs-langtool"
+;;   :config
+;;   (setq langtool-bin "/home/peterzky/.nix-profile/bin/languagetool-http-server")
+;;   (setq langtool-enabled-rules '("And"))
+;;   (setq langtool-disabled-rules '("WHITESPACE_RULE" "EN_QUOTES"))
+;;   )
+
 #+END_SRC
