@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: cpp-nix
+# key: cpp
+# --
+{pkgs ? import <nixpkgs> {} }:
+
+with pkgs;
+
+stdenv.mkDerivation {
+  name = "$1";
+
+  buildInputs = [ ccls cmake bear $0];
+}

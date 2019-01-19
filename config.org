@@ -809,22 +809,32 @@ Open file with sudo if needed
 (add-hook 'ibuffer-mode-hook 'my:ibuffer-mode-hook)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(setq ibuffer-saved-filter-groups
-      (quote (("default"
-               ("org" (or (mode . org-mode)
-                          (mode . org-agenda-mode)
-                          (name . "\*Org\*")))
-               ("emacs" (or (name . "^\\*scratch\\*$")
-                            (name . "^\\*Messages\\*$")))
-               ("process" (or (mode . magit-mode)
-                              (name . "\*elfeed\*")
-                              (name . "\*mu4e\*")
-                              (name . "\*magit\*")))))))
+;; (setq ibuffer-saved-filter-groups
+;;       (quote (("default"
+;;                ("org" (or (mode . org-mode)
+;;                           (mode . org-agenda-mode)
+;;                           (name . "\*Org\*")))
+;;                ("emacs" (or (name . "^\\*scratch\\*$")
+;;                             (name . "^\\*Messages\\*$")))
+;;                ("python" (or (mode  . python-mode)
+;;                              (mode . elpy-mode)))
+;;                ("process" (or (mode . magit-mode)
+;;                               (name . "\*elfeed\*")
+;;                               (name . "\*mu4e\*")
+;;                               (name . "\*magit\*")))))))
+
+(use-package ibuffer-projectile :ensure t)
+
+(add-hook 'ibuffer-hook
+    (lambda ()
+      (ibuffer-projectile-set-filter-groups)
+      (unless (eq ibuffer-sorting-mode 'alphabetic)
+        (ibuffer-do-sort-by-alphabetic))))
 
 
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-switch-to-saved-filter-groups "default")))
+;; (add-hook 'ibuffer-mode-hook
+;;           (lambda ()
+;;             (ibuffer-switch-to-saved-filter-groups "default")))
 #+END_SRC
 *** IMenu Anywhere
 #+BEGIN_SRC emacs-lisp
@@ -889,6 +899,7 @@ bookmark tool
 (setq org-hide-emphasis-markers t)
 (setq org-hide-leading-stars t)
 (setq org-imenu-depth 5)
+(setq org-complete-tags-always-offer-all-agenda-tags t)
 (setq org-enforce-todo-dependencies t)
 (setq org-columns-default-format
       "%4CATEGORY %50ITEM %6CLOCKSUM")
@@ -1450,7 +1461,7 @@ bookmark tool
              ("aj" . org-clock-goto)))
 #+END_SRC
 * Programming Languages
-** COMMENT Eglot -- language server
+** Eglot -- language server
 #+BEGIN_SRC emacs-lisp
 (use-package eglot
   :ensure t
@@ -1459,7 +1470,8 @@ bookmark tool
 	      ("C-c C-f" . eglot-format)
 	      ("C-c C-d" . eglot-help-at-point))
   :config
-  (add-to-list 'eglot-server-programs '((c++ mode c-mode) . (eglot-cquery "cquery"))))
+  ;; (add-to-list 'eglot-server-programs '((c++ mode c-mode) . (eglot-cquery "cquery")))
+  )
 #+END_SRC
 ** COMMENT Documents
 #+BEGIN_SRC emacs-lisp
@@ -1480,7 +1492,7 @@ bookmark tool
 
 (add-hook 'comint-mode-hook 'nix-prettify-mode)
 #+END_SRC
-** C/C++
+** COMMENT C/C++
 use ~load-cpp-env~
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode :ensure t
