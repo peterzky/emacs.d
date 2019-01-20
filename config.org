@@ -896,7 +896,7 @@ bookmark tool
 
 (setq org-startup-indented t)
 (setq org-startup-folded t)
-(setq org-hide-emphasis-markers t)
+(setq org-hide-emphasis-markers nil)
 (setq org-hide-leading-stars t)
 (setq org-imenu-depth 5)
 (setq org-complete-tags-always-offer-all-agenda-tags t)
