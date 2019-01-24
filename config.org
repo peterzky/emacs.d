@@ -1172,25 +1172,6 @@ bookmark tool
 #+END_SRC
 ** Org Caputre
 #+BEGIN_SRC emacs-lisp
-(defun my:gen-weekly-review ()
-  "generate clocktable for this week"
-  (with-temp-buffer
-    (org-mode)
-    (insert "#+BEGIN: clocktable :maxlevel 2 :scope (\"~/Sync/sync/org/agenda/project.org\") :block thisweek \n\n#+END")
-    (goto-char (point-min))
-    (org-ctrl-c-ctrl-c)
-    (next-line 2)
-    (forward-char 2)
-    (org-shiftmetaleft)
-    (next-line 4)
-    (beginning-of-line)
-    (kill-line 1)
-    (goto-char (point-min))
-    (kill-line 2)
-    (goto-char (point-max))
-    (beginning-of-line)
-    (kill-line 1)
-    (buffer-substring-no-properties (point-min) (point-max))))
 
 (setq org-capture-templates
       '(("i" "Inbox" entry (file "~/Sync/sync/org/agenda/inbox.org")
@@ -1202,10 +1183,10 @@ bookmark tool
              )
         ("j" "Journal" entry (file+olp+datetree "~/Sync/sync/org/agenda/archive.org")
          "* %? :journal: \nEntered on %U\n %i\n")
-        ("r" "Weekly Review" entry (file+olp+datetree "~/Sync/sync/org/agenda/archive.org")
-         "* Weekly Review %U :review: \n %(my:gen-weekly-review)")
-        ("c" "Clocking Item" item (clock)
-         "- %?")
+
+        ("c" "Clocking Item" plain (clock)
+         "Note taken on %U \n%?"
+         :prepend t)
         ("p" "org-protocol" item (clock)
          "- %:description \n  =Source:= [[%:link][link]]\n  #+BEGIN_QUOTE\n%:initial\n  #+END_QUOTE\n"
          :empty-line 1
