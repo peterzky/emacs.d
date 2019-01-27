@@ -1991,7 +1991,7 @@ access yadm repo via tramp
   :ensure t
   :config
   (when (string= system-type "gnu/linux")
-    (setq terminal-here-terminal-command '("st")))
+    (setq terminal-here-terminal-command '("alacritty")))
   (my/leader '(("t" . terminal-here))))
 #+END_SRC
 ** Shell Pop

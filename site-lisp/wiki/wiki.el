@@ -18,6 +18,27 @@
 	       (save-buffer))
       (find-file file))))
 
+(defun wiki-rename ()
+  (interactive)
+  (let* ((remove)
+         (desc)
+         (link)
+         (old-file)
+         (new-file)
+         (new-name))
+    (when (org-in-regexp org-bracket-link-regexp 1)
+      (setq remove (list (match-beginning 0) (match-end 0)))
+      (setq desc (when (match-end 3) (match-string-no-properties 3)))
+      (setq new-name (read-string "Rename: " desc))
+      (setq old-file (expand-file-name (concat wiki-location desc ".org")))
+      (setq new-file (expand-file-name (concat wiki-location new-name ".org")))
+      (rename-file old-file new-file)
+      (apply 'delete-region remove)
+      (insert (org-make-link-string (concat "wiki:" new-name) new-name))
+      ;; redisplay
+      (sit-for 0)
+      )))
+
 (defun wiki-create ()
   "Create a new org-wiki page asking the user its name."
   (interactive)
