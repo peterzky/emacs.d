@@ -1584,6 +1584,7 @@ use ~load-cpp-env~
   (local-set-key (kbd "C-c r") 'go-rename)
   (local-set-key (kbd "C-c g") 'go-playground)
   (local-set-key (kbd "C-c C-k") 'go-playground-rm)
+  (local-set-key (kbd "M-.") 'godef-jump)
   (local-set-key [f5] 'my:go-install-or-run))
 
 (defun my:go-install-or-run ()
@@ -1698,7 +1699,7 @@ cargo install rustfmt
   (setq slime-contribs '(slime-fancy))
   (slime-setup '(slime-fancy slime-company)))
 #+END_SRC
-** Octave
+** COMMENT Octave
 #+BEGIN_SRC emacs-lisp
 (use-package octave
   :mode ("\\.m\\'" . octave-mode)
