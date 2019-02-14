@@ -376,8 +376,7 @@ operator ~,,~ as comment
   :ensure t
   :demand
   :diminish ivy-mode ivy-minor-mode
-  :bind (("C-s" . swiper)
-         ("M-x" . counsel-M-x)
+  :bind (("M-x" . counsel-M-x)
          ("s-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("<f1> l" . counsel-find-library)
@@ -385,7 +384,9 @@ operator ~,,~ as comment
          :map read-expression-map
          ("C-r" . counsel-expression-history)
          :map ivy-minibuffer-map
-         ("C-l" . ivy-backward-delete-char))
+         ("C-l" . ivy-backward-delete-char)
+	 :map isearch-mode-map
+	 ("C-'" . swiper-from-isearch))
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers nil
@@ -692,7 +693,7 @@ popup window for better experience
             :initial-input initial-input
             :dynamic-collection t
             :require-match t
-            :sort t
+            :sort nil
             :history 'counsel-fasd
             :action (lambda (str)
                       (if (directory-name-p str)
