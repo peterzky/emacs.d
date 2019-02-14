@@ -196,14 +196,14 @@
 (defvar my:emacs-state-modes
   '(artist-mode dired-mode ivy-occur-mode view-mode debugger-mode
                 intero-repl-mode org-wiki-panel-minor-mode elfeed-search-mode
-                elfeed-show-mode finder-mode image-mode deadgrep-mode))
+                elfeed-show-mode finder-mode image-mode deadgrep-mode profiler-report-mode))
 
 (defvar my:insert-state-hooks
   '(org-src-mode-hook org-log-buffer-setup-hook
                       org-capture-mode-hook git-commit-mode-hook))
 
 (defvar my:emacs-state-minor-modes
-  '(edebug-mode view-mode))
+  '(edebug-mode))
 
 
 (my:evil-state 'evil-motion-state-modes my:motion-state-modes)
@@ -584,8 +584,7 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind (("C-;" . avy-goto-char)
-         :map org-mode-map
+  :bind (:map org-mode-map
          ("C-M-;" . avy-org-refile-as-child)
          :map evil-normal-state-map
          ("s" . avy-goto-char)))
@@ -608,7 +607,7 @@ popup window for better experience
   :config
   (setq vr/auto-show-help nil))
 #+END_SRC
-*** Yafolding
+*** COMMENT Yafolding
 #+BEGIN_SRC emacs-lisp
 (use-package yafolding
   :ensure t
@@ -624,6 +623,12 @@ popup window for better experience
                  :open (lambda () (yafolding-show-element))
                  :open-rec nil
                  :close (lambda () (yafolding-hide-element)))))
+#+END_SRC
+*** Iedit
+=C-;= enter iedit mode
+=M-;= unselect current
+#+BEGIN_SRC emacs-lisp
+(use-package iedit :ensure t)
 #+END_SRC
 ** File/Directory
 *** Direds/Ranger
@@ -1626,29 +1631,31 @@ use ~load-cpp-env~
 #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
-(use-package python
-  :mode ("\\.py\\'" . python-mode)
-  :interpreter ("python" . python-mode)
-  :init
-  (setq-default indent-tabs-mode nil)
-  :config
-  (setq python-indent-offset 4)
-  (add-hook 'python-mode-hook 'smartparens-mode))
-
-(use-package elpy
+(use-package yapfify
   :ensure t
-  :commands elpy-enable
-  :init (with-eval-after-load 'python (elpy-enable))
-  :bind (:map elpy-mode-map
-              ("C-c C-j" . elpy-goto-definition))
-  :config
-  (setq elpy-company-post-completion-function 'ignore)
-  (setq elpy-modules
-        '(elpy-module-sane-defaults
-          elpy-module-company
-          elpy-module-eldoc
-          elpy-module-yasnippet))
-  (elpy-enable))
+  :hook (python-mode . yapf-mode))
+
+
+(use-package anaconda-mode
+  :ensure t
+  :bind (:map anaconda-mode-map
+              ("M-?" . anaconda-mode-find-references)))
+
+(use-package company-anaconda
+  :ensure t)
+
+(defun my:python-init ()
+  (iedit-mode)
+  (anaconda-mode)
+  (anaconda-eldoc-mode)
+  (local-set-key (kbd "C-c C-d") 'anaconda-mode-show-doc)
+  (local-set-key (kbd "C-c C-f") 'yapfify-buffer)
+  (set (make-local-variable 'company-backends)
+       '(company-anaconda company-files))
+  (company-mode))
+
+
+(add-hook 'python-mode-hook 'my:python-init)
 #+END_SRC
 ** Emacs Lisp
 #+BEGIN_SRC emacs-lisp
@@ -1708,7 +1715,7 @@ cargo install rustfmt
               ("C-c C-c" . octave-send-buffer)
               ("C-c g" . run-octave)))
 #+END_SRC
-** Haskell intero
+** COMMENT Haskell intero
 nixos config
 install intero in directory =~/.stack/global-project/=
 ~$HOME/.stack/config.yaml~

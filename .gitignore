@@ -49,3 +49,5 @@ layouts/*
 /.cache/*
 /games/tetris-scores
 /games/*
+anaconda-mode/*
+/.lsp-session-v1
