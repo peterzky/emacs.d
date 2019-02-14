@@ -628,7 +628,10 @@ popup window for better experience
 =C-;= enter iedit mode
 =M-;= unselect current
 #+BEGIN_SRC emacs-lisp
-(use-package iedit :ensure t)
+(use-package iedit
+  :ensure t
+  :config
+  (iedit-mode))
 #+END_SRC
 ** File/Directory
 *** Direds/Ranger
@@ -1645,7 +1648,6 @@ use ~load-cpp-env~
   :ensure t)
 
 (defun my:python-init ()
-  (iedit-mode)
   (anaconda-mode)
   (anaconda-eldoc-mode)
   (local-set-key (kbd "C-c C-d") 'anaconda-mode-show-doc)
