@@ -41,7 +41,7 @@
 
 (add-to-list 'safe-local-eval-forms '(reopen-as-yadm))
 
-(add-to-list 'safe-local-eval-forms '(setq-local helm-dash-docsets '("C++" "OpenCV C++")))
+;(add-to-list 'safe-local-eval-forms '(setq-local helm-dash-docsets '("C++" "OpenCV C++")))
 
 (put 'projectile-project-compilation-cmd 'safe-local-variable #'stringp)
 
@@ -125,6 +125,7 @@
   (setq evil-want-minibuffer t)
   (setq evil-move-cursor-back nil)
   (define-key evil-normal-state-map (kbd "M-.") nil)
+  (define-key evil-normal-state-map (kbd "C-r") nil)
   (setq evil-insert-state-map (make-sparse-keymap))
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
   (evil-define-key 'motion help-mode-map (kbd "<tab>") 'forward-button)
@@ -168,7 +169,7 @@
    ("wd" .  delete-window)
    ;; text to speech
    ("op" .  hydra-tts-menu/body)
-   ;;file access
+   ;; file access
    ("cg" . customize-group)
    ("ct" . customize-themes)
    ("cc" .  flycheck-mode)
@@ -222,17 +223,15 @@
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
-(use-package evil-magit :ensure t)
+(use-package evil-magit
+  :ensure t
+  :after magit)
 #+END_SRC
 ** Evil Nerd Commenter
 text object ~c~ as comment
 operator ~,,~ as comment
 #+BEGIN_SRC emacs-lisp
-(use-package evil-nerd-commenter
-  :ensure t
-  :config
-  ;; (evilnc-default-hotkeys)
-  )
+(use-package evil-nerd-commenter :ensure t)
 #+END_SRC
 ** Evil Surround
 #+BEGIN_SRC emacs-lisp
@@ -359,7 +358,7 @@ operator ~,,~ as comment
 (use-package hide-mode-line :ensure t)
 #+END_SRC
 
-** olivetti
+** Olivetti
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
   :ensure t
@@ -377,16 +376,25 @@ operator ~,,~ as comment
   :demand
   :diminish ivy-mode ivy-minor-mode
   :bind (("M-x" . counsel-M-x)
-         ("s-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("<f1> l" . counsel-find-library)
-         ("<f1> b" . counsel-descbinds)
-         :map read-expression-map
-         ("C-r" . counsel-expression-history)
-         :map ivy-minibuffer-map
-         ("C-l" . ivy-backward-delete-char)
+	 ("C-x C-f" . counsel-find-file)
+	 ("<f1> l" . counsel-find-library)
+	 ("<f1> b" . counsel-descbinds)
+	 :map read-expression-map
+	 ("C-r" . counsel-expression-history)
+	 :map ivy-minibuffer-map
+	 ("C-l" . ivy-backward-delete-char)
 	 :map isearch-mode-map
-	 ("C-'" . swiper-from-isearch))
+	 ("C-'" . swiper-from-isearch)
+	 :map my:leader-map
+	 ("ag" . counsel-ag)
+	 ("`" .  ivy-switch-buffer)
+	 ("s" .  swiper)
+	 ("bb" . ibuffer)
+	 ("p" . projectile-command-map)
+	 ("i" .  ivy-imenu-anywhere)
+	 ("fl" . imenu-anywhere)
+	 ("gg" . counsel-git-grep)
+	 ("ff" . counsel-find-file))
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers nil
@@ -395,27 +403,7 @@ operator ~,,~ as comment
         ivy-use-selectable-prompt t
         ivy-count-format "%d/%d "
         magit-completing-read-function 'ivy-completing-read
-        projectile-completion-system 'ivy)
-  (my/leader
-   '(("ag" . counsel-ag)
-     ("`" .  ivy-switch-buffer)
-     ;("d" .  counsel-yank-pop)
-     ("s" .  swiper)
-     ("bb" . ibuffer)
-     ("p" . projectile-command-map)
-     ("i" .  ivy-imenu-anywhere)
-     ("fl" . imenu-anywhere)
-     ("gg" . counsel-git-grep)
-     ("ff" . counsel-find-file))))
-
-;; (use-package ivy-rich
-;;   :ensure t
-;;   :config
-;;   ;; (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
-;;   (ivy-rich-mode 1)
-;;   (setq ivy-virtual-abbreviate 'full
-;;         ivy-rich-switch-buffer-align-virtual-buffer t)
-;;   (setq ivy-rich-abbreviate-paths t))
+        projectile-completion-system 'ivy))
 
 ;; for edit in C-c C-o
 (use-package wgrep :ensure t)
@@ -428,14 +416,14 @@ operator ~,,~ as comment
 (use-package yasnippet
   :diminish yas-minor-mode
   :ensure t
+  :bind (:map my:leader-map
+	      ("yn" . yas-new-snippet)
+	      ("yv" . yas-visit-snippet-file)
+	      ("yt" . yas-describe-tables)
+	      ("yi" . yas-insert-snippet))
   :config
   (setq yas-indent-line 'fixed)
-  (yas-global-mode 1)
-  (my/leader
-   '(("yn" . yas-new-snippet)
-     ("yv" . yas-visit-snippet-file)
-     ("yt" . yas-describe-tables)
-     ("yi" . yas-insert-snippet))))
+  (yas-global-mode 1))
 #+END_SRC
 *** Company Mode
 #+BEGIN_SRC emacs-lisp
@@ -470,7 +458,7 @@ operator ~,,~ as comment
            (delete mode company-backends)))
 
 #+END_SRC
-*** Auto Yasnippet
+*** COMMENT Auto Yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package auto-yasnippet
   :ensure t
@@ -482,36 +470,42 @@ operator ~,,~ as comment
 popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package popwin
-  :ensure t
-  :config
-  (setq popwin:popup-window-height 15)
-  (global-set-key (kbd "C-q") popwin:keymap)
-  (define-key popwin:keymap "q" 'popwin:close-popup-window)
-  (define-key popwin:keymap "o" 'popwin:original-display-last-buffer)
-  (define-key popwin:keymap "p" 'popwin:original-pop-to-last-buffer)
-  (popwin-mode 1))
+	     :ensure t
+	     :demand
+	     :init
+	     (defvar my:popup-config
+	       '(("*Backtrace*" :regexp nil)
+		 ("*warnings*" :regexp nil)
+		 ("*Youdao Dictionary*" :regexp nil)
+		 (" *undo-tree*" :position bottom)
+		 (" *undo-tree Diff*" :position bottom)
+		 ("*HS-Error*" :position bottom)
+		 ("*Gofmt Errors*" :position bottom)
+		 ("*Buffer List*" :position bottom)
+		 ("*godoc <at point>*" :position bottom)
+		 ("*Go Test*" :position bottom)
+		 ("*grep*" :position bottom)
+		 (vc-mode :noselect nil)
+		 (compilation-mode :noselect nil)
+		 (go-guru-output-mode :noselect nil)
+		 (racer-help-mode :noselect nil)
+		 (intero-help-mode :noselect nil)
+		 (helpful-mode :noselect nil)))
 
-(defvar my:popup-config
-  '(("*Backtrace*" :regexp nil)
-    ("*warnings*" :regexp nil)
-    ("*Youdao Dictionary*" :regexp nil)
-    (" *undo-tree*" :position bottom)
-    (" *undo-tree Diff*" :position bottom)
-    ("*HS-Error*" :position bottom)
-    ("*Gofmt Errors*" :position bottom)
-    ("*Buffer List*" :position bottom)
-    ("*godoc <at point>*" :position bottom)
-    ("*Go Test*" :position bottom)
-    ("*grep*" :position bottom)
-    (vc-mode :noselect nil)
-    (compilation-mode :noselect nil)
-    (go-guru-output-mode :noselect nil)
-    (racer-help-mode :noselect nil)
-    (intero-help-mode :noselect nil)
-    (helpful-mode :noselect nil)))
+	     :bind-keymap ("C-q" . popwin:keymap)
+	     :bind (:map popwin:keymap
+			 ("q" . popwin:close-popup-window)
+			 ("o" . popwin:original-display-last-buffer)
+			 ("p" . popwin:original-pop-to-last-buffer))
+	     :config
+	     (setq popwin:popup-window-height 18)
+	     (cl-loop for conf in my:popup-config
+		      do (push conf popwin:special-display-config))
+	     (popwin-mode 1))
 
-(cl-loop for conf in my:popup-config
-         do (push conf popwin:special-display-config))
+
+
+
 #+END_SRC
 *** Eyebrowse
 #+BEGIN_SRC emacs-lisp
@@ -530,9 +524,7 @@ popup window for better experience
          ("M-7" . eyebrowse-switch-to-window-config-7)
          ("M-8" . eyebrowse-switch-to-window-config-8)
          ("M-9" . eyebrowse-switch-to-window-config-9)
-         ("M-0" . eyebrowse-close-window-config)
-         ("M-]" . eyebrowse-next-window-config)
-         ("M-[" . eyebrowse-prev-window-config))
+         ("M-0" . eyebrowse-close-window-config))
   :config
   (eyebrowse-mode t))
 #+END_SRC
@@ -575,11 +567,17 @@ popup window for better experience
 (use-package smartparens
   :diminish smartparens-mode
   :ensure t
+  :demand
+  :bind (:map smartparens-mode-map
+	      ("M-(" . sp-wrap-round)
+	      ("C-M-w" . sp-copy-sexp)
+	      ("M-<backspace>" . sp-backward-unwrap-sexp)
+	      ("C-<right>" . sp-forward-slurp-sexp)
+	      ("C-<left>" . sp-forward-barf-sexp))
+
   :config
   (smartparens-global-mode t)
-  (require 'smartparens-config)
-  (setq sp-highlight-pair-overlay 'nil)
-  (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp))
+  (setq sp-highlight-pair-overlay 'nil))
 #+END_SRC
 *** Avy
 #+BEGIN_SRC emacs-lisp
@@ -673,6 +671,8 @@ popup window for better experience
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :ensure t
+  :delight '(:eval (concat " " (projectile-project-name)))
+  :bind-keymap ("C-c p". projectile-command-map)
   :config
   ;(setq projectile-switch-project-action 'projectile-recentf)
   (defvar my:projectile-ignored-directories
@@ -703,10 +703,10 @@ popup window for better experience
 
 (use-package fasd
   :ensure t
+  :bind (:map my:leader-map
+	      ("fd" . counsel-fasd))
   :config
-  (global-fasd-mode 1)
-  (my/leader
-   '(("fd" . counsel-fasd))))
+  (global-fasd-mode 1))
 #+END_SRC
 ** Version Control
 *** Magit
@@ -720,20 +720,22 @@ popup window for better experience
 
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status))
+  :bind (("C-x g" . magit-status)
+	 :map my:leader-map
+	 ("gs" . magit-status))
   :config
   (magit-auto-revert-mode -1)
   (setq magit-auto-revert-immediately t)
-  (define-key magit-status-mode-map "j" #'evil-next-line)
-  (my/leader
-   '(("gs" . magit-status))))
+  ;; (define-key magit-status-mode-map "j" #'evil-next-line)
+  )
 #+END_SRC
 *** Git Timemachine
 #+BEGIN_SRC emacs-lisp
 (use-package git-timemachine
   :ensure t
   :config
-  (my/leader '(("gm" . git-timemachine))))
+  :bind (:map my:leader-map
+	      ("gm" . git-timemachine)))
 
 (eval-after-load 'git-timemachine
   '(progn
@@ -817,20 +819,6 @@ Open file with sudo if needed
 (add-hook 'ibuffer-mode-hook 'my:ibuffer-mode-hook)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; (setq ibuffer-saved-filter-groups
-;;       (quote (("default"
-;;                ("org" (or (mode . org-mode)
-;;                           (mode . org-agenda-mode)
-;;                           (name . "\*Org\*")))
-;;                ("emacs" (or (name . "^\\*scratch\\*$")
-;;                             (name . "^\\*Messages\\*$")))
-;;                ("python" (or (mode  . python-mode)
-;;                              (mode . elpy-mode)))
-;;                ("process" (or (mode . magit-mode)
-;;                               (name . "\*elfeed\*")
-;;                               (name . "\*mu4e\*")
-;;                               (name . "\*magit\*")))))))
-
 (use-package ibuffer-projectile :ensure t)
 
 (add-hook 'ibuffer-hook
@@ -839,10 +827,6 @@ Open file with sudo if needed
       (unless (eq ibuffer-sorting-mode 'alphabetic)
         (ibuffer-do-sort-by-alphabetic))))
 
-
-;; (add-hook 'ibuffer-mode-hook
-;;           (lambda ()
-;;             (ibuffer-switch-to-saved-filter-groups "default")))
 #+END_SRC
 *** IMenu Anywhere
 #+BEGIN_SRC emacs-lisp
@@ -860,11 +844,12 @@ bookmark tool
   :demand
   :bind (("<f2>" . bm-next)
          ("S-<f2>" . bm-previous)
-         ("C-<f2>" . bm-toggle))
+         ("C-<f2>" . bm-toggle)
+	 :map evil-normal-state-map
+	 ("M" . bm-toggle))
   :config
   (setq bm-cycle-all-buffers t)
-  (setq bm-highlight-style 'bm-highlight-only-fringe)
-  (define-key evil-normal-state-map (kbd "M") 'bm-toggle))
+  (setq bm-highlight-style 'bm-highlight-only-fringe))
 #+END_SRC
 *** Discover Major
 #+BEGIN_SRC emacs-lisp
@@ -885,9 +870,10 @@ bookmark tool
 #+BEGIN_SRC emacs-lisp
 (use-package ace-link
   :ensure t
+  :bind (:map org-mode-map
+	      ("M-o" . ace-link-org))
   :config
-  (ace-link-setup-default)
-  (define-key org-mode-map (kbd "M-o") 'ace-link-org))
+  (ace-link-setup-default))
 #+END_SRC
 * Org Mode
 ** Org Mode General
@@ -977,7 +963,7 @@ bookmark tool
   "Move to the next subtree at same level, and narrow to it."
   (interactive)
   (widen)
-  (org-forward-heading-same-level 1)
+  (org-next-visible-heading 1)
   (org-narrow-to-subtree)
   (org-show-all))
 
@@ -986,7 +972,7 @@ bookmark tool
   "Move to the previous subtree at same level, and narrow to it."
   (interactive)
   (widen)
-  (org-backward-heading-same-level 1)
+  (org-previous-visible-heading 1)
   (org-narrow-to-subtree)
   (org-show-all))
 
@@ -1441,15 +1427,17 @@ bookmark tool
 #+END_SRC
 ** Org Wiki
 #+BEGIN_SRC emacs-lisp :tangle (if (file-exists-p "~/Sync") "yes" "no")
-(load (concat user-emacs-directory "site-lisp/wiki/wiki.el"))
-(require 'wiki)
-(setq wiki-location "~/Sync/sync/org/wiki/")
-(my/leader '(("as" . wiki-search)
-             ("ae" . wiki-goto)
-             ("aj" . org-clock-goto)))
+(use-package wiki
+  :load-path "~/.emacs.d/site-lisp/wiki"
+  :init
+  (setq wiki-location "~/Sync/sync/org/wiki/")
+  :bind (:map my:leader-map
+	      ("as" . wiki-search)
+	      ("ae" . wiki-goto)
+	      ("aj" . org-clock-goto)))
 #+END_SRC
 * Programming Languages
-** Eglot -- language server
+** Eglot
 #+BEGIN_SRC emacs-lisp
 (use-package eglot
   :ensure t
@@ -1460,10 +1448,6 @@ bookmark tool
   :config
   ;; (add-to-list 'eglot-server-programs '((c++ mode c-mode) . (eglot-cquery "cquery")))
   )
-#+END_SRC
-** COMMENT Documents
-#+BEGIN_SRC emacs-lisp
-(use-package zeal-at-point :ensure t)
 #+END_SRC
 ** Nix
 #+BEGIN_SRC emacs-lisp
@@ -1479,6 +1463,167 @@ bookmark tool
               ("C-c u" . nix-update-fetch)))
 
 (add-hook 'comint-mode-hook 'nix-prettify-mode)
+#+END_SRC
+** Haskell
+#+BEGIN_SRC emacs-lisp
+;; (use-package ghc :ensure t)
+
+(defun my:haskell-init ()
+  (set (make-local-variable 'company-backends)
+       '(company-capf company-dabbrev-code company-yasnippet company-files))
+  (company-mode))
+
+
+(use-package haskell-mode
+  :ensure t
+  :custom
+  (haskell-stylish-on-save t)
+  (haskell-process-suggest-remove-import t)
+  (haskell-process-auto-import-loaded-modules t)
+  (haskell-process-log t)
+  :hook
+  (haskell-mode . my:haskell-init)
+  (haskell-mode . interactive-haskell-mode)
+  :bind
+  (:map haskell-mode-map
+	("M-." . haskell-mode-jump-to-def)))
+#+END_SRC
+** CMake
+#+BEGIN_SRC emacs-lisp
+(use-package cmake-mode :ensure t)
+#+END_SRC
+** Go
+#+BEGIN_SRC emacs-lisp
+(use-package gorepl-mode
+  :ensure t
+  :diminish gorepl-mode
+  :hook (go-mode . gorepl-mode))
+
+(use-package company-go
+  :ensure t
+  :init
+  (setq company-go-show-annotation nil))
+
+(use-package gotest
+  :ensure t)
+
+(use-package go-guru
+  :ensure t
+  :hook (go-mode . go-guru-hl-identifier-mode))
+
+(use-package go-playground :ensure t)
+
+(use-package go-rename :ensure t)
+
+(use-package go-eldoc
+  :ensure t
+  :diminish eldoc-mode
+  :hook (go-mode . go-eldoc-setup))
+
+(defun my:go-init ()
+  (set (make-local-variable 'company-backends)
+       '(company-go company-files))
+  (company-mode)
+  (local-set-key (kbd "C-c C-d") 'godoc-at-point)
+  (local-set-key (kbd "C-c r") 'go-rename)
+  (local-set-key (kbd "C-c g") 'go-playground)
+  (local-set-key (kbd "C-c C-k") 'go-playground-rm)
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key [f5] 'my:go-install-or-run))
+
+(defun my:go-install-or-run ()
+  (interactive)
+  (cond ((bound-and-true-p go-playground-mode)
+         (go-playground-exec))
+        ((string= (buffer-substring-no-properties 1 13) "package main")
+         (go-run))
+        (t (compile "go install"))))
+
+(use-package go-mode
+  :ensure t
+  :hook ((go-mode . my:go-init)
+	 (before-save . gofmt-before-save))
+  :config
+  (setq go-playground-basedir "~/golang/src/playground")
+  (setq gofmt-command "goimports")
+  (setq godoc-at-point-function 'godoc-gogetdoc))
+
+(use-package flycheck-gometalinter
+  :ensure t
+  :config
+  (flycheck-gometalinter-setup))
+#+END_SRC
+** Python
+#+BEGIN_SRC emacs-lisp
+(use-package yapfify
+  :ensure t
+  :diminish yapf-mode
+  :hook (python-mode . yapf-mode))
+
+
+(use-package anaconda-mode
+  :ensure t
+  :bind (:map anaconda-mode-map
+              ("M-?" . anaconda-mode-find-references)))
+
+(use-package company-anaconda
+  :ensure t)
+
+(defun my:python-clear-inferior-buffer ()
+  "clear python inferior buffer."
+  (interactive)
+  (with-current-buffer
+      (process-buffer
+       (python-shell-get-process-or-error "no buffer found"))
+    (let ((proc (python-shell-get-process-or-error "no buffer found"))
+	  (replacement nil)
+	  (inhibit-read-only t))
+      (save-excursion
+	(let ((pmark (progn (goto-char (process-mark proc))
+			    (forward-line 0)
+			    (point-marker))))
+	  (delete-region comint-last-input-end pmark)
+	  (goto-char (process-mark proc))
+	  (setq replacement (buffer-substring pmark (point)))
+	  (delete-region pmark (point))))
+      (comint-output-filter proc replacement)
+      )))
+
+(defun my:python-init ()
+  (setq python-indent-offset 4)
+  (anaconda-mode)
+  (anaconda-eldoc-mode)
+  (local-set-key (kbd "C-c C-d") 'anaconda-mode-show-doc)
+  (local-set-key (kbd "C-c C-f") 'yapfify-buffer)
+  (local-set-key (kbd "C-c C-k") 'my:python-clear-inferior-buffer)
+  (set (make-local-variable 'company-backends)
+       '(company-anaconda company-yasnippet company-files))
+  (company-mode))
+
+
+(add-hook 'python-mode-hook 'my:python-init)
+#+END_SRC
+** Emacs Lisp
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :diminish rainbow-delimiters-mode
+  :hook (emacs-lisp-mode-hook . rainbow-delimiters-mode)
+  :ensure t)
+#+END_SRC
+** Common Lisp
+#+BEGIN_SRC emacs-lisp
+(use-package slime-company :ensure t)
+
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "sbcl")
+  (setq slime-contribs '(slime-fancy))
+  (slime-setup '(slime-fancy slime-company)))
+#+END_SRC
+** COMMENT Documents
+#+BEGIN_SRC emacs-lisp
+(use-package zeal-at-point :ensure t)
 #+END_SRC
 ** COMMENT C/C++
 use ~load-cpp-env~
@@ -1548,78 +1693,6 @@ use ~load-cpp-env~
           (lambda ()
             (local-set-key (kbd "C-c C-d") 'my:c-mode-manual)))
 #+END_SRC
-** CMake
-#+BEGIN_SRC emacs-lisp
-(use-package cmake-mode
-  :ensure t)
-#+END_SRC
-** Go
-#+BEGIN_SRC emacs-lisp
-(use-package gorepl-mode
-  :ensure t
-  :diminish gorepl-mode
-  :config
-  (add-hook 'go-mode-hook #'gorepl-mode))
-
-(use-package company-go
-  :ensure t
-  :init
-  (progn
-    (setq company-go-show-annotation nil)))
-
-(use-package gotest
-  :ensure t)
-
-(use-package go-guru
-  :ensure t
-  :config
-  (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode))
-
-(use-package go-playground :ensure t)
-
-(use-package go-rename :ensure t)
-
-(use-package go-eldoc
-  :ensure t
-  :diminish eldoc-mode
-  :config
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
-
-(defun my:go-mode-hook ()
-  (interactive)
-  (setq-local helm-dash-docsets '("Go"))
-  (local-set-key (kbd "C-c C-d") 'godoc-at-point)
-  (local-set-key (kbd "C-c r") 'go-rename)
-  (local-set-key (kbd "C-c g") 'go-playground)
-  (local-set-key (kbd "C-c C-k") 'go-playground-rm)
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key [f5] 'my:go-install-or-run))
-
-(defun my:go-install-or-run ()
-  (interactive)
-  (cond ((bound-and-true-p go-playground-mode)
-         (go-playground-exec))
-        ((string= (buffer-substring-no-properties 1 13) "package main")
-         (go-run))
-        (t (compile "go install"))))
-
-(use-package go-mode
-  :ensure t
-  :config
-  (setq go-playground-basedir "~/golang/src/playground")
-  (setq gofmt-command "goimports")
-  (setq godoc-at-point-function 'godoc-gogetdoc)
-  (add-hook 'go-mode-hook 'my:go-mode-hook)
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook (lambda ()
-                            (set (make-local-variable 'company-backends) '(company-go company-files))
-                            (company-mode))))
-
-(use-package flycheck-gometalinter
-  :ensure t
-  :config
-  (flycheck-gometalinter-setup))
-#+END_SRC
 ** COMMENT TypeScript
 #+BEGIN_SRC emacs-lisp
 (use-package tide
@@ -1631,40 +1704,6 @@ use ~load-cpp-env~
     (local-set-key (kbd "C-c C-j") 'tide-jump-to-definition)
     (local-set-key (kbd "C-c C-f") 'tide-format))
   (add-hook 'typescript-mode-hook #'setup-tide-mode))
-#+END_SRC
-** Python
-#+BEGIN_SRC emacs-lisp
-(use-package yapfify
-  :ensure t
-  :hook (python-mode . yapf-mode))
-
-
-(use-package anaconda-mode
-  :ensure t
-  :bind (:map anaconda-mode-map
-              ("M-?" . anaconda-mode-find-references)))
-
-(use-package company-anaconda
-  :ensure t)
-
-(defun my:python-init ()
-  (anaconda-mode)
-  (anaconda-eldoc-mode)
-  (local-set-key (kbd "C-c C-d") 'anaconda-mode-show-doc)
-  (local-set-key (kbd "C-c C-f") 'yapfify-buffer)
-  (set (make-local-variable 'company-backends)
-       '(company-anaconda company-yasnippet company-files))
-  (company-mode))
-
-
-(add-hook 'python-mode-hook 'my:python-init)
-#+END_SRC
-** Emacs Lisp
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :diminish rainbow-delimiters-mode
-  :hook (emacs-lisp-mode-hook . rainbow-delimiters-mode)
-  :ensure t)
 #+END_SRC
 ** COMMENT Rust
 Rust-mode dependencies
@@ -1696,17 +1735,6 @@ cargo install rustfmt
 
 (use-package toml-mode
   :ensure t)
-#+END_SRC
-** Common Lisp
-#+BEGIN_SRC emacs-lisp
-(use-package slime-company :ensure t)
-
-(use-package slime
-  :ensure t
-  :config
-  (setq inferior-lisp-program "sbcl")
-  (setq slime-contribs '(slime-fancy))
-  (slime-setup '(slime-fancy slime-company)))
 #+END_SRC
 ** COMMENT Octave
 #+BEGIN_SRC emacs-lisp
@@ -1751,7 +1779,7 @@ nix:
   (intero-global-mode 1))
 #+END_SRC
 * Utilities
-** Jupyter Notebook
+** COMMENT Jupyter Notebook
 #+BEGIN_SRC emacs-lisp
 ; jupyter notebook
 (use-package ein
@@ -1768,7 +1796,7 @@ nix:
   (my/leader '(("8" . ein:jupyter-server-start)
                ("7" . ein:jupyter-server-stop))))
 #+END_SRC
-** PDF Tools
+** COMMENT PDF Tools
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
   :defer t
@@ -1796,6 +1824,21 @@ nix:
   :hook (org-noter-doc-mode . hide-mode-line-mode)
   :config
   (setq org-noter-always-create-frame nil))
+#+END_SRC
+** YankPad
+#+BEGIN_SRC emacs-lisp
+(use-package yankpad
+  :ensure t
+  :init
+  (defvar my:yankpad-map (make-sparse-keymap))
+  :custom
+  (yankpad-file (expand-file-name "wiki/Snippets.org" org-directory))
+  :bind-keymap ("C-c y" . my:yankpad-map)
+  :bind (:map my:yankpad-map
+	      ("i" . yankpad-insert)
+	      ("c" . yankpad-capture-snippet)
+	      ("e" . yankpad-edit)
+	      ("r" . yankpad-reload)))
 #+END_SRC
 ** Mail
 *** Send Mail
@@ -1995,7 +2038,7 @@ access yadm repo via tramp
     (find-alternate-file
      (concat "/yadm:" (getenv "USER") "@localhost:" buffer-file-name))))
 #+END_SRC
-** Terminal Here
+** COMMENT Terminal Here
 #+BEGIN_SRC emacs-lisp
 (use-package terminal-here
   :ensure t
@@ -2015,7 +2058,7 @@ access yadm repo via tramp
   (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
 #+END_SRC
 ** Chinese Support
-*** Youdao Dictionary
+*** COMMENT Youdao Dictionary
 #+BEGIN_SRC emacs-lisp
 (use-package youdao-dictionary :ensure t)
 
@@ -2051,12 +2094,12 @@ access yadm repo via tramp
 (use-package restclient :ensure t)
 #+END_SRC
 ** Ranger Select
-#+BEGIN_SRC emacs-lisp :tangle (if (executable-find "urxvt") "yes" "no")
+#+BEGIN_SRC emacs-lisp :tangle (if (executable-find "st") "yes" "no")
 (defun ranger-select (prompt &optional dir default-filenamme mustmatch initial predicate)
   "select file with ranger"
   (interactive)
   (call-process-shell-command
-   (concat "urxvt -name rangerFloat -e ranger --choosefiles=/tmp/ranger_current_file " dir))
+   (concat "st -t rangerfloat -e ranger --choosefiles=/tmp/ranger_current_file " dir))
   (with-temp-buffer
     (insert-file-contents "/tmp/ranger_current_file")
     (car (split-string (buffer-string) "\n" t))))
@@ -2202,13 +2245,5 @@ access yadm repo via tramp
 
 ;; must have anki-connect plugin installed!
 (use-package anki-editor :ensure t)
-
-;; (use-package langtool
-;;   :load-path "/home/peterzky/playground/Emacs-langtool"
-;;   :config
-;;   (setq langtool-bin "/home/peterzky/.nix-profile/bin/languagetool-http-server")
-;;   (setq langtool-enabled-rules '("And"))
-;;   (setq langtool-disabled-rules '("WHITESPACE_RULE" "EN_QUOTES"))
-;;   )
 
 #+END_SRC

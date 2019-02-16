@@ -28,7 +28,6 @@ bookmarks
 /semanticdb
 /rec
 /.org-id-locations
-/config.org[*Org Src config.org[ emacs-lisp ]*]
 /custom.el
 config.el
 ./config.el
@@ -51,3 +50,4 @@ layouts/*
 /games/*
 anaconda-mode/*
 /.lsp-session-v1
+/transient/*

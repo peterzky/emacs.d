@@ -36,6 +36,8 @@
 
 (use-package diminish :ensure t)
 
+(use-package delight :ensure t)
+
 ;;Bootstrap `Org-mode' for parsing config file
 (use-package org :ensure org-plus-contrib)
 
