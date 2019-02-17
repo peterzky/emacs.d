@@ -835,6 +835,13 @@ Open file with sudo if needed
         (ibuffer-do-sort-by-alphabetic))))
 
 #+END_SRC
+*** Isearch
+#+BEGIN_SRC emacs-lisp
+(setq isearch-lax-whitespace t
+      search-whitespace-regexp ".*"
+      isearch-regexp-lax-whitespace nil)
+
+#+END_SRC
 *** IMenu Anywhere
 #+BEGIN_SRC emacs-lisp
 (use-package imenu-anywhere :ensure t)
